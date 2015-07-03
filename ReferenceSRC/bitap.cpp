@@ -55,7 +55,7 @@ const char *bitap_fuzzy_bitwise_search(const char *text, const char *pattern, in
 
 int main(int argc, char** argv){
 	if(argc!=4){
-		printf("Usage: %s <fasta file> <sequence> <k>\n",argv[0]);
+		printf("Usage: %s <fasta file> <pattern> <k>\n",argv[0]);
 		exit(-1);
 	}
 
