@@ -7,6 +7,7 @@
 // Thanks to Frederick Akalin (see http://www.akalin.cx/2007/11/28/finding-the-longest-palindromic-substring-in-linear-time/ )
 // Brian Bi (bbi5291), 2010-11-14
 // From: http://wcipeg.com/wiki/Longest_palindromic_substring/lps.cpp
+// See also: http://tristan-interview.blogspot.dk/2011/11/longest-palindrome-substring-manachers.html
 
 #include <iostream>
 #include <vector>
