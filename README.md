@@ -472,7 +472,7 @@ predicates on reference variables. The following functions are defined on a
 reference, p:
 
 * length(p) - The lengths of substrings matched by p.
-* rescount(p,r) - The number of residues of type r in substrings matched by p.
+* rescount(p, r) - The number of residues of type r in substrings matched by p.
 
 ### Examples
 
@@ -482,7 +482,7 @@ Match length must be greater than 6:
 
 Range lengths must be greater than 4:
       
-    $ seqscan -p 'A p1=0..4 GC p2=0..4 T' -f 'length(p1)+length(p2) > 4'
+    $ seqscan -p 'A p1=0..4 GC p2=0..4 T' -f 'length(p1) + length(p2) > 4'
 
 First range must be at least twice the length of the second range:
 
@@ -491,7 +491,7 @@ First range must be at least twice the length of the second range:
 GC-content of match must be at least 0.75:
 
     $ seqscan -p 'p0=(A p1=0..4 GC p2=0..4 T)' \
-              -f 'rescount(p0,G) + rescount(p0,C) >= 0.75 * length(pt)'
+              -f 'rescount(p0, G) + rescount(p0, C) >= 0.75 * length(pt)'
 
 ## Copyright
 
