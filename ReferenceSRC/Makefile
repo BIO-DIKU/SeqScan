@@ -2,7 +2,7 @@
 CPP=g++
 CFLAGS=-std=c++11 -O2
 
-all: kmp bitap manachers
+all: kmp bitap manachers naivePalindrome
 
 %.o: %.cpp
 	g++ $(CFLAGS) -c -o $@ $^
@@ -14,6 +14,9 @@ kmp: kmp.o
 	g++ $(CFLAGS) -o $@ $^
 
 manachers: manachers.o 
+	g++ $(CFLAGS) -o $@ $^
+
+naivePalindrome: naivePalindrome.o 
 	g++ $(CFLAGS) -o $@ $^
 
 
