@@ -58,9 +58,9 @@ a substring of the sequence that satisfies the criteria of all pattern units.
 Patterns consist of one or more pattern units of the types: exact, approximate,
 range, and match group. One or more pattern units can be collected in
 composites and both pattern units and composites can have named backreferences.
-Below `=~` indicates a search for a match and `=>` indicates the resulting matches.
-Matches are given as match position, match length, edit distance, and matched
-sequence substring. 
+Below `=~` indicates a search for a match and `=>` indicates the resulting
+matches. Matches are given as match position, match length, edit distance, and
+matched sequence substring. 
 
 ### Exact
 
@@ -255,20 +255,21 @@ as defined in the Match Matrix. See Match Matrix section for details.
 
 ## Output
 
-The seqscan output is a four column table separated by tabs and with the following columns:
+The seqscan output is a four column table separated by tabs and with the
+following columns:
 
-1: ID     - ID of sequence matched.
-2: Strand - Strand matched:
-                + is forward strand.
-                - is reverse strand.
-                . is used for proteins.
-3: Match  - Semicolon separated list of submatches from the  pattern units of
-            the pattern. Each submatch is a comma separated list of:
-               a: Submatch start position (1-indexed).
-               b: Length of submatch.
-               c: Edit distance of submatch.
-               d: Submatch sequence.
-4: Length - Total length of pattern match.
+1. ID - ID of sequence matched.
+2. Strand - Strand matched:
+  * + is forward strand.
+  * - is reverse strand.
+  * . is used for proteins.
+3. Match - Semicolon separated list of submatches from the  pattern units of
+   the pattern. Each submatch is a comma separated list of:
+  * Submatch start position (1-indexed).
+  * Length of submatch.
+  * Edit distance of submatch.
+  * Submatch sequence.
+4. Length - Total length of pattern match.
 
 Each line in the output contains one pattern match.
 
@@ -282,9 +283,9 @@ Each line in the output contains one pattern match.
 
 ### Hybridization probe
 
-Here we illustrate how to locate all matches for a 20 bases   hybridization
-probe allowing for 3 mismatches and 2 indels. Imagine a FASTA file named
-input.fna with the following entry:
+Here we illustrate how to locate all matches for a 20 bases hybridization probe
+allowing for 3 mismatches and 2 indels. Imagine a FASTA file named input.fna
+with the following entry:
 
     >test
     TCAGTACGACACTACTAGCSGGTRTGAACTAGTGACTGATCGACTCAGTT
