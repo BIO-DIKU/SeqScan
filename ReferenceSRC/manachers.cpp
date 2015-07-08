@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <limits.h>
 #include "fasta.h"
 
@@ -21,12 +21,13 @@ void fastLongestPalindromes(RAI1 seq,RAI1 seqEnd,RAI2 out)
 	int seqLen=seqEnd-seq;
 	int i=0,j,d,s,e,lLen,k=0;
 	int palLen=0;
-	while (i<seqLen)
+	//while (i<seqLen)
+	for (i=0;i<seqLen;i++)
 	{
 		if (i>palLen && seq[i-palLen-1]==seq[i])
 		{
 			palLen+=2;
-			i++;
+			//i++;
 			continue;
 		}
 		out[k++]=palLen;
@@ -44,11 +45,10 @@ void fastLongestPalindromes(RAI1 seq,RAI1 seqEnd,RAI2 out)
 			}
 			out[k++]=min(d,out[j]);
 		}
-		if (b)
-		{
+		if (b){
 			palLen=1;
-			i++;
-		}
+			//i++;
+		}else i--;
 	}
 	out[k++]=palLen;
 	lLen=k;
@@ -61,6 +61,37 @@ void fastLongestPalindromes(RAI1 seq,RAI1 seqEnd,RAI2 out)
 	}
 }
 
+//string LongestPalindrome(const string input)
+//{
+//	int c = 0;
+//	int max = 0;
+//	// create an indexed accessor for a virtual string S which has $a$b$c$ for  input string abc
+//	auto S_at = [&input](int index)->char { return ((index & 1) ? input[index / 2] : '$'); };
+//	int sizeP = (input.length() * 2) + 1;
+//	int* P = new int[sizeP];
+//	P[0] = 0;
+//	// find longest Palindromes forcentered on each index in S
+//	for (int i = 1; i<sizeP; i++){
+//	   	? min(P[c - (i - c)], max - i) : 0;
+//		// Try to expand Palindrome but not past string boundaries
+//		int bounds = min(sizeP - i - 1, i - 1);
+//		while (bounds-- >= 0 && S_at(i + P[i] + 1) == S_at(i - P[i] - 1))
+//		{
+//			P[i]++;
+//		}
+//		// If palindrome was extend past max then update Center to i and update the right edge
+//		if (i + P[i] > max) 
+//		{
+//			c = i;
+//			max = i + P[i];
+//		}
+//	}
+//	auto maxP = std::max_element(P, P + sizeP);
+//	int start = (maxP - P - *maxP)/2;
+//	cout<<"> Index: "<<start<<", len: "<<*maxP<<endl;
+//	return input.substr(start, *maxP);
+//}
+
 int main(int argc, char** argv){
 	if(argc!=2){
 		printf("Usage: %s <fasta file>\n",argv[0]);
@@ -70,6 +101,9 @@ int main(int argc, char** argv){
 
 	for(auto &pair_it: read_file(argv[1])){
 		string& s = pair_it.second;
+		//string ret = LongestPalindrome(s);
+		//cout<<"Longest palindrome: "<<ret<<endl;
+
 		vector<int> V(2*s.length()+1);
 		fastLongestPalindromes(s.begin(),s.end(),V.begin());
 
@@ -84,7 +118,7 @@ int main(int argc, char** argv){
 			}
 			//best=max(best,V[i]);
 		}
-		cout << "Longest palindrome has length " << best << " (pos: "<<bestpos<<")"<<endl;
+		cout << "Longest palindrome has length " << best << " (pos: "<<bestpos/2<<")"<<endl;
 	}
 
 	return 0;
