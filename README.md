@@ -93,7 +93,7 @@ except composites.
 *Mismatches, indels*: allow a number of mismatches and a number of insertions
 and deletions (indels):
 
-   TAC/0,1 =~ TAACGTCGTGC => 1,2,1,TA and 3,1,1,AC and  1,4,1,TAAC and 6,2,1,TC
+    TAC/0,1 =~ TAACGTCGTGC => 1,2,1,TA and 3,1,1,AC and  1,4,1,TAAC and 6,2,1,TC
    
 
 ### Reverse/Complement
