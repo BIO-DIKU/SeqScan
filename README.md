@@ -25,7 +25,7 @@ a substring of the sequence that satisfies the criteria of all pattern units.
        -t --threads <int>                      Threads to use (default=1).
        -E --score_encoding <Phred33|Phred64>   Specify FASTQ score encoding
                                                (default=Phred33).
-       -S --score_min                          Minimum Phred score in matches.
+       -S --score_min <int>                    Minimum Phred score in matches.
        -m --match_type <int>                   Match type used (default=4):
           Features:
              N: Nucleotide.
@@ -46,12 +46,12 @@ a substring of the sequence that satisfies the criteria of all pattern units.
        -M --match_file <string>                File with custom match type      
                                                matrices.
        -o --output <string>                    Output file.
-       -O --overlap [bool]                     Output overlapping matches 
+       -O --overlap                            Output overlapping matches 
                                                (default=false).
        -f --filter <filter>                    Filter matches, see the filter          
                                                section.
        -v --version                            Output program version.
-       -V --verbose [bool]                     Enable verbose messages.
+       -V --verbose                            Enable verbose messages.
 
 ## Pattern syntax
 
