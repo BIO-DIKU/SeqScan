@@ -46,8 +46,7 @@ a substring of the sequence that satisfies the criteria of all pattern units.
        -M --match_file <string>                File with custom match type      
                                                matrices.
        -o --output <string>                    Output file.
-       -O --overlap                            Output overlapping matches 
-                                               (default=false).
+       -O --overlap                            Output overlapping matches.
        -f --filter <filter>                    Filter matches, see the filter          
                                                section.
        -v --version                            Output program version.
