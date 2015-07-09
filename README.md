@@ -46,8 +46,7 @@ a substring of the sequence that satisfies the criteria of all pattern units.
        -M --match_file <string>                File with custom match type      
                                                matrices.
        -o --output <string>                    Output file.
-       -O --overlap                            Output overlapping matches 
-                                               (default=false).
+       -O --overlap                            Output overlapping matches.
        -f --filter <filter>                    Filter matches, see the filter          
                                                section.
        -v --version                            Output program version.
@@ -255,7 +254,7 @@ as defined in the Match Matrix. See Match Matrix section for details.
 
 ## Output
 
-The seqscan output is a four column table separated by tabs and with the
+The SeqScan output is a four column table separated by tabs and with the
 following columns:
 
 1. ID - ID of sequence matched.
@@ -275,7 +274,7 @@ Each line in the output contains one pattern match.
 
 ### Sample output
 
-    seq1   +   3,4,0,TGCG;8,4,0,TGAT   8
+    seq1   +   3,4,0,TGCG;8,4,0,TGAT     8
     seq1   +   51,4,1,TACG;56,4,0,TGAT   8
     seq1   -   20,4,0,TGCG;25,4,1,TGAA   8
 
@@ -322,7 +321,7 @@ entries:
     >test3
     AGATGATAGTATGGTGNRAACGAAGATGATGAT
 
-Now to we run seqscan with the following pattern where we save any 4 to 6
+Now to we run SeqScan with the following pattern where we save any 4 to 6
 residues in the variable p1 (`p1=4..6`), then allow any 4 residues (`.{4}`),
 which must be followed by a match of the reverse-complement of p1 (`~p1`):
 
@@ -364,7 +363,7 @@ following FASTA entry in the file input.faa:
     >test
     MENDQ YWV; D; AA; C; YWV PSTRNE
 
-We use seqscan like this:
+We use SeqScan like this:
 
     $ seqscan -p 'p1=0..4 [HQD] 1..3 [^HK] p1' input.faa
 
@@ -403,7 +402,7 @@ It is possible to locate these like this:
 
 ### Overlap
 
-Using the `-o/--overlap` option causes seqscan to output all overlapping
+Using the `-o/--overlap` option causes SeqScan to output all overlapping
 matches.
 
 Imagine a FASTA file with the following entry:
