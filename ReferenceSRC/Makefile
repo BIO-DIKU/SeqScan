@@ -1,6 +1,6 @@
 
 CPP=g++
-CFLAGS=-std=c++11 -O2
+CFLAGS=-std=c++11 -Ofast
 
 all: kmp bitap manachers naivePalindrome
 
