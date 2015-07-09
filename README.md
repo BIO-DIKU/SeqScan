@@ -378,7 +378,8 @@ And we get the following hit:
 
 ### PCR
 
-_In silico_ PCR is a search for two patterns separated by a range:
+_In silico_ PCR is a search for two approximate pattern units separated by a
+range:
 
 https://en.wikipedia.org/wiki/In_silico_PCR
 
