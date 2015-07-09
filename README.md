@@ -366,7 +366,7 @@ residue that cannot be H or K (`[^HK]`) and finally followed by p1. So for the
 following FASTA entry in the file input.faa:
 
     >test
-    MENDQ YWV; D; AA; C; YWV PSTRNE
+    MENDQYWVDAACYWVPSTRNE
 
 We use SeqScan like this:
 
