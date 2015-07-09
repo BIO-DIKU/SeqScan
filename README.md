@@ -12,12 +12,12 @@ a substring of the sequence that satisfies the criteria of all pattern units.
        -h --help                               Print this help menu.
        -p --pattern <pattern>                  Pattern to use, see the pattern
                                                section in the documentation.
-       -P --pattern_file <string>              File with list of patterns, one 
+       -P --pattern_file <string>              File with list of patterns, one
                                                per line.
        -c --complement <forward|reverse|both>  Scan the forward, reverse or
-                                               both strands  
+                                               both strands
                                                (default=forward). 
-       -d --direction <forward|reverse>        Scan direction             
+       -d --direction <forward|reverse>        Scan direction
                                                (default=forward).
        -s --start <int>                        Start scanning position 
                                                (default=1).
@@ -26,6 +26,8 @@ a substring of the sequence that satisfies the criteria of all pattern units.
        -E --score_encoding <Phred33|Phred64>   Specify FASTQ score encoding
                                                (default=Phred33).
        -S --score_min <int>                    Minimum Phred score in matches.
+       -a --ambiguate_bad                      Ambiguate residues with score
+                                               below the minimum Phred score.
        -m --match_type <int>                   Match type used (default=4):
 
           Features:
@@ -44,11 +46,11 @@ a substring of the sequence that satisfies the criteria of all pattern units.
           6            P          P
           7            PI         PI
     
-       -M --match_file <string>                File with custom match type      
+       -M --match_file <string>                File with custom match type
                                                matrices.
        -o --output <string>                    Output file.
        -O --overlap                            Output overlapping matches.
-       -f --filter <filter>                    Filter matches, see the filter          
+       -f --filter <filter>                    Filter matches, see the filter
                                                section in the documentation.
        -v --version                            Output program version.
        -V --verbose                            Enable verbose messages.
@@ -69,7 +71,7 @@ matched sequence substring.
 An exact pattern unit is the simplest form of pattern, and will match a
 sequence if the pattern is a subsequence:
 
-    ATC =~ GAGATCGAG => 4,3,0,ATC      
+    ATC =~ GAGATCGAG => 4,3,0,ATC
 
 ### Approximate
 
@@ -98,7 +100,6 @@ and deletions (indels):
 
     TAC/0,1 =~ TAACGTCGTGC => 1,2,1,TA and 3,1,1,AC and 1,4,1,TAAC and 6,2,1,TC
    
-
 ### Reverse/Complement
 
 The reverse and reverse-complement operators can be applied to exact and
@@ -175,7 +176,7 @@ It is also possible to add edit modifiers to repetitions:
 
     TAC/1,0,0{2} =~ ATGCTGCA => 2,3,1,TGC;5,3,1,TGC
     (but it will not match the sequence ATGCTACA)
-   
+
 **Approximate repetitions:**
 
     TAC{2}/1,0,0 =~ ATGCTACA => 2,3,1,TGC;5,3,0,TAC
@@ -266,7 +267,7 @@ following columns:
   * + is forward strand.
   * - is reverse strand.
   * . is used for proteins.
-3. Match - Semicolon separated list of submatches from the  pattern units of
+3. Match - Semicolon separated list of submatches from the pattern units of
    the pattern. Each submatch is a comma separated list of:
   * Submatch start position (1-indexed).
   * Length of submatch.
@@ -292,7 +293,7 @@ with the following entry:
 
     >test
     TCAGTACGACACTACTAGCSGGTRTGAACTAGTGACTGATCGACTCAGTT
-      
+
 To search for the hybridization probe we do (`$` indicates command-line
 prompt):
 
@@ -391,7 +392,7 @@ and that we use the reverse-complement operator `~` on the reverse primer.
 
 ### H/ACA snoRNA
 
-The H/ACA box small nucleolar RNA have a secondary structure with     a rabbit
+The H/ACA box small nucleolar RNA have a secondary structure with a rabbit
 ear-like secondary structure:
  
 https://en.wikipedia.org/wiki/Small_nucleolar_RNA
@@ -435,9 +436,14 @@ We get:
 
 ### Minimum Phred score
 
-If the input data is in FASTQ format and the `-s/--score_min` option is set
-then a match for any residue with a score below the minimum score given will
-fail.
+If the input data is in FASTQ format then the quality scores will be considered
+when matching residues if the `-s/--score_min` option is used. When the
+`-s/--score_min` option is used then a pattern will fail to match any residue
+with a score below the minimum score. However, if the `-a/--ambiguate_bad`
+option is used then all residues with a score below the minimum score will
+match.
+
+Read about quality scores here:
 
 https://en.wikipedia.org/wiki/FASTQ_format
 
@@ -445,28 +451,28 @@ https://en.wikipedia.org/wiki/FASTQ_format
 
 Use the `-M/--match_file` to read a given match matrix. The file must contain
 one or two matrices, where the first describes how sequences match, and the
-second optional matrix    describes how reverse-complemented sequences match.
-The latter is  only relevant for nucleotide sequences.
-   
-The first row denotes sequence residues and the first column   denotes pattern
+second optional matrix describes how reverse-complemented sequences match. The
+latter is only relevant for nucleotide sequences.
+
+The first row denotes sequence residues and the first column denotes pattern
 residues. Below is an example of a match file with matrices for matching only
 uppercase DNA/RNA and reverse-complement matching of the same (if the `~`
 operator is used a reverse-complement matrix must also be defined). Matching
 residues are indicated by x in the row and column intersection.
 
      ACGTU
-    Ax    
-    C x   
-    G  x  
+    Ax
+    C x
+    G  x
     T   xx
     U   xx
 
     ~ACGTU
     A   xx
-    C  x  
-    G x   
-    Tx    
-    Ux    
+    C  x
+    G x
+    Tx
+    Ux
 
 ## Filter
 
@@ -480,11 +486,11 @@ reference, p:
 ### Examples
 
 Match length must be greater than 6:
-      
+
     $ seqscan -p 'p1=(A 0..4 GC 0..4 T)' -f 'length(p1) > 6'
 
 Range lengths must be greater than 4:
-      
+
     $ seqscan -p 'A p1=0..4 GC p2=0..4 T' -f 'length(p1) + length(p2) > 4'
 
 First range must be at least twice the length of the second range:
