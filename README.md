@@ -11,7 +11,7 @@ a substring of the sequence that satisfies the criteria of all pattern units.
        [options]:
        -h --help                               Print this help menu.
        -p --pattern <pattern>                  Pattern to use, see the pattern
-                                               section.
+                                               section in the documentation.
        -P --pattern_file <string>              File with list of patterns, one 
                                                per line.
        -c --complement <forward|reverse|both>  Scan the forward, reverse or
@@ -48,9 +48,11 @@ a substring of the sequence that satisfies the criteria of all pattern units.
        -o --output <string>                    Output file.
        -O --overlap                            Output overlapping matches.
        -f --filter <filter>                    Filter matches, see the filter          
-                                               section.
+                                               section in the documentation.
        -v --version                            Output program version.
        -V --verbose                            Enable verbose messages.
+
+    Documentation: https://github.com/BIO-DIKU/SeqScan
 
 ## Pattern syntax
 
