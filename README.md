@@ -222,9 +222,9 @@ possible to use the non-match operator `^` as the first character to indicate
 that no residues in the match group will be matched (do not confuse with the
 match anchor `^`):
 
-    [AT] =~ ACTT       => 1,1,0,A and 3,1,0,T and 4,1,0,T
+    [AT]   =~ ACTT      => 1,1,0,A and 3,1,0,T and 4,1,0,T
 
-    [AT]+ =~ GCAGTTAAG => 3,1,0,A and 5,4,0,TTAA
+    [AT]+  =~ GCAGTTAAG => 3,1,0,A and 5,4,0,TTAA
 
     [^AT]+ =~ GCAGTTAAG => 1,2,0,GC and 4,1,0,G and 9,1,0,G
 
