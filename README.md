@@ -73,24 +73,24 @@ sequence if the pattern is a subsequence:
 An approximate pattern unit is any pattern unit except with edit modifiers
 except composites.
 
-*Mismatches*: allow a number of non-matching residues:
+**Mismatches:** allow a number of non-matching residues:
 
     TAC/1,0,0 =~ ATGCA => 2,3,1,TGC
 
-*Insertions*: allow a number of extra pattern residues:
+**Insertions:** allow a number of extra pattern residues:
 
     TAC/0,1,0 =~ GTAACG => 2,4,1,TAAC
 
-*Deletions*: allow a number of missing pattern residues:
+**Deletions:** allow a number of missing pattern residues:
 
     TAC/0,0,1 =~ GTCG => 2,2,1,TC
 
-*Edits*: allow a number of mismatches, insertions and deletions:
+**Edits:** allow a number of mismatches, insertions and deletions:
 
     TAC/1 =~ TAACGTCGTGC => 1,2,1,TA and 1,3,1,TAA and 2,3,1,AAC and 1,4,1,TAAC
     and 6,2,1,TC and 9,3,1,TGC
 
-*Mismatches, indels*: allow a number of mismatches and a number of insertions
+**Mismatches, indels:** allow a number of mismatches and a number of insertions
 and deletions (indels):
 
     TAC/0,1 =~ TAACGTCGTGC => 1,2,1,TA and 3,1,1,AC and  1,4,1,TAAC and 6,2,1,TC
@@ -137,17 +137,17 @@ parentheses:
 Repetitions can be added to pattern units and backreferences so a series of
 matches have to occur.
 
-*Repetitions*: allows a number of repetitions:
+**Repetitions:** allows a number of repetitions:
 
     TAC{2} =~ GTACTACG => 2,6,0,TACTAC
 
-*Closed repetitions*: allows a minimum and a maximum of repetitions:
+**Closed repetitions:** allows a minimum and a maximum of repetitions:
 
     TAC{2,3} =~ GTACTACTACTACG => 1,9,0,TACTACTAC
 
 NB. SeqScan have default greedy behaviour so it will match as much as possible.
 
-*Open repetitions*: allow a minimum of repetitions:
+**Open repetitions:** allow a minimum of repetitions:
 
     TAC{2,} =~ GTACTACTACTACG => 1,12,0,TACTACTACTAC
 
@@ -158,22 +158,22 @@ equal to `TAC{0,}` and `TAC+` is equal to `TAC{1,0}`.
 Non-greedy behaviour can be enforced using the non-greedy modifier `?` on
 closed and open repetitions:
 
-*Non-greedy closed repetitions*:
+**Non-greedy closed repetitions:**
 
     TAC{2,3}? =~ GTACTACTACTACG => 2,6,0,TACTAC and 8,6,0,TACTAC
 
-*Non-greedy open repetitions*:
+**Non-greedy open repetitions:**
 
     TAC{2,}? =~ GTACTACTACTACG => 2,6,0,TACTAC and 8,6,0,TACTAC.
 
 It is also possible to add edit modifiers to repetitions:
 
-*Exact repetitions*:
+**Exact repetitions:**
 
     TAC/1,0,0{2} =~ ATGCTGCA => 2,6,2,TGCTGC
     (but it will not match the sequence ATGCTACA)
    
-*Approximate repetitions*:
+**Approximate repetitions:**
 
     TAC{2}/1,0,0 =~ ATGCTACA => 2,6,1,TGCTAC
 
@@ -194,19 +194,19 @@ section.
 It is possible to assign pattern units to named variables, which can be used as
 backreferences.
 
-*Named pattern*:
+**Named pattern:**
 
     p1=.A p1 =~ GATATG => 2,4,0,ATAT
 
-*Named composite*:
+**Named composite:**
 
     p1=(T ~AC) p1 =~ ATGTTGTA => 2,6,0,TGTTGT
 
-*Nested named pattern*:
+**Nested named pattern:**
 
     p2=(p1=AC ~p1) p2 =~ GACGTACGTG => 2,8,0,ACGTACGT
 
-*Nested named composite*:
+**Nested named composite:**
 
     p2=(p1=(T ~AC) p1) p2 =~ ATGTTGTTGTTGTA => 2,12,0,TGTTGTTGTTGT
 
