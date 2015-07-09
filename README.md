@@ -133,7 +133,7 @@ Space around the `|` operator is optional.
 Multiple pattern units can be collected in composite pattern units using
 parentheses:
 
-    (T ~AC)|ACT =~ ACTGTGT => 1,3,0,ACT and 5,3,0,TGT
+    (T ~AC)|ACT =~ ACTGTGT => 1,3,0,ACT and 5,1,0,T;6,2,0,GT
 
 ### Repetitions
 
@@ -142,17 +142,17 @@ matches have to occur.
 
 **Repetitions:** allows a number of repetitions:
 
-    TAC{2} =~ GTACTACG => 2,6,0,TACTAC
+    TAC{2} =~ GTACTACG => 2,3,0,TAC;5,3,0TAC
 
 **Closed repetitions:** allows a minimum and a maximum of repetitions:
 
-    TAC{2,3} =~ GTACTACTACTACG => 1,9,0,TACTACTAC
+    TAC{2,3} =~ GTACTACTACTACG => 2,3,0,TAC;5,3,0,TAC;8,3,0,TAC
 
 NB. SeqScan have default greedy behaviour so it will match as much as possible.
 
 **Open repetitions:** allow a minimum of repetitions:
 
-    TAC{2,} =~ GTACTACTACTACG => 1,12,0,TACTACTACTAC
+    TAC{2,} =~ GTACTACTACTACG => 2,3,0,TAC;5,3,0,TAC;8,3,0,TAC;11,3,0,TAC
 
 This allows for shorthands using the Kleene `*` and `+` modifiers indicating
 zero or more matches, and one or more matches, respectively. E.g. `TAC*` is
@@ -163,22 +163,22 @@ closed and open repetitions:
 
 **Non-greedy closed repetitions:**
 
-    TAC{2,3}? =~ GTACTACTACTACG => 2,6,0,TACTAC and 8,6,0,TACTAC
+    TAC{2,3}? =~ GTACTACTACTACG => 2,3,0,TAC;5,3,0,TAC and 8,3,0,TAC;11,3,0,TAC
 
 **Non-greedy open repetitions:**
 
-    TAC{2,}? =~ GTACTACTACTACG => 2,6,0,TACTAC and 8,6,0,TACTAC.
+    TAC{2,}? =~ GTACTACTACTACG => 2,3,0,TAC;5,3,0,TAC and 8,3,0,TAC;11,3,0,TAC
 
 It is also possible to add edit modifiers to repetitions:
 
 **Exact repetitions:**
 
-    TAC/1,0,0{2} =~ ATGCTGCA => 2,6,2,TGCTGC
+    TAC/1,0,0{2} =~ ATGCTGCA => 2,3,1,TGC;5,3,1,TGC
     (but it will not match the sequence ATGCTACA)
    
 **Approximate repetitions:**
 
-    TAC{2}/1,0,0 =~ ATGCTACA => 2,6,1,TGCTAC
+    TAC{2}/1,0,0 =~ ATGCTACA => 2,3,1,TGC;5,3,0,TAC
 
 ### Range
 
@@ -187,7 +187,7 @@ indicate a range of matching sequence. A range unit is basically a wildcard
 with a closed repetition e.g. `.{20,30}` which can be replaced by the shorthand
 `20..30` or the synonym `20...30`.
 
-    AG 2..4 TG =~ CAGCCCTGC => 2,7,0,AGCCCTG
+    AG 2..4 TG =~ CAGCCCTGC => 2,2,0,AG;4,3,0,CCC;7,2,0,TG
 
 It is possible to add the non-greedy modifier `?` on ranges. See the Repetitions
 section.
@@ -199,19 +199,20 @@ backreferences.
 
 **Named pattern:**
 
-    p1=.A p1 =~ GATATG => 2,4,0,ATAT
+    p1=.A p1 =~ GATATG => 2,2,0,AT;4,2,0,AT
 
 **Named composite:**
 
-    p1=(T ~AC) p1 =~ ATGTTGTA => 2,6,0,TGTTGT
+    p1=(T ~AC) p1 =~ ATGTTGTA => 2,3,0,TGT;5,3,0,TGT
 
 **Nested named pattern:**
 
-    p2=(p1=AC ~p1) p2 =~ GACGTACGTG => 2,8,0,ACGTACGT
+    p2=(p1=AC ~p1) p2 =~ GACGTACGTG => 2,2,0,AC;4,2,0,GT;6,2,0,AC;8,2,0,GT
 
 **Nested named composite:**
 
-    p2=(p1=(T ~AC) p1) p2 =~ ATGTTGTTGTTGTA => 2,12,0,TGTTGTTGTTGT
+    p2=(p1=(T ~AC) p1) p2 =~ ATGTTGTTGTTGTA =>
+    2,1,0,T;3,2,0,GT;5,1,0,T;6,2,0,GT;8,1,0,T;9,2,0,GT;11,1,0,T;12,2,0,GT
 
 ### Match groups
 
