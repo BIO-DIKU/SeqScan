@@ -27,6 +27,7 @@ a substring of the sequence that satisfies the criteria of all pattern units.
                                                (default=Phred33).
        -S --score_min <int>                    Minimum Phred score in matches.
        -m --match_type <int>                   Match type used (default=4):
+
           Features:
              N: Nucleotide.
              P: Protein.
