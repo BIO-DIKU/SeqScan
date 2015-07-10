@@ -26,7 +26,7 @@ a substring of the sequence that satisfies the criteria of all pattern units.
        -E --score_encoding <Phred33|Phred64>   Specify FASTQ score encoding
                                                (default=Phred33).
        -S --score_min <int>                    Minimum Phred score in matches.
-       -a --ambiguate_bad                      Ambiguate residues with score
+       -a --ambiguate                          Ambiguate residues with score
                                                below the minimum Phred score.
        -m --match_type <int>                   Match type used (default=4):
 
@@ -440,9 +440,8 @@ We get:
 If the input data is in FASTQ format then the quality scores will be considered
 when matching residues if the `-s/--score_min` option is used. When the
 `-s/--score_min` option is used then a pattern will fail to match any residue
-with a score below the minimum score. However, if the `-a/--ambiguate_bad`
-option is used then all residues with a score below the minimum score will
-match.
+with a score below the minimum score. However, if the `-a/--ambiguate` option
+is used then all residues with a score below the minimum score will match.
 
 Read about quality scores here:
 
