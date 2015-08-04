@@ -504,7 +504,7 @@ GC-content of match must be at least 0.75:
 
 ## Copyright
 
-BIO-DIKU - Copyright (C) - All rights reserved.
+Copyright (C) 2015 BIO-DIKU - All rights reserved.
 
 ## License
 
