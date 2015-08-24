@@ -476,9 +476,13 @@ residues are indicated by x in the row and column intersection.
 
 ## Filter
 
-Results can be filtered using a semicolon-separated list of arithmetic
-predicates on reference variables. The following functions are defined on a
-reference, p:
+Results can be filtered using arithmetic predicates on reference variables.
+Multiple predicates can be combined with the logical operators AND (`&&`) and
+OR (`||`).
+
+### Functions
+
+The following functions are defined on a reference, p:
 
 * length(p) - The lengths of substrings matched by p.
 * rescount(p, r) - The number of residues of type r in substrings matched by p.
@@ -497,10 +501,14 @@ First range must be at least twice the length of the second range:
 
     $ seqscan -p 'A p1=0..4 GC p2=0..4 T' -f 'length(p1) >= 2 * length(p2)'
 
+ATG repeats that are either 9 or 18 residues:
+
+    $ seqscan -p 'p1=ATG{3,6}' -f 'length(p1) == 9 || length(p1) == 18'
+
 GC-content of match must be at least 0.75:
 
-    $ seqscan -p 'p0=(A p1=0..4 GC p2=0..4 T)' \
-              -f 'rescount(p0, G) + rescount(p0, C) >= 0.75 * length(pt)'
+    $ seqscan -p 'p1=(A p2=0..4 GC p3=0..4 T)' \
+              -f 'rescount(p1, G) + rescount(p1, C) >= 0.75 * length(p1)'
 
 ## Copyright
 
