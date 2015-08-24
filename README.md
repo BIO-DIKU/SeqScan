@@ -1,6 +1,6 @@
 # SeqScan
 
-![](https://github.com/BIO-DIKU/SeqScan/logo.png)
+![](https://github.com/BIO-DIKU/SeqScan/blob/develop/logo.png)
 
 ## Synopsis
 
