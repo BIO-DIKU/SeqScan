@@ -50,7 +50,9 @@ void naiveLongestPalindrome(const string& seq)
 	cout<<"> str: "<<seq.substr(max_pos,max_len)<<endl;
 }
 
-void naiveGappedPalindrome(const string& seq, int min_gap, int max_gap)
+//       ####ATCCATA##..##ATACCTA###
+
+void naiveGappedPalindrome(const string& seq, int min_gap, int max_gap, int min_len, int max_len)
 {
 	int n=seq.length();
 
