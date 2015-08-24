@@ -1,5 +1,7 @@
 # SeqScan
 
+![](https://github.com/BIO-DIKU/SeqScan/logo.png)
+
 ## Synopsis
 
 SeqScan locate pattern matches in nucleotide and protein sequences. A pattern
