@@ -129,8 +129,6 @@ and backreferences such that if any match, then the pattern matches:
 
     TAC|TAG =~ TAGATAC => 1,3,0,TAG and 4,3,0,TAC
 
-Space around the `|` operator is optional.
-
 ### Composite
 
 Multiple pattern units can be collected in composite pattern units using
@@ -141,7 +139,7 @@ parentheses:
 ### Repetitions
 
 Repetitions can be added to pattern units and backreferences so a series of
-matches have to occur.
+submatches must occur.
 
 **Repetitions:** allows a number of repetitions:
 
