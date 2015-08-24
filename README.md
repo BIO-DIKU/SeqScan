@@ -183,6 +183,13 @@ It is also possible to add edit modifiers to repetitions:
 
     TAC{2}/1,0,0 =~ ATGCTACA => 2,3,1,TGC;5,3,0,TAC
 
+### Wildcard
+
+The `.` character can be used as a wildcard in exact and approximate pattern
+units:
+
+    A.T.C =~ GAGTGCG => 2,5,0,AGTGC
+
 ### Range
 
 A range pattern unit can be used between exact and approximate pattern units to
@@ -245,13 +252,6 @@ sequences:
 Using both anchors will only accept patterns units matching the full sequence:
 
     ^ATC$ =~ ATC => 1,3,0,ATC
-
-### Wildcard
-
-The `.` character can be used as a wildcard in exact and approximate pattern
-units:
-
-    A.T.C =~ GAGTGCG => 2,5,0,AGTGC
 
 ### Ambiguity codes and case
 
