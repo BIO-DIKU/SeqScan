@@ -2,12 +2,12 @@
 
 ## Synopsis
 
-SeqScan locates pattern matches in nucleotide and protein sequences. A pattern
-consist of one or more pattern units (see pattern section). A pattern match is
+SeqScan locate pattern matches in nucleotide and protein sequences. A pattern
+consists of one or more pattern units (see pattern section). A pattern match is
 a substring of the sequence that satisfies the criteria of all pattern units.
 
     Usage: seqscan [options] <file(s)>
-    
+
        [options]:
        -h --help                               Print this help menu.
        -p --pattern <pattern>                  Pattern to use, see the pattern
@@ -16,12 +16,12 @@ a substring of the sequence that satisfies the criteria of all pattern units.
                                                per line.
        -c --complement <forward|reverse|both>  Scan the forward, reverse or
                                                both strands
-                                               (default=forward). 
+                                               (default=forward).
        -d --direction <forward|reverse>        Scan direction
                                                (default=forward).
-       -s --start <int>                        Start scanning position 
+       -s --start <int>                        Start scanning position
                                                (default=1).
-       -e --end <int>                          End scanning position. 
+       -e --end <int>                          End scanning position.
        -t --threads <int>                      Threads to use (default=1).
        -E --score_encoding <Phred33|Phred64>   Specify FASTQ score encoding
                                                (default=Phred33).
@@ -35,7 +35,7 @@ a substring of the sequence that satisfies the criteria of all pattern units.
              P: Protein.
              A: Ambiguity codes.
              I: Case insensitive.
-    
+
           Match type   Sequence   Pattern
           ----------   --------   -------
           1            N          N
@@ -45,7 +45,7 @@ a substring of the sequence that satisfies the criteria of all pattern units.
           5            NIA        NIA
           6            P          P
           7            PI         PI
-    
+
        -M --match_file <string>                File with custom match type
                                                matrices.
        -o --output <string>                    Output file.
@@ -64,7 +64,7 @@ range, and match group. One or more pattern units can be collected in
 composites and both pattern units and composites can have named backreferences.
 Below `=~` indicates a search for a match and `=>` indicates the resulting
 matches. Matches are given as match position, match length, edit distance, and
-matched sequence substring. 
+matched sequence substring.
 
 ### Exact
 
@@ -99,7 +99,7 @@ except composites.
 and deletions (indels):
 
     TAC/0,1 =~ TAACGTCGTGC => 1,2,1,TA and 3,1,1,AC and 1,4,1,TAAC and 6,2,1,TC
-   
+
 ### Reverse/Complement
 
 The reverse and reverse-complement operators can be applied to exact and
@@ -217,7 +217,7 @@ backreferences.
 
 ### Match groups
 
-Match groups are pattern units that matches a set of specified residues. It is
+Match groups are pattern units that match a set of specified residues. It is
 possible to use the non-match operator `^` as the first character to indicate
 that no residues in the match group will be matched (do not confuse with the
 match anchor `^`):
@@ -243,7 +243,7 @@ sequences:
 Using both anchors will only accept patterns units matching the full sequence:
 
     ^ATC$ =~ ATC => 1,3,0,ATC
-   
+
 ### Wildcard
 
 The `.` character can be used as a wildcard in exact and approximate pattern
@@ -313,7 +313,7 @@ using one mismatch and two indels:
 ### Tetraloops
 
 Tetraloops are short hairpins capped by a four nucleotide loop:
- 
+
 https://en.wikipedia.org/wiki/Tetraloop
 
 To find all tetraloops in the FASTA file named input.fna with the following
@@ -326,11 +326,11 @@ entries:
     >test3
     AGATGATAGTATGGTGNRAACGAAGATGATGAT
 
-Now to we run SeqScan with the following pattern where we save any 4 to 6
+Now we run SeqScan with the following pattern where we save any 4 to 6
 residues in the variable p1 (`p1=4..6`), then allow any 4 residues (`.{4}`),
 which must be followed by a match of the reverse-complement of p1 (`~p1`):
 
-    $ seqscan -p 'p1=4..6 .{4} ~p1' -o hits.tsv input.fna 
+    $ seqscan -p 'p1=4..6 .{4} ~p1' -o hits.tsv input.fna
 
 Which will give the following output in the hits.tsv file:
 
@@ -387,7 +387,7 @@ It can be done like this (`\` denotes a line break):
 
     $ seqscan -p 'GACTAGCTAGCTTGACGTAG/2,1 500..3000 \
       ~GTTAGCTAGGGGCTGACGTG/2,1' -c both input.fna
-   
+
 Notice that the primers in the pattern are specified in the 5'-3' orientation,
 and that we use the reverse-complement operator `~` on the reverse primer.
 
@@ -395,7 +395,7 @@ and that we use the reverse-complement operator `~` on the reverse primer.
 
 The H/ACA box small nucleolar RNA have a secondary structure with a rabbit
 ear-like secondary structure:
- 
+
 https://en.wikipedia.org/wiki/Small_nucleolar_RNA
 
 It is possible to locate these like this:
