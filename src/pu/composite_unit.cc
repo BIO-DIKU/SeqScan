@@ -17,41 +17,36 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
- 
+
 #include <iostream>
-#include "composite_unit.h"
+
+#include "composite_unit.h"   // TODO(Rasmus): include directory when naming .h files
 
 CompositeUnit::CompositeUnit(const Modifiers &modifiers) :
     PatternUnit(modifiers)
-{ }
+{}
 
-void CompositeUnit::AddUnit(std::unique_ptr<PatternUnit> &unit)
-{
+void CompositeUnit::AddUnit(std::unique_ptr<PatternUnit> &unit) {
   punits_.push_back(std::move(unit));
 }
 
-
-void CompositeUnit::Print()
-{
-  std::cout<<"CompositeUnit contains "<<punits_.size()<<" units"<<std::endl;
+void CompositeUnit::Print() {
+  std::cout << "CompositeUnit contains " << punits_.size() <<
+    " units" << std::endl;
 }
 
 void CompositeUnit::Initialize(
     std::string::const_iterator pos,
     std::string::const_iterator max_pos
-)
-{
+) {
   punits_.at(0)->Initialize(pos, max_pos);
 }
 
-
-bool CompositeUnit::HasNextMatch()
-{
+bool CompositeUnit::HasNextMatch() {
   return false;
 }
 
-
-Match& CompositeUnit::NextMatch(){
-  Match m(0,0,0);
+Match& CompositeUnit::NextMatch() {
+  Match m(0, 0, 0);
   return m;
-};
+}
