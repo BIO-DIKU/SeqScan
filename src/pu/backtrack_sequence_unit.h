@@ -12,7 +12,7 @@ public:
   //TODO: Implement
   void Initialize(
       std::string::const_iterator pos,
-      const std::string::const_iterator& max_pos
+      std::string::const_iterator max_pos
   ){}
   //TODO: Implement
   bool HasNextMatch(){ return false; }
@@ -21,6 +21,9 @@ public:
 
 private:
   const std::string pattern_;
+
+  std::string::const_iterator sequence_iterator_;
+  std::string::const_iterator sequence_iterator_end_;
 };
 
 

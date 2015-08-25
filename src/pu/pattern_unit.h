@@ -31,7 +31,7 @@ public:
    */
   virtual void Initialize(
       std::string::const_iterator pos,
-      const std::string::const_iterator& max_pos
+      std::string::const_iterator max_pos
   ) = 0;
 
   /*

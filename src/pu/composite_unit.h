@@ -13,18 +13,15 @@ public:
 
   void Print();
 
-  //TODO: Implement
   void Initialize(
       std::string::const_iterator pos,
-      const std::string::const_iterator &max_pos
-  ){}
-  //TODO: Implement
-  bool HasNextMatch(){ return false; }
-  //TODO: Implement
-  Match& NextMatch(){ Match m(0,0,0); return m;  };
+      std::string::const_iterator max_pos
+  );
+  bool HasNextMatch();
+  Match& NextMatch();
 
 private:
-  std::vector< std::unique_ptr<PatternUnit> > punits;
+  std::vector< std::unique_ptr<PatternUnit> > punits_;
 };
 
 #endif  // COMPOSITE_UNIT_H_
