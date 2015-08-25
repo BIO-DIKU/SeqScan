@@ -31,7 +31,7 @@ add_library(libseqscan
 	pu/pattern_unit.cc
 	pu/composite_unit.cc
 	modifiers.cc 
-	)
+	pu/backtrack_sequence_unit.cpp pu/backtrack_sequence_unit.h)
 
 set_target_properties( libseqscan PROPERTIES PREFIX "" )
 

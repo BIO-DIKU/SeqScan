@@ -3,10 +3,14 @@
 
 class Match
 {
-	public:
-		const int pos;
-		const int len;
-		const int edits;
+public:
+  Match(const int &pos, const int &len, const int &edits):
+      pos(pos), len(len), edits(edits)
+  {}
+
+  const int pos;
+  const int len;
+  const int edits;
 };
 
 #endif  // MATCH_H_
