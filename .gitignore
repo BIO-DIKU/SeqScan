@@ -29,3 +29,6 @@
 
 # Ctags
 .tags*
+
+# Directories
+build

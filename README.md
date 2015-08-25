@@ -510,6 +510,20 @@ GC-content of match must be at least 0.75:
     $ seqscan -p 'p1=(A p2=0..4 GC p3=0..4 T)' \
               -f 'rescount(p1, G) + rescount(p1, C) >= 0.75 * length(p1)'
 
+## Compiling
+
+SeqScan compiles with C++11 support but has no dependencies on other external libraries. To prepare makefiles for release versions of the library and executable type:
+
+    $ mkdir build
+    $ cd build
+    $ cmake ../src
+
+After running '''make''', the static library will be in /build/libseqscan.a and the executable in build/seqscan. To prepare makefiles for debug versions type:
+
+    $ mkdir debug
+    $ cd debug
+    $ cmake -DCMAKE_BUILD_TYPE=Debug ../src
+
 ## Copyright
 
 Copyright (C) 2015 BIO-DIKU - All rights reserved.
