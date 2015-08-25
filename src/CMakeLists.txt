@@ -24,11 +24,13 @@ endif()
 #add_library(seqscan-lib
 add_library(libseqscan
 	match.h
+	modifiers.h
 	pu/pattern_unit.h
 	pu/composite_unit.h
 
 	pu/pattern_unit.cc
 	pu/composite_unit.cc
+	modifiers.cc 
 	)
 
 set_target_properties( libseqscan PROPERTIES PREFIX "" )

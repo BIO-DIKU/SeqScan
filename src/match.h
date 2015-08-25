@@ -3,7 +3,10 @@
 
 class Match
 {
-
+	public:
+		const int pos;
+		const int len;
+		const int edits;
 };
 
 #endif  // MATCH_H_
