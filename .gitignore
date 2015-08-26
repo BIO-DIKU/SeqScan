@@ -32,3 +32,6 @@
 
 # Directories
 build
+
+# Emacs temporary files
+*~

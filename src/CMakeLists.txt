@@ -27,11 +27,18 @@ add_library(libseqscan
 	modifiers.h
 	pu/pattern_unit.h
 	pu/composite_unit.h
+  pu/tnfa_sequence_unit.h
+  pu/tnfa_state.h
+  pu/tnfa_final_state.h
+  pu/tnfa_levenshtein_state.h
 
 	pu/pattern_unit.cc
 	pu/composite_unit.cc
 	modifiers.cc 
-	pu/backtrack_sequence_unit.cc pu/backtrack_sequence_unit.h)
+	pu/backtrack_sequence_unit.cc pu/backtrack_sequence_unit.h
+  pu/tnfa_sequence_unit.cc
+  pu/tnfa_state.cc
+  pu/tnfa_final_state.cc)
 
 set_target_properties( libseqscan PROPERTIES PREFIX "" )
 
