@@ -18,11 +18,11 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef TNFA_STATE_HPP
-#define TNFA_STATE_HPP
+#ifndef PU_TNFA_STATE_H_
+#define PU_TNFA_STATE_H_
 
-#include <vector>
 #include <inttypes.h>
+#include <vector>
 #include <string>
 
 #include "../match.h"
@@ -30,19 +30,19 @@
 using std::vector;
 
 class TNFAState {
-public:
+ public:
   /*
    * Create a state on given character
    */
-  TNFAState( char );
+  TNFAState(char);
 
-  void setOutPtr(TNFAState *); // Set pointer to outgoing state
-  TNFAState *getOutPtr(); // Get pointer to outgoing state
+  void setOutPtr(TNFAState *);  // Set pointer to outgoing state
+  TNFAState *getOutPtr();       // Get pointer to outgoing state
 
   /*
    * Add this state to the new state list
    */
-  void addToList(uint64_t [ 8 ], uint32_t, bool, std::string::const_iterator,
+  void addToList(uint64_t[8], uint32_t, bool, std::string::const_iterator,
                  vector< TNFAState * > [2], vector< Match > &, uint32_t);
 
   /*
@@ -52,7 +52,7 @@ public:
   virtual void addOutStates(bool, std::string::const_iterator,
                             vector< TNFAState * > [2], vector< Match > &,
                             uint32_t);
-  
+
   /*
    * Add states on epsilon-transitions to new state list.
    * This is the complementary function to addOutStates().
@@ -63,28 +63,30 @@ public:
 
   // Show some info for current State. Mainly used for debugging.
   virtual void display(bool);
-  
-  bool mismatches( uint64_t [ 8 ] ); // Are mismatches allowed
-  bool insertions( uint64_t [ 8 ] ); // Are insertions allowed
-  bool deletions( uint64_t [ 8 ] ); // Are deletions allowed
-  uint64_t *decrementMismatches( uint64_t [ 8 ] ); // Decrement mismatches in error code
-  uint64_t *decrementInsertions( uint64_t [ 8 ] ); // Decrement insertions in error code
-  uint64_t *decrementDeletions( uint64_t [ 8 ] ); // Decrement deletions in error code
-  static uint64_t newCode[ 8 ];
-protected:
-  char c; // Character to be matched
-  TNFAState *out_; // Outgoing state
-  std::string::const_iterator *listID; // used check if state is already added to list
-  uint32_t pathTag; // Tag recording beginning index of matching substring
+
+  bool mismatches(uint64_t[8]);  // Are mismatches allowed
+  bool insertions(uint64_t[8]);  // Are insertions allowed
+  bool deletions(uint64_t[8]);   // Are deletions allowed
+  uint64_t *decrementMismatches(uint64_t[8]);  // Decr. mismatches in error code
+  uint64_t *decrementInsertions(uint64_t[8]);  // Decr. insertions in error code
+  uint64_t *decrementDeletions(uint64_t[8]);   // Decr. deletions  in error code
+  static uint64_t newCode[8];
+
+ protected:
+  char c;  // Character to be matched
+  TNFAState *out_;  // Outgoing state
+  std::string::const_iterator *listID;  // used check if state already added
+  uint32_t pathTag;  // Tag recording beginning index of matching substring
 
   /*
    * Error codes are 64-bit integers that represent subsets of allowed errors
-   * They are used to efficiently implement the decrement operations declared above.
-   * Two codes are declared, so that one can be created, while the other is read.
-   * If only one error code was used race conditions could arise.
+   * They are used to efficiently implement the decrement operations declared
+   * above. Two codes are declared, so that one can be created, while the
+   * other is read. If only one error code was used race conditions could
+   * arise.
    */
-  uint64_t errorCode[ 2 ][ 8 ];
+  uint64_t errorCode[2][8];
   uint32_t listID_;
 };
 
-#endif
+#endif  // PU_TNFA_STATE_H_
