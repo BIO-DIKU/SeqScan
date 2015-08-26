@@ -1,0 +1,213 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ARCHITECTURE_ID	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#  define ARCHITECTURE_ID /;"	d	file:
+ARCHITECTURE_ID	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define ARCHITECTURE_ID /;"	d	file:
+AddUnit	src/pu/composite_unit.cc	/^void CompositeUnit::AddUnit(std::unique_ptr<PatternUnit> &unit) {$/;"	f	class:CompositeUnit
+BACKTRACK_SEQUENCE_UNIT_H	src/pu/backtrack_sequence_unit.h	/^#define BACKTRACK_SEQUENCE_UNIT_H$/;"	d
+BacktrackSequenceUnit	src/pu/backtrack_sequence_unit.cc	/^BacktrackSequenceUnit::BacktrackSequenceUnit($/;"	f	class:BacktrackSequenceUnit
+BacktrackSequenceUnit	src/pu/backtrack_sequence_unit.h	/^class BacktrackSequenceUnit: public PatternUnit{$/;"	c
+CMAKE_BINARY_DIR	ReferenceSRC/Makefile	/^CMAKE_BINARY_DIR = \/home\/sune\/seqscan\/SeqScan\/ReferenceSRC$/;"	m
+CMAKE_BINARY_DIR	build/Makefile	/^CMAKE_BINARY_DIR = \/Users\/maasha\/install\/src\/SeqScan\/build$/;"	m
+CMAKE_COMMAND	ReferenceSRC/Makefile	/^CMAKE_COMMAND = \/usr\/bin\/cmake$/;"	m
+CMAKE_COMMAND	build/Makefile	/^CMAKE_COMMAND = \/usr\/local\/Cellar\/cmake\/3.2.1\/bin\/cmake$/;"	m
+CMAKE_SOURCE_DIR	ReferenceSRC/Makefile	/^CMAKE_SOURCE_DIR = \/home\/sune\/seqscan\/SeqScan\/src$/;"	m
+CMAKE_SOURCE_DIR	build/Makefile	/^CMAKE_SOURCE_DIR = \/Users\/maasha\/install\/src\/SeqScan\/src$/;"	m
+COMPILER_ID	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^# define COMPILER_ID /;"	d	file:
+COMPILER_ID	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define COMPILER_ID /;"	d	file:
+COMPILER_VERSION_MAJOR	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#  define COMPILER_VERSION_MAJOR /;"	d	file:
+COMPILER_VERSION_MAJOR	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^# define COMPILER_VERSION_MAJOR /;"	d	file:
+COMPILER_VERSION_MAJOR	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define COMPILER_VERSION_MAJOR /;"	d	file:
+COMPILER_VERSION_MAJOR	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define COMPILER_VERSION_MAJOR /;"	d	file:
+COMPILER_VERSION_MINOR	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#  define COMPILER_VERSION_MINOR /;"	d	file:
+COMPILER_VERSION_MINOR	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^# define COMPILER_VERSION_MINOR /;"	d	file:
+COMPILER_VERSION_MINOR	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define COMPILER_VERSION_MINOR /;"	d	file:
+COMPILER_VERSION_MINOR	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define COMPILER_VERSION_MINOR /;"	d	file:
+COMPILER_VERSION_PATCH	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#   define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_PATCH	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#  define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_PATCH	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^# define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_PATCH	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#   define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_PATCH	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_PATCH	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_TWEAK	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#  define COMPILER_VERSION_TWEAK /;"	d	file:
+COMPILER_VERSION_TWEAK	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^# define COMPILER_VERSION_TWEAK /;"	d	file:
+COMPILER_VERSION_TWEAK	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define COMPILER_VERSION_TWEAK /;"	d	file:
+COMPILER_VERSION_TWEAK	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define COMPILER_VERSION_TWEAK /;"	d	file:
+COMPOSITE_UNIT_H_	src/pu/composite_unit.h	/^#define COMPOSITE_UNIT_H_$/;"	d
+CompositeUnit	ReferenceSRC/sfm_python.py	/^class CompositeUnit:$/;"	c
+CompositeUnit	src/pu/composite_unit.cc	/^CompositeUnit::CompositeUnit(const Modifiers &modifiers) :$/;"	f	class:CompositeUnit
+CompositeUnit	src/pu/composite_unit.h	/^class CompositeUnit: public PatternUnit$/;"	c
+CreateMIDModifiers	src/modifiers.cc	/^Modifiers Modifiers::CreateMIDModifiers($/;"	f	class:Modifiers
+CreateStdModifiers	src/modifiers.cc	/^Modifiers Modifiers::CreateStdModifiers()$/;"	f	class:Modifiers
+DEC	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#define DEC(/;"	d	file:
+DEC	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#define DEC(/;"	d	file:
+EQUALS	ReferenceSRC/Makefile	/^EQUALS = =$/;"	m
+EQUALS	build/Makefile	/^EQUALS = =$/;"	m
+FASTA_H_	ReferenceSRC/fasta.h	/^#define FASTA_H_$/;"	d
+HEX	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#define HEX(/;"	d	file:
+HEX	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#define HEX(/;"	d	file:
+HasNextMatch	src/pu/backtrack_sequence_unit.h	/^  bool HasNextMatch(){ return false; }$/;"	f	class:BacktrackSequenceUnit
+HasNextMatch	src/pu/composite_unit.cc	/^bool CompositeUnit::HasNextMatch() {$/;"	f	class:CompositeUnit
+HasNextMatch	src/pu/tnfa_sequence_unit.cc	/^bool TNFASequenceUnit::HasNextMatch() {$/;"	f	class:TNFASequenceUnit
+ID_VOID_MAIN	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^# define ID_VOID_MAIN$/;"	d	file:
+Initialize	src/pu/backtrack_sequence_unit.h	/^  void Initialize($/;"	f	class:BacktrackSequenceUnit
+Initialize	src/pu/composite_unit.cc	/^void CompositeUnit::Initialize($/;"	f	class:CompositeUnit
+Initialize	src/pu/tnfa_sequence_unit.cc	/^void TNFASequenceUnit::Initialize(std::string::const_iterator pos,$/;"	f	class:TNFASequenceUnit
+LEVENSHTEINSTATE_HPP	src/pu/tnfa_levenshtein_state.h	/^#define LEVENSHTEINSTATE_HPP$/;"	d
+MATCH_H_	src/match.h	/^#define MATCH_H_$/;"	d
+MODIFIERS_H	src/modifiers.h	/^#define MODIFIERS_H$/;"	d
+Match	src/match.h	/^  Match(const int &pos, const int &len, const int &edits):$/;"	f	class:Match
+Match	src/match.h	/^class Match$/;"	c
+MatchSet	ReferenceSRC/sfm_python.py	/^class MatchSet:$/;"	c
+Modifiers	src/modifiers.cc	/^Modifiers::Modifiers($/;"	f	class:Modifiers
+Modifiers	src/modifiers.h	/^class Modifiers {$/;"	c
+ModifiersToErrorCode	src/pu/tnfa_sequence_unit.cc	/^void TNFASequenceUnit::ModifiersToErrorCode(const Modifiers &modifiers) {$/;"	f	class:TNFASequenceUnit
+NextMatch	src/pu/backtrack_sequence_unit.h	/^  Match& NextMatch(){ Match m(0,0,0); return m;  };$/;"	f	class:BacktrackSequenceUnit
+NextMatch	src/pu/composite_unit.cc	/^Match& CompositeUnit::NextMatch() {$/;"	f	class:CompositeUnit
+NextMatch	src/pu/tnfa_sequence_unit.h	/^  Match& NextMatch() { return matches.back(); };$/;"	f	class:TNFASequenceUnit
+PLATFORM_ID	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#  define PLATFORM_ID /;"	d	file:
+PLATFORM_ID	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^# define PLATFORM_ID /;"	d	file:
+PLATFORM_ID	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define PLATFORM_ID /;"	d	file:
+PLATFORM_ID	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define PLATFORM_ID /;"	d	file:
+PU_PATTERNUNIT_H_	src/pu/pattern_unit.h	/^#define PU_PATTERNUNIT_H_$/;"	d
+PU_TNFA_H_	src/pu/tnfa.h	/^#define PU_TNFA_H_$/;"	d
+PatternUnit	src/pu/pattern_unit.cc	/^PatternUnit::PatternUnit(const Modifiers& modifiers):$/;"	f	class:PatternUnit
+PatternUnit	src/pu/pattern_unit.h	/^class PatternUnit$/;"	c
+Print	src/pu/composite_unit.cc	/^void CompositeUnit::Print() {$/;"	f	class:CompositeUnit
+RM	ReferenceSRC/Makefile	/^RM = \/usr\/bin\/cmake -E remove -f$/;"	m
+RM	build/Makefile	/^RM = \/usr\/local\/Cellar\/cmake\/3.2.1\/bin\/cmake -E remove -f$/;"	m
+RangeUnit	ReferenceSRC/sfm_python.py	/^class RangeUnit:$/;"	c
+ReferenceUnit	ReferenceSRC/sfm_python.py	/^class ReferenceUnit:$/;"	c
+SHELL	ReferenceSRC/Makefile	/^SHELL = \/bin\/sh$/;"	m
+SHELL	build/Makefile	/^SHELL = \/bin\/sh$/;"	m
+SIMULATE_ID	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#  define SIMULATE_ID /;"	d	file:
+SIMULATE_ID	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define SIMULATE_ID /;"	d	file:
+SIMULATE_VERSION_MAJOR	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#  define SIMULATE_VERSION_MAJOR /;"	d	file:
+SIMULATE_VERSION_MAJOR	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define SIMULATE_VERSION_MAJOR /;"	d	file:
+SIMULATE_VERSION_MINOR	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#  define SIMULATE_VERSION_MINOR /;"	d	file:
+SIMULATE_VERSION_MINOR	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define SIMULATE_VERSION_MINOR /;"	d	file:
+SUFFIXES	ReferenceSRC/Makefile	/^SUFFIXES =$/;"	m
+SUFFIXES	build/Makefile	/^SUFFIXES =$/;"	m
+SequenceUnit	ReferenceSRC/sfm_python.py	/^class SequenceUnit:$/;"	c
+TNFA	src/pu/tnfa.cc	/^TNFA::TNFA($/;"	f	class:TNFA
+TNFAFinalState	src/pu/tnfa_final_state.cc	/^TNFAFinalState::TNFAFinalState(int len) : TNFAState( 0 ), patternLength_(len) {}$/;"	f	class:TNFAFinalState
+TNFAFinalState	src/pu/tnfa_final_state.h	/^class TNFAFinalState : public TNFAState {$/;"	c
+TNFALevenshteinState	src/pu/tnfa_levenshtein_state.h	/^TNFALevenshteinState::TNFALevenshteinState( uint64_t e[ 8 ] ) : TNFAState( 0 )$/;"	f	class:TNFALevenshteinState
+TNFALevenshteinState	src/pu/tnfa_levenshtein_state.h	/^class TNFALevenshteinState : public TNFAState {$/;"	c
+TNFASequenceUnit	src/pu/tnfa.h	/^TNFASequenceUnit::TNFASequenceUnit($/;"	f	class:TNFASequenceUnit
+TNFASequenceUnit	src/pu/tnfa_sequence_unit.cc	/^TNFASequenceUnit::TNFASequenceUnit(const Modifiers &modifiers,$/;"	f	class:TNFASequenceUnit
+TNFASequenceUnit	src/pu/tnfa_sequence_unit.h	/^class TNFASequenceUnit: public PatternUnit {$/;"	c
+TNFAState	src/pu/tnfa_state.cc	/^TNFAState::TNFAState( char cInit ) : c( cInit ), listID( nullptr ), pathTag( 0 ) {}$/;"	f	class:TNFAState
+TNFAState	src/pu/tnfa_state.h	/^class TNFAState {$/;"	c
+TNFA_FINAL_STATE_H	src/pu/tnfa_final_state.h	/^#define TNFA_FINAL_STATE_H$/;"	d
+TNFA_SEQUENCE_UNIT_H	src/pu/tnfa_sequence_unit.h	/^#define TNFA_SEQUENCE_UNIT_H$/;"	d
+TNFA_STATE_HPP	src/pu/tnfa_state.h	/^#define TNFA_STATE_HPP$/;"	d
+__init__	ReferenceSRC/sfm_python.py	/^    def __init__(self, min_len, max_len):$/;"	m	class:RangeUnit
+__init__	ReferenceSRC/sfm_python.py	/^    def __init__(self, pos=-1):$/;"	m	class:MatchSet
+__init__	ReferenceSRC/sfm_python.py	/^    def __init__(self, ref_unit, M, I, D, reverse, complement):$/;"	m	class:ReferenceUnit
+__init__	ReferenceSRC/sfm_python.py	/^    def __init__(self, seq, M, I, D):$/;"	m	class:SequenceUnit
+__init__	ReferenceSRC/sfm_python.py	/^    def __init__(self, units):$/;"	m	class:CompositeUnit
+__str__	ReferenceSRC/sfm_python.py	/^    def __str__(self):$/;"	m	class:MatchSet	file:
+addEpsilonTransitions	src/pu/tnfa_final_state.cc	/^void TNFAFinalState::addEpsilonTransitions(bool, std::string::const_iterator,$/;"	f	class:TNFAFinalState
+addEpsilonTransitions	src/pu/tnfa_levenshtein_state.h	/^void TNFALevenshteinState::addEpsilonTransitions($/;"	f	class:TNFALevenshteinState
+addEpsilonTransitions	src/pu/tnfa_state.cc	/^void TNFAState::addEpsilonTransitions(bool listNo, std::string::const_iterator pos,$/;"	f	class:TNFAState
+addOutStates	src/pu/tnfa_final_state.cc	/^void TNFAFinalState::addOutStates(bool, std::string::const_iterator,$/;"	f	class:TNFAFinalState
+addOutStates	src/pu/tnfa_levenshtein_state.h	/^void TNFALevenshteinState::addOutStates(bool listNo,$/;"	f	class:TNFALevenshteinState
+addOutStates	src/pu/tnfa_state.cc	/^void TNFAState::addOutStates(bool listNo, std::string::const_iterator pos,$/;"	f	class:TNFAState
+addToList	src/pu/tnfa_state.cc	/^void TNFAState::addToList(uint64_t e[ 8 ], uint32_t tags, bool listNo,$/;"	f	class:TNFAState
+bitap_fuzzy_bitwise_search	ReferenceSRC/bitap.cpp	/^const char *bitap_fuzzy_bitwise_search(const char *text, const char *pattern, int k)$/;"	f
+c	src/pu/tnfa_state.h	/^  char c; \/\/ Character to be matched$/;"	m	class:TNFAState
+complement_	src/modifiers.h	/^  const bool complement_;$/;"	m	class:Modifiers
+complement_table	ReferenceSRC/sfm_python.py	/^complement_table = maketrans("ATUCG","TAAGC")$/;"	v
+compute_prefix_function	ReferenceSRC/kmp.cpp	/^int *compute_prefix_function(const char *pattern, int psize)$/;"	f
+decrementDeletions	src/pu/tnfa_state.cc	/^uint64_t *TNFAState::decrementDeletions( uint64_t eCode[ 8 ] )$/;"	f	class:TNFAState
+decrementInsertions	src/pu/tnfa_state.cc	/^uint64_t *TNFAState::decrementInsertions( uint64_t eCode[ 8 ] )$/;"	f	class:TNFAState
+decrementMismatches	src/pu/tnfa_state.cc	/^uint64_t *TNFAState::decrementMismatches( uint64_t eCode[ 8 ] )$/;"	f	class:TNFAState
+deletions	src/pu/tnfa_state.cc	/^bool TNFAState::deletions( uint64_t eCode[ 8 ] )$/;"	f	class:TNFAState
+deletions_	src/modifiers.h	/^  const int deletions_;$/;"	m	class:Modifiers
+display	src/pu/tnfa_levenshtein_state.h	/^void TNFALevenshteinState::display(bool)$/;"	f	class:TNFALevenshteinState
+display	src/pu/tnfa_state.cc	/^void TNFAState::display(bool listNo)$/;"	f	class:TNFAState
+edits	src/match.h	/^  const int edits;$/;"	m	class:Match
+errorCode	src/pu/tnfa_state.h	/^  uint64_t errorCode[ 2 ][ 8 ];$/;"	m	class:TNFAState
+errorCode_	src/pu/tnfa_sequence_unit.h	/^  uint64_t errorCode_[8];$/;"	m	class:TNFASequenceUnit
+fastLongestPalindromes	ReferenceSRC/manachers.cpp	/^void fastLongestPalindromes(RAI1 seq,RAI1 seqEnd,RAI2 out)$/;"	f
+features	build/CMakeFiles/feature_tests.c	/^  const char features[] = {""$/;"	v
+features	build/CMakeFiles/feature_tests.cxx	/^  const char features[] = {""$/;"	v
+getOutPtr	src/pu/tnfa_state.cc	/^TNFAState *TNFAState::getOutPtr() { return out_; }$/;"	f	class:TNFAState
+greedy_	src/modifiers.h	/^  const bool greedy_;$/;"	m	class:Modifiers
+info_arch	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^char const* info_arch = "INFO" ":" "arch[" ARCHITECTURE_ID "]";$/;"	v
+info_arch	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_arch = "INFO" ":" "arch[" ARCHITECTURE_ID "]";$/;"	v
+info_compiler	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^char const* info_compiler = "INFO" ":" "compiler[" COMPILER_ID "]";$/;"	v
+info_compiler	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_compiler = "INFO" ":" "compiler[" COMPILER_ID "]";$/;"	v
+info_platform	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^char const* info_platform = "INFO" ":" "platform[" PLATFORM_ID "]";$/;"	v
+info_platform	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_platform = "INFO" ":" "platform[" PLATFORM_ID "]";$/;"	v
+info_simulate	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^char const* info_simulate = "INFO" ":" "simulate[" SIMULATE_ID "]";$/;"	v
+info_simulate	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_simulate = "INFO" ":" "simulate[" SIMULATE_ID "]";$/;"	v
+info_simulate_version	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^char const info_simulate_version[] = {$/;"	v
+info_simulate_version	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const info_simulate_version[] = {$/;"	v
+info_version	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^char const info_version[] = {$/;"	v
+info_version	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const info_version[] = {$/;"	v
+insertions	src/pu/tnfa_state.cc	/^bool TNFAState::insertions( uint64_t eCode[ 8 ] )$/;"	f	class:TNFAState
+insertions_	src/modifiers.h	/^  const int insertions_;$/;"	m	class:Modifiers
+kmp	ReferenceSRC/kmp.cpp	/^int kmp(const char *target, int tsize, const char *pattern, int psize)$/;"	f
+len	src/match.h	/^  const int len;$/;"	m	class:Match
+listID	src/pu/tnfa_state.h	/^  std::string::const_iterator *listID; \/\/ used check if state is already added to list$/;"	m	class:TNFAState
+listID_	src/pu/tnfa_sequence_unit.h	/^  uint32_t listID_;$/;"	m	class:TNFASequenceUnit
+listID_	src/pu/tnfa_state.h	/^  uint32_t listID_;$/;"	m	class:TNFAState
+listNo_	src/pu/tnfa_sequence_unit.h	/^  bool listNo_;$/;"	m	class:TNFASequenceUnit
+loose_match	ReferenceSRC/sfm_python.py	/^def loose_match(S,i,P,M,I,D,j=0, ret=MatchSet(None)):$/;"	f
+main	ReferenceSRC/bitap.cpp	/^int main(int argc, char** argv){$/;"	f
+main	ReferenceSRC/kmp.cpp	/^int main(int argc, char** argv){$/;"	f
+main	ReferenceSRC/manachers.cpp	/^int main(int argc, char** argv){$/;"	f
+main	ReferenceSRC/naivePalindrome.cpp	/^int main(int argc, char** argv){$/;"	f
+main	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^int main(int argc, char* argv[])$/;"	f
+main	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^void main() {}$/;"	f
+main	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^int main(int argc, char* argv[])$/;"	f
+main	build/CMakeFiles/feature_tests.c	/^int main(int argc, char** argv) { (void)argv; return features[argc]; }$/;"	f
+main	build/CMakeFiles/feature_tests.cxx	/^int main(int argc, char** argv) { (void)argv; return features[argc]; }$/;"	f
+main	src/run_seqscan.cc	/^int main()$/;"	f
+maketrans	ReferenceSRC/sfm_python.py	/^from string import maketrans$/;"	i
+matches	ReferenceSRC/sfm_python.py	/^    def matches(self, seq, pos):$/;"	m	class:CompositeUnit
+matches	ReferenceSRC/sfm_python.py	/^    def matches(self, seq, pos):$/;"	m	class:RangeUnit
+matches	ReferenceSRC/sfm_python.py	/^    def matches(self, seq, pos):$/;"	m	class:ReferenceUnit
+matches	ReferenceSRC/sfm_python.py	/^    def matches(self, seq, pos):$/;"	m	class:SequenceUnit
+matches	src/pu/tnfa_sequence_unit.h	/^  vector< Match > matches;$/;"	m	class:TNFASequenceUnit
+max_edits_	src/modifiers.h	/^  const int max_edits_;$/;"	m	class:Modifiers
+max_repeats_	src/modifiers.h	/^  const int max_repeats_;$/;"	m	class:Modifiers
+min_repeats_	src/modifiers.h	/^  const int min_repeats_;$/;"	m	class:Modifiers
+mismatches	src/pu/tnfa_state.cc	/^bool TNFAState::mismatches( uint64_t eCode[ 8 ] )$/;"	f	class:TNFAState
+mismatches_	src/modifiers.h	/^  const int mismatches_;$/;"	m	class:Modifiers
+modifiers_	src/pu/pattern_unit.h	/^  const Modifiers modifiers_;$/;"	m	class:PatternUnit
+naiveGappedPalindrome	ReferenceSRC/naivePalindrome.cpp	/^void naiveGappedPalindrome(const string& seq, int min_gap, int max_gap, int min_len, int max_len)$/;"	f
+naiveLongestPalindrome	ReferenceSRC/naivePalindrome.cpp	/^void naiveLongestPalindrome(const string& seq)$/;"	f
+newCode	src/pu/tnfa_state.cc	/^uint64_t TNFAState::newCode[ 8 ] = { 0, 0, 0, 0, 0, 0, 0, 0 };$/;"	m	class:TNFAState	file:
+newCode	src/pu/tnfa_state.h	/^  static uint64_t newCode[ 8 ];$/;"	m	class:TNFAState
+nucl_complement	ReferenceSRC/sfm_python.py	/^def nucl_complement(S):$/;"	f
+nucl_reverse	ReferenceSRC/sfm_python.py	/^def nucl_reverse(S):$/;"	f
+out_	src/pu/tnfa_state.h	/^  TNFAState *out_; \/\/ Outgoing state$/;"	m	class:TNFAState
+pathTag	src/pu/tnfa_state.h	/^  uint32_t pathTag; \/\/ Tag recording beginning index of matching substring$/;"	m	class:TNFAState
+patternLength_	src/pu/tnfa_final_state.h	/^  int patternLength_;$/;"	m	class:TNFAFinalState
+pattern_	src/pu/backtrack_sequence_unit.h	/^  const std::string pattern_;$/;"	m	class:BacktrackSequenceUnit
+pattern_	src/pu/tnfa_sequence_unit.h	/^  const std::string pattern_;$/;"	m	class:TNFASequenceUnit
+pos	src/match.h	/^  const int pos;$/;"	m	class:Match
+punits_	src/pu/composite_unit.h	/^  std::vector< std::unique_ptr<PatternUnit> > punits_;$/;"	m	class:CompositeUnit
+qnxnto	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
+qnxnto	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
+range_match	ReferenceSRC/sfm_python.py	/^def range_match(S,i, minLen, maxLen, ret=MatchSet(0)):$/;"	f
+read_file	ReferenceSRC/fasta.h	/^std::vector< std::pair<std::string,std::string> > read_file(std::string fname){$/;"	f
+reference_match	ReferenceSRC/sfm_python.py	/^def reference_match(S,i, match_set, M, I, D, reverse, complement, ret=MatchSet()):$/;"	f
+reset	ReferenceSRC/sfm_python.py	/^    def reset(self, new_pos):$/;"	m	class:MatchSet
+rest_matches	ReferenceSRC/sfm_python.py	/^    def rest_matches(self, seq, positions, pu_idx):$/;"	m	class:CompositeUnit
+reverse_	src/modifiers.h	/^  const bool reverse_;$/;"	m	class:Modifiers
+scan_for_matches	ReferenceSRC/sfm_python.py	/^def scan_for_matches(P, S):$/;"	f
+sequence_iterator_	src/pu/backtrack_sequence_unit.h	/^  std::string::const_iterator sequence_iterator_;$/;"	m	class:BacktrackSequenceUnit
+sequence_iterator_	src/pu/tnfa_sequence_unit.h	/^  std::string::const_iterator sequence_iterator_;$/;"	m	class:TNFASequenceUnit
+sequence_iterator_end_	src/pu/backtrack_sequence_unit.h	/^  std::string::const_iterator sequence_iterator_end_;$/;"	m	class:BacktrackSequenceUnit
+sequence_iterator_end_	src/pu/tnfa_sequence_unit.h	/^  std::string::const_iterator sequence_iterator_end_;$/;"	m	class:TNFASequenceUnit
+setOutPtr	src/pu/tnfa_state.cc	/^void TNFAState::setOutPtr(TNFAState *out) { out_ = out; }$/;"	f	class:TNFAState
+startState_	src/pu/tnfa_sequence_unit.h	/^  TNFAState *startState_;$/;"	m	class:TNFASequenceUnit
+stateErrorCode	src/pu/tnfa_levenshtein_state.h	/^  uint64_t stateErrorCode[ 8 ];$/;"	m	class:TNFALevenshteinState
+stateLists_	src/pu/tnfa_sequence_unit.h	/^  vector< TNFAState * > stateLists_[ 2 ];$/;"	m	class:TNFASequenceUnit
