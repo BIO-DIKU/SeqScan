@@ -20,7 +20,6 @@
 
 #include "modifiers.h"
 
-
 Modifiers::Modifiers(
     const int max_edits,
     const int mismatches,
@@ -43,18 +42,16 @@ Modifiers::Modifiers(
     greedy_(greedy)
 {}
 
-Modifiers Modifiers::CreateStdModifiers()
-{
-  Modifiers ret(0,0,0,0,0,0,false,false,false);
+Modifiers Modifiers::CreateStdModifiers() {
+  Modifiers ret(0, 0, 0, 0, 0, 0, false, false, false);
   return std::move(ret);
 }
-
 
 Modifiers Modifiers::CreateMIDModifiers(
     const int mismatches,
     const int insertions,
-    const int deletions)
-{
-  Modifiers ret(0,mismatches,insertions,deletions,0,0,false,false,false);
+    const int deletions) {
+  Modifiers ret(0, mismatches, insertions, deletions, 0, 0,
+      false, false, false);
   return std::move(ret);
 }
