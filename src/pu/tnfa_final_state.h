@@ -18,21 +18,25 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef TNFA_FINAL_STATE_H
-#define TNFA_FINAL_STATE_H
+#ifndef PU_TNFA_FINAL_STATE_H_
+#define PU_TNFA_FINAL_STATE_H_
 
 #include <iostream>
+#include <vector>
+#include <string>
+
 #include "tnfa_state.h"
 
 class TNFAFinalState : public TNFAState {
  public:
-  TNFAFinalState(int);
+  TNFAFinalState(int len);
   void addEpsilonTransitions(bool, std::string::const_iterator,
-                             vector< TNFAState * > [2], vector< Match > &, uint32_t);
+                             vector< TNFAState * > [2],
+                             vector< Match > &, uint32_t);
   void addOutStates(bool, std::string::const_iterator,
                     vector< TNFAState * > [2], vector< Match > &, uint32_t);
  private:
   int patternLength_;
 };
 
-#endif
+#endif  // PU_TNFA_FINAL_STATE_H_

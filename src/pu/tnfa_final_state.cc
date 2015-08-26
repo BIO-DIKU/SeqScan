@@ -23,7 +23,7 @@
 
 extern bool showAllMatches;
 
-TNFAFinalState::TNFAFinalState(int len) : TNFAState( 0 ), patternLength_(len) {}
+TNFAFinalState::TNFAFinalState(int len) : TNFAState(0), patternLength_(len) {}
 
 void TNFAFinalState::addOutStates(bool, std::string::const_iterator,
                                   vector< TNFAState * > [],
@@ -31,7 +31,7 @@ void TNFAFinalState::addOutStates(bool, std::string::const_iterator,
 
 void TNFAFinalState::addEpsilonTransitions(bool, std::string::const_iterator,
                                            vector< TNFAState * >[],
-                                           vector< Match > &matches, uint32_t listID)
-{
+                                           vector< Match > &matches,
+                                           uint32_t listID) {
   matches.push_back(Match(listID - patternLength_, patternLength_, 0));
 }
