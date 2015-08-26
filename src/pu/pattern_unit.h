@@ -24,7 +24,7 @@
 #include <string>
 
 #include "../match.h"
-#include "../Modifiers.h"
+#include "../modifiers.h"
 
 /*
  * An abstract pattern unit that holds modifiers and specifies an iterator pattern over matches.
