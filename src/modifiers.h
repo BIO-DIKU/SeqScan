@@ -17,16 +17,14 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
- 
-#ifndef MODIFIERS_H
-#define MODIFIERS_H
 
+#ifndef MODIFIERS_H_
+#define MODIFIERS_H_
 
 #include <memory>
 
 class Modifiers {
-
-public:
+ public:
   Modifiers(
       const int max_edits,
       const int mismatches,
@@ -36,8 +34,7 @@ public:
       const int max_repeats,
       const bool reverse,
       const bool complement,
-      const bool greedy
-  );
+      const bool greedy);
 
   const int max_edits_;
   const int mismatches_;
@@ -49,10 +46,10 @@ public:
   const bool complement_;
   const bool greedy_;
 
-  static Modifiers CreateMIDModifiers(const int mismatches, const int insertions, const int deletions);
+  static Modifiers CreateMIDModifiers(const int mismatches,
+      const int insertions, const int deletions);
   static Modifiers CreateStdModifiers();
-
 };
 
 
-#endif //SEQSCAN_MODIFIERS_H
+#endif  // MODIFIERS_H_
