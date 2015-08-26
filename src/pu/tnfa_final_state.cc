@@ -33,5 +33,5 @@ void TNFAFinalState::addEpsilonTransitions(bool, std::string::const_iterator,
                                            vector< TNFAState * >[],
                                            vector< Match > &matches, uint32_t listID)
 {
-  matches.push_back(Match( listID, patternLength_, 0 ));
+  matches.push_back(Match(listID - patternLength_, patternLength_, 0));
 }
