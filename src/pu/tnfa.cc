@@ -17,9 +17,8 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
- 
-#include "tnfa_sequence_unit.h"
 
+#include "pu/tnfa_sequence_unit.h"
 
 TNFA::TNFA(
     const Modifiers &modifiers,
@@ -29,6 +28,4 @@ TNFA::TNFA(
     pattern_(pattern) {
   for (char c : pattern_ )
     tnfa_.patch( new TNFAState( c ) );
-
-  
 }
