@@ -61,10 +61,9 @@ a substring of the sequence that satisfies the criteria of all pattern units.
 
 ## Download
 
+* [Linux x86_64](http://github.com/BIO-DIKU/SeqScan/download/SeqScan-linux-latest-x86_64.tar.gz)
+* [MacOSX x86_64](http://github.com/BIO-DIKU/SeqScan/download/SeqScan-macosx-latest-x86_64.tar.gz)
 * [Source code](http://github.com/BIO-DIKU/SeqScan/download/SeqScan-latest-src.tar.gz)
-* [MacOSX](http://github.com/BIO-DIKU/SeqScan/download/SeqScan-macosx-latest-x86_64.tar.gz)
-* [Linux](http://github.com/BIO-DIKU/SeqScan/download/SeqScan-linux-latest-x86_64.tar.gz)
-* Microsoft Windows is not supported
 
 ## Installation
 
