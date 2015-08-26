@@ -17,6 +17,7 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
+
 #ifndef TNFA_SEQUENCE_UNIT_H
 #define TNFA_SEQUENCE_UNIT_H
 
