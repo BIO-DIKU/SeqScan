@@ -17,22 +17,23 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
- 
+
 #include "tnfa_sequence_unit.h"
 #include "tnfa_levenshtein_state.h"
 #include "tnfa_final_state.h"
+
 #include <iostream>
 
 using namespace std;
 
 TNFASequenceUnit::TNFASequenceUnit(const Modifiers &modifiers,
                                    const std::string& pattern) :
-  PatternUnit(modifiers), pattern_(pattern), startState_( nullptr ),
+  PatternUnit(modifiers), pattern_(pattern), startState_(nullptr),
   errorCode_{ 0, 0, 0, 0, 0, 0, 0, 0 } {
   TNFAState *currentState;
   ModifiersToErrorCode(modifiers);
   startState_ = currentState = new TNFALevenshteinState( errorCode_ );
-  for (char c : pattern_ ) {
+  for (char c : pattern_) {
     currentState->setOutPtr(new TNFAState( c ));
     currentState = currentState->getOutPtr();
   }
@@ -43,23 +44,23 @@ void TNFASequenceUnit::Initialize(std::string::const_iterator pos,
                                   std::string::const_iterator max_pos) {
   sequence_iterator_ = pos;
   sequence_iterator_end_ = max_pos;
-  listID_=0;
+  listID_ = 0;
 }
 
 bool TNFASequenceUnit::HasNextMatch() {
-  if(!matches.empty()) {
+  if (!matches.empty()) {
     matches.pop_back();
-    if(!matches.empty())
+    if (!matches.empty())
       return true;
   }
-  for(; sequence_iterator_ != sequence_iterator_end_; sequence_iterator_++) {
+  for (; sequence_iterator_ != sequence_iterator_end_; sequence_iterator_++) {
     stateLists_[listNo_ = ++listID_ % 2].clear();
-    startState_->addToList(TNFAState::newCode, listID_, listNo_, sequence_iterator_,
-                           stateLists_, matches, listID_);
-    for(TNFAState *s : stateLists_[!listNo_])
+    startState_->addToList(TNFAState::newCode, listID_, listNo_,
+        sequence_iterator_, stateLists_, matches, listID_);
+    for (TNFAState *s : stateLists_[!listNo_])
       s->addOutStates(listNo_, sequence_iterator_, stateLists_, matches,
                       listID_);
-    if(!matches.empty())
+    if (!matches.empty())
       return true;
   }
   return false;
