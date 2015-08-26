@@ -36,25 +36,25 @@ TNFASequenceUnit::TNFASequenceUnit(const Modifiers &modifiers,
     currentState->setOutPtr(new TNFAState( c ));
     currentState = currentState->getOutPtr();
   }
-  currentState->setOutPtr(new TNFAFinalState);
-  listID_=0;
+  currentState->setOutPtr(new TNFAFinalState(pattern.length()));
 }
 
 void TNFASequenceUnit::Initialize(std::string::const_iterator pos,
                                   std::string::const_iterator max_pos) {
   sequence_iterator_ = pos;
   sequence_iterator_end_ = max_pos;
+  listID_=0;
 }
 
 bool TNFASequenceUnit::HasNextMatch() {
-  if(!matches.empty()){
+  if(!matches.empty()) {
     matches.pop_back();
     if(!matches.empty())
       return true;
   }
   for(; sequence_iterator_ != sequence_iterator_end_; sequence_iterator_++) {
     stateLists_[listNo_ = ++listID_ % 2].clear();
-    startState_->addToList(TNFAState::newCode, 0, listNo_, sequence_iterator_,
+    startState_->addToList(TNFAState::newCode, listID_, listNo_, sequence_iterator_,
                            stateLists_, matches, listID_);
     for(TNFAState *s : stateLists_[!listNo_])
       s->addOutStates(listNo_, sequence_iterator_, stateLists_, matches,

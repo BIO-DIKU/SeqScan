@@ -19,12 +19,13 @@
 
 class TNFAFinalState : public TNFAState {
  public:
-  TNFAFinalState();
+  TNFAFinalState(int);
   void addEpsilonTransitions(bool, std::string::const_iterator,
                              vector< TNFAState * > [2], vector< Match > &, uint32_t);
   void addOutStates(bool, std::string::const_iterator,
                     vector< TNFAState * > [2], vector< Match > &, uint32_t);
  private:
+  int patternLength_;
 };
 
 #endif

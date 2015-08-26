@@ -56,7 +56,7 @@ int main()
   root_unit->Initialize( sequence.cbegin(), sequence.cend() );
   while(root_unit->HasNextMatch()){
     Match& m = root_unit->NextMatch();
-  // TODO: Do something with m
+    // TODO: Do something with m
     num_matches++;
   }
   cout<<"Found "<<num_matches<<" matches"<<endl;
@@ -66,7 +66,7 @@ int main()
   tnfa_unit->Initialize( sequence.cbegin(), sequence.cend() );
   while(tnfa_unit->HasNextMatch()){
     Match& m = tnfa_unit->NextMatch();
-  // TODO: Do something with m
+    printf( "Starting position: %i\tLength: %i\n", m.pos, m.len);
     num_matches++;
   }
   cout<<"Found "<<num_matches<<" TNFA matches"<<endl;
