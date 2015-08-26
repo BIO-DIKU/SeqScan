@@ -28,6 +28,7 @@
 *.app
 
 # Ctags
+tags
 .tags*
 
 # Directories
