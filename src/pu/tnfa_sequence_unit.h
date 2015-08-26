@@ -18,8 +18,11 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef TNFA_SEQUENCE_UNIT_H
-#define TNFA_SEQUENCE_UNIT_H
+#ifndef PU_TNFA_SEQUENCE_UNIT_H_
+#define PU_TNFA_SEQUENCE_UNIT_H_
+
+#include <string>
+#include <vector>
 
 #include "pattern_unit.h"
 #include "tnfa_state.h"
@@ -31,8 +34,8 @@ class TNFASequenceUnit: public PatternUnit {
   void Initialize(std::string::const_iterator pos,
                   std::string::const_iterator max_pos);
   bool HasNextMatch();
-  //TODO: Implement
-  Match& NextMatch() { return matches.back(); };
+  // TODO(Sune): Implement
+  Match& NextMatch() { return matches.back(); }
   void ModifiersToErrorCode(const Modifiers &modifiers);
 
  private:
@@ -48,5 +51,4 @@ class TNFASequenceUnit: public PatternUnit {
   uint32_t listID_;
 };
 
-
-#endif // TNFA_SEQUENCE_UNIT_H
+#endif  // PU_TNFA_SEQUENCE_UNIT_H_
