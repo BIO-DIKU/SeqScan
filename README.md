@@ -59,6 +59,29 @@ a substring of the sequence that satisfies the criteria of all pattern units.
 
     Documentation: https://github.com/BIO-DIKU/SeqScan
 
+## Download
+
+* [Source code](http://github.com/BIO-DIKU/SeqScan/download/SeqScan-latest-src.tar.gz)
+* [MacOSX](http://github.com/BIO-DIKU/SeqScan/download/SeqScan-macosx-latest-x86_64.tar.gz)
+* [Linux](http://github.com/BIO-DIKU/SeqScan/download/SeqScan-linux-latest-x86_64.tar.gz)
+* Microsoft Windows is not supported
+
+## Installation
+
+### Compiling source
+
+SeqScan compiles with C++11 support but has no dependencies on other external libraries. To prepare makefiles for release versions of the library and executable type:
+
+    $ mkdir build
+    $ cd build
+    $ cmake ../src
+
+After running `make`, the static library will be in /build/libseqscan.a and the executable in build/seqscan. To prepare makefiles for debug versions type:
+
+    $ mkdir debug
+    $ cd debug
+    $ cmake -DCMAKE_BUILD_TYPE=Debug ../src
+
 ## Pattern syntax
 
 Patterns consist of one or more pattern units of the types: exact, approximate,
@@ -509,20 +532,6 @@ GC-content of match must be at least 0.75:
 
     $ seqscan -p 'p1=(A p2=0..4 GC p3=0..4 T)' \
               -f 'rescount(p1, G) + rescount(p1, C) >= 0.75 * length(p1)'
-
-## Compiling
-
-SeqScan compiles with C++11 support but has no dependencies on other external libraries. To prepare makefiles for release versions of the library and executable type:
-
-    $ mkdir build
-    $ cd build
-    $ cmake ../src
-
-After running '''make''', the static library will be in /build/libseqscan.a and the executable in build/seqscan. To prepare makefiles for debug versions type:
-
-    $ mkdir debug
-    $ cd debug
-    $ cmake -DCMAKE_BUILD_TYPE=Debug ../src
 
 ## Copyright
 
