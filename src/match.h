@@ -17,13 +17,12 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
- 
+
 #ifndef MATCH_H_
 #define MATCH_H_
 
-class Match
-{
-public:
+class Match {
+ public:
   Match(const int &pos, const int &len, const int &edits):
       pos(pos), len(len), edits(edits)
   {}
