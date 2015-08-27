@@ -53,7 +53,7 @@ int main() {
   first_unit->Initialize(sequence.cbegin(), sequence.cend());
   while (first_unit->HasNextMatch()) {
     const Match& m = first_unit->NextMatch();
-    printf("Starting position: %i\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m.len, m.edits);
+    printf("Starting position: %i\tLength: %i\tEdits: %i\n", m.pos, m.len, m.edits);
     num_matches++;
   }
   cout << "Found " << num_matches << " matches" << endl;
@@ -66,7 +66,7 @@ int main() {
   tnfa_unit->Initialize(sequence.cbegin(), sequence.cend());
   while (tnfa_unit->HasNextMatch()) {
     const Match& m = tnfa_unit->NextMatch();
-    printf("Starting position: %i\tLength: %i\n", m.pos-sequence.cbegin(), m.len);
+    printf("Starting position: %i\tLength: %i\n", m.pos, m.len);
     num_matches++;
   }
   cout << "Found " << num_matches << " TNFA matches" << endl;
