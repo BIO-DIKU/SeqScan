@@ -29,6 +29,7 @@ public:
       pos(pos), len(len), edits(edits)
   {}
 
+  //const std::string::const_iterator pos;
   const std::string::const_iterator pos;
   const int len;
   const int edits;
