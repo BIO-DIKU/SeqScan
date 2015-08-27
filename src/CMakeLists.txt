@@ -45,4 +45,11 @@ set_target_properties( libseqscan PROPERTIES PREFIX "" )
 add_executable( seqscan run_seqscan.cc )
 target_link_libraries( seqscan libseqscan )
 
+
+# Test executable
+add_executable( seqscan_tests 
+	tests/run_tests.cc 
+	tests/test_template.cc
+	)
+
 set( EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR} )
