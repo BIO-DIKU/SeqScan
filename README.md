@@ -69,17 +69,21 @@ a substring of the sequence that satisfies the criteria of all pattern units.
 
 ### Compiling source
 
-SeqScan compiles with C++11 support but has no dependencies on other external libraries. To prepare makefiles for release versions of the library and executable type:
+SeqScan compiles with C++11 support but has no dependencies on other external libraries. To prepare makefiles for release versions of the library and executable, download the source code (see above) and type:
 
-    $ mkdir build
-    $ cd build
-    $ cmake ../src
+	$ tar xzvf SeqScan-latest-src.tar.gz
+    $ cd SeqScan-latest-src
+    $ mkdir SeqScan-build
+    $ cd SeqScan-build
+    $ cmake ../SeqScan-latest-src
 
-After running `make`, the static library will be in /build/libseqscan.a and the executable in build/seqscan. To prepare makefiles for debug versions type:
+After running `make`, the static library will be in `SeqScan-build/libseqscan.a` and the executable in `SeqScan-build/seqscan`. To install in the system folders type `make install`. 
 
-    $ mkdir debug
-    $ cd debug
-    $ cmake -DCMAKE_BUILD_TYPE=Debug ../src
+To prepare makefiles for debugging, instead type:
+
+    $ mkdir SeqScan-debug
+    $ cd SeqScan-debug
+    $ cmake -DCMAKE_BUILD_TYPE=Debug ../SeqScan-latest-src
 
 ## Pattern syntax
 

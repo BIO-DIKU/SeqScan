@@ -39,9 +39,6 @@ int main() {
   Modifiers second_modifiers = Modifiers::CreateStdModifiers();
   unique_ptr<PatternUnit> second_unit(new BacktrackSequenceUnit(second_modifiers, "TTTTTTC"));
 
-  Modifiers tnfa_modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
-  unique_ptr<PatternUnit> tnfa_unit(new TNFASequenceUnit(first_modifiers, "AATCA"));
-
   root_unit->AddUnit(first_unit);
   root_unit->AddUnit(second_unit);
 
@@ -62,6 +59,9 @@ int main() {
   cout << "Found " << num_matches << " matches" << endl;
 
   // Find matches using TNFA
+  Modifiers tnfa_modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
+  unique_ptr<PatternUnit> tnfa_unit(new TNFASequenceUnit(first_modifiers, "AATCA"));
+
   num_matches = 0;
   tnfa_unit->Initialize(sequence.cbegin(), sequence.cend());
   while (tnfa_unit->HasNextMatch()) {
@@ -73,3 +73,4 @@ int main() {
 
   return EXIT_SUCCESS;
 }
+

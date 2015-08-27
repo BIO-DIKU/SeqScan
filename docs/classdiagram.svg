@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="UML suggestion 3.svg">
+   sodipodi:docname="classdiagram.svg">
   <defs
      id="defs4">
     <marker
@@ -451,9 +451,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.66191118"
-     inkscape:cx="415.65769"
-     inkscape:cy="386.91169"
+     inkscape:zoom="1.3238224"
+     inkscape:cx="360.37467"
+     inkscape:cy="677.65493"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -474,7 +474,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -513,83 +513,78 @@
     <text
        sodipodi:linespacing="125%"
        id="text4156"
-       y="79.734192"
-       x="295.93109"
+       y="89.734192"
+       x="215.93109"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
          id="tspan4164"
-         y="79.734192"
-         x="295.93109"
+         y="89.734192"
+         x="215.93109"
          sodipodi:role="line">PatternUnit</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="94.015442"
-         x="295.93109"
+         y="104.01544"
+         x="215.93109"
          sodipodi:role="line"
-         id="tspan4217">+initialize(pos: string::iterator)</tspan><tspan
+         id="tspan4217">+initialize(pos: string::iterator, end_pos: string::iterator)</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="106.51544"
-         x="295.93109"
+         y="116.51544"
+         x="215.93109"
          sodipodi:role="line"
-         id="tspan5244">+nextMatch(): PUMatch</tspan><tspan
+         id="tspan6590">+nextMatch(): PUMatch</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="119.01544"
-         x="295.93109"
-         sodipodi:role="line"
-         id="tspan6590">+prevMatch(): PUMatch</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="131.51544"
-         x="295.93109"
+         y="129.01544"
+         x="215.93109"
          sodipodi:role="line"
          id="tspan4744">+hasNext(): bool</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="144.01544"
-         x="295.93109"
+         y="141.51544"
+         x="215.93109"
          sodipodi:role="line"
          id="tspan4627" /><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="156.51544"
-         x="295.93109"
+         y="154.01544"
+         x="215.93109"
          sodipodi:role="line"
          id="tspan4629">#max_edits: int</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="169.01544"
-         x="295.93109"
+         y="166.51544"
+         x="215.93109"
          sodipodi:role="line"
          id="tspan4631">#mismatches: int</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="181.51544"
-         x="295.93109"
+         y="179.01544"
+         x="215.93109"
          sodipodi:role="line"
          id="tspan4633">#insertions: int</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="194.01544"
-         x="295.93109"
+         y="191.51544"
+         x="215.93109"
          sodipodi:role="line"
          id="tspan4635">#deletions: int</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="206.51544"
-         x="295.93109"
+         y="204.01544"
+         x="215.93109"
          sodipodi:role="line"
          id="tspan4637">#reverse: bool</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="219.01544"
-         x="295.93109"
+         y="216.51544"
+         x="215.93109"
          sodipodi:role="line"
          id="tspan4639">#complement: bool</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="231.51544"
-         x="295.93109"
+         y="229.01544"
+         x="215.93109"
          sodipodi:role="line"
          id="tspan4641">#min_repeats: int</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="244.01544"
-         x="295.93109"
+         y="241.51544"
+         x="215.93109"
          sodipodi:role="line"
          id="tspan4643">#max_repeats: int</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="256.51544"
-         x="295.93109"
+         y="254.01544"
+         x="215.93109"
          sodipodi:role="line"
          id="tspan4693">#greedy: bool</tspan></text>
     <text
@@ -725,12 +720,12 @@
          sodipodi:role="line"
          id="tspan4290">+ReferenceUnit(ref: PatternUnit)</tspan></text>
     <rect
-       style="opacity:1;fill:none;fill-opacity:0.94117647;stroke:#000000;stroke-width:0.99999994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;fill:none;fill-opacity:0.94117647;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4292"
-       width="235.58939"
-       height="201.43758"
-       x="275.83255"
-       y="63.706078"
+       width="393.46555"
+       height="192.37291"
+       x="195.83255"
+       y="72.770737"
        rx="0.83316499"
        ry="0.69602197" />
     <rect
