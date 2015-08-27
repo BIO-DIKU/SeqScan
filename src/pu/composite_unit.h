@@ -44,7 +44,7 @@ public:
 private:
   std::vector< std::unique_ptr<PatternUnit> > punits_;
 
-  std::set<const Match> matches_;
+  std::set<Match> matches_;
   std::string::const_iterator sequence_iterator_;
 };
 

@@ -72,7 +72,7 @@ bool BacktrackSequenceUnit::HasNextMatch()
 }
 
 const Match& BacktrackSequenceUnit::NextMatch(){
-  std::set< const Match >::iterator it=last_found_matches_.begin();
+  std::set<Match >::iterator it=last_found_matches_.begin();
   std::advance(it, last_found_index_);
   return *it;
 }
