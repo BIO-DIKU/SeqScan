@@ -33,7 +33,7 @@ int main() {
   //Modifiers top_modifiers = Modifiers::CreateStdModifiers();
   //unique_ptr<CompositeUnit> root_unit(new CompositeUnit(top_modifiers) );
 
-  Modifiers first_modifiers = Modifiers::CreateMIDModifiers(1, 1, 0);
+  Modifiers first_modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
   unique_ptr<PatternUnit> first_unit(new BacktrackSequenceUnit(first_modifiers, "AATCA"));
 
   //Modifiers second_modifiers = Modifiers::CreateStdModifiers();
@@ -59,14 +59,13 @@ int main() {
   cout << "Found " << num_matches << " matches" << endl;
 
   // Find matches using TNFA
-  Modifiers tnfa_modifiers = Modifiers::CreateMIDModifiers(1, 1, 0);
-  unique_ptr<PatternUnit> tnfa_unit(new TNFASequenceUnit(tnfa_modifiers, "AATCA"));
+  unique_ptr<PatternUnit> tnfa_unit(new TNFASequenceUnit(first_modifiers, "AATCA"));
 
   num_matches = 0;
   tnfa_unit->Initialize(sequence.cbegin(), sequence.cend());
   while (tnfa_unit->HasNextMatch()) {
     const Match& m = tnfa_unit->NextMatch();
-    printf("Starting position: %li\tLength: %i\n", m.pos-sequence.cbegin(), m.len);
+    printf("Starting position: %li\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m.len, m.edits);
     num_matches++;
   }
   cout << "Found " << num_matches << " TNFA matches" << endl;
