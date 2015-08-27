@@ -50,6 +50,9 @@ target_link_libraries( seqscan libseqscan )
 add_executable( seqscan_tests 
 	tests/run_tests.cc 
 	tests/test_template.cc
+  tests/test_fuzzy_sequence.cc
 	)
+  
+target_link_libraries( seqscan_tests libseqscan )
 
 set( EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR} )
