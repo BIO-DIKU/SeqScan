@@ -66,7 +66,7 @@ public:
    * The return value of this function is only specified if HasNextMatch has previously been called and returned true.
    * The referenced match will only change on the next call to HasNextMatch.
    */
-  virtual Match& NextMatch() = 0;
+  virtual const Match& NextMatch() = 0;
 
 protected:
   const Modifiers modifiers_;

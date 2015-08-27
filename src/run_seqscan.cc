@@ -30,19 +30,19 @@ using namespace std;
 
 int main() {
   // Example of setting up the seqscan pattern "AATCA/1,0,0 TTTTTTC"
-  Modifiers top_modifiers = Modifiers::CreateStdModifiers();
-  unique_ptr<CompositeUnit> root_unit(new CompositeUnit(top_modifiers) );
+  //Modifiers top_modifiers = Modifiers::CreateStdModifiers();
+  //unique_ptr<CompositeUnit> root_unit(new CompositeUnit(top_modifiers) );
 
-  Modifiers first_modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
+  Modifiers first_modifiers = Modifiers::CreateMIDModifiers(1, 1, 0);
   unique_ptr<PatternUnit> first_unit(new BacktrackSequenceUnit(first_modifiers, "AATCA"));
 
-  Modifiers second_modifiers = Modifiers::CreateStdModifiers();
-  unique_ptr<PatternUnit> second_unit(new BacktrackSequenceUnit(second_modifiers, "TTTTTTC"));
+  //Modifiers second_modifiers = Modifiers::CreateStdModifiers();
+  //unique_ptr<PatternUnit> second_unit(new BacktrackSequenceUnit(second_modifiers, "TTTTTTC"));
 
-  root_unit->AddUnit(first_unit);
-  root_unit->AddUnit(second_unit);
+  //root_unit->AddUnit(first_unit);
+  //root_unit->AddUnit(second_unit);
 
-  root_unit->Print();
+  //root_unit->Print();
 
   // Define sequence
   string sequence = "AUGAUGAUGAATTATTTTTTCGGG";
@@ -50,22 +50,22 @@ int main() {
   // Find all matches in sequence
   int num_matches = 0;
 
-  root_unit->Initialize(sequence.cbegin(), sequence.cend());
-  while (root_unit->HasNextMatch()) {
-    Match& m = root_unit->NextMatch();
-    // TODO(whomever wrote this): Do something with m
+  first_unit->Initialize(sequence.cbegin(), sequence.cend());
+  while (first_unit->HasNextMatch()) {
+    const Match& m = first_unit->NextMatch();
+    printf("Starting position: %i\tLength: %i\tEdits: %i\n", m.pos, m.len, m.edits);
     num_matches++;
   }
   cout << "Found " << num_matches << " matches" << endl;
 
   // Find matches using TNFA
-  Modifiers tnfa_modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
-  unique_ptr<PatternUnit> tnfa_unit(new TNFASequenceUnit(first_modifiers, "AATCA"));
+  Modifiers tnfa_modifiers = Modifiers::CreateMIDModifiers(1, 1, 0);
+  unique_ptr<PatternUnit> tnfa_unit(new TNFASequenceUnit(tnfa_modifiers, "AATCA"));
 
   num_matches = 0;
   tnfa_unit->Initialize(sequence.cbegin(), sequence.cend());
   while (tnfa_unit->HasNextMatch()) {
-    Match& m = tnfa_unit->NextMatch();
+    const Match& m = tnfa_unit->NextMatch();
     printf("Starting position: %i\tLength: %i\n", m.pos, m.len);
     num_matches++;
   }

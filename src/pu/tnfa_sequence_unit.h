@@ -35,7 +35,7 @@ class TNFASequenceUnit: public PatternUnit {
                   std::string::const_iterator max_pos);
   bool HasNextMatch();
   // TODO(Sune): Implement
-  Match& NextMatch() { return matches.back(); }
+  const Match& NextMatch() { return matches.back(); }
   void ModifiersToErrorCode(const Modifiers &modifiers);
 
  private:

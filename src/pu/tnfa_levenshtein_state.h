@@ -63,7 +63,7 @@ void TNFALevenshteinState::addOutStates(bool listNo,
 }
 
 void TNFALevenshteinState::display(bool) {
-  printf("LevenshteinState %p points to %p with error code %lu\n",
+  printf("LevenshteinState %p points to %p with error code %llu\n",
     (void *) this, (void *) out_, stateErrorCode[0]);
 }
 

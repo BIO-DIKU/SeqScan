@@ -22,7 +22,7 @@
 #define MATCH_H_
 
 class Match {
- public:
+public:
   Match(const int &pos, const int &len, const int &edits):
       pos(pos), len(len), edits(edits)
   {}
@@ -30,6 +30,10 @@ class Match {
   const int pos;
   const int len;
   const int edits;
+
+  bool operator<(const Match& rhs) const{
+    return pos==rhs.pos?len<rhs.len:pos<rhs.pos;
+  }
 };
 
 #endif  // MATCH_H_

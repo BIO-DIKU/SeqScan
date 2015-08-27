@@ -22,6 +22,7 @@
 #define COMPOSITE_UNIT_H_
 
 #include <vector>
+#include <set>
 #include "pattern_unit.h"
 
 class CompositeUnit: public PatternUnit
@@ -38,10 +39,12 @@ public:
       std::string::const_iterator max_pos
   );
   bool HasNextMatch();
-  Match& NextMatch();
+  const Match& NextMatch();
 
 private:
   std::vector< std::unique_ptr<PatternUnit> > punits_;
+
+  std::set<const Match> matches_;
 };
 
 #endif  // COMPOSITE_UNIT_H_

@@ -94,7 +94,7 @@ void TNFAState::addOutStates(bool listNo, std::string::const_iterator pos,
 }
 
 void TNFAState::display(bool listNo) {
-  printf("TNFAState %p on %c points to %p with errorcode %lu\n", (void *) this,
+  printf("TNFAState %p on %c points to %p with errorcode %llu\n", (void *) this,
          c, (void *) out_, errorCode[!listNo][0]);
 }
 

@@ -46,7 +46,8 @@ bool CompositeUnit::HasNextMatch() {
   return false;
 }
 
-Match& CompositeUnit::NextMatch() {
-  Match m(0, 0, 0);
-  return m;
+const Match& CompositeUnit::NextMatch() {
+  if(matches_.empty())
+    matches_.insert( Match(0,0,0) );
+  return *matches_.begin();
 }
