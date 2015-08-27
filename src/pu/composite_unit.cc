@@ -40,6 +40,7 @@ void CompositeUnit::Initialize(
     std::string::const_iterator max_pos
 ) {
   punits_.at(0)->Initialize(pos, max_pos);
+  sequence_iterator_ = pos;
 }
 
 bool CompositeUnit::HasNextMatch() {
@@ -48,6 +49,7 @@ bool CompositeUnit::HasNextMatch() {
 
 const Match& CompositeUnit::NextMatch() {
   if(matches_.empty())
-    matches_.insert( Match(0,0,0) );
+    matches_.insert( Match(sequence_iterator_,0,0) );
+
   return *matches_.begin();
 }

@@ -21,13 +21,15 @@
 #ifndef MATCH_H_
 #define MATCH_H_
 
+#include <string>
+
 class Match {
 public:
-  Match(const int &pos, const int &len, const int &edits):
+  Match(const std::string::const_iterator &pos, const int &len, const int &edits):
       pos(pos), len(len), edits(edits)
   {}
 
-  const int pos;
+  const std::string::const_iterator pos;
   const int len;
   const int edits;
 

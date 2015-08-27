@@ -45,6 +45,7 @@ private:
   std::vector< std::unique_ptr<PatternUnit> > punits_;
 
   std::set<const Match> matches_;
+  std::string::const_iterator sequence_iterator_;
 };
 
 #endif  // COMPOSITE_UNIT_H_

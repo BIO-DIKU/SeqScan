@@ -29,7 +29,6 @@ BacktrackSequenceUnit::BacktrackSequenceUnit(
 ) :
     PatternUnit(modifiers),
     pattern_(pattern)
-    //last_found_index_(0)
 { }
 
 void BacktrackSequenceUnit::Initialize(
@@ -76,7 +75,6 @@ const Match& BacktrackSequenceUnit::NextMatch(){
   std::set< const Match >::iterator it=last_found_matches_.begin();
   std::advance(it, last_found_index_);
   return *it;
-  //return last_found_matches_[last_found_index_];
 }
 
 void BacktrackSequenceUnit::CollectMatches(
@@ -87,7 +85,8 @@ void BacktrackSequenceUnit::CollectMatches(
 )
 {
   if(pat_it==pattern_.cend()){
-    last_found_matches_.insert( Match(absolute_pos_, pattern_.length()+I_used-D_used, M_used+I_used+D_used) );
+    last_found_matches_.insert( Match(sequence_iterator_, pattern_.length()+I_used-D_used, M_used+I_used+D_used) );
+    //last_found_matches_.insert( Match(absolute_pos_, pattern_.length()+I_used-D_used, M_used+I_used+D_used) );
     return;
   }
 
