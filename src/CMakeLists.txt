@@ -47,9 +47,9 @@ target_link_libraries( seqscan libseqscan )
 
 # Test executable
 add_executable( seqscan_unittests 
-  tests/run_tests.cc 
-  tests/test_template.cc
+  tests/run_tests.cc
   tests/test_fuzzy_sequence.cc
+  tests/test_backtrack_sequence_unit.cc
   )
   
 target_link_libraries( seqscan_unittests libseqscan )
