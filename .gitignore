@@ -33,6 +33,7 @@ tags
 
 # Directories
 build
+debug
 
 # Emacs temporary files
 *~
