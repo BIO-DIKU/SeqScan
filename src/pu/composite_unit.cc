@@ -41,6 +41,7 @@ void CompositeUnit::Initialize(
 ) {
   punits_.at(0)->Initialize(pos, max_pos);
   sequence_iterator_ = pos;
+  sequence_iterator_end_ = max_pos;
 }
 
 bool CompositeUnit::HasNextMatch() {

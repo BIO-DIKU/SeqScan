@@ -46,6 +46,7 @@ private:
 
   std::set<Match> matches_;
   std::string::const_iterator sequence_iterator_;
+  std::string::const_iterator sequence_iterator_end_;
 };
 
 #endif  // COMPOSITE_UNIT_H_
