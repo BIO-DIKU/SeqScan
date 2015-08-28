@@ -37,13 +37,14 @@ void CompositeUnit::Print() {
 
 void CompositeUnit::Initialize(
     std::string::const_iterator pos,
-    std::string::const_iterator max_pos
+    std::string::const_iterator max_pos,
+    bool stay_at_pos
 ) {
   punits_.at(0)->Initialize(pos, max_pos);
   sequence_iterator_ = pos;
 }
 
-bool CompositeUnit::HasNextMatch() {
+bool CompositeUnit::FindMatch() {
   return false;
 }
 

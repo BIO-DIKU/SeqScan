@@ -33,13 +33,17 @@ BacktrackSequenceUnit::BacktrackSequenceUnit(
 
 void BacktrackSequenceUnit::Initialize(
     std::string::const_iterator pos,
-    std::string::const_iterator max_pos
+    std::string::const_iterator max_pos,
+    bool stay_at_pos
 ){
   sequence_iterator_ = pos;
   sequence_iterator_end_ = max_pos;
+
+  last_found_matches_.clear();
+  last_found_index_ = 0;
 }
 
-bool BacktrackSequenceUnit::HasNextMatch()
+bool BacktrackSequenceUnit::FindMatch()
 {
   if(sequence_iterator_==sequence_iterator_end_) return false;
 
@@ -57,7 +61,6 @@ bool BacktrackSequenceUnit::HasNextMatch()
       CollectMatches(sequence_iterator_, pattern_.cbegin(), M, I, D, 0, 0, 0);
 
       ++sequence_iterator_;
-      absolute_pos_++;
 
       if( !last_found_matches_.empty() )
         return true;
@@ -71,7 +74,7 @@ bool BacktrackSequenceUnit::HasNextMatch()
   }
 }
 
-const Match& BacktrackSequenceUnit::NextMatch(){
+const Match& BacktrackSequenceUnit::GetMatch(){
   std::set<Match >::iterator it=last_found_matches_.begin();
   std::advance(it, last_found_index_);
   return *it;
@@ -86,7 +89,6 @@ void BacktrackSequenceUnit::CollectMatches(
 {
   if(pat_it==pattern_.cend()){
     last_found_matches_.insert( Match(sequence_iterator_, pattern_.length()+I_used-D_used, M_used+I_used+D_used) );
-    //last_found_matches_.insert( Match(absolute_pos_, pattern_.length()+I_used-D_used, M_used+I_used+D_used) );
     return;
   }
 

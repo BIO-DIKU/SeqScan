@@ -32,10 +32,11 @@ class TNFASequenceUnit: public PatternUnit {
   TNFASequenceUnit(const Modifiers &modifiers, const std::string& pattern);
 
   void Initialize(std::string::const_iterator pos,
-                  std::string::const_iterator max_pos);
-  bool HasNextMatch();
+                  std::string::const_iterator max_pos,
+                  bool stay_at_pos = false );
+  bool FindMatch();
   // TODO(Sune): Implement
-  const Match& NextMatch() { return matches.back(); }
+  const Match& GetMatch() { return matches.back(); }
   void ModifiersToErrorCode(const Modifiers &modifiers);
 
  private:

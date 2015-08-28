@@ -51,8 +51,8 @@ int main() {
   int num_matches = 0;
 
   first_unit->Initialize(sequence.cbegin(), sequence.cend());
-  while (first_unit->HasNextMatch()) {
-    const Match& m = first_unit->NextMatch();
+  while (first_unit->FindMatch()) {
+    const Match& m = first_unit->GetMatch();
     printf("Starting position: %li\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m.len, m.edits);
     num_matches++;
   }
@@ -63,8 +63,8 @@ int main() {
 
   num_matches = 0;
   tnfa_unit->Initialize(sequence.cbegin(), sequence.cend());
-  while (tnfa_unit->HasNextMatch()) {
-    const Match& m = tnfa_unit->NextMatch();
+  while (tnfa_unit->FindMatch()) {
+    const Match& m = tnfa_unit->GetMatch();
     printf("Starting position: %li\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m.len, m.edits);
     num_matches++;
   }

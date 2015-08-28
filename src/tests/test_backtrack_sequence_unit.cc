@@ -20,93 +20,93 @@ TEST_CASE( "Test backtrack sequence unit matching without fuzziness", "[backtrac
   SECTION( "0 matches" ){
     string sequence = "TTTAAATTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE( !pu->HasNextMatch() );
-    REQUIRE( !pu->HasNextMatch() );
+    REQUIRE( !pu->FindMatch() );
+    REQUIRE( !pu->FindMatch() );
 
     sequence = "AAATTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE( !pu->HasNextMatch() );
-    REQUIRE( !pu->HasNextMatch() );
+    REQUIRE( !pu->FindMatch() );
+    REQUIRE( !pu->FindMatch() );
 
     sequence = "TTTAAA";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE( !pu->HasNextMatch() );
-    REQUIRE( !pu->HasNextMatch() );
+    REQUIRE( !pu->FindMatch() );
+    REQUIRE( !pu->FindMatch() );
   }
 
   SECTION( "1 match" ){
     string sequence = "TTTAAAATTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE( pu->HasNextMatch() );
+    REQUIRE(pu->FindMatch() );
 
-    const Match& m1 = pu->NextMatch();
+    const Match& m1 = pu->GetMatch();
     REQUIRE( m1.pos-sequence.cbegin() == 3 );
     REQUIRE( m1.len == 4 );
     REQUIRE( m1.edits == 0 );
 
-    REQUIRE( !pu->HasNextMatch() );
+    REQUIRE( !pu->FindMatch() );
 
     sequence = "AAAATTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE( pu->HasNextMatch() );
+    REQUIRE(pu->FindMatch() );
 
-    const Match& m2 = pu->NextMatch();
+    const Match& m2 = pu->GetMatch();
     REQUIRE( m2.pos-sequence.cbegin() == 0 );
     REQUIRE( m2.len == 4 );
     REQUIRE( m2.edits == 0 );
 
-    REQUIRE( !pu->HasNextMatch() );
+    REQUIRE( !pu->FindMatch() );
 
     sequence = "TTTAAAA";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE( pu->HasNextMatch() );
-    REQUIRE( !pu->HasNextMatch() );
+    REQUIRE(pu->FindMatch() );
+    REQUIRE( !pu->FindMatch() );
   }
 
   SECTION( "2 non-overlapping matches" ){
     string sequence = "TAAAATAAAAT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE(pu->HasNextMatch());
+    REQUIRE(pu->FindMatch());
 
-    const Match& m1 = pu->NextMatch();
+    const Match& m1 = pu->GetMatch();
     REQUIRE( m1.pos-sequence.cbegin() == 1 );
     REQUIRE( m1.len == 4 );
     REQUIRE( m1.edits == 0 );
 
-    REQUIRE(pu->HasNextMatch());
+    REQUIRE(pu->FindMatch());
 
-    const Match& m2 = pu->NextMatch();
+    const Match& m2 = pu->GetMatch();
     REQUIRE( m2.pos-sequence.cbegin() == 6 );
     REQUIRE( m2.len == 4 );
     REQUIRE( m2.edits == 0 );
 
-    REQUIRE(!pu->HasNextMatch());
+    REQUIRE(!pu->FindMatch());
   }
 
   SECTION( "2 overlapping matches" ){
     string sequence = "TTTAAAAAT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE(pu->HasNextMatch());
+    REQUIRE(pu->FindMatch());
 
-    const Match& m1 = pu->NextMatch();
+    const Match& m1 = pu->GetMatch();
     REQUIRE( m1.pos-sequence.cbegin() == 3 );
     REQUIRE( m1.len == 4 );
     REQUIRE( m1.edits == 0 );
 
-    REQUIRE(pu->HasNextMatch());
+    REQUIRE(pu->FindMatch());
 
-    const Match& m2 = pu->NextMatch();
+    const Match& m2 = pu->GetMatch();
     REQUIRE( m2.pos-sequence.cbegin() == 4 );
     REQUIRE( m2.len == 4 );
     REQUIRE( m2.edits == 0 );
 
-    REQUIRE(!pu->HasNextMatch());
+    REQUIRE(!pu->FindMatch());
 
     sequence = "AAAAA";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE(pu->HasNextMatch());
-    REQUIRE(pu->HasNextMatch());
-    REQUIRE(!pu->HasNextMatch());
+    REQUIRE(pu->FindMatch());
+    REQUIRE(pu->FindMatch());
+    REQUIRE(!pu->FindMatch());
   }
 }
 
@@ -124,73 +124,73 @@ TEST_CASE( "Test backtrack sequence unit matching with mismatches", "[backtrack,
   SECTION( "0 matches" ){
     string sequence = "TTTAATTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE( !pu->HasNextMatch() );
-    REQUIRE( !pu->HasNextMatch() );
+    REQUIRE( !pu->FindMatch() );
+    REQUIRE( !pu->FindMatch() );
 
     sequence = "AATTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE( !pu->HasNextMatch() );
-    REQUIRE( !pu->HasNextMatch() );
+    REQUIRE( !pu->FindMatch() );
+    REQUIRE( !pu->FindMatch() );
 
     sequence = "TTTAA";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE( !pu->HasNextMatch() );
-    REQUIRE( !pu->HasNextMatch() );
+    REQUIRE( !pu->FindMatch() );
+    REQUIRE( !pu->FindMatch() );
   }
 
   SECTION( "1 match" ){
     string sequence = "TTTAACATTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE( pu->HasNextMatch() );
+    REQUIRE(pu->FindMatch() );
 
-    const Match& m1 = pu->NextMatch();
+    const Match& m1 = pu->GetMatch();
     REQUIRE( m1.pos-sequence.cbegin() == 3 );
     REQUIRE( m1.len == 4 );
     REQUIRE( m1.edits == 1 );
 
-    REQUIRE( !pu->HasNextMatch() );
+    REQUIRE( !pu->FindMatch() );
 
     sequence = "AAAGTTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE( pu->HasNextMatch() );
+    REQUIRE(pu->FindMatch() );
 
-    const Match& m2 = pu->NextMatch();
+    const Match& m2 = pu->GetMatch();
     REQUIRE( m2.pos-sequence.cbegin() == 0 );
     REQUIRE( m2.len == 4 );
     REQUIRE( m2.edits == 1 );
 
-    REQUIRE( !pu->HasNextMatch() );
+    REQUIRE( !pu->FindMatch() );
 
     sequence = "CCCUAAA";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE( pu->HasNextMatch() );
-    REQUIRE( !pu->HasNextMatch() );
+    REQUIRE(pu->FindMatch() );
+    REQUIRE( !pu->FindMatch() );
   }
 
   SECTION( "overlapping matches" ){
     string sequence = "TTTAAACAT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE(pu->HasNextMatch());
+    REQUIRE(pu->FindMatch());
 
-    const Match& m1 = pu->NextMatch();
+    const Match& m1 = pu->GetMatch();
     REQUIRE( m1.pos-sequence.cbegin() == 2 );
     REQUIRE( m1.len == 4 );
     REQUIRE( m1.edits == 1 );
 
-    REQUIRE(pu->HasNextMatch());
+    REQUIRE(pu->FindMatch());
 
-    const Match& m2 = pu->NextMatch();
+    const Match& m2 = pu->GetMatch();
     REQUIRE( m2.pos-sequence.cbegin() == 3 );
     REQUIRE( m2.len == 4 );
     REQUIRE( m2.edits == 1 );
 
-    REQUIRE(pu->HasNextMatch());
+    REQUIRE(pu->FindMatch());
 
-    const Match& m3 = pu->NextMatch();
+    const Match& m3 = pu->GetMatch();
     REQUIRE( m3.pos-sequence.cbegin() == 4 );
     REQUIRE( m3.len == 4 );
     REQUIRE( m3.edits == 1 );
 
-    REQUIRE(!pu->HasNextMatch());
+    REQUIRE(!pu->FindMatch());
   }
 }

@@ -32,10 +32,11 @@ public:
 
   void Initialize(
       std::string::const_iterator pos,
-      std::string::const_iterator max_pos
+      std::string::const_iterator max_pos,
+      bool stay_at_pos = false
   );
-  bool HasNextMatch();
-  const Match& NextMatch();
+  bool FindMatch();
+  const Match& GetMatch();
 
 private:
   const std::string pattern_;
@@ -45,7 +46,6 @@ private:
 
   std::set<Match> last_found_matches_;
   int last_found_index_;
-  int absolute_pos_;
 
   void CollectMatches(std::string::const_iterator seq_it,
                       std::string::const_iterator pat_it,

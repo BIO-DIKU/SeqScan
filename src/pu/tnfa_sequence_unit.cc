@@ -41,13 +41,16 @@ TNFASequenceUnit::TNFASequenceUnit(const Modifiers &modifiers,
 }
 
 void TNFASequenceUnit::Initialize(std::string::const_iterator pos,
-                                  std::string::const_iterator max_pos) {
+                                  std::string::const_iterator max_pos,
+                                  bool stay_at_pos )
+{
   sequence_iterator_ = pos;
   sequence_iterator_end_ = max_pos;
   listID_ = 0;
 }
 
-bool TNFASequenceUnit::HasNextMatch() {
+bool TNFASequenceUnit::FindMatch()
+{
   if (!matches.empty()) {
     matches.pop_back();
     if (!matches.empty())

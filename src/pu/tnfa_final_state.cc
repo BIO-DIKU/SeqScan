@@ -29,7 +29,8 @@ void TNFAFinalState::addOutStates(bool, std::string::const_iterator,
                                   vector< TNFAState * > [],
                                   vector< Match > &, uint32_t) {}
 
-void TNFAFinalState::addEpsilonTransitions(bool, std::string::const_iterator pos,
+void TNFAFinalState::addEpsilonTransitions(bool,
+                                           std::string::const_iterator pos,
                                            vector< TNFAState * >[],
                                            vector< Match > &matches,
                                            uint32_t listID) {

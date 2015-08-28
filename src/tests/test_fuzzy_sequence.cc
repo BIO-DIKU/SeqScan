@@ -21,8 +21,8 @@ TEST_CASE( "Test sequence with fuzzy matching", "[sequence,fuzzy matching]" ) {
 
   SECTION( "test match with 1 mismatch" ) {
     first_unit->Initialize(sequence.cbegin(), sequence.cend());
-    while (first_unit->HasNextMatch()) {
-      const Match& m = first_unit->NextMatch();
+    while (first_unit->FindMatch()) {
+      const Match& m = first_unit->GetMatch();
       REQUIRE( m.pos-sequence.cbegin() == 9 );
       REQUIRE( m.len == 5 );
       REQUIRE( m.edits == 1 );
