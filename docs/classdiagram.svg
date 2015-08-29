@@ -782,7 +782,7 @@
          sodipodi:role="line"
          x="-168.06891"
          y="355.73419"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'">KMPFinder</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'">KMPUnit</tspan></text>
     <rect
        style="opacity:1;fill:none;fill-opacity:0.94117647;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4734"
@@ -803,7 +803,7 @@
          y="387.73419"
          x="-168.06891"
          sodipodi:role="line"
-         id="tspan4742">BitapFinder</tspan></text>
+         id="tspan4742">BitapUnit</tspan></text>
     <rect
        ry="0.69602197"
        rx="0.83316499"
@@ -824,7 +824,7 @@
          sodipodi:role="line"
          x="-168.06891"
          y="419.73419"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'">TNFAFinder</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'">TNFAUnit</tspan></text>
     <rect
        style="opacity:1;fill:none;fill-opacity:0.94117647;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4750"
@@ -845,7 +845,7 @@
          y="451.73419"
          x="-168.06891"
          sodipodi:role="line"
-         id="tspan4754">BacktrackFinder</tspan></text>
+         id="tspan4754">BacktrackUnit</tspan></text>
     <rect
        ry="0.69602197"
        rx="0.83316499"
@@ -856,10 +856,10 @@
        id="rect4756"
        style="opacity:1;fill:none;fill-opacity:0.94117647;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
     <path
-       sodipodi:nodetypes="ccc"
+       sodipodi:nodetypes="ccccc"
        inkscape:connector-curvature="0"
        id="path4894"
-       d="m 36.285714,448.61177 17.285713,0 0,-130.30239"
+       d="m 36.285714,448.61177 17.285713,0 0,-190.31492 163.604533,0 0,-21.10276"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4896)" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1220,33 +1220,6 @@
        id="path10475"
        d="m 233.72138,839.66252 80.36842,41.28679"
        style="opacity:0.52300002;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#marker5370);marker-end:url(#marker10477)" />
-    <text
-       sodipodi:linespacing="125%"
-       id="text3527"
-       y="307.73419"
-       x="-108.06891"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch'"
-         y="307.73419"
-         x="-108.06891"
-         sodipodi:role="line"
-         id="tspan3529">StringFinder</tspan></text>
-    <rect
-       ry="0.69602197"
-       rx="0.83316499"
-       y="293.64795"
-       x="-112.85715"
-       height="23.571428"
-       width="209.28572"
-       id="rect3531"
-       style="opacity:1;fill:none;fill-opacity:0.94117647;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4896)"
-       d="m 53.833111,293.14888 0,-31.13243 205.738319,0 0,-27.70707"
-       id="path3533"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
     <text
        sodipodi:linespacing="125%"
        id="text3587"
