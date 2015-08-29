@@ -143,3 +143,20 @@ void BacktrackUnit::CollectMatches(
 }
 
 
+std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj)
+{
+  return obj.print(os);
+}
+std::ostream& BacktrackUnit::print(std::ostream& os) const
+{
+  os<<pattern_;
+  if (modifiers_.mismatches_ ||
+      modifiers_.insertions_ ||
+      modifiers_.deletions_) {
+    os << "/" << modifiers_.mismatches_ << "," <<
+                 modifiers_.insertions_ << "," <<
+                 modifiers_.deletions_;
+  }
+
+  return os;
+}

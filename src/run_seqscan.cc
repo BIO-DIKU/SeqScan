@@ -85,6 +85,7 @@ int main() {
   pu->AddUnit(pu1);
 
   string sequence = "TTTAAATCCCTTT";
+  cout<<"Finding all matches of '"<<(*pu)<<"' in '"<<sequence<<"'"<<endl;
 
   pu->Initialize(sequence.cbegin(), sequence.cend());
   while (pu->FindMatch()) {

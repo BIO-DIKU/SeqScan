@@ -97,3 +97,17 @@ bool CompositeUnit::FindMatch()
 const Match& CompositeUnit::GetMatch() {
   return *composite_match_;
 }
+
+std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj)
+{
+  return obj.print(os);
+}
+
+std::ostream& CompositeUnit::print(std::ostream& os) const
+{
+  for(size_t i=0;i<punits_.size()-1;i++){
+    punits_.at(i)->print(os)<<" ";
+  }
+  punits_.back()->print(os);
+  return os;
+}
