@@ -6,7 +6,7 @@
 
 #include "../modifiers.h"
 #include "../match.h"
-#include "../pu/backtrack_sequence_unit.h"
+#include "../pu/backtrack_unit.h"
 
 
 using namespace std;
@@ -15,7 +15,7 @@ TEST_CASE( "Test backtrack sequence unit matching without fuzziness", "[backtrac
 
   // Set up test pattern "AAAA/0,0,0"
   Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
-  unique_ptr<PatternUnit> pu(new BacktrackSequenceUnit(modifiers, "AAAA"));
+  unique_ptr<PatternUnit> pu(new BacktrackUnit(modifiers, "AAAA"));
 
   SECTION( "0 matches" ){
     string sequence = "TTTAAATTT";
@@ -115,11 +115,11 @@ TEST_CASE( "Test backtrack sequence unit matching with mismatches", "[backtrack,
 
   // Set up test pattern "AAAA/1,0,0"
   Modifiers modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
-  unique_ptr<PatternUnit> pu(new BacktrackSequenceUnit(modifiers, "AAAA"));
+  unique_ptr<PatternUnit> pu(new BacktrackUnit(modifiers, "AAAA"));
 
   // Set up test pattern "AAAA/1,0,0"
   Modifiers modifiers_2 = Modifiers::CreateMIDModifiers(2, 0, 0);
-  unique_ptr<PatternUnit> pu_2(new BacktrackSequenceUnit(modifiers, "AAAA"));
+  unique_ptr<PatternUnit> pu_2(new BacktrackUnit(modifiers, "AAAA"));
 
   SECTION( "0 matches" ){
     string sequence = "TTTAATTT";

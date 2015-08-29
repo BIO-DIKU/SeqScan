@@ -23,8 +23,8 @@
 
 #include "modifiers.h"
 #include "pu/composite_unit.h"
-#include "pu/backtrack_sequence_unit.h"
-#include "pu/tnfa_sequence_unit.h"
+#include "pu/backtrack_unit.h"
+#include "pu/tnfa_unit.h"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ int main() {
   //unique_ptr<CompositeUnit> root_unit(new CompositeUnit(top_modifiers) );
 
   Modifiers first_modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
-  unique_ptr<PatternUnit> first_unit(new BacktrackSequenceUnit(first_modifiers, "AATCA"));
+  unique_ptr<PatternUnit> first_unit(new BacktrackUnit(first_modifiers, "AATCA"));
 
   //Modifiers second_modifiers = Modifiers::CreateStdModifiers();
   //unique_ptr<PatternUnit> second_unit(new BacktrackSequenceUnit(second_modifiers, "TTTTTTC"));
@@ -59,7 +59,7 @@ int main() {
   cout << "Found " << num_matches << " matches" << endl;
 
   // Find matches using TNFA
-  unique_ptr<PatternUnit> tnfa_unit(new TNFASequenceUnit(first_modifiers, "AATCA"));
+  unique_ptr<PatternUnit> tnfa_unit(new TNFAUnit(first_modifiers, "AATCA"));
 
   num_matches = 0;
   tnfa_unit->Initialize(sequence.cbegin(), sequence.cend());

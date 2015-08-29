@@ -4,8 +4,7 @@
 #include <memory>
 
 #include "../modifiers.h"
-#include "../pu/backtrack_sequence_unit.h"
-
+#include "../pu/backtrack_unit.h"
 
 using namespace std;
 
@@ -13,7 +12,7 @@ TEST_CASE( "Test sequence with fuzzy matching", "[sequence,fuzzy matching]" ) {
 
   // Set up test pattern "AATCA/1,0,0"
   Modifiers first_modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
-  unique_ptr<PatternUnit> first_unit(new BacktrackSequenceUnit(first_modifiers, "AATCA"));
+  unique_ptr<PatternUnit> first_unit(new BacktrackUnit(first_modifiers, "AATCA"));
 
   // Define sequence
   string sequence = "AUGAUGAUGAATTATTTTTTCGGG";
