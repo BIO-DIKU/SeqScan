@@ -27,14 +27,15 @@
 #include "../modifiers.h"
 
 /*
- * An abstract pattern unit that holds modifiers and specifies an iterator pattern over matches.
- * The return value of HasNextMatch and NextMatch are undefined before Initialize has been called. NextMatch
- * is only guaranteed to be specified if HasNextMatch returns true. The intended use is roughly as follows:
+ * An abstract pattern unit that holds modifiers and specifies an iterator
+ * pattern over matches. The return value of FindMatch and GetMatch are
+ * undefined before Initialize has been called. GetMatch is only specified if
+ * FindMatch returns true. The intended use is roughly as follows:
  *    unique_ptr<PatternUnit> pu = ...
  *    string sequence = ...
  *    pu->Initialize( sequence.cbegin(), sequence.cend() );
- *    while( pu->HasNextMatch() ){
- *      Match& m = pu->NextMatch();
+ *    while( pu->FindMatch() ){
+ *      Match& m = pu->GetMatch();
  *      // Do something with m
  *    }
  */
@@ -47,26 +48,32 @@ public:
   PatternUnit(const Modifiers& modifiers);
 
   /*
-   * Initialize the pattern unit so the match iteration will start at pos
+   * Initialize the pattern unit so a check can be performed for matches not
+   * extending beyond max_pos. If stay_at_pos is set then FindMatch should
+   * only proceed to matches whose start-position is at pos. If not, the
+   * search should proceed until any match can be found.
    */
   virtual void Initialize(
       std::string::const_iterator pos,
-      std::string::const_iterator max_pos
+      std::string::const_iterator max_pos,
+      bool stay_at_pos = false
   ) = 0;
 
   /*
-   * Returns true iff there its possible to locate a match following the previous found. If NextMatch has not been
-   * called it will be the match starting at the earliest position with the lowest possible length.
-   * The return value of this function is only specified if Initialize has previously been called.
+   * Returns true iff there its possible to locate a match following the
+   * previous found. If FindMatch has not been called it will be the match
+   * starting at the earliest position. The return value of this function is
+   * only specified if Initialize has previously been called.
    */
-  virtual bool HasNextMatch() = 0;
+  virtual bool FindMatch() = 0;
 
   /*
    * Returns the next match.
-   * The return value of this function is only specified if HasNextMatch has previously been called and returned true.
-   * The referenced match will only change on the next call to HasNextMatch.
+   * The return value of this function is only specified if FindMatch has
+   * previously been called and returned true. The referenced match will
+   * only change on the next call to FindMatch.
    */
-  virtual const Match& NextMatch() = 0;
+  virtual const Match& GetMatch() = 0;
 
 protected:
   const Modifiers modifiers_;

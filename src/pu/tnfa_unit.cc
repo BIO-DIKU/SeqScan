@@ -18,7 +18,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "tnfa_sequence_unit.h"
+#include "tnfa_unit.h"
 #include "tnfa_levenshtein_state.h"
 #include "tnfa_final_state.h"
 
@@ -26,7 +26,7 @@
 
 using namespace std;
 
-TNFASequenceUnit::TNFASequenceUnit(const Modifiers &modifiers,
+TNFAUnit::TNFAUnit(const Modifiers &modifiers,
                                    const std::string& pattern) :
   PatternUnit(modifiers), pattern_(pattern), startState_(nullptr),
   errorCode_{ 0, 0, 0, 0, 0, 0, 0, 0 } {
@@ -40,14 +40,17 @@ TNFASequenceUnit::TNFASequenceUnit(const Modifiers &modifiers,
   currentState->setOutPtr(new TNFAFinalState(pattern.length()));
 }
 
-void TNFASequenceUnit::Initialize(std::string::const_iterator pos,
-                                  std::string::const_iterator max_pos) {
+void TNFAUnit::Initialize(std::string::const_iterator pos,
+                                  std::string::const_iterator max_pos,
+                                  bool stay_at_pos )
+{
   sequence_iterator_ = pos;
   sequence_iterator_end_ = max_pos;
   listID_ = 0;
 }
 
-bool TNFASequenceUnit::HasNextMatch() {
+bool TNFAUnit::FindMatch()
+{
   if (!matches.empty()) {
     matches.pop_back();
     if (!matches.empty())
@@ -66,7 +69,7 @@ bool TNFASequenceUnit::HasNextMatch() {
   return false;
 }
 
-void TNFASequenceUnit::ModifiersToErrorCode(const Modifiers &modifiers) {
+void TNFAUnit::ModifiersToErrorCode(const Modifiers &modifiers) {
   for (int c = 1; c < 512; c++) {
     if ((c & 7) <= modifiers.mismatches_
         && (c & 0x38) / 8 <= modifiers.deletions_

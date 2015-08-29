@@ -18,12 +18,12 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "backtrack_sequence_unit.h"
+#include "backtrack_unit.h"
 
 #include <utility>
 
 
-BacktrackSequenceUnit::BacktrackSequenceUnit(
+BacktrackUnit::BacktrackUnit(
     const Modifiers &modifiers,
     const std::string& pattern
 ) :
@@ -31,21 +31,26 @@ BacktrackSequenceUnit::BacktrackSequenceUnit(
     pattern_(pattern)
 { }
 
-void BacktrackSequenceUnit::Initialize(
+void BacktrackUnit::Initialize(
     std::string::const_iterator pos,
-    std::string::const_iterator max_pos
+    std::string::const_iterator max_pos,
+    bool stay_at_pos
 ){
   sequence_iterator_ = pos;
   sequence_iterator_end_ = max_pos;
+
+  last_found_matches_.clear();
+  last_found_index_ = 0;
 }
 
-bool BacktrackSequenceUnit::HasNextMatch()
+bool BacktrackUnit::FindMatch()
 {
   if(sequence_iterator_==sequence_iterator_end_) return false;
 
   if( last_found_index_+1 >= last_found_matches_.size() ) {
 
-    //All previously identified matches have been iterated through. Time to look for new ones.
+    // All previously identified matches have been iterated through. Time to
+    // look for new ones.
     last_found_matches_.clear();
     last_found_index_ = 0;
 
@@ -57,7 +62,6 @@ bool BacktrackSequenceUnit::HasNextMatch()
       CollectMatches(sequence_iterator_, pattern_.cbegin(), M, I, D, 0, 0, 0);
 
       ++sequence_iterator_;
-      absolute_pos_++;
 
       if( !last_found_matches_.empty() )
         return true;
@@ -71,13 +75,13 @@ bool BacktrackSequenceUnit::HasNextMatch()
   }
 }
 
-const Match& BacktrackSequenceUnit::NextMatch(){
+const Match& BacktrackUnit::GetMatch(){
   std::set<Match >::iterator it=last_found_matches_.begin();
   std::advance(it, last_found_index_);
   return *it;
 }
 
-void BacktrackSequenceUnit::CollectMatches(
+void BacktrackUnit::CollectMatches(
     std::string::const_iterator seq_it,
     std::string::const_iterator pat_it,
     const int M_left, const int I_left, const int D_left,
@@ -85,8 +89,11 @@ void BacktrackSequenceUnit::CollectMatches(
 )
 {
   if(pat_it==pattern_.cend()){
-    last_found_matches_.insert( Match(sequence_iterator_, pattern_.length()+I_used-D_used, M_used+I_used+D_used) );
-    //last_found_matches_.insert( Match(absolute_pos_, pattern_.length()+I_used-D_used, M_used+I_used+D_used) );
+    last_found_matches_.insert(
+        Match( sequence_iterator_,
+               pattern_.length()+I_used-D_used,
+               M_used+I_used+D_used )
+    );
     return;
   }
 

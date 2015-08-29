@@ -36,9 +36,10 @@ public:
 
   void Initialize(
       std::string::const_iterator pos,
-      std::string::const_iterator max_pos
+      std::string::const_iterator max_pos,
+      bool stay_at_pos=false
   );
-  bool HasNextMatch();
+  bool FindMatch();
   const Match& NextMatch();
 
 private:

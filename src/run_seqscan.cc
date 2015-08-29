@@ -23,8 +23,8 @@
 
 #include "modifiers.h"
 #include "pu/composite_unit.h"
-#include "pu/backtrack_sequence_unit.h"
-#include "pu/tnfa_sequence_unit.h"
+#include "pu/backtrack_unit.h"
+#include "pu/tnfa_unit.h"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ int main() {
   //unique_ptr<CompositeUnit> root_unit(new CompositeUnit(top_modifiers) );
 
   Modifiers first_modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
-  unique_ptr<PatternUnit> first_unit(new BacktrackSequenceUnit(first_modifiers, "AATCA"));
+  unique_ptr<PatternUnit> first_unit(new BacktrackUnit(first_modifiers, "AATCA"));
 
   //Modifiers second_modifiers = Modifiers::CreateStdModifiers();
   //unique_ptr<PatternUnit> second_unit(new BacktrackSequenceUnit(second_modifiers, "TTTTTTC"));
@@ -51,20 +51,20 @@ int main() {
   int num_matches = 0;
 
   first_unit->Initialize(sequence.cbegin(), sequence.cend());
-  while (first_unit->HasNextMatch()) {
-    const Match& m = first_unit->NextMatch();
+  while (first_unit->FindMatch()) {
+    const Match& m = first_unit->GetMatch();
     printf("Starting position: %li\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m.len, m.edits);
     num_matches++;
   }
   cout << "Found " << num_matches << " matches" << endl;
 
   // Find matches using TNFA
-  unique_ptr<PatternUnit> tnfa_unit(new TNFASequenceUnit(first_modifiers, "AATCA"));
+  unique_ptr<PatternUnit> tnfa_unit(new TNFAUnit(first_modifiers, "AATCA"));
 
   num_matches = 0;
   tnfa_unit->Initialize(sequence.cbegin(), sequence.cend());
-  while (tnfa_unit->HasNextMatch()) {
-    const Match& m = tnfa_unit->NextMatch();
+  while (tnfa_unit->FindMatch()) {
+    const Match& m = tnfa_unit->GetMatch();
     printf("Starting position: %li\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m.len, m.edits);
     num_matches++;
   }

@@ -27,7 +27,8 @@ add_library(libseqscan
   modifiers.h
   pu/pattern_unit.h
   pu/composite_unit.h
-  pu/tnfa_sequence_unit.h
+  pu/backtrack_unit.h
+  pu/tnfa_unit.h
   pu/tnfa_state.h
   pu/tnfa_final_state.h
   pu/tnfa_levenshtein_state.h
@@ -35,10 +36,10 @@ add_library(libseqscan
   pu/pattern_unit.cc
   pu/composite_unit.cc
   modifiers.cc 
-  pu/backtrack_sequence_unit.cc pu/backtrack_sequence_unit.h
-  pu/tnfa_sequence_unit.cc
+  pu/backtrack_unit.cc 
+  pu/tnfa_unit.cc
   pu/tnfa_state.cc
-  pu/tnfa_final_state.cc)
+  pu/tnfa_final_state.cc )
 
 set_target_properties( libseqscan PROPERTIES PREFIX "" )
 
@@ -49,7 +50,7 @@ target_link_libraries( seqscan libseqscan )
 add_executable( seqscan_unittests 
   tests/run_tests.cc
   tests/test_fuzzy_sequence.cc
-  tests/test_backtrack_sequence_unit.cc
+  tests/test_backtrack_unit.cc
   )
   
 target_link_libraries( seqscan_unittests libseqscan )

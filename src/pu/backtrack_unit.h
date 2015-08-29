@@ -17,38 +17,43 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
+#ifndef BACKTRACK_UNIT_H
+#define BACKTRACK_UNIT_H
 
-#ifndef PU_TNFA_SEQUENCE_UNIT_H_
-#define PU_TNFA_SEQUENCE_UNIT_H_
-
-#include <string>
+#include <set>
 #include <vector>
+#include <string>
 
 #include "pattern_unit.h"
-#include "tnfa_state.h"
+#include "../match.h"
 
-class TNFASequenceUnit: public PatternUnit {
- public:
-  TNFASequenceUnit(const Modifiers &modifiers, const std::string& pattern);
+class BacktrackUnit: public PatternUnit{
 
-  void Initialize(std::string::const_iterator pos,
-                  std::string::const_iterator max_pos);
-  bool HasNextMatch();
-  // TODO(Sune): Implement
-  const Match& NextMatch() { return matches.back(); }
-  void ModifiersToErrorCode(const Modifiers &modifiers);
+public:
+  BacktrackUnit(const Modifiers &modifiers, const std::string& pattern);
 
- private:
+  void Initialize(
+      std::string::const_iterator pos,
+      std::string::const_iterator max_pos,
+      bool stay_at_pos = false
+  );
+  bool FindMatch();
+  const Match& GetMatch();
+
+private:
   const std::string pattern_;
 
   std::string::const_iterator sequence_iterator_;
   std::string::const_iterator sequence_iterator_end_;
-  TNFAState *startState_;
-  uint64_t errorCode_[8];
-  vector< TNFAState * > stateLists_[ 2 ];
-  bool listNo_;
-  vector< Match > matches;
-  uint32_t listID_;
+
+  std::set<Match> last_found_matches_;
+  int last_found_index_;
+
+  void CollectMatches(std::string::const_iterator seq_it,
+                      std::string::const_iterator pat_it,
+                      const int M_left, const int I_left, const int D_left,
+                      const int M_used, const int I_used, const int D_used  );
 };
 
-#endif  // PU_TNFA_SEQUENCE_UNIT_H_
+
+#endif // BACKTRACK_UNIT_H

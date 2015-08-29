@@ -55,7 +55,7 @@ void TNFAState::addToList(uint64_t e[8], uint32_t tags, bool listNo,
     /* The union of two error subsets corresponds to the alternation of the
      * error codes.
      */
-    for (int i = 0; i < 8; i++ )
+    for ( int i = 0; i < 8; i++ )
       errorCode[listNo][i] |= e[i];
     addEpsilonTransitions(listNo, pos, stateLists, matches, listID);
     pathTag = tags;
