@@ -194,3 +194,73 @@ TEST_CASE( "Test backtrack sequence unit matching with mismatches", "[backtrack,
     REQUIRE(!pu->FindMatch());
   }
 }
+
+TEST_CASE( "Backtrack unit staying at pos", "[backtrack,stay]" ) {
+
+  // Set up test pattern "AAAA/1,0,0"
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
+  unique_ptr<PatternUnit> pu(new BacktrackUnit(modifiers, "AAAA"));
+
+  SECTION("Stay-pos inside sequence; with match") {
+    string sequence = "TTTAATATTT";
+    pu->Initialize(sequence.cbegin() + 3, sequence.cend(), true);
+    REQUIRE(pu->FindMatch());
+
+    const Match &m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 3);
+    REQUIRE(m1.len == 4);
+    REQUIRE(m1.edits == 1);
+
+    REQUIRE(!pu->FindMatch());
+  }
+
+  SECTION("Stay-pos inside sequence; no match") {
+    string sequence = "TTTAATATTT";
+    pu->Initialize(sequence.cbegin() + 2, sequence.cend(), true);
+    REQUIRE(!pu->FindMatch());
+  }
+
+
+  SECTION("Stay-pos at start of sequence; with match") {
+    string sequence = "AAAATTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend(), true);
+    REQUIRE(pu->FindMatch());
+
+    const Match &m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 0);
+    REQUIRE(m1.len == 4);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
+
+}
+
+
+TEST_CASE( "Backtrack unit staying at pos; several matches", "[backtrack,stay]")
+{
+
+  // Set up test pattern "AAAA/1,0,0"
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 1, 0);
+  unique_ptr<PatternUnit> pu(new BacktrackUnit(modifiers, "AAAA"));
+
+  SECTION("Stay-pos inside sequence; several matches") {
+    string sequence = "TTTAAAATTT";
+    pu->Initialize(sequence.cbegin() + 3, sequence.cend(), true);
+    REQUIRE(pu->FindMatch());
+
+    const Match &m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 3);
+    REQUIRE(m1.len == 4);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(pu->FindMatch());
+
+    const Match &m2 = pu->GetMatch();
+    REQUIRE(m2.pos - sequence.cbegin() == 3);
+    REQUIRE(m2.len == 5);
+    REQUIRE(m2.edits == 1);
+
+    REQUIRE(!pu->FindMatch());
+  }
+}

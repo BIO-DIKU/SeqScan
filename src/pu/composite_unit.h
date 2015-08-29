@@ -32,21 +32,33 @@ public:
 
   void AddUnit(std::unique_ptr<PatternUnit> &unit);
 
-  void Print();
-
   void Initialize(
       std::string::const_iterator pos,
       std::string::const_iterator max_pos,
       bool stay_at_pos=false
   );
-  bool FindMatch();
-  const Match& NextMatch();
+  bool FindMatch() override;
+  const Match& GetMatch() override;
 
+  std::ostream& print(std::ostream &os) const;
 private:
   std::vector< std::unique_ptr<PatternUnit> > punits_;
 
-  std::set<Match> matches_;
+  /** When FindMatch returns true each entry in punits_ will have a  valid
+   * match, which this function composes into one overall match. */
+  void ComposeMatches();
+  Match* composite_match_;
+
   std::string::const_iterator sequence_iterator_;
+  std::string::const_iterator sequence_iterator_end_;
+  bool stay_at_pos_;
+
+  int current_unit_;
+
+  friend std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj);
+
 };
+
+std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj);
 
 #endif  // COMPOSITE_UNIT_H_

@@ -25,6 +25,7 @@
  * add anything else to it.
  */
 
+#define CATCH_CONFIG_COLOUR_NONE
 #define CATCH_CONFIG_MAIN
 #include "catch.h"
 

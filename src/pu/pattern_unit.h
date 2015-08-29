@@ -75,6 +75,8 @@ public:
    */
   virtual const Match& GetMatch() = 0;
 
+  virtual std::ostream& print(std::ostream &os) const
+  { os<<"PatternUnit(?)"; return os; }
 protected:
   const Modifiers modifiers_;
 
