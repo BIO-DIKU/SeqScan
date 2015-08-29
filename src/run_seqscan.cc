@@ -29,6 +29,7 @@
 using namespace std;
 
 int main() {
+  /*
   // Example of setting up the seqscan pattern "AATCA/1,0,0 TTTTTTC"
   //Modifiers top_modifiers = Modifiers::CreateStdModifiers();
   //unique_ptr<CompositeUnit> root_unit(new CompositeUnit(top_modifiers) );
@@ -69,6 +70,28 @@ int main() {
     num_matches++;
   }
   cout << "Found " << num_matches << " TNFA matches" << endl;
+
+  */
+
+  // Set up test pattern "AAA/1,1,0 CCC"
+  Modifiers m0 = Modifiers::CreateMIDModifiers(1, 1, 0);
+  unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AAA"));
+  Modifiers m1 = Modifiers::CreateStdModifiers();
+  unique_ptr <PatternUnit> pu1(new BacktrackUnit(m1, "CCC"));
+
+  Modifiers m = Modifiers::CreateStdModifiers();
+  unique_ptr<CompositeUnit> pu( new CompositeUnit(m) );
+  pu->AddUnit(pu0);
+  pu->AddUnit(pu1);
+
+  string sequence = "TTTAAATCCCTTT";
+
+  pu->Initialize(sequence.cbegin(), sequence.cend());
+  while (pu->FindMatch()) {
+    const Match& m = pu->GetMatch();
+    printf("Starting position: %li\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m.len, m.edits);
+  }
+
 
   return EXIT_SUCCESS;
 }

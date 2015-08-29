@@ -45,6 +45,7 @@ private:
 
   std::string::const_iterator sequence_iterator_;
   std::string::const_iterator sequence_iterator_end_;
+  bool stay_at_pos_;
 
   std::set<Match> last_found_matches_;
   int last_found_index_;
