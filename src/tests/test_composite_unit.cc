@@ -67,7 +67,7 @@ TEST_CASE("Composite unit with two children. With fuzziness.", "[composite]") {
   unique_ptr <PatternUnit> pu1(new BacktrackUnit(m1, "CCC"));
 
   Modifiers m = Modifiers::CreateStdModifiers();
-  unique_ptr<CompositeUnit> pu( new CompositeUnit(m) );
+  unique_ptr<CompositeUnit> pu(new CompositeUnit(m));
   pu->AddUnit(pu0);
   pu->AddUnit(pu1);
 
