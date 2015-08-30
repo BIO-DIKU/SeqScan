@@ -62,8 +62,8 @@ bool CompositeUnit::FindMatch() {
 
   // Inner loop tries to find a match with current unit and increase to the
   // next unit. If this fails, the outer loop will decrease current unit.
-  for ( ; current_unit_ >= 0; current_unit_-- ) {
-    for ( ; current_unit_ < n; current_unit_++ ) {
+  for ( ; current_unit_ >= 0; current_unit_--) {
+    for ( ; current_unit_ < n; current_unit_++) {
       if (punits_.at(current_unit_)->FindMatch()) {
         // A match was found on the last of the punits. Success
         if (current_unit_ == n - 1) {
@@ -76,7 +76,6 @@ bool CompositeUnit::FindMatch() {
         const Match& cur_match = punits_.at(current_unit_)->GetMatch();
         punits_.at(current_unit_ + 1)->Initialize(cur_match.pos + cur_match.len,
                                                   sequence_iterator_end_, true);
-
       } else {   // No more matches at current_unit_. Break loop and decrease
         break;
       }
