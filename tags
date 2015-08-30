@@ -136,7 +136,7 @@ CollectMatches	src/pu/backtrack_unit.cc	/^void BacktrackUnit::CollectMatches($/;
 ComposeMatches	src/pu/composite_unit.cc	/^void CompositeUnit::ComposeMatches() {$/;"	f	class:CompositeUnit
 CompositeUnit	ReferenceSRC/sfm_python.py	/^class CompositeUnit:$/;"	c
 CompositeUnit	src/pu/composite_unit.cc	/^CompositeUnit::CompositeUnit(const Modifiers &modifiers) :$/;"	f	class:CompositeUnit
-CompositeUnit	src/pu/composite_unit.h	/^class CompositeUnit: public PatternUnit$/;"	c
+CompositeUnit	src/pu/composite_unit.h	/^class CompositeUnit: public PatternUnit {$/;"	c
 ContinueOnFailure	src/tests/catch.h	/^        ContinueOnFailure = 0x02,   \/\/ Failures fail test, but execution continues$/;"	e	enum:Catch::ResultDisposition::Flags
 CopyableStream	src/tests/catch.h	/^        CopyableStream( CopyableStream const& other ) {$/;"	f	struct:Catch::CopyableStream
 CopyableStream	src/tests/catch.h	/^        CopyableStream() {}$/;"	f	struct:Catch::CopyableStream

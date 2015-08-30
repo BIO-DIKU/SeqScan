@@ -55,7 +55,6 @@ class CompositeUnit: public PatternUnit {
   int current_unit_;
 
   friend std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj);
-
 };
 
 std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj);
