@@ -24,8 +24,6 @@
 
 #include <iostream>
 
-using namespace std;
-
 TNFAUnit::TNFAUnit(const Modifiers &modifiers,
                                    const std::string& pattern) :
   PatternUnit(modifiers), pattern_(pattern), startState_(nullptr),
@@ -42,15 +40,13 @@ TNFAUnit::TNFAUnit(const Modifiers &modifiers,
 
 void TNFAUnit::Initialize(std::string::const_iterator pos,
                                   std::string::const_iterator max_pos,
-                                  bool stay_at_pos )
-{
+                                  bool stay_at_pos ) {
   sequence_iterator_ = pos;
   sequence_iterator_end_ = max_pos;
   listID_ = 0;
 }
 
-bool TNFAUnit::FindMatch()
-{
+bool TNFAUnit::FindMatch() {
   if (!matches.empty()) {
     matches.pop_back();
     if (!matches.empty())
