@@ -37,6 +37,7 @@ COMPILER_VERSION_TWEAK	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#
 COMPILER_VERSION_TWEAK	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define COMPILER_VERSION_TWEAK /;"	d	file:
 COMPILER_VERSION_TWEAK	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define COMPILER_VERSION_TWEAK /;"	d	file:
 COMPOSITE_UNIT_H_	src/pu/composite_unit.h	/^#define COMPOSITE_UNIT_H_$/;"	d
+CollectMatches	src/pu/backtrack_sequence_unit.cc	/^void BacktrackSequenceUnit::CollectMatches($/;"	f	class:BacktrackSequenceUnit
 CompositeUnit	ReferenceSRC/sfm_python.py	/^class CompositeUnit:$/;"	c
 CompositeUnit	src/pu/composite_unit.cc	/^CompositeUnit::CompositeUnit(const Modifiers &modifiers) :$/;"	f	class:CompositeUnit
 CompositeUnit	src/pu/composite_unit.h	/^class CompositeUnit: public PatternUnit$/;"	c
@@ -49,24 +50,24 @@ EQUALS	build/Makefile	/^EQUALS = =$/;"	m
 FASTA_H_	ReferenceSRC/fasta.h	/^#define FASTA_H_$/;"	d
 HEX	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#define HEX(/;"	d	file:
 HEX	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#define HEX(/;"	d	file:
-HasNextMatch	src/pu/backtrack_sequence_unit.h	/^  bool HasNextMatch(){ return false; }$/;"	f	class:BacktrackSequenceUnit
+HasNextMatch	src/pu/backtrack_sequence_unit.cc	/^bool BacktrackSequenceUnit::HasNextMatch()$/;"	f	class:BacktrackSequenceUnit
 HasNextMatch	src/pu/composite_unit.cc	/^bool CompositeUnit::HasNextMatch() {$/;"	f	class:CompositeUnit
 HasNextMatch	src/pu/tnfa_sequence_unit.cc	/^bool TNFASequenceUnit::HasNextMatch() {$/;"	f	class:TNFASequenceUnit
 ID_VOID_MAIN	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^# define ID_VOID_MAIN$/;"	d	file:
-Initialize	src/pu/backtrack_sequence_unit.h	/^  void Initialize($/;"	f	class:BacktrackSequenceUnit
+Initialize	src/pu/backtrack_sequence_unit.cc	/^void BacktrackSequenceUnit::Initialize($/;"	f	class:BacktrackSequenceUnit
 Initialize	src/pu/composite_unit.cc	/^void CompositeUnit::Initialize($/;"	f	class:CompositeUnit
 Initialize	src/pu/tnfa_sequence_unit.cc	/^void TNFASequenceUnit::Initialize(std::string::const_iterator pos,$/;"	f	class:TNFASequenceUnit
 MATCH_H_	src/match.h	/^#define MATCH_H_$/;"	d
 MODIFIERS_H_	src/modifiers.h	/^#define MODIFIERS_H_$/;"	d
-Match	src/match.h	/^  Match(const int &pos, const int &len, const int &edits):$/;"	f	class:Match
+Match	src/match.h	/^  Match(const std::string::const_iterator &pos, const int &len, const int &edits):$/;"	f	class:Match
 Match	src/match.h	/^class Match {$/;"	c
 MatchSet	ReferenceSRC/sfm_python.py	/^class MatchSet:$/;"	c
 Modifiers	src/modifiers.cc	/^Modifiers::Modifiers($/;"	f	class:Modifiers
 Modifiers	src/modifiers.h	/^class Modifiers {$/;"	c
 ModifiersToErrorCode	src/pu/tnfa_sequence_unit.cc	/^void TNFASequenceUnit::ModifiersToErrorCode(const Modifiers &modifiers) {$/;"	f	class:TNFASequenceUnit
-NextMatch	src/pu/backtrack_sequence_unit.h	/^  Match& NextMatch(){ Match m(0,0,0); return m;  };$/;"	f	class:BacktrackSequenceUnit
-NextMatch	src/pu/composite_unit.cc	/^Match& CompositeUnit::NextMatch() {$/;"	f	class:CompositeUnit
-NextMatch	src/pu/tnfa_sequence_unit.h	/^  Match& NextMatch() { return matches.back(); }$/;"	f	class:TNFASequenceUnit
+NextMatch	src/pu/backtrack_sequence_unit.cc	/^const Match& BacktrackSequenceUnit::NextMatch(){$/;"	f	class:BacktrackSequenceUnit
+NextMatch	src/pu/composite_unit.cc	/^const Match& CompositeUnit::NextMatch() {$/;"	f	class:CompositeUnit
+NextMatch	src/pu/tnfa_sequence_unit.h	/^  const Match& NextMatch() { return matches.back(); }$/;"	f	class:TNFASequenceUnit
 PLATFORM_ID	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#  define PLATFORM_ID /;"	d	file:
 PLATFORM_ID	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^# define PLATFORM_ID /;"	d	file:
 PLATFORM_ID	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define PLATFORM_ID /;"	d	file:
@@ -111,7 +112,8 @@ __init__	ReferenceSRC/sfm_python.py	/^    def __init__(self, ref_unit, M, I, D, 
 __init__	ReferenceSRC/sfm_python.py	/^    def __init__(self, seq, M, I, D):$/;"	m	class:SequenceUnit
 __init__	ReferenceSRC/sfm_python.py	/^    def __init__(self, units):$/;"	m	class:CompositeUnit
 __str__	ReferenceSRC/sfm_python.py	/^    def __str__(self):$/;"	m	class:MatchSet	file:
-addEpsilonTransitions	src/pu/tnfa_final_state.cc	/^void TNFAFinalState::addEpsilonTransitions(bool, std::string::const_iterator,$/;"	f	class:TNFAFinalState
+absolute_pos_	src/pu/backtrack_sequence_unit.h	/^  int absolute_pos_;$/;"	m	class:BacktrackSequenceUnit
+addEpsilonTransitions	src/pu/tnfa_final_state.cc	/^void TNFAFinalState::addEpsilonTransitions(bool, std::string::const_iterator pos,$/;"	f	class:TNFAFinalState
 addEpsilonTransitions	src/pu/tnfa_levenshtein_state.h	/^void TNFALevenshteinState::addEpsilonTransitions(bool listNo,$/;"	f	class:TNFALevenshteinState
 addEpsilonTransitions	src/pu/tnfa_state.cc	/^void TNFAState::addEpsilonTransitions(bool listNo,$/;"	f	class:TNFAState
 addOutStates	src/pu/tnfa_final_state.cc	/^void TNFAFinalState::addOutStates(bool, std::string::const_iterator,$/;"	f	class:TNFAFinalState
@@ -153,6 +155,8 @@ info_version	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char 
 insertions	src/pu/tnfa_state.cc	/^bool TNFAState::insertions(uint64_t eCode[8]) {$/;"	f	class:TNFAState
 insertions_	src/modifiers.h	/^  const int insertions_;$/;"	m	class:Modifiers
 kmp	ReferenceSRC/kmp.cpp	/^int kmp(const char *target, int tsize, const char *pattern, int psize)$/;"	f
+last_found_index_	src/pu/backtrack_sequence_unit.h	/^  int last_found_index_;$/;"	m	class:BacktrackSequenceUnit
+last_found_matches_	src/pu/backtrack_sequence_unit.h	/^  std::set<const Match> last_found_matches_;$/;"	m	class:BacktrackSequenceUnit
 len	src/match.h	/^  const int len;$/;"	m	class:Match
 listID	src/pu/tnfa_state.h	/^  std::string::const_iterator *listID;  \/\/ used check if state already added$/;"	m	class:TNFAState
 listID_	src/pu/tnfa_sequence_unit.h	/^  uint32_t listID_;$/;"	m	class:TNFASequenceUnit
@@ -175,6 +179,7 @@ matches	ReferenceSRC/sfm_python.py	/^    def matches(self, seq, pos):$/;"	m	clas
 matches	ReferenceSRC/sfm_python.py	/^    def matches(self, seq, pos):$/;"	m	class:ReferenceUnit
 matches	ReferenceSRC/sfm_python.py	/^    def matches(self, seq, pos):$/;"	m	class:SequenceUnit
 matches	src/pu/tnfa_sequence_unit.h	/^  vector< Match > matches;$/;"	m	class:TNFASequenceUnit
+matches_	src/pu/composite_unit.h	/^  std::set<const Match> matches_;$/;"	m	class:CompositeUnit
 max_edits_	src/modifiers.h	/^  const int max_edits_;$/;"	m	class:Modifiers
 max_repeats_	src/modifiers.h	/^  const int max_repeats_;$/;"	m	class:Modifiers
 min_repeats_	src/modifiers.h	/^  const int min_repeats_;$/;"	m	class:Modifiers
@@ -187,12 +192,13 @@ newCode	src/pu/tnfa_state.cc	/^uint64_t TNFAState::newCode[8] = { 0, 0, 0, 0, 0,
 newCode	src/pu/tnfa_state.h	/^  static uint64_t newCode[8];$/;"	m	class:TNFAState
 nucl_complement	ReferenceSRC/sfm_python.py	/^def nucl_complement(S):$/;"	f
 nucl_reverse	ReferenceSRC/sfm_python.py	/^def nucl_reverse(S):$/;"	f
+operator <	src/match.h	/^  bool operator<(const Match& rhs) const{$/;"	f	class:Match
 out_	src/pu/tnfa_state.h	/^  TNFAState *out_;  \/\/ Outgoing state$/;"	m	class:TNFAState
 pathTag	src/pu/tnfa_state.h	/^  uint32_t pathTag;  \/\/ Tag recording beginning index of matching substring$/;"	m	class:TNFAState
 patternLength_	src/pu/tnfa_final_state.h	/^  int patternLength_;$/;"	m	class:TNFAFinalState
 pattern_	src/pu/backtrack_sequence_unit.h	/^  const std::string pattern_;$/;"	m	class:BacktrackSequenceUnit
 pattern_	src/pu/tnfa_sequence_unit.h	/^  const std::string pattern_;$/;"	m	class:TNFASequenceUnit
-pos	src/match.h	/^  const int pos;$/;"	m	class:Match
+pos	src/match.h	/^  const std::string::const_iterator pos;$/;"	m	class:Match
 punits_	src/pu/composite_unit.h	/^  std::vector< std::unique_ptr<PatternUnit> > punits_;$/;"	m	class:CompositeUnit
 qnxnto	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
 qnxnto	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
@@ -204,6 +210,7 @@ rest_matches	ReferenceSRC/sfm_python.py	/^    def rest_matches(self, seq, positi
 reverse_	src/modifiers.h	/^  const bool reverse_;$/;"	m	class:Modifiers
 scan_for_matches	ReferenceSRC/sfm_python.py	/^def scan_for_matches(P, S):$/;"	f
 sequence_iterator_	src/pu/backtrack_sequence_unit.h	/^  std::string::const_iterator sequence_iterator_;$/;"	m	class:BacktrackSequenceUnit
+sequence_iterator_	src/pu/composite_unit.h	/^  std::string::const_iterator sequence_iterator_;$/;"	m	class:CompositeUnit
 sequence_iterator_	src/pu/tnfa_sequence_unit.h	/^  std::string::const_iterator sequence_iterator_;$/;"	m	class:TNFASequenceUnit
 sequence_iterator_end_	src/pu/backtrack_sequence_unit.h	/^  std::string::const_iterator sequence_iterator_end_;$/;"	m	class:BacktrackSequenceUnit
 sequence_iterator_end_	src/pu/tnfa_sequence_unit.h	/^  std::string::const_iterator sequence_iterator_end_;$/;"	m	class:TNFASequenceUnit
