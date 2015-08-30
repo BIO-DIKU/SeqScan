@@ -5,18 +5,18 @@ TEST_CASE( "Test case name", "[tag1,tag2]" ) {
 
 	// Test setup. 
 	
-	int actual = 5, expected = 5;
+  int actual = 5, expected = 5;
 
-    REQUIRE( actual >= expected );
+  REQUIRE( actual >= expected );
+  REQUIRE( actual == expected );
+  REQUIRE( actual <= expected );
+
+  SECTION( "section description" ) {
+    // Perform action
+
+    // Expected bahavior
     REQUIRE( actual == expected );
-    REQUIRE( actual <= expected );
-
-	SECTION( "section description" ) {
-		// Perform action
-
-		// Expected bahavior
-        REQUIRE( actual == expected );
-    }
+  }
 
 }
 

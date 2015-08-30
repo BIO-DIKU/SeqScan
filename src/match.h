@@ -22,6 +22,8 @@
 #define MATCH_H_
 
 #include <string>
+#include <iostream>
+#include <iostream>
 
 class Match {
 public:
@@ -37,6 +39,7 @@ public:
   bool operator<(const Match& rhs) const{
     return pos==rhs.pos?len<rhs.len:pos<rhs.pos;
   }
+
 };
 
 #endif  // MATCH_H_
