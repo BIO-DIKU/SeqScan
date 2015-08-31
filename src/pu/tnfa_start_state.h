@@ -48,7 +48,7 @@ TNFAStartState::TNFAStartState(uint64_t e[8]) : TNFAState(0) {
 void TNFAStartState::addEpsilonTransitions(
     bool listNo, std::string::const_iterator pos, vector< TNFAState * > stateLists[],
     vector< Match > &matches, uint32_t listID) {
-  out_->addToList(stateErrorCode_, pathTag, listNo, pos, stateLists, matches, listID);
+  out_->addToList(stateErrorCode_, listNo, pos, stateLists, matches, listID);
 }
 
 void TNFAStartState::addOutStates(bool listNo,
@@ -57,7 +57,7 @@ void TNFAStartState::addOutStates(bool listNo,
                                   vector< Match > &matches,
                                   uint32_t listID) {
   if (insertions(errorCode_[!listNo]))
-    addToList(decrementInsertions(errorCode_[!listNo]), pathTag, listNo, pos,
+    addToList(decrementInsertions(errorCode_[!listNo]), listNo, pos,
               stateLists, matches, listID);
 }
 

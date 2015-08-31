@@ -42,7 +42,7 @@ class TNFAState {
   /*
    * Add this state to the new state list
    */
-  void addToList(uint64_t[8], uint32_t, bool, std::string::const_iterator,
+  void addToList(uint64_t[8], bool, std::string::const_iterator,
                  vector< TNFAState * > [2], vector< Match > &, uint32_t);
 
   /*
@@ -75,8 +75,6 @@ class TNFAState {
  protected:
   char c;  // Character to be matched
   TNFAState *out_;  // Outgoing state
-  std::string::const_iterator *listID;  // used check if state already added
-  uint32_t pathTag;  // Tag recording beginning index of matching substring
 
   /*
    * Error codes are 64-bit integers that represent subsets of allowed errors
@@ -87,7 +85,7 @@ class TNFAState {
    */
   uint64_t errorCode_
     [2][8];
-  uint32_t listID_;
+  uint32_t listID_; // Used to check if state is already added to list
 };
 
 #endif  // PU_TNFA_STATE_H_

@@ -23,8 +23,6 @@
 
 #include <map>
 
-extern bool showAllMatches;
-
 TNFAFinalState::TNFAFinalState(int len, int edits)
   : TNFAState(0), patternLength_(len), maxEdits_(edits) {}
 
@@ -32,7 +30,7 @@ void TNFAFinalState::addOutStates(bool listNo, std::string::const_iterator pos,
                                   vector< TNFAState * > stateLists[],
                                   vector< Match > &matches, uint32_t listID) {
   if (insertions(errorCode_[!listNo]))
-    addToList(decrementInsertions(errorCode_[!listNo]), pathTag, listNo,
+    addToList(decrementInsertions(errorCode_[!listNo]), listNo,
               pos, stateLists, matches, listID);
 }
 

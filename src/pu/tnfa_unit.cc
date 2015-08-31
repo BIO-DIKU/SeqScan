@@ -56,8 +56,8 @@ void TNFAUnit::Initialize(std::string::const_iterator pos,
   stateLists_[ 0 ].clear();
   stateLists_[ 1 ].clear();
   listNo_ = ++listID_ % 2;
-  startState_->addToList(TNFAState::newCode, listID_, listNo_,
-                         sequence_iterator_, stateLists_, matches, listID_);
+  startState_->addToList(TNFAState::newCode, listNo_, sequence_iterator_, stateLists_,
+                         matches, listID_);
 }
 
 bool TNFAUnit::FindMatch() {
@@ -70,8 +70,8 @@ bool TNFAUnit::FindMatch() {
        sequence_iterator_++) {
     stateLists_[listNo_ = ++listID_ % 2].clear();
     if(!stay_at_pos_)
-      startState_->addToList(TNFAState::newCode, listID_, listNo_,
-                             sequence_iterator_, stateLists_, matches, listID_);
+      startState_->addToList(TNFAState::newCode, listNo_, sequence_iterator_,
+                             stateLists_, matches, listID_);
     for (TNFAState *s : stateLists_[!listNo_])
       s->addOutStates(listNo_, sequence_iterator_, stateLists_, matches,
                       listID_);
