@@ -37,7 +37,9 @@ TNFAUnit::TNFAUnit(const Modifiers &modifiers,
     currentState->setOutPtr(new TNFAState( c ));
     currentState = currentState->getOutPtr();
   }
-  currentState->setOutPtr(new TNFAFinalState(pattern.length(),
+  currentState->setOutPtr(new TNFAFinalState(pattern.length()
+                                             + modifiers.insertions_
+                                             - modifiers.deletions_,
                                              modifiers.mismatches_ +
                                              modifiers.deletions_ +
                                              modifiers.insertions_

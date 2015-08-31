@@ -21,6 +21,8 @@
 
 #include "tnfa_final_state.h"
 
+#include <map>
+
 extern bool showAllMatches;
 
 TNFAFinalState::TNFAFinalState(int len, int edits)
@@ -40,14 +42,18 @@ void TNFAFinalState::addEpsilonTransitions(bool listNo,
                                            vector< Match > &matches,
                                            uint32_t listID) {
   // Find length and number of used edits for all matches
-  std::set<pair<int, int>> matchPairs;
-  for (int c = 511; c >= 0; c--)
-    if (errorCode_[listNo][c / 64] & (uint64_t) 1 << c % 64)
-      matchPairs.insert( pair<int, int>((c & 0x38) / 8 - (c & 0x1C0) / 64,
-                                        (c & 7) + (c & 0x38) / 8 + (c & 0x1C0) / 64));
-  for (auto matchPair : matchPairs) {
-    matches.push_back(Match(pos - patternLength_ + 1,
-                            patternLength_ + matchPair.first,
-                            maxEdits_ - matchPair.second));
+  std::map<int, int> matchMap;
+  int matchLength, editsLeft;
+  for (int c = 511; c >= 0; c--) {
+    if (errorCode_[listNo][c / 64] & (uint64_t) 1 << c % 64) {
+      matchLength = patternLength_ + (c & 0x38) / 8 - (c & 0x1C0) / 64;
+      editsLeft = (c & 7) + (c & 0x38) / 8 + (c & 0x1C0) / 64;
+      if (matchMap.count(matchLength) == 0 || matchMap[matchLength] < editsLeft)
+        matchMap[matchLength] = editsLeft;
+    }
   }
+
+  for (auto matchPair : matchMap)
+    matches.push_back(Match(pos - matchPair.first + 1, matchPair.first,
+                            maxEdits_ - matchPair.second));
 }
