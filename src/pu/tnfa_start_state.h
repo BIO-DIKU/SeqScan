@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_LEVENSHTEIN_STATE_H_
-#define PU_LEVENSHTEIN_STATE_H_
+#ifndef PU_TNFA_START_STATE_H_
+#define PU_TNFA_START_STATE_H_
 
 #include <inttypes.h>
 #include <string>
@@ -27,9 +27,9 @@
 
 #include "tnfa_state.h"
 
-class TNFALevenshteinState : public TNFAState {
+class TNFAStartState : public TNFAState {
  public:
-  TNFALevenshteinState(uint64_t[8]);
+  TNFAStartState(uint64_t[8]);
   void addEpsilonTransitions(bool, std::string::const_iterator,
                              vector< TNFAState * > [], vector< Match > &,
                              uint32_t);
@@ -40,29 +40,29 @@ class TNFALevenshteinState : public TNFAState {
   uint64_t stateErrorCode_[ 8 ];
 };
 
-TNFALevenshteinState::TNFALevenshteinState(uint64_t e[8]) : TNFAState(0) {
+TNFAStartState::TNFAStartState(uint64_t e[8]) : TNFAState(0) {
   for (int i = 0; i < 8; i++)
     stateErrorCode_[ i ] = e[ i ];
 }
 
-void TNFALevenshteinState::addEpsilonTransitions(
+void TNFAStartState::addEpsilonTransitions(
     bool listNo, std::string::const_iterator pos, vector< TNFAState * > stateLists[],
     vector< Match > &matches, uint32_t listID) {
   out_->addToList(stateErrorCode_, pathTag, listNo, pos, stateLists, matches, listID);
 }
 
-void TNFALevenshteinState::addOutStates(bool listNo,
-                                        std::string::const_iterator pos,
-                                        vector< TNFAState * > stateLists[],
-                                        vector< Match > &matches,
-                                        uint32_t listID) {
+void TNFAStartState::addOutStates(bool listNo,
+                                  std::string::const_iterator pos,
+                                  vector< TNFAState * > stateLists[],
+                                  vector< Match > &matches,
+                                  uint32_t listID) {
   if (insertions(errorCode_[!listNo]))
     addToList(decrementInsertions(errorCode_[!listNo]), pathTag, listNo, pos,
               stateLists, matches, listID);
 }
 
-void TNFALevenshteinState::display(bool) {
-  printf("LevenshteinState %p points to %p with error code %llu\n",
+void TNFAStartState::display(bool) {
+  printf("StartState %p points to %p with error code %llu\n",
     (void *) this, (void *) out_, stateErrorCode_[0]);
 }
 

@@ -19,7 +19,7 @@
  */
 
 #include "tnfa_unit.h"
-#include "tnfa_levenshtein_state.h"
+#include "tnfa_start_state.h"
 #include "tnfa_final_state.h"
 
 #include <iostream>
@@ -32,7 +32,7 @@ TNFAUnit::TNFAUnit(const Modifiers &modifiers,
   ModifiersToErrorCode(modifiers);
 
   // Set up states
-  startState_ = currentState = new TNFALevenshteinState( errorCode_ );
+  startState_ = currentState = new TNFAStartState( errorCode_ );
   for (char c : pattern_) {
     currentState->setOutPtr(new TNFAState( c ));
     currentState = currentState->getOutPtr();
