@@ -17,31 +17,30 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
- 
+
 #ifndef COMPOSITE_UNIT_H_
 #define COMPOSITE_UNIT_H_
 
 #include <vector>
 #include <set>
+#include <string>
 #include "pattern_unit.h"
 
-class CompositeUnit: public PatternUnit
-{
-public:
+class CompositeUnit: public PatternUnit {
+ public:
   CompositeUnit(const Modifiers &modifiers);
 
   void AddUnit(std::unique_ptr<PatternUnit> &unit);
 
-  void Initialize(
-      std::string::const_iterator pos,
-      std::string::const_iterator max_pos,
-      bool stay_at_pos=false
-  );
+  void Initialize(std::string::const_iterator pos,
+                  std::string::const_iterator max_pos,
+                  bool stay_at_pos = false);
   bool FindMatch() override;
   const Match& GetMatch() override;
 
   std::ostream& print(std::ostream &os) const;
-private:
+
+ private:
   std::vector< std::unique_ptr<PatternUnit> > punits_;
 
   /** When FindMatch returns true each entry in punits_ will have a  valid
@@ -56,7 +55,6 @@ private:
   int current_unit_;
 
   friend std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj);
-
 };
 
 std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj);
