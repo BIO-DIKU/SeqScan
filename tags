@@ -170,12 +170,12 @@ FalseType	src/tests/catch.h	/^    struct FalseType { char sizer[2]; };$/;"	s	nam
 FatalErrorCondition	src/tests/catch.h	/^        FatalErrorCondition = 0x200 | FailureBit$/;"	e	enum:Catch::ResultWas::OfType
 FindMatch	src/pu/backtrack_unit.cc	/^bool BacktrackUnit::FindMatch()$/;"	f	class:BacktrackUnit
 FindMatch	src/pu/composite_unit.cc	/^bool CompositeUnit::FindMatch() {$/;"	f	class:CompositeUnit
-FindMatch	src/pu/tnfa_unit.cc	/^bool TNFAUnit::FindMatch()$/;"	f	class:TNFAUnit
+FindMatch	src/pu/tnfa_unit.cc	/^bool TNFAUnit::FindMatch() {$/;"	f	class:TNFAUnit
 Flags	src/tests/catch.h	/^    struct ResultDisposition { enum Flags {$/;"	g	struct:Catch::ResultDisposition
 GIVEN	src/tests/catch.h	/^#define GIVEN(/;"	d
 GetMatch	src/pu/backtrack_unit.cc	/^const Match& BacktrackUnit::GetMatch(){$/;"	f	class:BacktrackUnit
 GetMatch	src/pu/composite_unit.cc	/^const Match& CompositeUnit::GetMatch() {$/;"	f	class:CompositeUnit
-GetMatch	src/pu/tnfa_unit.h	/^  const Match& GetMatch() { return matches.back(); }$/;"	f	class:TNFAUnit
+GetMatch	src/pu/tnfa_unit.cc	/^const Match& TNFAUnit::GetMatch() { return matches.back(); }$/;"	f	class:TNFAUnit
 HEX	build/CMakeFiles/3.2.1/CompilerIdC/CMakeCCompilerId.c	/^#define HEX(/;"	d	file:
 HEX	build/CMakeFiles/3.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#define HEX(/;"	d	file:
 IContext	src/tests/catch.h	/^    struct IContext$/;"	s	namespace:Catch
@@ -310,7 +310,7 @@ TBC_TEXT_FORMAT_CONSOLE_WIDTH	src/tests/catch.h	/^#define TBC_TEXT_FORMAT_CONSOL
 TBC_TEXT_FORMAT_H_INCLUDED	src/tests/catch.h	/^#define TBC_TEXT_FORMAT_H_INCLUDED$/;"	d
 THEN	src/tests/catch.h	/^#define THEN(/;"	d
 TNFA	src/pu/tnfa.cc	/^TNFA::TNFA($/;"	f	class:TNFA
-TNFAFinalState	src/pu/tnfa_final_state.cc	/^TNFAFinalState::TNFAFinalState(int len) : TNFAState(0), patternLength_(len) {}$/;"	f	class:TNFAFinalState
+TNFAFinalState	src/pu/tnfa_final_state.cc	/^TNFAFinalState::TNFAFinalState(int len, int edits)$/;"	f	class:TNFAFinalState
 TNFAFinalState	src/pu/tnfa_final_state.h	/^class TNFAFinalState : public TNFAState {$/;"	c
 TNFALevenshteinState	src/pu/tnfa_levenshtein_state.h	/^TNFALevenshteinState::TNFALevenshteinState(uint64_t e[8]) : TNFAState(0) {$/;"	f	class:TNFALevenshteinState
 TNFALevenshteinState	src/pu/tnfa_levenshtein_state.h	/^class TNFALevenshteinState : public TNFAState {$/;"	c
@@ -422,10 +422,10 @@ __init__	ReferenceSRC/sfm_python.py	/^    def __init__(self, ref_unit, M, I, D, 
 __init__	ReferenceSRC/sfm_python.py	/^    def __init__(self, seq, M, I, D):$/;"	m	class:SequenceUnit
 __init__	ReferenceSRC/sfm_python.py	/^    def __init__(self, units):$/;"	m	class:CompositeUnit
 __str__	ReferenceSRC/sfm_python.py	/^    def __str__(self):$/;"	m	class:MatchSet	file:
-addEpsilonTransitions	src/pu/tnfa_final_state.cc	/^void TNFAFinalState::addEpsilonTransitions(bool,$/;"	f	class:TNFAFinalState
-addEpsilonTransitions	src/pu/tnfa_levenshtein_state.h	/^void TNFALevenshteinState::addEpsilonTransitions(bool listNo,$/;"	f	class:TNFALevenshteinState
+addEpsilonTransitions	src/pu/tnfa_final_state.cc	/^void TNFAFinalState::addEpsilonTransitions(bool listNo,$/;"	f	class:TNFAFinalState
+addEpsilonTransitions	src/pu/tnfa_levenshtein_state.h	/^void TNFALevenshteinState::addEpsilonTransitions($/;"	f	class:TNFALevenshteinState
 addEpsilonTransitions	src/pu/tnfa_state.cc	/^void TNFAState::addEpsilonTransitions(bool listNo,$/;"	f	class:TNFAState
-addOutStates	src/pu/tnfa_final_state.cc	/^void TNFAFinalState::addOutStates(bool, std::string::const_iterator,$/;"	f	class:TNFAFinalState
+addOutStates	src/pu/tnfa_final_state.cc	/^void TNFAFinalState::addOutStates(bool listNo, std::string::const_iterator pos,$/;"	f	class:TNFAFinalState
 addOutStates	src/pu/tnfa_levenshtein_state.h	/^void TNFALevenshteinState::addOutStates(bool listNo,$/;"	f	class:TNFALevenshteinState
 addOutStates	src/pu/tnfa_state.cc	/^void TNFAState::addOutStates(bool listNo, std::string::const_iterator pos,$/;"	f	class:TNFAState
 addRef	src/tests/catch.h	/^        virtual void addRef() const {$/;"	f	struct:Catch::SharedImpl
@@ -479,8 +479,8 @@ description	src/tests/catch.h	/^    const char* description;$/;"	m	struct:Catch:
 display	src/pu/tnfa_levenshtein_state.h	/^void TNFALevenshteinState::display(bool) {$/;"	f	class:TNFALevenshteinState
 display	src/pu/tnfa_state.cc	/^void TNFAState::display(bool listNo) {$/;"	f	class:TNFAState
 edits	src/match.h	/^  const int edits;$/;"	m	class:Match
-errorCode	src/pu/tnfa_state.h	/^  uint64_t errorCode[2][8];$/;"	m	class:TNFAState
-errorCode_	src/pu/tnfa_unit.h	/^  uint64_t errorCode_[8];$/;"	m	class:TNFAUnit
+errorCode_	src/pu/tnfa_state.h	/^  uint64_t errorCode_$/;"	m	class:TNFAState
+errorCode_	src/pu/tnfa_unit.h	/^  uint64_t                    errorCode_[8];$/;"	m	class:TNFAUnit
 evaluate	src/tests/catch.h	/^        static bool evaluate( T1 const& lhs, T2 const& rhs ) {$/;"	f	struct:Catch::Internal::Evaluator
 evaluate	src/tests/catch.h	/^        static bool evaluate( T1 const& lhs, T2 const& rhs) {$/;"	f	struct:Catch::Internal::Evaluator
 fastLongestPalindromes	ReferenceSRC/manachers.cpp	/^void fastLongestPalindromes(RAI1 seq,RAI1 seqEnd,RAI2 out)$/;"	f
@@ -518,16 +518,16 @@ isJustInfo	src/tests/catch.h	/^    inline bool isJustInfo( int flags ) {$/;"	f	n
 isOk	src/tests/catch.h	/^    inline bool isOk( ResultWas::OfType resultType ) {$/;"	f	namespace:Catch
 isTrue	src/tests/catch.h	/^    inline bool isTrue( bool value ){ return value; }$/;"	f	namespace:Catch
 kmp	ReferenceSRC/kmp.cpp	/^int kmp(const char *target, int tsize, const char *pattern, int psize)$/;"	f
-last_found_index_	src/pu/backtrack_unit.h	/^  int last_found_index_;$/;"	m	class:BacktrackUnit
-last_found_matches_	src/pu/backtrack_unit.h	/^  std::set<Match> last_found_matches_;$/;"	m	class:BacktrackUnit
+last_found_index_	src/pu/backtrack_unit.h	/^  int                         last_found_index_;$/;"	m	class:BacktrackUnit
+last_found_matches_	src/pu/backtrack_unit.h	/^  std::set<Match>             last_found_matches_;$/;"	m	class:BacktrackUnit
 len	src/match.h	/^  const int len;$/;"	m	class:Match
 lhs	src/tests/catch.h	/^            std::string lhs, rhs, op;$/;"	m	struct:Catch::ResultBuilder::ExprComponents
 line	src/tests/catch.h	/^        std::size_t line;$/;"	m	struct:Catch::SourceLineInfo
 lineInfo	src/tests/catch.h	/^        SourceLineInfo lineInfo;$/;"	m	struct:Catch::AssertionInfo
 listID	src/pu/tnfa_state.h	/^  std::string::const_iterator *listID;  \/\/ used check if state already added$/;"	m	class:TNFAState
 listID_	src/pu/tnfa_state.h	/^  uint32_t listID_;$/;"	m	class:TNFAState
-listID_	src/pu/tnfa_unit.h	/^  uint32_t listID_;$/;"	m	class:TNFAUnit
-listNo_	src/pu/tnfa_unit.h	/^  bool listNo_;$/;"	m	class:TNFAUnit
+listID_	src/pu/tnfa_unit.h	/^  uint32_t                    listID_;$/;"	m	class:TNFAUnit
+listNo_	src/pu/tnfa_unit.h	/^  bool                        listNo_;$/;"	m	class:TNFAUnit
 loose_match	ReferenceSRC/sfm_python.py	/^def loose_match(S,i,P,M,I,D,j=0, ret=MatchSet(None)):$/;"	f
 m_assertionInfo	src/tests/catch.h	/^        AssertionInfo m_assertionInfo;$/;"	m	class:Catch::ResultBuilder
 m_count	src/tests/catch.h	/^        std::size_t m_count;$/;"	m	struct:Catch::pluralise
@@ -561,7 +561,8 @@ matches	ReferenceSRC/sfm_python.py	/^    def matches(self, seq, pos):$/;"	m	clas
 matches	ReferenceSRC/sfm_python.py	/^    def matches(self, seq, pos):$/;"	m	class:RangeUnit
 matches	ReferenceSRC/sfm_python.py	/^    def matches(self, seq, pos):$/;"	m	class:ReferenceUnit
 matches	ReferenceSRC/sfm_python.py	/^    def matches(self, seq, pos):$/;"	m	class:SequenceUnit
-matches	src/pu/tnfa_unit.h	/^  vector< Match > matches;$/;"	m	class:TNFAUnit
+matches	src/pu/tnfa_unit.h	/^  vector< Match >             matches;$/;"	m	class:TNFAUnit
+maxEdits_	src/pu/tnfa_final_state.h	/^  int maxEdits_;$/;"	m	class:TNFAFinalState
 max_edits_	src/modifiers.h	/^  const int max_edits_;$/;"	m	class:Modifiers
 max_repeats_	src/modifiers.h	/^  const int max_repeats_;$/;"	m	class:Modifiers
 message	src/tests/catch.h	/^        std::string message;$/;"	m	struct:Catch::AssertionResultData
@@ -599,7 +600,7 @@ override	src/pu/composite_unit.h	/^  bool FindMatch() override;$/;"	m	class:Comp
 override	src/pu/composite_unit.h	/^  const Match& GetMatch() override;$/;"	m	class:CompositeUnit
 pathTag	src/pu/tnfa_state.h	/^  uint32_t pathTag;  \/\/ Tag recording beginning index of matching substring$/;"	m	class:TNFAState
 patternLength_	src/pu/tnfa_final_state.h	/^  int patternLength_;$/;"	m	class:TNFAFinalState
-pattern_	src/pu/backtrack_unit.h	/^  const std::string pattern_;$/;"	m	class:BacktrackUnit
+pattern_	src/pu/backtrack_unit.h	/^  const std::string           pattern_;$/;"	m	class:BacktrackUnit
 pattern_	src/pu/tnfa_unit.h	/^  const std::string pattern_;$/;"	m	class:TNFAUnit
 performOptionalSelector	src/tests/catch.h	/^inline id performOptionalSelector( id obj, SEL sel ) {$/;"	f
 pluralise	src/tests/catch.h	/^    struct pluralise {$/;"	s	namespace:Catch
@@ -636,11 +637,12 @@ shouldContinueOnFailure	src/tests/catch.h	/^    inline bool shouldContinueOnFail
 shouldSuppressFailure	src/tests/catch.h	/^    inline bool shouldSuppressFailure( int flags )      { return ( flags & ResultDisposition::SuppressFail ) != 0; }$/;"	f	namespace:Catch
 sizer	src/tests/catch.h	/^    struct FalseType { char sizer[2]; };$/;"	m	struct:Catch::Detail::FalseType
 sizer	src/tests/catch.h	/^    struct TrueType { char sizer[1]; };$/;"	m	struct:Catch::Detail::TrueType
-startState_	src/pu/tnfa_unit.h	/^  TNFAState *startState_;$/;"	m	class:TNFAUnit
-stateErrorCode	src/pu/tnfa_levenshtein_state.h	/^  uint64_t stateErrorCode[ 8 ];$/;"	m	class:TNFALevenshteinState
-stateLists_	src/pu/tnfa_unit.h	/^  vector< TNFAState * > stateLists_[ 2 ];$/;"	m	class:TNFAUnit
-stay_at_pos_	src/pu/backtrack_unit.h	/^  bool stay_at_pos_;$/;"	m	class:BacktrackUnit
+startState_	src/pu/tnfa_unit.h	/^  TNFAState                   *startState_;$/;"	m	class:TNFAUnit
+stateErrorCode_	src/pu/tnfa_levenshtein_state.h	/^  uint64_t stateErrorCode_[ 8 ];$/;"	m	class:TNFALevenshteinState
+stateLists_	src/pu/tnfa_unit.h	/^  vector< TNFAState * >       stateLists_[ 2 ];$/;"	m	class:TNFAUnit
+stay_at_pos_	src/pu/backtrack_unit.h	/^  bool                        stay_at_pos_;$/;"	m	class:BacktrackUnit
 stay_at_pos_	src/pu/composite_unit.h	/^  bool stay_at_pos_;$/;"	m	class:CompositeUnit
+stay_at_pos_	src/pu/tnfa_unit.h	/^  bool                        stay_at_pos_;$/;"	m	class:TNFAUnit
 swap	src/tests/catch.h	/^        void swap( Ptr& other ) { std::swap( m_p, other.m_p ); }$/;"	f	class:Catch::Ptr
 t	src/tests/catch.h	/^        static T  const&t;$/;"	m	struct:Catch::Detail::IsStreamInsertable
 testFalse	src/tests/catch.h	/^            bool testFalse;$/;"	m	struct:Catch::ResultBuilder::ExprComponents
