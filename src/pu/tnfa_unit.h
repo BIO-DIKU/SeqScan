@@ -35,8 +35,7 @@ class TNFAUnit : public PatternUnit {
                   std::string::const_iterator max_pos,
                   bool stay_at_pos = false);
   bool FindMatch();
-  // TODO(Sune): Implement
-  const Match& GetMatch() { return matches.back(); }
+  const Match& GetMatch();
   void ModifiersToErrorCode(const Modifiers &modifiers);
 
  private:

@@ -87,3 +87,5 @@ void TNFAUnit::ModifiersToErrorCode(const Modifiers &modifiers) {
       errorCode_[(c & 0x1C0) / 64] += (uint64_t) 1 << c % 64;
   }
 }
+
+const Match& TNFAUnit::GetMatch() { return matches.back(); }
