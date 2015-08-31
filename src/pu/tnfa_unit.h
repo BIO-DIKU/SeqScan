@@ -44,12 +44,13 @@ class TNFAUnit : public PatternUnit {
 
   std::string::const_iterator sequence_iterator_;
   std::string::const_iterator sequence_iterator_end_;
-  TNFAState *startState_;
-  uint64_t errorCode_[8];
-  vector< TNFAState * > stateLists_[ 2 ];
-  bool listNo_;
-  vector< Match > matches;
-  uint32_t listID_;
+  bool                        stay_at_pos_;
+  TNFAState                   *startState_;
+  uint64_t                    errorCode_[8];
+  vector< TNFAState * >       stateLists_[ 2 ];
+  bool                        listNo_;
+  vector< Match >             matches;
+  uint32_t                    listID_;
 };
 
 #endif  // PU_TNFA_UNIT_H_

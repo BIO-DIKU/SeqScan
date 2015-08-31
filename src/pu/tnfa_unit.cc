@@ -49,6 +49,7 @@ void TNFAUnit::Initialize(std::string::const_iterator pos,
                                   bool stay_at_pos ) {
   sequence_iterator_ = pos;
   sequence_iterator_end_ = max_pos;
+  stay_at_pos_ = stay_at_pos;
   matches.clear();
   stateLists_[ 0 ].clear();
   stateLists_[ 1 ].clear();
@@ -66,14 +67,12 @@ bool TNFAUnit::FindMatch() {
   for (; sequence_iterator_ != sequence_iterator_end_ && matches.empty();
        sequence_iterator_++) {
     stateLists_[listNo_ = ++listID_ % 2].clear();
-    startState_->addToList(TNFAState::newCode, listID_, listNo_,
-                           sequence_iterator_, stateLists_, matches, listID_);
-    std::cout << *sequence_iterator_ << std::endl;
-    for (TNFAState *s : stateLists_[!listNo_]) {
+    if(!stay_at_pos_)
+      startState_->addToList(TNFAState::newCode, listID_, listNo_,
+                             sequence_iterator_, stateLists_, matches, listID_);
+    for (TNFAState *s : stateLists_[!listNo_])
       s->addOutStates(listNo_, sequence_iterator_, stateLists_, matches,
                       listID_);
-      s->display(listNo_);
-    }
   }
   if (!matches.empty())
     return true;
