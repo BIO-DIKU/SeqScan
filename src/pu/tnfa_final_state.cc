@@ -23,17 +23,31 @@
 
 extern bool showAllMatches;
 
-TNFAFinalState::TNFAFinalState(int len) : TNFAState(0), patternLength_(len) {}
+TNFAFinalState::TNFAFinalState(int len, int edits)
+  : TNFAState(0), patternLength_(len), maxEdits_(edits) {}
 
-void TNFAFinalState::addOutStates(bool, std::string::const_iterator,
-                                  vector< TNFAState * > [],
-                                  vector< Match > &, uint32_t) {}
+void TNFAFinalState::addOutStates(bool listNo, std::string::const_iterator pos,
+                                  vector< TNFAState * > stateLists[],
+                                  vector< Match > &matches, uint32_t listID) {
+  if (insertions(errorCode_[!listNo]))
+    addToList(decrementInsertions(errorCode_[!listNo]), pathTag, listNo,
+              pos, stateLists, matches, listID);
+}
 
-void TNFAFinalState::addEpsilonTransitions(bool,
+void TNFAFinalState::addEpsilonTransitions(bool listNo,
                                            std::string::const_iterator pos,
-                                           vector< TNFAState * >[],
+                                           vector< TNFAState * > stateLists[],
                                            vector< Match > &matches,
                                            uint32_t listID) {
-  // matches.push_back(Match(listID - patternLength_, patternLength_, 0));
-  matches.push_back(Match(pos - patternLength_, patternLength_, 0));
+  // Find length and number of used edits for all matches
+  std::set<pair<int, int>> matchPairs;
+  for (int c = 511; c >= 0; c--)
+    if (errorCode_[listNo][c / 64] & (uint64_t) 1 << c % 64)
+      matchPairs.insert( pair<int, int>((c & 0x38) / 8 - (c & 0x1C0) / 64,
+                                        (c & 7) + (c & 0x38) / 8 + (c & 0x1C0) / 64));
+  for (auto matchPair : matchPairs) {
+    matches.push_back(Match(pos - patternLength_ + 1,
+                            patternLength_ + matchPair.first,
+                            maxEdits_ - matchPair.second));
+  }
 }

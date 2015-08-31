@@ -85,7 +85,8 @@ class TNFAState {
    * other is read. If only one error code was used race conditions could
    * arise.
    */
-  uint64_t errorCode[2][8];
+  uint64_t errorCode_
+    [2][8];
   uint32_t listID_;
 };
 
