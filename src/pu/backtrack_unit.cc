@@ -53,8 +53,7 @@ bool BacktrackUnit::FindMatch()
 
   if(stay_at_pos_){
     //TODO(Ras) This is a little ugly. Clean up when not tired
-    if(last_found_index_!=0 && last_found_index_+1>=last_found_matches_.size())
-    {
+    if(last_found_index_!=0 && last_found_index_+1>=last_found_matches_.size()) {
       return false;
     }
     if (last_found_matches_.empty()) {
