@@ -39,24 +39,24 @@ void TNFAState::addToList(uint64_t e[8], uint32_t tags, bool listNo,
     listID_ = listID;
 
     for (int i = 0; i < 8; i++)
-      errorCode[listNo][i] = e[i];
+      errorCode_[listNo][i] = e[i];
 
     pathTag = tags;
     addEpsilonTransitions(listNo, pos, stateLists, matches, listID);
     stateLists[listNo].push_back(this);
-  } else if ((errorCode[listNo][0] | e[0]) != errorCode[listNo][0] ||
-             (errorCode[listNo][1] | e[1]) != errorCode[listNo][1] ||
-             (errorCode[listNo][2] | e[2]) != errorCode[listNo][2] ||
-             (errorCode[listNo][3] | e[3]) != errorCode[listNo][3] ||
-             (errorCode[listNo][4] | e[4]) != errorCode[listNo][4] ||
-             (errorCode[listNo][5] | e[5]) != errorCode[listNo][5] ||
-             (errorCode[listNo][6] | e[6]) != errorCode[listNo][6] ||
-             (errorCode[listNo][7] | e[7]) != errorCode[listNo][7] ) {
+  } else if ((errorCode_[listNo][0] | e[0]) != errorCode_[listNo][0] ||
+             (errorCode_[listNo][1] | e[1]) != errorCode_[listNo][1] ||
+             (errorCode_[listNo][2] | e[2]) != errorCode_[listNo][2] ||
+             (errorCode_[listNo][3] | e[3]) != errorCode_[listNo][3] ||
+             (errorCode_[listNo][4] | e[4]) != errorCode_[listNo][4] ||
+             (errorCode_[listNo][5] | e[5]) != errorCode_[listNo][5] ||
+             (errorCode_[listNo][6] | e[6]) != errorCode_[listNo][6] ||
+             (errorCode_[listNo][7] | e[7]) != errorCode_[listNo][7] ) {
     /* The union of two error subsets corresponds to the alternation of the
      * error codes.
      */
     for ( int i = 0; i < 8; i++ )
-      errorCode[listNo][i] |= e[i];
+      errorCode_[listNo][i] |= e[i];
     addEpsilonTransitions(listNo, pos, stateLists, matches, listID);
     pathTag = tags;
   }
@@ -68,8 +68,8 @@ void TNFAState::addEpsilonTransitions(bool listNo,
                                       vector< Match > &matches,
                                       uint32_t listID) {
   // Handle deletions
-  if (deletions(errorCode[listNo])) {
-    out_->addToList(decrementDeletions(errorCode[listNo]), pathTag, listNo,
+  if (deletions(errorCode_[listNo])) {
+    out_->addToList(decrementDeletions(errorCode_[listNo]), pathTag, listNo,
                     pos, stateLists, matches, listID);
   }
 }
@@ -79,23 +79,23 @@ void TNFAState::addOutStates(bool listNo, std::string::const_iterator pos,
                              vector< Match > &matches, uint32_t listID) {
   // TODO(Sune): Handle lower/upper case with modifiers
   if (*pos == c) {
-    out_->addToList(errorCode[ !listNo ], pathTag, listNo, pos, stateLists,
+    out_->addToList(errorCode_[ !listNo ], pathTag, listNo, pos, stateLists,
                     matches, listID);
   } else {
     // Handle mismatches
-    if (mismatches(errorCode[!listNo]))
-      out_->addToList(decrementMismatches(errorCode[!listNo]), pathTag,
+    if (mismatches(errorCode_[!listNo]))
+      out_->addToList(decrementMismatches(errorCode_[!listNo]), pathTag,
                       listNo, pos, stateLists, matches, listID);
     // Handle insertions
-    if (insertions(errorCode[!listNo]))
-      addToList(decrementInsertions(errorCode[!listNo]), pathTag, listNo,
+    if (insertions(errorCode_[!listNo]))
+      addToList(decrementInsertions(errorCode_[!listNo]), pathTag, listNo,
                 pos, stateLists, matches, listID);
   }
 }
 
 void TNFAState::display(bool listNo) {
   printf("TNFAState %p on %c points to %p with errorcode %llu\n", (void *) this,
-         c, (void *) out_, errorCode[!listNo][0]);
+         c, (void *) out_, errorCode_[!listNo][0]);
 }
 
 bool TNFAState::mismatches(uint64_t eCode[8]) {

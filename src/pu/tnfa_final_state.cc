@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2015 BIO-DIKU.
  *
@@ -21,19 +20,47 @@
 
 #include "tnfa_final_state.h"
 
+#include <map>
+
 extern bool showAllMatches;
 
-TNFAFinalState::TNFAFinalState(int len) : TNFAState(0), patternLength_(len) {}
+TNFAFinalState::TNFAFinalState(int len, int edits)
+  : TNFAState(0), patternLength_(len), maxEdits_(edits) {}
 
-void TNFAFinalState::addOutStates(bool, std::string::const_iterator,
-                                  vector< TNFAState * > [],
-                                  vector< Match > &, uint32_t) {}
+void TNFAFinalState::addOutStates(bool listNo, std::string::const_iterator pos,
+                                  vector< TNFAState * > stateLists[],
+                                  vector< Match > &matches, uint32_t listID) {
+  if (insertions(errorCode_[!listNo]))
+    addToList(decrementInsertions(errorCode_[!listNo]), pathTag, listNo,
+              pos, stateLists, matches, listID);
+}
 
-void TNFAFinalState::addEpsilonTransitions(bool,
+void TNFAFinalState::addEpsilonTransitions(bool listNo,
                                            std::string::const_iterator pos,
-                                           vector< TNFAState * >[],
+                                           vector< TNFAState * > stateLists[],
                                            vector< Match > &matches,
                                            uint32_t listID) {
-  //matches.push_back(Match(listID - patternLength_, patternLength_, 0));
-  matches.push_back(Match(pos - patternLength_, patternLength_, 0));
+  // Find length and number of used edits for all matches
+  std::map<int, int> matchMap;  // TODO(Sune): should be intialized somehow
+  int                matchLength = 0;
+  int                editsLeft   = 0;
+
+  // FIXME(Sune): suggestion: replace magic numbers (511, 0x38 etc) with
+  // constants. Possibly also replace cryptic statements such as
+  // (uint64_t) 1 << c % 64) with inline functions or macros (the latter seems
+  // to be discuraged because of scope issues). The inline function name will
+  // improve understanding of the code ala:
+  //   inline bool bit_is_set(int c, ...) {...}
+  for (int c = 511; c >= 0; c--) {
+    if (errorCode_[listNo][c / 64] & (uint64_t) 1 << c % 64) {
+      matchLength = patternLength_ + (c & 0x38) / 8 - (c & 0x1C0) / 64;
+      editsLeft = (c & 7) + (c & 0x38) / 8 + (c & 0x1C0) / 64;
+      if (matchMap.count(matchLength) == 0 || matchMap[matchLength] < editsLeft)
+        matchMap[matchLength] = editsLeft;
+    }
+  }
+
+  for (auto matchPair : matchMap)
+    matches.push_back(Match(pos - matchPair.first + 1, matchPair.first,
+                            maxEdits_ - matchPair.second));
 }

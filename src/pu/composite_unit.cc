@@ -45,8 +45,7 @@ void CompositeUnit::Initialize(
 
 // Assumes its being called from FindMatch and that all entries in child_units_ has returned true
 // to a FindMatch call.
-void CompositeUnit::ComposeMatches()
-{
+void CompositeUnit::ComposeMatches() {
   std::string::const_iterator match_pos = child_units_.at(0)->GetMatch().pos;
 
   int match_length = 0; // Total length of the CompositeUnit match
@@ -62,8 +61,7 @@ void CompositeUnit::ComposeMatches()
   composite_match_ = new Match( match_pos, match_length, match_edits );
 }
 
-bool CompositeUnit::FindMatch()
-{
+bool CompositeUnit::FindMatch() {
   size_t n = child_units_.size();
 
   // Inner loop tries to find a match with current unit and increase to the
@@ -71,26 +69,27 @@ bool CompositeUnit::FindMatch()
   for ( ; current_unit_ >=0; current_unit_-- ) {
     for ( ; current_unit_ <n; current_unit_++ ) {
 
-      if ( child_units_.at(current_unit_)->FindMatch() ){
+      if ( child_units_.at(current_unit_)->FindMatch() ) {
 
 
         // A match was found on the last of the punits. Success
-        if (current_unit_ ==n-1) {
+        if (current_unit_ == n - 1) {
           ComposeMatches();
           return true;
         }
 
         // Next loop iteration will FindMatch on next current_unit_. Initialize it
-        const Match& cur_match = child_units_.at(current_unit_)->GetMatch();
-        child_units_.at( current_unit_ + 1 )->Initialize(
-            cur_match.pos+cur_match.len,
+        const Match &cur_match = child_units_.at(current_unit_)->GetMatch();
+        child_units_.at(current_unit_ + 1)->Initialize(
+            cur_match.pos + cur_match.len,
             sequence_iterator_end_,
             true
         );
 
-      }
-      else // No more matches at current_unit_. Break loop and decrease
+      } else {
+      // No more matches at current_unit_. Break loop and decrease
         break;
+      }
     }
   }
 
@@ -101,13 +100,11 @@ const Match& CompositeUnit::GetMatch() {
   return *composite_match_;
 }
 
-std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj)
-{
+std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj) {
   return obj.print(os);
 }
 
-std::ostream& CompositeUnit::print(std::ostream& os) const
-{
+std::ostream& CompositeUnit::print(std::ostream& os) const {
   for(size_t i=0;i< child_units_.size()-1;i++){
     child_units_.at(i)->print(os)<<" ";
   }

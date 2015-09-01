@@ -17,6 +17,7 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
+
 #ifndef BACKTRACK_UNIT_H
 #define BACKTRACK_UNIT_H
 
@@ -28,38 +29,37 @@
 #include "pattern_unit.h"
 #include "../match.h"
 
+// TODO(someone): document this.
 class BacktrackUnit: public PatternUnit{
-
-public:
+ public:
   BacktrackUnit(const Modifiers &modifiers, const std::string& pattern);
 
   void Initialize(
       std::string::const_iterator pos,
       std::string::const_iterator max_pos,
-      bool stay_at_pos = false
-  );
+      bool stay_at_pos = false);
+
   bool FindMatch();
   const Match& GetMatch();
 
   std::ostream& print(std::ostream &os) const;
-private:
-  const std::string pattern_;
 
+ private:
+  const std::string           pattern_;
   std::string::const_iterator sequence_iterator_;
   std::string::const_iterator sequence_iterator_end_;
-  bool stay_at_pos_;
-
-  std::set<Match> last_found_matches_;
-  int last_found_index_;
+  bool                        stay_at_pos_;
+  std::set<Match>             last_found_matches_;
+  int                         last_found_index_;
 
   void CollectMatches(std::string::const_iterator seq_it,
                       std::string::const_iterator pat_it,
                       const int M_left, const int I_left, const int D_left,
-                      const int M_used, const int I_used, const int D_used  );
+                      const int M_used, const int I_used, const int D_used);
 
   friend std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj);
 };
 
 std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj);
 
-#endif // BACKTRACK_UNIT_H
+#endif  // BACKTRACK_UNIT_H

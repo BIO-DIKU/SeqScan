@@ -37,19 +37,18 @@ class TNFALevenshteinState : public TNFAState {
                     vector< Match > &, uint32_t);
   void display(bool);
  private:
-  uint64_t stateErrorCode[ 8 ];
+  uint64_t stateErrorCode_[ 8 ];
 };
 
 TNFALevenshteinState::TNFALevenshteinState(uint64_t e[8]) : TNFAState(0) {
   for (int i = 0; i < 8; i++)
-    stateErrorCode[ i ] = e[ i ];
+    stateErrorCode_[ i ] = e[ i ];
 }
 
-void TNFALevenshteinState::addEpsilonTransitions(bool listNo,
-    std::string::const_iterator pos, vector< TNFAState * > stateLists[],
+void TNFALevenshteinState::addEpsilonTransitions(
+    bool listNo, std::string::const_iterator pos, vector< TNFAState * > stateLists[],
     vector< Match > &matches, uint32_t listID) {
-  out_->addToList(stateErrorCode, pathTag, listNo, pos, stateLists, matches,
-                  listID);
+  out_->addToList(stateErrorCode_, pathTag, listNo, pos, stateLists, matches, listID);
 }
 
 void TNFALevenshteinState::addOutStates(bool listNo,
@@ -57,14 +56,14 @@ void TNFALevenshteinState::addOutStates(bool listNo,
                                         vector< TNFAState * > stateLists[],
                                         vector< Match > &matches,
                                         uint32_t listID) {
-  if (insertions(errorCode[!listNo]))
-    addToList(decrementInsertions(errorCode[!listNo]), pathTag, listNo, pos,
+  if (insertions(errorCode_[!listNo]))
+    addToList(decrementInsertions(errorCode_[!listNo]), pathTag, listNo, pos,
               stateLists, matches, listID);
 }
 
 void TNFALevenshteinState::display(bool) {
   printf("LevenshteinState %p points to %p with error code %llu\n",
-    (void *) this, (void *) out_, stateErrorCode[0]);
+    (void *) this, (void *) out_, stateErrorCode_[0]);
 }
 
 

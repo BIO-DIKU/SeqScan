@@ -17,20 +17,20 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
- 
+
 #ifndef COMPOSITE_UNIT_H_
 #define COMPOSITE_UNIT_H_
 
 #include <vector>
 #include <set>
+#include <string>
 #include "pattern_unit.h"
 
 /**
  * A pattern unit composed of other units (child units) that must match subsequences in order and
  * without gaps. Child units are delivered to the CompositeUnit using the AddUnit.
  */
-class CompositeUnit: public PatternUnit
-{
+class CompositeUnit: public PatternUnit {
 public:
   /// Construct a CompositeUnit with the specified modifiers
   CompositeUnit(const Modifiers &modifiers);
@@ -38,12 +38,9 @@ public:
   /** Add the specified child unit. Ownership of the passed argument is taken over. */
   void AddUnit(std::unique_ptr<PatternUnit> &unit);
 
-  void Initialize(
-      std::string::const_iterator pos,
-      std::string::const_iterator max_pos,
-      bool stay_at_pos=false
-  ) override;
-
+  void Initialize(std::string::const_iterator pos,
+                  std::string::const_iterator max_pos,
+                  bool stay_at_pos = false);
   bool FindMatch() override;
 
   const Match& GetMatch() override;
