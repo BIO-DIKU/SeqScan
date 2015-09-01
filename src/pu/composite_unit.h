@@ -25,37 +25,53 @@
 #include <set>
 #include "pattern_unit.h"
 
+/**
+ * A pattern unit composed of other units (child units) that must match subsequences in order and
+ * without gaps. Child units are delivered to the CompositeUnit using the AddUnit.
+ */
 class CompositeUnit: public PatternUnit
 {
 public:
+  /// Construct a CompositeUnit with the specified modifiers
   CompositeUnit(const Modifiers &modifiers);
 
+  /** Add the specified child unit. Ownership of the passed argument is taken over. */
   void AddUnit(std::unique_ptr<PatternUnit> &unit);
 
   void Initialize(
       std::string::const_iterator pos,
       std::string::const_iterator max_pos,
       bool stay_at_pos=false
-  );
+  ) override;
+
   bool FindMatch() override;
+
   const Match& GetMatch() override;
 
-  std::ostream& print(std::ostream &os) const;
-private:
-  std::vector< std::unique_ptr<PatternUnit> > punits_;
+  std::ostream& print(std::ostream &os) const override;
 
-  /** When FindMatch returns true each entry in punits_ will have a  valid
-   * match, which this function composes into one overall match. */
+private:
+  /** The child units. */
+  std::vector< std::unique_ptr<PatternUnit> > child_units_;
+
+  /** When FindMatch returns true each entry in child_units_ will have a valid match, which this
+   * function composes into composite_match_. */
   void ComposeMatches();
+
+  /** The match that gets returned when calling GetMatch. This member gets reallocated each time
+   * FindMatch returns true. */
   Match* composite_match_;
 
-  std::string::const_iterator sequence_iterator_;
+  /** The end of the sequence iterator. */
   std::string::const_iterator sequence_iterator_end_;
+
+  /** Indicates whether FindMatch should search for matches starting at other positions than the
+   * one indicated in Initialize */
   bool stay_at_pos_;
 
-  int current_unit_;
-
-  friend std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj);
+  /** The current child-unit, i.e. the first unit that hasn't detected a match. If
+   * current_unit_==child_units_.size() then all child-units have found consecutive matches. */
+  size_t current_unit_;
 
 };
 
