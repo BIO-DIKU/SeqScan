@@ -62,6 +62,7 @@ void CompositeUnit::ComposeMatches() {
 }
 
 bool CompositeUnit::FindMatch() {
+  std::cout<<"FindMatch()"<<std::endl;
   size_t n = child_units_.size();
 
   // Inner loop tries to find a match with current unit and increase to the
@@ -70,7 +71,6 @@ bool CompositeUnit::FindMatch() {
     for ( ; current_unit_ <n; current_unit_++ ) {
 
       if ( child_units_.at(current_unit_)->FindMatch() ) {
-
 
         // A match was found on the last of the punits. Success
         if (current_unit_ == n - 1) {
@@ -86,9 +86,16 @@ bool CompositeUnit::FindMatch() {
             true
         );
 
+      } else if(current_unit_==0) {
+
+        // child_units_[0] has no more matches. We're done.
+        return false;
+
       } else {
-      // No more matches at current_unit_. Break loop and decrease
+
+        // No more matches at current_unit_. Break loop and decrease
         break;
+
       }
     }
   }
@@ -101,13 +108,13 @@ const Match& CompositeUnit::GetMatch() {
 }
 
 std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj) {
-  return obj.print(os);
+  return obj.Print(os);
 }
 
-std::ostream& CompositeUnit::print(std::ostream& os) const {
+std::ostream& CompositeUnit::Print(std::ostream &os) const {
   for(size_t i=0;i< child_units_.size()-1;i++){
-    child_units_.at(i)->print(os)<<" ";
+    child_units_.at(i)->Print(os)<<" ";
   }
-  child_units_.back()->print(os);
+  child_units_.back()->Print(os);
   return os;
 }

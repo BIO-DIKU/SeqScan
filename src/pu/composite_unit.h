@@ -45,7 +45,7 @@ public:
 
   const Match& GetMatch() override;
 
-  std::ostream& print(std::ostream &os) const override;
+  std::ostream&Print(std::ostream &os) const override;
 
 private:
   /** The child units. */
