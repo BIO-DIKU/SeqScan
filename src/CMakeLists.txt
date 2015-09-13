@@ -39,7 +39,7 @@ add_library(libseqscan
   pu/backtrack_unit.cc 
   pu/tnfa_unit.cc
   pu/tnfa_state.cc
-  pu/tnfa_final_state.cc pu/repeat_unit.cc pu/repeat_unit.h)
+  pu/tnfa_final_state.cc pu/repeat_unit.cc pu/repeat_unit.h IO.cc IO.h)
 
 set_target_properties( libseqscan PROPERTIES PREFIX "" )
 
