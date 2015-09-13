@@ -2,6 +2,50 @@
 
 ![](https://github.com/BIO-DIKU/SeqScan/blob/develop/logo.png)
 
+Table of Contents
+=================
+
+  * [SeqScan](#seqscan)
+    * [Synopsis](#synopsis)
+    * [Download](#download)
+    * [Installation](#installation)
+      * [Compiling source](#compiling-source)
+    * [Pattern syntax](#pattern-syntax)
+      * [Exact](#exact)
+      * [Approximate](#approximate)
+      * [Reverse/Complement](#reversecomplement)
+      * [Or](#or)
+      * [Composite](#composite)
+      * [Repetitions](#repetitions)
+      * [Wildcard](#wildcard)
+      * [Range](#range)
+      * [Backreferences](#backreferences)
+      * [Match groups](#match-groups)
+      * [Anchors](#anchors)
+      * [Ambiguity codes and case](#ambiguity-codes-and-case)
+    * [Output](#output)
+      * [Sample output](#sample-output)
+    * [Examples](#examples)
+      * [Hybridization probe](#hybridization-probe)
+      * [Tetraloops](#tetraloops)
+      * [Protein motif](#protein-motif)
+      * [PCR](#pcr)
+      * [H/ACA snoRNA](#haca-snorna)
+    * [Advanced](#advanced)
+      * [Overlap](#overlap)
+      * [Minimum Phred score](#minimum-phred-score)
+      * [Match matrix](#match-matrix)
+    * [Filter](#filter)
+      * [Functions](#functions)
+      * [Examples](#examples-1)
+    * [Copyright](#copyright)
+    * [License](#license)
+    * [Disclaimer](#disclaimer)
+    * [Acknowledgement](#acknowledgement)
+    * [Contact](#contact)
+    * [Cite](#cite)
+    * [Bugs](#bugs)
+
 ## Synopsis
 
 SeqScan locate pattern matches in nucleotide and protein sequences. A pattern
@@ -75,7 +119,7 @@ SeqScan compiles with C++11 support but has no dependencies on other external
 libraries. To prepare makefiles for release versions of the library and
 executable, download the source code (see above) and type:
 
-	  $ tar -xzvf SeqScan-latest-src.tar.gz
+    $ tar -xzvf SeqScan-latest-src.tar.gz
     $ cd SeqScan-latest-src
     $ mkdir SeqScan-build
     $ cd SeqScan-build
@@ -109,8 +153,8 @@ sequence if the pattern is a subsequence:
 
 ### Approximate
 
-An approximate pattern unit is any pattern unit except with edit modifiers
-except composites.
+An approximate pattern unit is any pattern unit with edit modifiers except
+composites.
 
 **Mismatches:** allow a number of non-matching residues:
 
