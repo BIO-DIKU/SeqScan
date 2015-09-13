@@ -144,9 +144,9 @@ void BacktrackUnit::CollectMatches(
 
 std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj)
 {
-  return obj.print(os);
+  return obj.Print(os);
 }
-std::ostream& BacktrackUnit::print(std::ostream& os) const
+std::ostream& BacktrackUnit::Print(std::ostream &os) const
 {
   os<<pattern_;
   if (modifiers_.mismatches_ ||
@@ -158,4 +158,11 @@ std::ostream& BacktrackUnit::print(std::ostream& os) const
   }
 
   return os;
+}
+
+
+std::unique_ptr<PatternUnit> BacktrackUnit::Clone()
+{
+  std::unique_ptr<PatternUnit> ret( new BacktrackUnit(modifiers_, pattern_) );
+  return std::move(ret);
 }

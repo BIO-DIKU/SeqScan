@@ -75,11 +75,17 @@ public:
    */
   virtual const Match& GetMatch() = 0;
 
-  virtual std::ostream& print(std::ostream &os) const
+  virtual std::ostream& Print(std::ostream &os) const
   { os<<"PatternUnit(?)"; return os; }
 protected:
   const Modifiers modifiers_;
 
+  virtual std::unique_ptr<PatternUnit> Clone();
+
+  friend class RepeatUnit;
+
 };
+
+std::ostream& operator<<(std::ostream& os, const PatternUnit& obj);
 
 #endif  // PU_PATTERNUNIT_H_

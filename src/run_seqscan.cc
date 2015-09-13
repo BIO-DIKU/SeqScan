@@ -25,6 +25,7 @@
 #include "pu/composite_unit.h"
 #include "pu/backtrack_unit.h"
 #include "pu/tnfa_unit.h"
+#include "pu/repeat_unit.h"
 
 using namespace std;
 
@@ -73,6 +74,7 @@ int main() {
 
   */
 
+  /*
   // Set up test pattern "AAA/1,1,0 CCC"
   Modifiers m0 = Modifiers::CreateMIDModifiers(1, 1, 0);
   unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AAA"));
@@ -85,6 +87,23 @@ int main() {
   pu->AddUnit(pu1);
 
   string sequence = "TTTAAATCCCTTT";
+  cout<<"Finding all matches of '"<<(*pu)<<"' in '"<<sequence<<"'"<<endl;
+
+  pu->Initialize(sequence.cbegin(), sequence.cend());
+  while (pu->FindMatch()) {
+    const Match& m = pu->GetMatch();
+    printf("Starting position: %li\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m.len, m.edits);
+  }
+   */
+
+  // Set up test pattern "AA{2,4}"
+  Modifiers m0 = Modifiers::CreateMIDModifiers(1, 0, 0);
+  unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AA"));
+
+  Modifiers m = Modifiers::CreateStdModifiers();
+  unique_ptr<RepeatUnit> pu( new RepeatUnit(pu0, m, 2,4) );
+
+  string sequence = "TTTAAAAATCCCTTT";
   cout<<"Finding all matches of '"<<(*pu)<<"' in '"<<sequence<<"'"<<endl;
 
   pu->Initialize(sequence.cbegin(), sequence.cend());

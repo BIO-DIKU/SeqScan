@@ -62,13 +62,12 @@ void CompositeUnit::ComposeMatches() {
 }
 
 bool CompositeUnit::FindMatch() {
-  std::cout<<"FindMatch()"<<std::endl;
   size_t n = child_units_.size();
 
   // Inner loop tries to find a match with current unit and increase to the
   // next unit. If this fails, the outer loop will decrease current unit.
-  for ( ; current_unit_ >=0; current_unit_-- ) {
-    for ( ; current_unit_ <n; current_unit_++ ) {
+  for ( ; ; current_unit_-- ) {
+    for ( ; current_unit_<n; current_unit_++ ) {
 
       if ( child_units_.at(current_unit_)->FindMatch() ) {
 

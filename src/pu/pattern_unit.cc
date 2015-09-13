@@ -18,9 +18,22 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+#include <sstream>
 #include "pattern_unit.h"
 
 
 PatternUnit::PatternUnit(const Modifiers& modifiers):
     modifiers_(modifiers)
 {}
+
+std::unique_ptr<PatternUnit> PatternUnit::Clone()
+{
+  std::stringstream ss;
+  Print(ss);
+  throw "PatternUnit::Clone() - This pattern unit ("+ss.str()+") does not support cloning";
+}
+
+std::ostream& operator<<(std::ostream& os, const PatternUnit& obj)
+{
+  return obj.Print(os);
+}

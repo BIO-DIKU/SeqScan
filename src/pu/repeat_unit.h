@@ -21,21 +21,64 @@
 #ifndef SEQSCAN_REPEAT_UNIT_H
 #define SEQSCAN_REPEAT_UNIT_H
 
+#include <vector>
 #import "pattern_unit.h"
 
+/**
+ * A pattern unit which matches if and only if a child-unit matches a certain number of times
+ * consecutively. A range of valid number of repeats can be specified. This pattern unit will
+ * return matches corresponding to the maximal number of found repeats and no fewer. For example
+ * the pattern AAT{2,4} will have exactly one match of length 9 in the sequence AATAATAATAAC even
+ * though it could be argued that there is also two additional matches of length 6. This avoids
+ * combinatorial explosions in many cases.
+ *
+ */
 class RepeatUnit: public PatternUnit {
 
 public:
-  RepeatUnit(const Modifiers &modifiers, const int &min_repeats, const int &max_repeats) :
-      PatternUnit(modifiers),
-      min_repeats_(min_repeats),
-      max_repeats_(max_repeats)
-  { }
+  RepeatUnit(
+      std::unique_ptr<PatternUnit> &pu,
+      const Modifiers &modifiers,
+      const int &min_repeats,
+      const int &max_repeats
+  );
+
+  void Initialize(
+      std::string::const_iterator pos,
+      std::string::const_iterator max_pos,
+      bool stay_at_pos = false
+  ) override;
+
+  bool FindMatch() override;
+
+  const Match& GetMatch() override;
+
+  std::ostream& Print(std::ostream &os) const;
 
 private:
-  int min_repeats_;
-  int max_repeats_;
+
+  std::string::const_iterator sequence_iterator_end_;
+
+  /// The child pattern units to detect repeated matches of
+  std::vector< std::unique_ptr<PatternUnit> > child_units_;
+
+  /// Minimum number of repeats
+  const size_t min_repeats_;
+
+  /// Maximum number of repeats
+  const size_t max_repeats_;
+
+  int cur_repeat_;
+
+  /** When FindMatch returns true each entry in child_units_ from index 0 to cur_repeat_ will
+   * have a valid match, which this function composes into repeat_match_. */
+  void ComposeMatches();
+
+  /** The match that gets returned when calling GetMatch. This member gets reallocated each time
+   * FindMatch returns true. */
+  Match* repeat_match_;
 };
 
+std::ostream& operator<<(std::ostream& os, const RepeatUnit& obj);
 
 #endif //SEQSCAN_REPEAT_UNIT_H

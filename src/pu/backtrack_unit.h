@@ -49,7 +49,7 @@ class BacktrackUnit: public PatternUnit{
 
   const Match& GetMatch() override;
 
-  std::ostream& print(std::ostream &os) const;
+  std::ostream&Print(std::ostream &os) const;
 
  private:
   /** The pattern-string to search for. */
@@ -82,6 +82,8 @@ class BacktrackUnit: public PatternUnit{
                       const int M_left, const int I_left, const int D_left,
                       const int M_used, const int I_used, const int D_used);
 
+protected:
+  std::unique_ptr<PatternUnit> Clone();
 };
 
 std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj);
