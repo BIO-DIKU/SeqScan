@@ -44,6 +44,7 @@ void TNFAFinalState::addEpsilonTransitions(bool listNo,
   int matchLength, editsLeft;
   for (int c = 511; c >= 0; c--) {
     if (errorCode_[listNo][c / 64] & (uint64_t) 1 << c % 64) {
+      // matchLength = patternLength + unused deletions - unused insertions
       matchLength = patternLength_ + (c & 0x38) / 8 - (c & 0x1C0) / 64;
       editsLeft = (c & 7) + (c & 0x38) / 8 + (c & 0x1C0) / 64;
       if (matchMap.count(matchLength) == 0 || matchMap[matchLength] < editsLeft)
