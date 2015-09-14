@@ -31,7 +31,7 @@ add_library(libseqscan
   pu/tnfa_unit.h
   pu/tnfa_state.h
   pu/tnfa_final_state.h
-  pu/tnfa_levenshtein_state.h
+  pu/tnfa_start_state.h
 
   pu/pattern_unit.cc
   pu/composite_unit.cc
