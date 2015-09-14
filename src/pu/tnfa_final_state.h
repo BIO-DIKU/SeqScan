@@ -36,9 +36,9 @@ class TNFAFinalState : public TNFAState {
   TNFAFinalState(int len, int edits);
   void addEpsilonTransitions(bool, std::string::const_iterator,
                              vector< TNFAState * > [2],
-                             vector< Match > &, uint32_t);
+                             map<int, int> &, uint32_t);
   void addOutStates(bool, std::string::const_iterator,
-                    vector< TNFAState * > [2], vector< Match > &, uint32_t);
+                    vector< TNFAState * > [2], map<int, int> &, uint32_t);
  private:
   int patternLength_;
   int maxEdits_;
