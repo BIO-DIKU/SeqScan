@@ -46,19 +46,25 @@ void CompositeUnit::Initialize(
 // Assumes its being called from FindMatch and that all entries in child_units_ has returned true
 // to a FindMatch call.
 void CompositeUnit::ComposeMatches() {
-  std::string::const_iterator match_pos = child_units_.at(0)->GetMatch().pos;
+  //std::string::const_iterator match_pos = child_units_.at(0)->GetMatch().pos;
 
-  int match_length = 0; // Total length of the CompositeUnit match
-  int match_edits  = 0; // Total edits of the CompositeUnit match
+  //int match_length = 0; // Total length of the CompositeUnit match
+  //int match_edits  = 0; // Total edits of the CompositeUnit match
 
-  for (auto &pu: child_units_) {
-    match_length += pu->GetMatch().len;
-    match_edits  += pu->GetMatch().edits;
-  }
+  //for (auto &pu: child_units_) {
+  //  match_length += pu->GetMatch().len;
+  //  match_edits  += pu->GetMatch().edits;
+  //}
 
   if (composite_match_) delete composite_match_;
 
-  composite_match_ = new Match( match_pos, match_length, match_edits );
+  //composite_match_ = new Match( match_pos, match_length, match_edits );
+
+  std::vector<Match> sub_matches;
+  for (auto &pu: child_units_)
+    sub_matches.push_back(pu->GetMatch());
+
+  composite_match_ = new Match( sub_matches );
 }
 
 bool CompositeUnit::FindMatch() {

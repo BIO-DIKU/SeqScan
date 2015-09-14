@@ -23,15 +23,13 @@
 
 #include <string>
 #include <iostream>
-#include <iostream>
+#include <vector>
 
 class Match {
 public:
-  Match(const std::string::const_iterator &pos, const int &len, const int &edits):
-      pos(pos), len(len), edits(edits)
-  {}
+  Match(const std::string::const_iterator &pos, const int &len, const int &edits);
+  Match(const std::vector< Match >& sub_matches);
 
-  //const std::string::const_iterator pos;
   const std::string::const_iterator pos;
   const int len;
   const int edits;
@@ -40,6 +38,17 @@ public:
     return pos==rhs.pos?len<rhs.len:pos<rhs.pos;
   }
 
+  std::ostream& Print(std::ostream& os, const std::string::const_iterator& seq_start) const;
+
+private:
+
+  static int TotalLen(const std::vector< Match >&);
+
+  static int TotalEdits(const std::vector< Match >&);
+
+  const std::vector< Match > sub_matches_;
+
 };
+
 
 #endif  // MATCH_H_

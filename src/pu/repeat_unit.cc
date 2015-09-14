@@ -98,23 +98,29 @@ bool RepeatUnit::FindMatch()
 // Assumes its being called from FindMatch and that all entries in child_units_ from index 0 to
 // cur_repeat_ have returned true to a FindMatch call.
 void RepeatUnit::ComposeMatches() {
-  std::string::const_iterator match_pos = child_units_.at(0)->GetMatch().pos;
-
-  int match_length = 0; // Total length of the CompositeUnit match
-  int match_edits  = 0; // Total edits of the CompositeUnit match
-
-  int r=0;
-  for (auto &pu: child_units_) {
-    match_length += pu->GetMatch().len;
-    match_edits  += pu->GetMatch().edits;
-
-    if( ++r == cur_repeat_ )
-      break;
-  }
+//  std::string::const_iterator match_pos = child_units_.at(0)->GetMatch().pos;
+//
+//  int match_length = 0; // Total length of the CompositeUnit match
+//  int match_edits  = 0; // Total edits of the CompositeUnit match
+//
+//  int r=0;
+//  for (auto &pu: child_units_) {
+//    match_length += pu->GetMatch().len;
+//    match_edits  += pu->GetMatch().edits;
+//
+//    if( ++r == cur_repeat_ )
+//      break;
+//  }
 
   if (repeat_match_) delete repeat_match_;
 
-  repeat_match_ = new Match( match_pos, match_length, match_edits );
+//  repeat_match_ = new Match( match_pos, match_length, match_edits );
+
+  std::vector<Match> sub_matches;
+  for (int r=0;r<cur_repeat_;r++)
+    sub_matches.push_back(child_units_[r]->GetMatch());
+
+  repeat_match_ = new Match( sub_matches );
 }
 
 const Match& RepeatUnit::GetMatch()

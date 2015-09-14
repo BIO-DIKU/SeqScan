@@ -129,7 +129,9 @@ int main(int argc, char** argv) {
       pu->Initialize(sequence.cbegin(), sequence.cend());
       while (pu->FindMatch()) {
         const Match& m = pu->GetMatch();
-        printf("Starting position: %li\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m.len, m.edits);
+        //printf("Starting position: %li\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m
+        //   .len, m.edits);
+        m.Print(std::cout, sequence.cbegin())<<std::endl;
       }
 
 
