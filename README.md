@@ -2,6 +2,26 @@
 
 ![](https://github.com/BIO-DIKU/SeqScan/blob/develop/logo.png)
 
+Table of Contents
+=================
+
+  * [SeqScan](#seqscan)
+    * [Synopsis](#synopsis)
+    * [Download](#download)
+    * [Installation](#installation)
+    * [Pattern syntax](#pattern-syntax)
+    * [Output](#output)
+    * [Examples](#examples)
+    * [Advanced](#advanced)
+    * [Filter](#filter)
+    * [Copyright](#copyright)
+    * [License](#license)
+    * [Disclaimer](#disclaimer)
+    * [Acknowledgement](#acknowledgement)
+    * [Contact](#contact)
+    * [Cite](#cite)
+    * [Bugs](#bugs)
+
 ## Synopsis
 
 SeqScan locate pattern matches in nucleotide and protein sequences. A pattern
@@ -75,7 +95,7 @@ SeqScan compiles with C++11 support but has no dependencies on other external
 libraries. To prepare makefiles for release versions of the library and
 executable, download the source code (see above) and type:
 
-	  $ tar -xzvf SeqScan-latest-src.tar.gz
+    $ tar -xzvf SeqScan-latest-src.tar.gz
     $ cd SeqScan-latest-src
     $ mkdir SeqScan-build
     $ cd SeqScan-build
@@ -109,8 +129,8 @@ sequence if the pattern is a subsequence:
 
 ### Approximate
 
-An approximate pattern unit is any pattern unit except with edit modifiers
-except composites.
+An approximate pattern unit is any pattern unit with edit modifiers except
+composites.
 
 **Mismatches:** allow a number of non-matching residues:
 

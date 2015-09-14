@@ -25,10 +25,12 @@
 #include "pu/composite_unit.h"
 #include "pu/backtrack_unit.h"
 #include "pu/tnfa_unit.h"
+#include "pu/repeat_unit.h"
+#include "io.h"
 
 using namespace std;
 
-int main() {
+int main(int argc, char** argv) {
   /*
   // Example of setting up the seqscan pattern "AATCA/1,0,0 TTTTTTC"
   //Modifiers top_modifiers = Modifiers::CreateStdModifiers();
@@ -73,17 +75,19 @@ int main() {
 
   */
 
-  // Set up test pattern "AAA/1,1,0 CCC"
+  // Set up test pattern "AAAAAAA/1,1,0 CCCCCCC"
   Modifiers m0 = Modifiers::CreateMIDModifiers(1, 1, 0);
-  unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AAA"));
+  unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AAAAAAA"));
+//  unique_ptr <PatternUnit> pu0(new TNFAUnit(m0, "AAAAAAA"));
   Modifiers m1 = Modifiers::CreateStdModifiers();
-  unique_ptr <PatternUnit> pu1(new BacktrackUnit(m1, "CCC"));
+  unique_ptr <PatternUnit> pu1(new BacktrackUnit(m1, "CCCCCCC"));
 
   Modifiers m = Modifiers::CreateStdModifiers();
   unique_ptr<CompositeUnit> pu( new CompositeUnit(m) );
   pu->AddUnit(pu0);
   pu->AddUnit(pu1);
 
+  /*
   string sequence = "TTTAAATCCCTTT";
   cout<<"Finding all matches of '"<<(*pu)<<"' in '"<<sequence<<"'"<<endl;
 
@@ -92,6 +96,49 @@ int main() {
     const Match& m = pu->GetMatch();
     printf("Starting position: %li\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m.len, m.edits);
   }
+  */
+
+  /*
+  // Set up test pattern "AA{2,4}"
+  Modifiers m0 = Modifiers::CreateMIDModifiers(1, 0, 0);
+  unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AA"));
+
+  Modifiers m = Modifiers::CreateStdModifiers();
+  unique_ptr<RepeatUnit> pu( new RepeatUnit(pu0, m, 2,4) );
+   */
+
+  /*
+  string sequence = "TTTAAAAATCCCTTT";
+  cout<<"Finding all matches of '"<<(*pu)<<"' in '"<<sequence<<"'"<<endl;
+
+  pu->Initialize(sequence.cbegin(), sequence.cend());
+  while (pu->FindMatch()) {
+    const Match& m = pu->GetMatch();
+    printf("Starting position: %li\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m.len, m.edits);
+  }
+   */
+
+  if(argc>1){
+    const string fname = argv[argc-1];
+
+    for (auto &head_seq_pair: IO::read_fasta(fname)){
+      cout<<"Searching for '"<<(*pu)<<"' in '"<<head_seq_pair.first<<"'"<<endl;
+
+      const string& sequence = head_seq_pair.second;
+
+      pu->Initialize(sequence.cbegin(), sequence.cend());
+      while (pu->FindMatch()) {
+        const Match& m = pu->GetMatch();
+        //printf("Starting position: %li\tLength: %i\tEdits: %i\n", m.pos-sequence.cbegin(), m
+        //   .len, m.edits);
+        m.Print(std::cout, sequence.cbegin())<<std::endl;
+      }
+
+
+    }
+
+  }
+
 
 
   return EXIT_SUCCESS;

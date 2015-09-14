@@ -18,22 +18,24 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include <sstream>
-#include "pattern_unit.h"
+#ifndef SEQSCAN_IO_H
+#define SEQSCAN_IO_H
 
 
-PatternUnit::PatternUnit(const Modifiers& modifiers):
-    modifiers_(modifiers)
-{}
+#include <string>
+#include <utility>
+#include <vector>
 
-std::unique_ptr<PatternUnit> PatternUnit::Clone()
-{
-  std::stringstream ss;
-  Print(ss);
-  throw "PatternUnit::Clone() - This pattern unit ("+ss.str()+") does not support cloning";
-}
+class IO {
+public:
+  /**
+   * Read a FASTA file. The result is returned as a vector of pairs where the first pair-member
+   * is the header entry and the second is the sequence, stripped of whitespaces and all
+   * upper-cased.
+   */
+  static std::vector< std::pair<std::string,std::string>> read_fasta(const std::string& fname);
 
-std::ostream& operator<<(std::ostream& os, const PatternUnit& obj)
-{
-  return obj.Print(os);
-}
+};
+
+
+#endif //SEQSCAN_IO_H

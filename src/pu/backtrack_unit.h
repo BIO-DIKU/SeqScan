@@ -17,6 +17,7 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
+
 #ifndef BACKTRACK_UNIT_H
 #define BACKTRACK_UNIT_H
 
@@ -28,38 +29,63 @@
 #include "pattern_unit.h"
 #include "../match.h"
 
+/**
+ * A pattern unit that matches a specified string pattern using a backtracking algorithm. The
+ * modifiers: mismatches, insertions, deletions, reverse, and complement are considered in matches.
+ * The algorithm is conceptually similar to the one found in scan_for_matches, but bugs have been
+ * corrected.
+ */
 class BacktrackUnit: public PatternUnit{
-
-public:
+ public:
+  /** Construct a BacktrackUnit with the specified modifiers and pattern-string. */
   BacktrackUnit(const Modifiers &modifiers, const std::string& pattern);
 
   void Initialize(
       std::string::const_iterator pos,
       std::string::const_iterator max_pos,
-      bool stay_at_pos = false
-  );
-  bool FindMatch();
-  const Match& GetMatch();
+      bool stay_at_pos = false) override;
 
-  std::ostream& print(std::ostream &os) const;
-private:
-  const std::string pattern_;
+  bool FindMatch() override;
 
+  const Match& GetMatch() override;
+
+  std::ostream&Print(std::ostream &os) const;
+
+ private:
+  /** The pattern-string to search for. */
+  const std::string           pattern_;
+
+  /** The start sequence iterator. */
   std::string::const_iterator sequence_iterator_;
+
+  /** The end sequence iterator. */
   std::string::const_iterator sequence_iterator_end_;
+
+  /** Indicates whether FindMatch should search for matches starting at other positions than the
+   * one indicated in Initialize */
   bool stay_at_pos_;
 
+  /** The backtracking collects a set of matches for each starting-position in the sequence. Its
+   * essential that this is a set (no duplicates) as backtracking can reach the same match via
+   * different paths, but only one should be reported by FindMatch. Furthermore, its convenient
+   * that the ordering of matches is well-defined (first, sorted by start-position, second by
+   * end-position). */
   std::set<Match> last_found_matches_;
+
+  /** The index of the match in last_found_matches_ that GetMatch should return. */
   int last_found_index_;
 
+  /** A recursive function that fills up last_found_matches_. This is the core of the
+   * backtracking algorithm. */
   void CollectMatches(std::string::const_iterator seq_it,
                       std::string::const_iterator pat_it,
                       const int M_left, const int I_left, const int D_left,
-                      const int M_used, const int I_used, const int D_used  );
+                      const int M_used, const int I_used, const int D_used);
 
-  friend std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj);
+protected:
+  std::unique_ptr<PatternUnit> Clone();
 };
 
 std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj);
 
-#endif // BACKTRACK_UNIT_H
+#endif  // BACKTRACK_UNIT_H
