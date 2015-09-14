@@ -22,7 +22,8 @@
 #define SEQSCAN_REPEAT_UNIT_H
 
 #include <vector>
-#import "pattern_unit.h"
+
+#include "pattern_unit.h"
 
 /**
  * A pattern unit which matches if and only if a child-unit matches a certain number of times

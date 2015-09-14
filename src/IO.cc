@@ -4,6 +4,7 @@
 
 #include "IO.h"
 
+#include <algorithm>
 #include <string>
 #include <fstream>
 
