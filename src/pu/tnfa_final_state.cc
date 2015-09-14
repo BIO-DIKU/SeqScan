@@ -43,17 +43,12 @@ void TNFAFinalState::addEpsilonTransitions(bool listNo,
   int                matchLength = 0;
   int                editsLeft   = 0;
 
-  // FIXME(Sune): suggestion: replace magic numbers (511, 0x38 etc) with
-  // constants. Possibly also replace cryptic statements such as
-  // (uint64_t) 1 << c % 64) with inline functions or macros (the latter seems
-  // to be discuraged because of scope issues). The inline function name will
-  // improve understanding of the code ala:
-  //   inline bool bit_is_set(int c, ...) {...}
-  for (int c = 511; c >= 0; c--) {
+  for (int c = kErrorCodeBits -1; c >= 0; c--) {
+    // Check if relevant bit in error code is set
     if (errorCode_[listNo][c / 64] & (uint64_t) 1 << c % 64) {
       // matchLength = patternLength + unused deletions - unused insertions
-      matchLength = patternLength_ + (c & 0x38) / 8 - (c & 0x1C0) / 64;
-      editsLeft = (c & 7) + (c & 0x38) / 8 + (c & 0x1C0) / 64;
+      matchLength = patternLength_ + counterToDeletions(c) - counterToInsertions(c);
+      editsLeft = counterToMismatches(c) + counterToDeletions(c) + counterToInsertions(c);
       if (matchMap.count(matchLength) == 0 || matchMap[matchLength] < editsLeft)
         matchMap[matchLength] = editsLeft;
     }

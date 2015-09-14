@@ -82,11 +82,11 @@ bool TNFAUnit::FindMatch() {
 }
 
 void TNFAUnit::ModifiersToErrorCode(const Modifiers &modifiers) {
-  for (int c = 0; c < 512; c++) {
-    if ((c & 7) <= modifiers.mismatches_
-        && (c & 0x38) / 8 <= modifiers.deletions_
-        && (c & 0x1C0) / 64 <= modifiers.insertions_)
-      errorCode_[(c & 0x1C0) / 64] += (uint64_t) 1 << c % 64;
+  for (int c = 0; c < TNFAState::kErrorCodeBits; c++) {
+    if (TNFAState::counterToMismatches(c) <= modifiers.mismatches_
+        && TNFAState::counterToDeletions(c) <= modifiers.deletions_
+        && TNFAState::counterToInsertions(c) <= modifiers.insertions_)
+      errorCode_[TNFAState::counterToInsertions(c)] += (uint64_t) 1 << c % 64;
   }
 }
 

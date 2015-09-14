@@ -64,14 +64,18 @@ class TNFAState {
   // Show some info for current State. Mainly used for debugging.
   virtual void display(bool);
 
+  static uint64_t newCode[8];
+  static const int kErrorCodeBits = 512;
+  // TODO(Sune): The following functions should probably also be static
   bool mismatches(uint64_t[8]);  // Are mismatches allowed
   bool insertions(uint64_t[8]);  // Are insertions allowed
   bool deletions(uint64_t[8]);   // Are deletions allowed
   uint64_t *decrementMismatches(uint64_t[8]);  // Decr. mismatches in error code
   uint64_t *decrementInsertions(uint64_t[8]);  // Decr. insertions in error code
   uint64_t *decrementDeletions(uint64_t[8]);   // Decr. deletions  in error code
-  static uint64_t newCode[8];
-
+  static inline int counterToMismatches( int cnt ) { return cnt & 7; }
+  static inline int counterToDeletions( int cnt )  { return (cnt & 0x38) / 8; }
+  static inline int counterToInsertions( int cnt ) { return (cnt & 0x1C0) / 64; }
  protected:
   char c;  // Character to be matched
   TNFAState *out_;  // Outgoing state
