@@ -26,7 +26,7 @@
 #include "pu/backtrack_unit.h"
 #include "pu/tnfa_unit.h"
 #include "pu/repeat_unit.h"
-#include "IO.h"
+#include "io.h"
 
 using namespace std;
 
@@ -78,6 +78,7 @@ int main(int argc, char** argv) {
   // Set up test pattern "AAAAAAA/1,1,0 CCCCCCC"
   Modifiers m0 = Modifiers::CreateMIDModifiers(1, 1, 0);
   unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AAAAAAA"));
+//  unique_ptr <PatternUnit> pu0(new TNFAUnit(m0, "AAAAAAA"));
   Modifiers m1 = Modifiers::CreateStdModifiers();
   unique_ptr <PatternUnit> pu1(new BacktrackUnit(m1, "CCCCCCC"));
 
