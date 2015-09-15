@@ -27,14 +27,12 @@
 #include "pattern_unit.h"
 #include "tnfa_state.h"
 
-using std::string;
-
 class TNFAUnit : public PatternUnit {
  public:
-  TNFAUnit(const Modifiers &modifiers, const string& pattern);
+  TNFAUnit(const Modifiers &modifiers, const std::string& pattern);
 
-  void Initialize(string::const_iterator pos,
-                  string::const_iterator max_pos,
+  void Initialize(std::string::const_iterator pos,
+                  std::string::const_iterator max_pos,
                   bool stay_at_pos = false);
   bool FindMatch();
   const Match& GetMatch();
@@ -42,16 +40,16 @@ class TNFAUnit : public PatternUnit {
   void ModifiersToErrorCode(const Modifiers &modifiers);
 
  private:
-  const string           pattern_;
-  string::const_iterator sequence_iterator_;
-  string::const_iterator sequence_iterator_end_;
-  bool                   stay_at_pos_;
-  TNFAState              *startState_;
-  uint64_t               errorCode_[8];
-  vector< TNFAState * >  stateLists_[ 2 ];
-  bool                   listNo_;
-  vector< Match >        matches;
-  uint32_t               listID_;
+  const std::string           pattern_;
+  std::string::const_iterator sequence_iterator_;
+  std::string::const_iterator sequence_iterator_end_;
+  bool                        stay_at_pos_;
+  TNFAState                   *startState_;
+  uint64_t                    errorCode_[8];
+  std::vector< TNFAState * >  stateLists_[ 2 ];
+  bool                        listNo_;
+  std::vector< Match >        matches;
+  uint32_t                    listID_;
 };
 
 #endif  // PU_TNFA_UNIT_H_

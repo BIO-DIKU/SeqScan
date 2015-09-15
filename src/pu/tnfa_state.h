@@ -27,8 +27,6 @@
 
 #include "../match.h"
 
-using std::vector;
-
 class TNFAState {
  public:
   /*
@@ -43,14 +41,14 @@ class TNFAState {
    * Add this state to the new state list
    */
   void addToList(uint64_t[8], bool, std::string::const_iterator,
-                 vector< TNFAState * > [2], vector< Match > &, uint32_t);
+                 std::vector< TNFAState * > [2], std::vector< Match > &, uint32_t);
 
   /*
    * Add states on outgoing transitions to new state list.
    * Only transitions "eating" a character from the input string are considered.
    */
   virtual void addOutStates(bool, std::string::const_iterator,
-                            vector< TNFAState * > [2], vector< Match > &,
+                            std::vector< TNFAState * > [2], std::vector< Match > &,
                             uint32_t);
 
   /*
@@ -58,8 +56,8 @@ class TNFAState {
    * This is the complementary function to addOutStates().
    */
   virtual void addEpsilonTransitions(bool, std::string::const_iterator,
-                                     vector< TNFAState * > [],
-                                     vector< Match > &, uint32_t);
+                                     std::vector< TNFAState * > [],
+                                     std::vector< Match > &, uint32_t);
 
   // Show some info for current State. Mainly used for debugging.
   virtual void display(bool);

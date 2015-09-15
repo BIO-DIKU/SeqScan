@@ -22,6 +22,8 @@
 
 #include <map>
 
+using ::std::vector;
+
 TNFAFinalState::TNFAFinalState(int len, int edits)
   : TNFAState(0), patternLength_(len), maxEdits_(edits) {}
 

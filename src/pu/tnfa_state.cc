@@ -24,6 +24,8 @@
 #include <functional>
 #include <string>
 
+using ::std::vector;
+
 uint64_t TNFAState::newCode[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 TNFAState::TNFAState(char cInit) : c(cInit) {}
