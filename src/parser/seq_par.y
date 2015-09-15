@@ -81,11 +81,20 @@ pattern_unit:
 
 | STRING                          { Modifiers modifiers = Modifiers::CreateStdModifiers();
                                     $$ = new BacktrackUnit(modifiers, $1); }
+
 ;
+
 multipliers:
   LCURLY INT COMMA INT RCURLY     { $$.min = $2;
                                     $$.max = $4; }
+
+| LCURLY INT COMMA RCURLY         { $$.min = $2;
+                                    $$.max = 10000000; }
+
+| LCURLY INT RCURLY               { $$.min = $2;
+                                    $$.max = $2; }
 ;
+
 misindel:
   SLASH INT COMMA INT COMMA INT   { $$.mis = $2;
                                     $$.ins = $4;

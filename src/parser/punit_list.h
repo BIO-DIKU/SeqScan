@@ -9,5 +9,5 @@ class PunitList {
     PatternUnit* get_punit(int index);
     int get_size();
   private:
-    vector<PatternUnit*> patlist;
+    vector<PatternUnit*> patlist_;
 };

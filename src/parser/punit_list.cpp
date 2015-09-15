@@ -8,13 +8,13 @@ PunitList::PunitList() {
 }
 
 void PunitList::push_back(PatternUnit* punit) {
-  patlist.push_back(punit);
+  patlist_.push_back(punit);
 }
 
 PatternUnit* PunitList::get_punit(int index) {
-  return patlist[index];
+  return patlist_[index];
 }
 
 int PunitList::get_size() {
-  return patlist.size();
+  return patlist_.size();
 }
