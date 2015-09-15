@@ -22,8 +22,6 @@
 #include "tnfa_start_state.h"
 #include "tnfa_final_state.h"
 
-#include <iostream>
-
 TNFAUnit::TNFAUnit(const Modifiers &modifiers,
                                    const std::string& pattern) :
   PatternUnit(modifiers), pattern_(pattern), startState_(nullptr),
