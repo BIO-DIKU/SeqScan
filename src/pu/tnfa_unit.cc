@@ -23,9 +23,13 @@
 #include "tnfa_final_state.h"
 
 TNFAUnit::TNFAUnit(const Modifiers &modifiers,
-                                   const std::string& pattern) :
-  PatternUnit(modifiers), pattern_(pattern), startState_(nullptr),
-  errorCode_{ 0, 0, 0, 0, 0, 0, 0, 0 }, listID_(0) {
+                   const std::string& pattern) :
+  PatternUnit(modifiers),
+  pattern_(pattern),
+  startState_(nullptr),
+  errorCode_{ 0, 0, 0, 0, 0, 0, 0, 0 },
+  listID_(0)
+{
   TNFAState *currentState;
   ModifiersToErrorCode(modifiers);
 
@@ -54,41 +58,63 @@ void TNFAUnit::Initialize(std::string::const_iterator pos,
   stateLists_[ 0 ].clear();
   stateLists_[ 1 ].clear();
   listNo_ = ++listID_ % 2;
-  startState_->addToList(TNFAState::newCode, listNo_, sequence_iterator_, stateLists_,
-                         matchMap_, listID_);
+  startState_->addToList(TNFAState::newCode,
+                         listNo_,
+                         sequence_iterator_,
+                         stateLists_,
+                         matchMap_,
+                         listID_);
 }
 
 bool TNFAUnit::FindMatch() {
+
   if (!matches.empty()) {
     matches.pop_back();
     if (!matches.empty())
       return true;
   }
+
   matchMap_.clear();
+
   for (; sequence_iterator_ != sequence_iterator_end_ && matchMap_.empty();
-       sequence_iterator_++) {
+       sequence_iterator_++)
+  {
     stateLists_[listNo_ = ++listID_ % 2].clear();
-    if(!stay_at_pos_)
-      startState_->addToList(TNFAState::newCode, listNo_, sequence_iterator_,
-                             stateLists_, matchMap_, listID_);
-    for (TNFAState *s : stateLists_[!listNo_])
-      s->addOutStates(listNo_, sequence_iterator_, stateLists_, matchMap_,
+
+    if(!stay_at_pos_) {
+      startState_->addToList(TNFAState::newCode,
+                             listNo_,
+                             sequence_iterator_,
+                             stateLists_,
+                             matchMap_,
+                             listID_);
+    }
+
+    for (TNFAState *s : stateLists_[!listNo_]) {
+      s->addOutStates(listNo_,
+                      sequence_iterator_,
+                      stateLists_,
+                      matchMap_,
                       listID_);
+    }
   }
+
   for (auto matchPair : matchMap_)
-    matches.push_back(Match(sequence_iterator_ - matchPair.first, matchPair.first,
-                            matchPair.second));
-  if (!matches.empty())
-    return true;
-  return false;
+    matches.push_back(
+        Match(sequence_iterator_ - matchPair.first, matchPair.first, matchPair.second)
+    );
+
+  return !matches.empty();
 }
 
 void TNFAUnit::ModifiersToErrorCode(const Modifiers &modifiers) {
   for (int c = 0; c < TNFAState::kErrorCodeBits; c++) {
-    if (TNFAState::counterToMismatches(c) <= modifiers.mismatches_
-        && TNFAState::counterToDeletions(c) <= modifiers.deletions_
-        && TNFAState::counterToInsertions(c) <= modifiers.insertions_)
-      errorCode_[TNFAState::counterToInsertions(c)] += (uint64_t) 1 << c % 64;
+    if (TNFAState::counterToMismatches(c) <= modifiers.mismatches_ &&
+        TNFAState::counterToDeletions(c)  <= modifiers.deletions_  &&
+        TNFAState::counterToInsertions(c) <= modifiers.insertions_)
+    {
+      errorCode_[ TNFAState::counterToInsertions(c) ] += (uint64_t) 1 << c % 64;
+    }
   }
 }
 

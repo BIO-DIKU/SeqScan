@@ -34,31 +34,38 @@ TNFAState::TNFAState(char cInit) : c(cInit) {}
 void TNFAState::setOutPtr(TNFAState *out) { out_ = out; }
 TNFAState *TNFAState::getOutPtr() { return out_; }
 
-void TNFAState::addToList(uint64_t e[8], bool listNo,
+void TNFAState::addToList(uint64_t e[8],
+                          bool listNo,
                           std::string::const_iterator pos,
                           vector< TNFAState * > stateLists[2],
-                          map<int, int> &matchMap, uint32_t listID) {
+                          map<int, int> &matchMap, uint32_t listID)
+{
   if (listID_ != listID) {
     listID_ = listID;
 
+    //memcpy(errorCode_[listNo], e, sizeof(uint64_t)*8);
     for (int i = 0; i < 8; i++)
       errorCode_[listNo][i] = e[i];
 
     addEpsilonTransitions(listNo, pos, stateLists, matchMap, listID);
     stateLists[listNo].push_back(this);
-  } else if ((errorCode_[listNo][0] | e[0]) != errorCode_[listNo][0] ||
-             (errorCode_[listNo][1] | e[1]) != errorCode_[listNo][1] ||
-             (errorCode_[listNo][2] | e[2]) != errorCode_[listNo][2] ||
-             (errorCode_[listNo][3] | e[3]) != errorCode_[listNo][3] ||
-             (errorCode_[listNo][4] | e[4]) != errorCode_[listNo][4] ||
-             (errorCode_[listNo][5] | e[5]) != errorCode_[listNo][5] ||
-             (errorCode_[listNo][6] | e[6]) != errorCode_[listNo][6] ||
-             (errorCode_[listNo][7] | e[7]) != errorCode_[listNo][7] ) {
+
+  } else if (
+      (errorCode_[listNo][0] | e[0]) != errorCode_[listNo][0] ||
+      (errorCode_[listNo][1] | e[1]) != errorCode_[listNo][1] ||
+      (errorCode_[listNo][2] | e[2]) != errorCode_[listNo][2] ||
+      (errorCode_[listNo][3] | e[3]) != errorCode_[listNo][3] ||
+      (errorCode_[listNo][4] | e[4]) != errorCode_[listNo][4] ||
+      (errorCode_[listNo][5] | e[5]) != errorCode_[listNo][5] ||
+      (errorCode_[listNo][6] | e[6]) != errorCode_[listNo][6] ||
+      (errorCode_[listNo][7] | e[7]) != errorCode_[listNo][7] )
+  {
     /* The union of two error subsets corresponds to the alternation of the
      * error codes.
      */
     for ( int i = 0; i < 8; i++ )
       errorCode_[listNo][i] |= e[i];
+
     addEpsilonTransitions(listNo, pos, stateLists, matchMap, listID);
   }
 }
