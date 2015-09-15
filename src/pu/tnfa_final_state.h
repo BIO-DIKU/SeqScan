@@ -24,7 +24,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <set>
 
 #include "tnfa_state.h"
 
@@ -37,13 +36,13 @@ public:
   void addEpsilonTransitions(bool,
                              std::string::const_iterator,
                              std::vector< TNFAState * > [2],
-                             std::map<int, int> &,
+                             std::unordered_map<int, int> &,
                              uint32_t);
 
   void addOutStates(bool,
                     std::string::const_iterator,
                     std::vector< TNFAState * > [2],
-                    std::map<int, int> &,
+                    std::unordered_map<int, int> &,
                     uint32_t);
 private:
 

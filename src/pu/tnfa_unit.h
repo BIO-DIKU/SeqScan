@@ -23,7 +23,7 @@
 
 #include <string>
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 #include "pattern_unit.h"
 #include "tnfa_state.h"
@@ -55,7 +55,7 @@ class TNFAUnit : public PatternUnit {
   bool                        listNo_;
   std::vector< Match >        matches;
   uint32_t                    listID_;
-  std::map< int, int >        matchMap_;
+  std::unordered_map< int, int >        matchMap_;
 };
 
 #endif  // PU_TNFA_UNIT_H_

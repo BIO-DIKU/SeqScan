@@ -25,7 +25,7 @@
 #include <string>
 
 using ::std::vector;
-using ::std::map;
+using ::std::unordered_map;
 
 uint64_t TNFAState::newCode[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -38,7 +38,7 @@ void TNFAState::addToList(uint64_t e[8],
                           bool listNo,
                           std::string::const_iterator pos,
                           vector< TNFAState * > stateLists[2],
-                          map<int, int> &matchMap, uint32_t listID)
+                          unordered_map<int, int> &matchMap, uint32_t listID)
 {
   if (listID_ != listID) {
     listID_ = listID;
@@ -73,7 +73,7 @@ void TNFAState::addToList(uint64_t e[8],
 void TNFAState::addEpsilonTransitions(bool listNo,
                                       std::string::const_iterator pos,
                                       vector< TNFAState * > stateLists[],
-                                      map<int, int> &matchMap,
+                                      unordered_map<int, int> &matchMap,
                                       uint32_t listID) {
   // Handle deletions
   if (deletions(errorCode_[listNo])) {
@@ -84,7 +84,7 @@ void TNFAState::addEpsilonTransitions(bool listNo,
 
 void TNFAState::addOutStates(bool listNo, std::string::const_iterator pos,
                              vector< TNFAState * > stateLists[],
-                             map<int, int> &matchMap, uint32_t listID) {
+                             unordered_map<int, int> &matchMap, uint32_t listID) {
   // TODO(Sune): Handle lower/upper case with modifiers
   if (*pos == c) {
     out_->addToList(errorCode_[ !listNo ], listNo, pos, stateLists, matchMap, listID);

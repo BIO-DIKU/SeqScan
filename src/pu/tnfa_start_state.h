@@ -27,7 +27,7 @@
 
 #include "tnfa_state.h"
 
-using std::map;
+using std::unordered_map;
 
 class TNFAStartState : public TNFAState {
  public:
@@ -35,12 +35,12 @@ class TNFAStartState : public TNFAState {
 
   void addEpsilonTransitions(bool, std::string::const_iterator,
                              std::vector< TNFAState * > [],
-                             std::map<int, int> &,
+                             std::unordered_map<int, int> &,
                              uint32_t);
 
   void addOutStates(bool, std::string::const_iterator,
                     std::vector< TNFAState * > [],
-                    std::map<int, int> &,
+                    std::unordered_map<int, int> &,
                     uint32_t);
 
   void display(bool);
@@ -59,7 +59,7 @@ void TNFAStartState::addEpsilonTransitions(
     bool listNo,
     std::string::const_iterator pos,
     std::vector< TNFAState * > stateLists[],
-    std::map<int, int> &matchMap,
+    std::unordered_map<int, int> &matchMap,
     uint32_t listID)
 {
   out_->addToList(stateErrorCode_, listNo, pos, stateLists, matchMap, listID);
@@ -68,7 +68,7 @@ void TNFAStartState::addEpsilonTransitions(
 void TNFAStartState::addOutStates(bool listNo,
                                   std::string::const_iterator pos,
                                   std::vector< TNFAState * > stateLists[],
-                                  std::map<int, int> &matchMap,
+                                  std::unordered_map<int, int> &matchMap,
                                   uint32_t listID)
 {
   if (insertions(errorCode_[!listNo]))

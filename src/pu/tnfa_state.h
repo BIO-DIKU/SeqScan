@@ -24,7 +24,7 @@
 #include <inttypes.h>
 #include <vector>
 #include <string>
-#include <map>
+#include <unordered_map>
 
 #include "../match.h"
 
@@ -45,7 +45,7 @@ class TNFAState {
                  bool,
                  std::string::const_iterator,
                  std::vector< TNFAState * > [2],
-                 std::map<int, int> &,
+                 std::unordered_map<int, int> &,
                  uint32_t);
 
   /*
@@ -54,7 +54,7 @@ class TNFAState {
    */
   virtual void addOutStates(bool, std::string::const_iterator,
                             std::vector< TNFAState * > [2],
-                            std::map<int, int> &,
+                            std::unordered_map<int, int> &,
                             uint32_t);
 
   /*
@@ -63,7 +63,7 @@ class TNFAState {
    */
   virtual void addEpsilonTransitions(bool, std::string::const_iterator,
                                      std::vector< TNFAState * > [],
-                                     std::map<int, int> &,
+                                     std::unordered_map<int, int> &,
                                      uint32_t);
 
   // Show some info for current State. Mainly used for debugging.

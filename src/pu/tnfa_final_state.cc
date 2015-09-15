@@ -22,7 +22,7 @@
 
 using ::std::string;
 using ::std::vector;
-using ::std::map;
+using ::std::unordered_map;
 
 TNFAFinalState::TNFAFinalState(int len, int edits)
   : TNFAState(0), patternLength_(len), maxEdits_(edits) {}
@@ -30,7 +30,7 @@ TNFAFinalState::TNFAFinalState(int len, int edits)
 void TNFAFinalState::addOutStates(bool listNo,
                                   string::const_iterator pos,
                                   vector< TNFAState * > stateLists[],
-                                  map<int, int> &matchMap,
+                                  unordered_map<int, int> &matchMap,
                                   uint32_t listID)
 {
   if (insertions(errorCode_[!listNo]))
@@ -41,7 +41,7 @@ void TNFAFinalState::addOutStates(bool listNo,
 void TNFAFinalState::addEpsilonTransitions(bool listNo,
                                            string::const_iterator pos,
                                            vector< TNFAState * > stateLists[],
-                                           map<int, int> &matchMap,
+                                           unordered_map<int, int> &matchMap,
                                            uint32_t listID)
 {
   // Find length and number of used edits for all matches
