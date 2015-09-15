@@ -24,6 +24,7 @@
 #include <inttypes.h>
 #include <vector>
 #include <string>
+#include <map>
 
 #include "../match.h"
 
@@ -40,15 +41,20 @@ class TNFAState {
   /*
    * Add this state to the new state list
    */
-  void addToList(uint64_t[8], bool, std::string::const_iterator,
-                 std::vector< TNFAState * > [2], std::vector< Match > &, uint32_t);
+  void addToList(uint64_t[8],
+                 bool,
+                 std::string::const_iterator,
+                 std::vector< TNFAState * > [2],
+                 std::map<int, int> &,
+                 uint32_t);
 
   /*
    * Add states on outgoing transitions to new state list.
    * Only transitions "eating" a character from the input string are considered.
    */
   virtual void addOutStates(bool, std::string::const_iterator,
-                            std::vector< TNFAState * > [2], std::vector< Match > &,
+                            std::vector< TNFAState * > [2],
+                            std::map<int, int> &,
                             uint32_t);
 
   /*
@@ -57,7 +63,8 @@ class TNFAState {
    */
   virtual void addEpsilonTransitions(bool, std::string::const_iterator,
                                      std::vector< TNFAState * > [],
-                                     std::vector< Match > &, uint32_t);
+                                     std::map<int, int> &,
+                                     uint32_t);
 
   // Show some info for current State. Mainly used for debugging.
   virtual void display(bool);
@@ -74,7 +81,7 @@ class TNFAState {
   static inline int counterToMismatches( int cnt ) { return cnt & 7; }
   static inline int counterToDeletions( int cnt )  { return (cnt & 0x38) / 8; }
   static inline int counterToInsertions( int cnt ) { return (cnt & 0x1C0) / 64; }
- protected:
+protected:
   char c;  // Character to be matched
   TNFAState *out_;  // Outgoing state
 
@@ -85,8 +92,8 @@ class TNFAState {
    * other is read. If only one error code was used race conditions could
    * arise.
    */
-  uint64_t errorCode_
-    [2][8];
+  uint64_t errorCode_[2][8];
+
   uint32_t listID_; // Used to check if state is already added to list
 };
 

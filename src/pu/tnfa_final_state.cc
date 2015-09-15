@@ -20,28 +20,31 @@
 
 #include "tnfa_final_state.h"
 
-#include <map>
-
+using ::std::string;
 using ::std::vector;
+using ::std::map;
 
 TNFAFinalState::TNFAFinalState(int len, int edits)
   : TNFAState(0), patternLength_(len), maxEdits_(edits) {}
 
-void TNFAFinalState::addOutStates(bool listNo, std::string::const_iterator pos,
+void TNFAFinalState::addOutStates(bool listNo,
+                                  string::const_iterator pos,
                                   vector< TNFAState * > stateLists[],
-                                  vector< Match > &matches, uint32_t listID) {
+                                  map<int, int> &matchMap,
+                                  uint32_t listID)
+{
   if (insertions(errorCode_[!listNo]))
     addToList(decrementInsertions(errorCode_[!listNo]), listNo,
-              pos, stateLists, matches, listID);
+              pos, stateLists, matchMap, listID);
 }
 
 void TNFAFinalState::addEpsilonTransitions(bool listNo,
-                                           std::string::const_iterator pos,
+                                           string::const_iterator pos,
                                            vector< TNFAState * > stateLists[],
-                                           vector< Match > &matches,
-                                           uint32_t listID) {
+                                           map<int, int> &matchMap,
+                                           uint32_t listID)
+{
   // Find length and number of used edits for all matches
-  std::map<int, int> matchMap;  // TODO(Sune): should be intialized somehow
   int                matchLength = 0;
   int                editsLeft   = 0;
 
@@ -51,12 +54,9 @@ void TNFAFinalState::addEpsilonTransitions(bool listNo,
       // matchLength = patternLength + unused deletions - unused insertions
       matchLength = patternLength_ + counterToDeletions(c) - counterToInsertions(c);
       editsLeft = counterToMismatches(c) + counterToDeletions(c) + counterToInsertions(c);
-      if (matchMap.count(matchLength) == 0 || matchMap[matchLength] < editsLeft)
-        matchMap[matchLength] = editsLeft;
+      if (matchMap.count(matchLength) == 0
+          || matchMap[matchLength] > maxEdits_ - editsLeft)
+        matchMap[matchLength] = maxEdits_ - editsLeft;
     }
   }
-
-  for (auto matchPair : matchMap)
-    matches.push_back(Match(pos - matchPair.first + 1, matchPair.first,
-                            maxEdits_ - matchPair.second));
 }

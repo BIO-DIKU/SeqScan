@@ -23,19 +23,24 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "pattern_unit.h"
 #include "tnfa_state.h"
 
 class TNFAUnit : public PatternUnit {
  public:
+
   TNFAUnit(const Modifiers &modifiers, const std::string& pattern);
 
   void Initialize(std::string::const_iterator pos,
                   std::string::const_iterator max_pos,
                   bool stay_at_pos = false);
+
   bool FindMatch();
+
   const Match& GetMatch();
+
   // Create error codes from m,i,d modifiers
   void ModifiersToErrorCode(const Modifiers &modifiers);
 
@@ -50,6 +55,7 @@ class TNFAUnit : public PatternUnit {
   bool                        listNo_;
   std::vector< Match >        matches;
   uint32_t                    listID_;
+  std::map< int, int >        matchMap_;
 };
 
 #endif  // PU_TNFA_UNIT_H_

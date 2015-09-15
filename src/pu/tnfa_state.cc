@@ -25,6 +25,7 @@
 #include <string>
 
 using ::std::vector;
+using ::std::map;
 
 uint64_t TNFAState::newCode[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -36,14 +37,14 @@ TNFAState *TNFAState::getOutPtr() { return out_; }
 void TNFAState::addToList(uint64_t e[8], bool listNo,
                           std::string::const_iterator pos,
                           vector< TNFAState * > stateLists[2],
-                          vector< Match > &matches, uint32_t listID) {
+                          map<int, int> &matchMap, uint32_t listID) {
   if (listID_ != listID) {
     listID_ = listID;
 
     for (int i = 0; i < 8; i++)
       errorCode_[listNo][i] = e[i];
 
-    addEpsilonTransitions(listNo, pos, stateLists, matches, listID);
+    addEpsilonTransitions(listNo, pos, stateLists, matchMap, listID);
     stateLists[listNo].push_back(this);
   } else if ((errorCode_[listNo][0] | e[0]) != errorCode_[listNo][0] ||
              (errorCode_[listNo][1] | e[1]) != errorCode_[listNo][1] ||
@@ -58,37 +59,37 @@ void TNFAState::addToList(uint64_t e[8], bool listNo,
      */
     for ( int i = 0; i < 8; i++ )
       errorCode_[listNo][i] |= e[i];
-    addEpsilonTransitions(listNo, pos, stateLists, matches, listID);
+    addEpsilonTransitions(listNo, pos, stateLists, matchMap, listID);
   }
 }
 
 void TNFAState::addEpsilonTransitions(bool listNo,
                                       std::string::const_iterator pos,
                                       vector< TNFAState * > stateLists[],
-                                      vector< Match > &matches,
+                                      map<int, int> &matchMap,
                                       uint32_t listID) {
   // Handle deletions
   if (deletions(errorCode_[listNo])) {
     out_->addToList(decrementDeletions(errorCode_[listNo]), listNo,
-                    pos, stateLists, matches, listID);
+                    pos, stateLists, matchMap, listID);
   }
 }
 
 void TNFAState::addOutStates(bool listNo, std::string::const_iterator pos,
                              vector< TNFAState * > stateLists[],
-                             vector< Match > &matches, uint32_t listID) {
+                             map<int, int> &matchMap, uint32_t listID) {
   // TODO(Sune): Handle lower/upper case with modifiers
   if (*pos == c) {
-    out_->addToList(errorCode_[ !listNo ], listNo, pos, stateLists, matches, listID);
+    out_->addToList(errorCode_[ !listNo ], listNo, pos, stateLists, matchMap, listID);
   } else {
     // Handle mismatches
     if (mismatches(errorCode_[!listNo]))
       out_->addToList(decrementMismatches(errorCode_[!listNo]),
-                      listNo, pos, stateLists, matches, listID);
+                      listNo, pos, stateLists, matchMap, listID);
     // Handle insertions
     if (insertions(errorCode_[!listNo]))
       addToList(decrementInsertions(errorCode_[!listNo]), listNo,
-                pos, stateLists, matches, listID);
+                pos, stateLists, matchMap, listID);
   }
 }
 

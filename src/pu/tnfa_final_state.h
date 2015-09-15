@@ -30,16 +30,27 @@
 
 
 class TNFAFinalState : public TNFAState {
- public:
+public:
+
   TNFAFinalState(int len, int edits);
-  void addEpsilonTransitions(bool, std::string::const_iterator,
+
+  void addEpsilonTransitions(bool,
+                             std::string::const_iterator,
                              std::vector< TNFAState * > [2],
-                             std::vector< Match > &, uint32_t);
-  void addOutStates(bool, std::string::const_iterator,
-                    std::vector< TNFAState * > [2], std::vector< Match > &, uint32_t);
- private:
+                             std::map<int, int> &,
+                             uint32_t);
+
+  void addOutStates(bool,
+                    std::string::const_iterator,
+                    std::vector< TNFAState * > [2],
+                    std::map<int, int> &,
+                    uint32_t);
+private:
+
   int patternLength_;
+
   int maxEdits_;
+
 };
 
 #endif  // PU_TNFA_FINAL_STATE_H_
