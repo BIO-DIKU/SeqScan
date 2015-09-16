@@ -134,9 +134,9 @@ int main(int argc, char** argv) {
   pu->AddUnit(pu0);
   pu->AddUnit(pu1);
   */
-  // Set up test pattern "p1=AAAAAAAA/0,2,0 2..4 p1/2,0,0"
-  Modifiers m0(0,0,2,0,0,false,false,false,"p1");
-  unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AAAAAAAA"));
+  // Set up test pattern "p1=4..6 2..4 p1/2,0,0"
+  Modifiers m0(0,0,0,0,0,false,false,false,"p1");
+  unique_ptr <PatternUnit> pu0(new RangeUnit(m0, 12, 15));
   Modifiers m1 = Modifiers::CreateStdModifiers();
   unique_ptr <PatternUnit> pu1(new RangeUnit(m1, 2, 4));
   Modifiers m2 = Modifiers::CreateMIDModifiers(2,0,0);
