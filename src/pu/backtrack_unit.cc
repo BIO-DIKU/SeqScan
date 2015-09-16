@@ -101,7 +101,7 @@ bool BacktrackUnit::FindMatch()
   }
 }
 
-const Match& BacktrackUnit::GetMatch(){
+const Match& BacktrackUnit::GetMatch() const{
   std::set<Match >::iterator it=last_found_matches_.begin();
   std::advance(it, last_found_index_);
   return *it;
@@ -148,6 +148,8 @@ std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj)
 }
 std::ostream& BacktrackUnit::Print(std::ostream &os) const
 {
+  if(modifiers_.label_.size()>0)
+    os<<modifiers_.label_<<"=";
   os<<pattern_;
   if (modifiers_.mismatches_ ||
       modifiers_.insertions_ ||

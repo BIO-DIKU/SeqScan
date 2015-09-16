@@ -118,4 +118,5 @@ void TNFAUnit::ModifiersToErrorCode(const Modifiers &modifiers) {
   }
 }
 
-const Match& TNFAUnit::GetMatch() { return matches.back(); }
+const Match& TNFAUnit::GetMatch() const
+{ return matches.back(); }

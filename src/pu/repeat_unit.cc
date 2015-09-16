@@ -123,7 +123,7 @@ void RepeatUnit::ComposeMatches() {
   repeat_match_ = new Match( sub_matches );
 }
 
-const Match& RepeatUnit::GetMatch()
+const Match& RepeatUnit::GetMatch() const
 {
   return *repeat_match_;
 }

@@ -18,42 +18,38 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef MODIFIERS_H_
-#define MODIFIERS_H_
+#ifndef SEQSCAN_REFERENCEUNIT_H
+#define SEQSCAN_REFERENCEUNIT_H
 
-#include <memory>
-#include <string>
+#include "pattern_unit.h"
 
-class Modifiers {
- public:
-  Modifiers(
-      const int max_edits,
-      const int mismatches,
-      const int insertions,
-      const int deletions,
-      const bool reverse,
-      const bool complement,
-      const bool greedy,
-      const std::string label
+class ReferenceUnit : public PatternUnit{
+public:
+  ReferenceUnit(
+      PatternUnit* pu,
+      const Modifiers &modifiers
   );
 
-  const int max_edits_;
-  const int mismatches_;
-  const int insertions_;
-  const int deletions_;
-  const bool reverse_;
-  const bool complement_;
-  const bool greedy_;
-  const std::string label_;
+  void Initialize(
+      std::string::const_iterator pos,
+      std::string::const_iterator max_pos,
+      bool stay_at_pos = false
+  ) override;
 
-  static Modifiers CreateMIDModifiers(
-      const int mismatches,
-      const int insertions,
-      const int deletions
-  );
+  bool FindMatch() override;
 
-  static Modifiers CreateStdModifiers();
+  const Match& GetMatch() const override;
+
+  std::ostream& Print(std::ostream &os) const;
+
+private:
+
+  std::string::const_iterator sequence_iterator_end_;
+
+  PatternUnit* referenced_unit_;
+
+  std::unique_ptr<PatternUnit> pattern_finder_;
 };
 
 
-#endif  // MODIFIERS_H_
+#endif //SEQSCAN_REFERENCEUNIT_H

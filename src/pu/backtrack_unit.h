@@ -47,7 +47,7 @@ class BacktrackUnit: public PatternUnit{
 
   bool FindMatch() override;
 
-  const Match& GetMatch() override;
+  const Match& GetMatch() const override;
 
   std::ostream&Print(std::ostream &os) const;
 

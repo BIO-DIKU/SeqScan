@@ -39,7 +39,7 @@ class TNFAUnit : public PatternUnit {
 
   bool FindMatch();
 
-  const Match& GetMatch();
+  const Match& GetMatch() const;
 
   // Create error codes from m,i,d modifiers
   void ModifiersToErrorCode(const Modifiers &modifiers);

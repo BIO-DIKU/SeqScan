@@ -108,7 +108,7 @@ bool CompositeUnit::FindMatch() {
   return false;
 }
 
-const Match& CompositeUnit::GetMatch() {
+const Match& CompositeUnit::GetMatch() const {
   return *composite_match_;
 }
 
