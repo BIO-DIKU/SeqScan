@@ -121,10 +121,10 @@ int main(int argc, char** argv) {
   }
    */
 
-  // Set up test pattern "p1=AAAAAA/0,2,0 p1"
-  Modifiers m0(0,0,2,0,false,false,false,"p1");
+  // Set up test pattern "p1=AAAAAAAA/0,2,0 p1/2,0,0"
+  Modifiers m0(0,0,2,0,0,false,false,false,"p1");
   unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AAAAAAAA"));
-  Modifiers m1 = Modifiers::CreateStdModifiers();
+  Modifiers m1 = Modifiers::CreateMIDModifiers(2,0,0);
   unique_ptr <PatternUnit> pu1(new ReferenceUnit(pu0.get(), m1));
 
   Modifiers m = Modifiers::CreateStdModifiers();

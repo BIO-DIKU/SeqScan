@@ -52,7 +52,10 @@ const Match& ReferenceUnit::GetMatch() const
 
 std::ostream& ReferenceUnit::Print(std::ostream &os) const
 {
+  modifiers_.PrintPUPrefix(os);
+
   os<<referenced_unit_->modifiers_.label_;
-  os<<"/"<<modifiers_.mismatches_<<","<<modifiers_.insertions_<<","<<modifiers_.deletions_;
+
+  modifiers_.PrintPUSuffix(os);
   return os;
 }

@@ -148,16 +148,20 @@ std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj)
 }
 std::ostream& BacktrackUnit::Print(std::ostream &os) const
 {
-  if(modifiers_.label_.size()>0)
-    os<<modifiers_.label_<<"=";
+  modifiers_.PrintPUPrefix(os);
+  //if(modifiers_.label_.size()>0)
+  //  os<<modifiers_.label_<<"=";
+
   os<<pattern_;
-  if (modifiers_.mismatches_ ||
-      modifiers_.insertions_ ||
-      modifiers_.deletions_) {
-    os << "/" << modifiers_.mismatches_ << "," <<
-                 modifiers_.insertions_ << "," <<
-                 modifiers_.deletions_;
-  }
+
+  modifiers_.PrintPUSuffix(os);
+  //if (modifiers_.mismatches_ ||
+  //    modifiers_.insertions_ ||
+  //    modifiers_.deletions_) {
+  //  os << "/" << modifiers_.mismatches_ << "," <<
+  //               modifiers_.insertions_ << "," <<
+  //               modifiers_.deletions_;
+  //}
 
   return os;
 }

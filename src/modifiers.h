@@ -23,6 +23,7 @@
 
 #include <memory>
 #include <string>
+#include <iostream>
 
 class Modifiers {
  public:
@@ -31,6 +32,7 @@ class Modifiers {
       const int mismatches,
       const int insertions,
       const int deletions,
+      const int indels,
       const bool reverse,
       const bool complement,
       const bool greedy,
@@ -41,10 +43,17 @@ class Modifiers {
   const int mismatches_;
   const int insertions_;
   const int deletions_;
+  const int indels_;
   const bool reverse_;
   const bool complement_;
   const bool greedy_;
   const std::string label_;
+
+  /** Outputs the modifiers that goes before the pattern-unit */
+  std::ostream& PrintPUPrefix(std::ostream &os) const;
+
+  /** Outputs the modifiers that goes after the pattern-unit */
+  std::ostream& PrintPUSuffix(std::ostream &os) const;
 
   static Modifiers CreateMIDModifiers(
       const int mismatches,
