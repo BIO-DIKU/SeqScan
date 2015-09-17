@@ -118,4 +118,14 @@ void TNFAUnit::ModifiersToErrorCode(const Modifiers &modifiers) {
   }
 }
 
-const Match& TNFAUnit::GetMatch() { return matches.back(); }
+const Match& TNFAUnit::GetMatch() const
+{ return matches.back(); }
+
+std::ostream& TNFAUnit::Print(std::ostream &os) const
+{
+  modifiers_.PrintPUPrefix(os);
+  os<<pattern_;
+  modifiers_.PrintPUSuffix(os);
+
+  return os;
+}

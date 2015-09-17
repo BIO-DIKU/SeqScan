@@ -123,7 +123,7 @@ void RepeatUnit::ComposeMatches() {
   repeat_match_ = new Match( sub_matches );
 }
 
-const Match& RepeatUnit::GetMatch()
+const Match& RepeatUnit::GetMatch() const
 {
   return *repeat_match_;
 }
@@ -134,5 +134,13 @@ std::ostream& operator<<(std::ostream& os, const RepeatUnit& obj) {
 
 std::ostream& RepeatUnit::Print(std::ostream &os) const
 {
-  return child_units_.at(0)->Print(os)<<"{"<<min_repeats_<<","<<max_repeats_<<"}";
+  modifiers_.PrintPUPrefix(os);
+
+  child_units_.at(0)->Print(os);
+
+  modifiers_.PrintPUSuffix(os);
+
+  os<<"{"<<min_repeats_<<","<<max_repeats_<<"}";
+
+  return os;
 }

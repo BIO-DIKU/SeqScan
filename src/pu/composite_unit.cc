@@ -108,7 +108,7 @@ bool CompositeUnit::FindMatch() {
   return false;
 }
 
-const Match& CompositeUnit::GetMatch() {
+const Match& CompositeUnit::GetMatch() const {
   return *composite_match_;
 }
 
@@ -117,9 +117,17 @@ std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj) {
 }
 
 std::ostream& CompositeUnit::Print(std::ostream &os) const {
+  modifiers_.PrintPUPrefix(os);
+
+  os<<"(";
+
   for(size_t i=0;i< child_units_.size()-1;i++){
     child_units_.at(i)->Print(os)<<" ";
   }
   child_units_.back()->Print(os);
+
+  os<<")";
+  modifiers_.PrintPUSuffix(os);
+
   return os;
 }

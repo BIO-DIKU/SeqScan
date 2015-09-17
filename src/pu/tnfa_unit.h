@@ -29,7 +29,7 @@
 #include "tnfa_state.h"
 
 class TNFAUnit : public PatternUnit {
- public:
+public:
 
   TNFAUnit(const Modifiers &modifiers, const std::string& pattern);
 
@@ -39,12 +39,13 @@ class TNFAUnit : public PatternUnit {
 
   bool FindMatch();
 
-  const Match& GetMatch();
+  const Match& GetMatch() const;
 
   // Create error codes from m,i,d modifiers
   void ModifiersToErrorCode(const Modifiers &modifiers);
 
- private:
+  std::ostream& Print(std::ostream &os) const;
+private:
   const std::string           pattern_;
   std::string::const_iterator sequence_iterator_;
   std::string::const_iterator sequence_iterator_end_;

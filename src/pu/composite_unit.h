@@ -43,7 +43,7 @@ public:
                   bool stay_at_pos = false);
   bool FindMatch() override;
 
-  const Match& GetMatch() override;
+  const Match& GetMatch() const override;
 
   std::ostream&Print(std::ostream &os) const override;
 
