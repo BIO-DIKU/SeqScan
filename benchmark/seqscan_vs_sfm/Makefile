@@ -12,6 +12,9 @@ ALL_PATS = $(SFM_PATS) $(SQS_PATS)
 
 OUTPUT_FILES = $(subst .pat,.txt,$(ALL_PATS))
 
+# Ensures that intermediate files (here chr22.fa) dont get deleted 
+.SECONDARY:
+
 # Add any targets you want auto-generated here
 all: $(OUTPUT_FILES)
 
@@ -21,10 +24,10 @@ all: $(OUTPUT_FILES)
 	chmod a-w $<
 
 %/seqscan.txt: %/seqscan.pat $(SEQFILE)
-	$(SQS_BIN) -P $< -V $(SEQFILE) > $@
+	(time $(SQS_BIN) -P $< -V $(SEQFILE)) &> $@
 
 %/sfm.txt: %/sfm.pat $(SEQFILE)
-	$(SFM_BIN) $< < $(SEQFILE) > $@
+	(time $(SFM_BIN) $< < $(SEQFILE)) &> $@
 
 
 # Rules for generating plots
