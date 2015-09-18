@@ -12,13 +12,13 @@ ALL_PATS = $(SFM_PATS) $(SQS_PATS)
 
 OUTPUT_FILES = $(subst .pat,.txt,$(ALL_PATS))
 
-# Ensures that intermediate files (here chr22.fa) dont get deleted 
+# Ensures that intermediate files dont get deleted after each target creation
 .SECONDARY:
 
 # Add any targets you want auto-generated here
 all: $(OUTPUT_FILES)
 
-# Automated general rules
+# General wild-card rules
 %.fa: %.fa.gz
 	gunzip -k $<
 	chmod a-w $<
