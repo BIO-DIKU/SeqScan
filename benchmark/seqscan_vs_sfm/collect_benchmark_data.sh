@@ -20,7 +20,7 @@
 # Function to extract pattern name form dir name.
 pattern_name() {
     local dir=$1
-    local name=`echo $dir | sed -e 's/pat_//'`
+    local name=`echo "$dir" | sed -e 's/pat_//'`
 
     echo $name
 }
@@ -29,8 +29,7 @@ pattern_name() {
 # at the end of the file.
 parse_time() {
     local file=$1
-    local time=`echo $file | tail -n 3 "$file" | grep user |
-                sed -e 's/user//' | strings`
+    local time=`tail -n 3 "$file" | grep user | sed -e 's/user//' | strings`
 
     echo $time
 }
@@ -38,17 +37,17 @@ parse_time() {
 # Function to parse number of hits from a scan_for_matches result file.
 parse_hits_sfm() {
     local file=$1
-    local hits=`grep '^>' $file | wc -l`
+    local hits=`grep '^>' "$file" | wc -l`
 
     echo $hits
 }
 
 # Function to parse number of hits from a seqscan result file.
 # FIXME: the 4x sed is ugly as hell, but head -n -4 is not a universal option.
-# TODO: possibly we beed a grep -v '^LOG' as well.
+# TODO: possibly we need a grep -v '^LOG' as well.
 parse_hits_seqscan() {
     local file=$1
-    local hits=`cat $file | sed '$d' | sed '$d' | sed '$d' | sed '$d' | wc -l`
+    local hits=`cat "$file" | sed '$d' | sed '$d' | sed '$d' | sed '$d' | wc -l`
 
     echo $hits
 }
