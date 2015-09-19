@@ -22,7 +22,7 @@
 set termopt noenhanced
 set multiplot layout 2,1
 set title "Benchmark"
-set key autotitle column box samplen 1 noenhanced
+set key autotitle column box samplen 1
 set style data histogram
 set style fill solid 0.5 border
 set grid ytics
@@ -30,7 +30,8 @@ set ytics scale 0
 set xtics scale 0 rotate by -45
 set lmargin 15
 set ylabel "Seconds"
-plot 'benchmark.dat' using 2:xtic(1) noenhanced lt 1 lc rgb "#2BCE48", '' using 4 lt 2 lc rgb "#0075DC"
+set logscale y
+plot 'benchmark.dat' using 2:xtic(1) lt 1 lc rgb "#2BCE48", '' using 4 lt 2 lc rgb "#0075DC"
 
 unset title
 set ylabel "Hits"
