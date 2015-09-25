@@ -81,6 +81,9 @@ class TNFAState {
   static inline int counterToMismatches( int cnt ) { return cnt & 7; }
   static inline int counterToDeletions( int cnt )  { return (cnt & 0x38) / 8; }
   static inline int counterToInsertions( int cnt ) { return (cnt & 0x1C0) / 64; }
+  //   7  = 0b000000000111
+  //0x38  = 0b000000111000
+  //0x1C0 = 0b000111000000
 protected:
   char c;  // Character to be matched
   TNFAState *out_;  // Outgoing state

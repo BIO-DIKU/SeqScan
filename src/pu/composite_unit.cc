@@ -131,3 +131,16 @@ std::ostream& CompositeUnit::Print(std::ostream &os) const {
 
   return os;
 }
+
+
+std::unique_ptr<PatternUnit> CompositeUnit::Clone() const
+{
+  std::unique_ptr<PatternUnit> ret = std::unique_ptr<PatternUnit>(new CompositeUnit(modifiers_));
+
+  for(auto& cu: child_units_) {
+    std::unique_ptr<PatternUnit> clone = cu->Clone();
+    ((CompositeUnit *) ret.get())->AddUnit(clone);
+  }
+
+  return ret;
+}

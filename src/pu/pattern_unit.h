@@ -47,6 +47,8 @@ public:
    */
   PatternUnit(const Modifiers& modifiers);
 
+  virtual ~PatternUnit(){};
+
   /*
    * Initialize the pattern unit so a check can be performed for matches not
    * extending beyond max_pos. If stay_at_pos is set then FindMatch should
@@ -77,13 +79,10 @@ public:
 
   virtual std::ostream& Print(std::ostream &os) const
   { os<<"PatternUnit(?)"; return os; }
-protected:
+
+  virtual std::unique_ptr<PatternUnit> Clone() const;
+
   const Modifiers modifiers_;
-
-  virtual std::unique_ptr<PatternUnit> Clone();
-
-  friend class RepeatUnit;
-  friend class ReferenceUnit;
 
 };
 

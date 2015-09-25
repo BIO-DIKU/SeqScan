@@ -59,3 +59,13 @@ std::ostream& ReferenceUnit::Print(std::ostream &os) const
   modifiers_.PrintPUSuffix(os);
   return os;
 }
+
+std::unique_ptr<PatternUnit> ReferenceUnit::Clone() const
+{
+  std::unique_ptr<PatternUnit> ret =
+      std::unique_ptr<PatternUnit>(
+          new ReferenceUnit(referenced_unit_,modifiers_)
+      );
+
+  return ret;
+}

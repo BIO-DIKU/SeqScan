@@ -41,7 +41,9 @@ public:
 
   const Match& GetMatch() const override;
 
-  std::ostream& Print(std::ostream &os) const;
+  std::ostream& Print(std::ostream &os) const override;
+
+  std::unique_ptr<PatternUnit> Clone() const override;
 
 private:
   std::string::const_iterator start_pos_;

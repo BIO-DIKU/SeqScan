@@ -78,3 +78,13 @@ std::ostream& RangeUnit::Print(std::ostream &os) const
 
   return os<<min_length_<<".."<<max_length_;
 }
+
+std::unique_ptr<PatternUnit> RangeUnit::Clone() const {
+  std::unique_ptr<PatternUnit> ret =
+      std::unique_ptr<PatternUnit>(
+          new RangeUnit(modifiers_,
+                        min_length_,
+                        max_length_));
+
+  return ret;
+}

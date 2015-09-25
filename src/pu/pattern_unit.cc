@@ -26,10 +26,12 @@ PatternUnit::PatternUnit(const Modifiers& modifiers):
     modifiers_(modifiers)
 {}
 
-std::unique_ptr<PatternUnit> PatternUnit::Clone()
+std::unique_ptr<PatternUnit> PatternUnit::Clone() const
 {
   std::stringstream ss;
   Print(ss);
+
+  std::cerr<<"PatternUnit::Clone() - This pattern unit ("<<ss.str()<<") does not support cloning";
   throw "PatternUnit::Clone() - This pattern unit ("+ss.str()+") does not support cloning";
 }
 

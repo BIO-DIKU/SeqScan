@@ -167,7 +167,7 @@ std::ostream& BacktrackUnit::Print(std::ostream &os) const
 }
 
 
-std::unique_ptr<PatternUnit> BacktrackUnit::Clone()
+std::unique_ptr<PatternUnit> BacktrackUnit::Clone() const
 {
   std::unique_ptr<PatternUnit> ret( new BacktrackUnit(modifiers_, pattern_) );
   return std::move(ret);
