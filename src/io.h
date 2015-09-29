@@ -21,7 +21,6 @@
 #ifndef SEQSCAN_IO_H
 #define SEQSCAN_IO_H
 
-
 #include <string>
 #include <utility>
 #include <vector>
@@ -34,8 +33,6 @@ public:
    * upper-cased.
    */
   static std::vector< std::pair<std::string,std::string>> read_fasta(const std::string& fname);
-
 };
 
-
-#endif //SEQSCAN_IO_H
+#endif  // SEQSCAN_IO_H
