@@ -14,6 +14,9 @@ using namespace std;
 /* RNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
 /* Protein:  FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx */
 /* Combined: ABCDEFGHIKLMNPQRSTUVWXYabcdefghiklmnpqrstuvwyx /*
+
+/* All observed chars in README examples: */
+/* " $()*+,./01234568<=?ACDGHKNQRST[]^p{|}~" */
 %%
 [0-9]+      { yylval.inval = atoi(yytext); return INT; }
 [acgtACGT]+ { yylval.stval = strdup(yytext); return STRING; }
