@@ -31,47 +31,42 @@ Match::Match(const std::vector< Match >& sub_matches):
     sub_matches_(sub_matches)
 {}
 
-int Match::TotalLen(const std::vector< Match >& sub_matches)
-{
+int Match::TotalLen(const std::vector< Match >& sub_matches) {
   int length = 0;
-  for(auto &match: sub_matches){
+  for (auto &match : sub_matches) {
     length += match.len;
   }
   return length;
 }
 
-int Match::TotalEdits(const std::vector< Match >& sub_matches)
-{
+int Match::TotalEdits(const std::vector< Match >& sub_matches) {
   int edits = 0;
-  for(auto &match: sub_matches){
+
+  for (auto &match : sub_matches) {
     edits += match.edits;
   }
+
   return edits;
 }
 
-std::ostream& Match::Print(std::ostream& os, const std::string::const_iterator& seq_start) const
-{
-
-  if(sub_matches_.empty()){
-    os<<(pos-seq_start)<<","<<len<<","<<edits<<",";
+std::ostream& Match::Print(std::ostream& os, const std::string::const_iterator& seq_start) const {
+  if (sub_matches_.empty()) {
+    os << (pos - seq_start) << "," << len << "," << edits << ",";
 
     // Write from pos and len characters forward.
     std::string::const_iterator it = pos;
-    for(int l=0;l<len;l++) {
+    for (auto l = 0; l < len; l++) {
       os << *it;
       ++it;
     }
 
-  }else{
-
-    for(size_t c=0; c<sub_matches_.size(); c++){
-      if(c>0) os<<";";
+  } else {
+    for (auto c = 0; c < sub_matches_.size(); c++) {
+      if (c > 0) os << ";";
 
       sub_matches_[c].Print(os, seq_start);
     }
-
   }
 
   return os;
 }
-
