@@ -2,9 +2,9 @@
 #include <cstdio>
 #include <iostream>
 using namespace std;
-#include "../modifiers.h"
-#include "../match.h"
-#include "../pu/backtrack_unit.h"
+#include "../src/modifiers.h"
+#include "../src/match.h"
+#include "../src/pu/backtrack_unit.h"
 #include "punit_list.h"
 #include <utility>
 
@@ -65,15 +65,18 @@ unit_list:
 
 pattern_unit:
   STRING multipliers misindel     { Modifiers* modifiers = 
-                                    new Modifiers(0,$3.mis,$3.ins,$3.del,$2.min,$2.max,false,false,false);
+                                    //new Modifiers(0,$3.mis,$3.ins,$3.del,$2.min,$2.max,false,false,false);
+                                    new Modifiers(0,$3.mis,$3.ins,$3.del,0,false,false,false, "");
                                     $$ = new BacktrackUnit(*modifiers, $1); }
 
 | STRING misindel multipliers     { Modifiers* modifiers = 
-                                    new Modifiers(0,$2.mis,$2.ins,$2.del,$3.min,$3.max,true,false,false);
+                                    new Modifiers(0,$2.mis,$2.ins,$2.del,0,true,false,false,"");
+                                    //new Modifiers(0,$2.mis,$2.ins,$2.del,$3.min,$3.max,true,false,false);
                                     $$ = new BacktrackUnit(*modifiers, $1); }
 
 | STRING multipliers              { Modifiers* modifiers = 
-                                    new Modifiers(0,0,0,0,$2.min,$2.max,false,false,false);
+                                    new Modifiers(0,0,0,0,0,false,false,false,"");
+                                    //new Modifiers(0,0,0,0,$2.min,$2.max,false,false,false);
                                     $$ = new BacktrackUnit(*modifiers, $1); }
 
 | STRING misindel                 { Modifiers modifiers = Modifiers::CreateMIDModifiers($2.mis,$2.ins,$2.del);

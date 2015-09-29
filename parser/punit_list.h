@@ -1,5 +1,5 @@
 #include <vector>
-#include "../pu/pattern_unit.h"
+#include "../src/pu/pattern_unit.h"
 using namespace std;
 
 class PunitList {

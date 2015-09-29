@@ -1,7 +1,7 @@
 /* Initial C code is wrapped in '%{' */
 %{
 #include <iostream>
-#include "../pu/backtrack_unit.h"
+#include "../src/pu/backtrack_unit.h"
 using namespace std;
 
 // Just flex stuff
