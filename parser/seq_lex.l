@@ -10,6 +10,10 @@ using namespace std;
 %}
 
 /* Double '%' initiates lexer rules section */
+/* DNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
+/* RNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
+/* Protein:  FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx */
+/* Combined: ABCDEFGHIKLMNPQRSTUVWXYabcdefghiklmnpqrstuvwyx /*
 %%
 [0-9]+      { yylval.inval = atoi(yytext); return INT; }
 [acgtACGT]+ { yylval.stval = strdup(yytext); return STRING; }
