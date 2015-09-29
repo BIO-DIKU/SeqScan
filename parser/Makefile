@@ -1,0 +1,17 @@
+CPP         = g++
+SRC_DIR     = ../src
+PARSER_FILE = seq_par.y
+LEXER_FILE  = seq_lex.l
+BIN_FILE    = seqscan
+
+all: parser lexer
+	$(CPP) -std=c++11 $(SRC_DIR)/modifiers.cc $(SRC_DIR)/match.cc $(SRC_DIR)/pu/backtrack_unit.cc $(SRC_DIR)/pu/pattern_unit.cc punit_list.cpp seq_par.tab.c lex.yy.c -lfl -o $(BIN_FILE)
+
+parser:
+	bison -d $(PARSER_FILE)
+
+lexer:
+	flex $(LEXER_FILE)
+
+clean:
+	rm lex.yy.c seq_par.tab.c seq_par.tab.h $(BIN_FILE)
