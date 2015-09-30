@@ -21,12 +21,12 @@
 #include <memory>
 #include <iostream>
 
-#include "catch.h"
+#include "../catch.h"
 
-#include "../src/modifiers.h"
-#include "../src/match.h"
-#include "../src/pu/backtrack_unit.h"
-#include "../src/pu/composite_unit.h"
+#include "../../src/modifiers.h"
+#include "../../src/match.h"
+#include "../../src/pu/backtrack_unit.h"
+#include "../../src/pu/composite_unit.h"
 
 using namespace std;
 
