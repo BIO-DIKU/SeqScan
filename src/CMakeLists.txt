@@ -50,9 +50,9 @@ target_link_libraries( seqscan libseqscan )
 add_executable( seqscan_unittests 
   ../tests/run_tests.cc
   ../tests/test_fuzzy_sequence.cc
-  ../tests/test_backtrack_unit.cc
-  ../tests/test_composite_unit.cc
-  ../tests/test_tnfa_unit.cc)
+  ../tests/pu/test_backtrack_unit.cc
+  ../tests/pu/test_composite_unit.cc
+  ../tests/pu/test_tnfa_unit.cc)
   
 target_link_libraries( seqscan_unittests libseqscan )
 
