@@ -4,9 +4,9 @@
 #include <memory>
 #include <iostream>
 
-#include "../modifiers.h"
-#include "../match.h"
-#include "../pu/backtrack_unit.h"
+#include "../src/modifiers.h"
+#include "../src/match.h"
+#include "../src/pu/backtrack_unit.h"
 
 
 using namespace std;
