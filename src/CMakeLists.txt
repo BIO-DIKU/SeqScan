@@ -39,7 +39,7 @@ add_library(libseqscan
   pu/backtrack_unit.cc 
   pu/tnfa_unit.cc
   pu/tnfa_state.cc
-  pu/tnfa_final_state.cc pu/repeat_unit.cc pu/repeat_unit.h io.cc io.h match.cc)
+  pu/tnfa_final_state.cc pu/repeat_unit.cc pu/repeat_unit.h io.cc io.h match.cc pu/reference_unit.cc pu/reference_unit.h pu/range_unit.cc pu/range_unit.h)
 
 set_target_properties( libseqscan PROPERTIES PREFIX "" )
 
@@ -48,11 +48,11 @@ target_link_libraries( seqscan libseqscan )
 
 # Test executable
 add_executable( seqscan_unittests 
-  tests/run_tests.cc
-  tests/test_fuzzy_sequence.cc
-  tests/test_backtrack_unit.cc
-  tests/test_composite_unit.cc
-  tests/test_tnfa_unit.cc)
+  ../tests/run_tests.cc
+  ../tests/test_fuzzy_sequence.cc
+  ../tests/pu/test_backtrack_unit.cc
+  ../tests/pu/test_composite_unit.cc
+  ../tests/pu/test_tnfa_unit.cc)
   
 target_link_libraries( seqscan_unittests libseqscan )
 

@@ -22,6 +22,8 @@
 #define MODIFIERS_H_
 
 #include <memory>
+#include <string>
+#include <iostream>
 
 class Modifiers {
  public:
@@ -30,24 +32,35 @@ class Modifiers {
       const int mismatches,
       const int insertions,
       const int deletions,
-      const int min_repeats,
-      const int max_repeats,
+      const int indels,
       const bool reverse,
       const bool complement,
-      const bool greedy);
+      const bool greedy,
+      const std::string label
+  );
 
   const int max_edits_;
   const int mismatches_;
   const int insertions_;
   const int deletions_;
-  const int min_repeats_;
-  const int max_repeats_;
+  const int indels_;
   const bool reverse_;
   const bool complement_;
   const bool greedy_;
+  const std::string label_;
 
-  static Modifiers CreateMIDModifiers(const int mismatches,
-      const int insertions, const int deletions);
+  /** Outputs the modifiers that goes before the pattern-unit */
+  std::ostream& PrintPUPrefix(std::ostream &os) const;
+
+  /** Outputs the modifiers that goes after the pattern-unit */
+  std::ostream& PrintPUSuffix(std::ostream &os) const;
+
+  static Modifiers CreateMIDModifiers(
+      const int mismatches,
+      const int insertions,
+      const int deletions
+  );
+
   static Modifiers CreateStdModifiers();
 };
 

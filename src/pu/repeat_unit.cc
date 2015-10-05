@@ -30,32 +30,27 @@ RepeatUnit::RepeatUnit(
     child_units_(),
     min_repeats_(min_repeats),
     max_repeats_(max_repeats),
-    cur_repeat_(0)
-{
-  child_units_.push_back( std::move(pu) );
+    cur_repeat_(0) {
+  child_units_.push_back(std::move(pu));
 }
 
 void RepeatUnit::Initialize(
     std::string::const_iterator pos,
     std::string::const_iterator max_pos,
     bool stay_at_pos
-)
-{
+) {
   child_units_.at(0)->Initialize(pos, max_pos, stay_at_pos);
 
   sequence_iterator_end_ = max_pos;
   cur_repeat_ = 0;
 }
 
-bool RepeatUnit::FindMatch()
-{
+bool RepeatUnit::FindMatch() {
   // Inner loop tries to find a match with current unit and increase to the
   // next unit. If this fails, the outer loop will decrease current unit.
   for ( ; cur_repeat_ >=0; cur_repeat_-- ) {
     for ( ; cur_repeat_ <max_repeats_; cur_repeat_++ ) {
-
       if ( child_units_.at(cur_repeat_)->FindMatch() ) {
-
         // A match was found on the last of the punits. Success
         if (cur_repeat_ == max_repeats_) {
           ComposeMatches();
@@ -63,10 +58,9 @@ bool RepeatUnit::FindMatch()
         }
 
         // Next loop iteration will FindMatch on next current_unit_. Create it if necessary
-        if (cur_repeat_+1==child_units_.size()) {
+        if (cur_repeat_ + 1 == child_units_.size()) {
           child_units_.push_back(std::move(
-              std::unique_ptr<PatternUnit>( child_units_[cur_repeat_]->Clone() )
-          ));
+            std::unique_ptr<PatternUnit>(child_units_[cur_repeat_]->Clone())));
         }
 
         // Now initialize it
@@ -74,21 +68,19 @@ bool RepeatUnit::FindMatch()
         child_units_.at(cur_repeat_ + 1)->Initialize(
             cur_match.pos + cur_match.len,
             sequence_iterator_end_,
-            true
-        );
+            true);
 
-      } else if(cur_repeat_>=min_repeats_){  // min_repeats_ is reached: Great success.
+      } else if (cur_repeat_ >= min_repeats_) {  // min_repeats_ is reached: Great success.
         ComposeMatches();
         cur_repeat_--;
         return true;
 
-      } else if(cur_repeat_==0) {  // child_units_[0] has no more matches. No more to be done.
+      } else if (cur_repeat_ == 0) {  // child_units_[0] has no more matches. No more to be done.
         return false;
 
-      } else { // min_repeats not reached but theres hope. Break and try to decrease cur_repeat_
+      } else {  // min_repeats not reached but theres hope. Break and try to decrease cur_repeat_
         break;
       }
-
     }
   }
 
@@ -117,14 +109,13 @@ void RepeatUnit::ComposeMatches() {
 //  repeat_match_ = new Match( match_pos, match_length, match_edits );
 
   std::vector<Match> sub_matches;
-  for (int r=0;r<cur_repeat_;r++)
+  for (int r = 0; r < cur_repeat_; r++)
     sub_matches.push_back(child_units_[r]->GetMatch());
 
   repeat_match_ = new Match( sub_matches );
 }
 
-const Match& RepeatUnit::GetMatch()
-{
+const Match& RepeatUnit::GetMatch() const {
   return *repeat_match_;
 }
 
@@ -132,7 +123,14 @@ std::ostream& operator<<(std::ostream& os, const RepeatUnit& obj) {
   return obj.Print(os);
 }
 
-std::ostream& RepeatUnit::Print(std::ostream &os) const
-{
-  return child_units_.at(0)->Print(os)<<"{"<<min_repeats_<<","<<max_repeats_<<"}";
+std::ostream& RepeatUnit::Print(std::ostream &os) const {
+  modifiers_.PrintPUPrefix(os);
+
+  child_units_.at(0)->Print(os);
+
+  modifiers_.PrintPUSuffix(os);
+
+  os << "{" << min_repeats_ << "," << max_repeats_ << "}";
+
+  return os;
 }

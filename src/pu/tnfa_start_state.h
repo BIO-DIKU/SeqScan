@@ -27,18 +27,26 @@
 
 #include "tnfa_state.h"
 
-using std::map;
+using std::unordered_map;
 
 class TNFAStartState : public TNFAState {
  public:
   TNFAStartState(uint64_t[8]);
+
   void addEpsilonTransitions(bool, std::string::const_iterator,
-                             vector< TNFAState * > [], map<int, int> &,
+                             std::vector< TNFAState * > [],
+                             std::unordered_map<int, int> &,
                              uint32_t);
-  void addOutStates(bool, std::string::const_iterator, vector< TNFAState * > [],
-                    map<int, int> &, uint32_t);
+
+  void addOutStates(bool, std::string::const_iterator,
+                    std::vector< TNFAState * > [],
+                    std::unordered_map<int, int> &,
+                    uint32_t);
+
   void display(bool);
+
  private:
+
   uint64_t stateErrorCode_[ 8 ];
 };
 
@@ -48,19 +56,30 @@ TNFAStartState::TNFAStartState(uint64_t e[8]) : TNFAState(0) {
 }
 
 void TNFAStartState::addEpsilonTransitions(
-    bool listNo, std::string::const_iterator pos, vector< TNFAState * > stateLists[],
-    map<int, int> &matchMap, uint32_t listID) {
+    bool listNo,
+    std::string::const_iterator pos,
+    std::vector< TNFAState * > stateLists[],
+    std::unordered_map<int, int> &matchMap,
+    uint32_t listID)
+{
   out_->addToList(stateErrorCode_, listNo, pos, stateLists, matchMap, listID);
 }
 
 void TNFAStartState::addOutStates(bool listNo,
                                   std::string::const_iterator pos,
-                                  vector< TNFAState * > stateLists[],
-                                  map<int, int> &matchMap,
-                                  uint32_t listID) {
+                                  std::vector< TNFAState * > stateLists[],
+                                  std::unordered_map<int, int> &matchMap,
+                                  uint32_t listID)
+{
   if (insertions(errorCode_[!listNo]))
-    addToList(decrementInsertions(errorCode_[!listNo]), listNo, pos,
-              stateLists, matchMap, listID);
+    addToList(
+        decrementInsertions(errorCode_[!listNo]),
+        listNo,
+        pos,
+        stateLists,
+        matchMap,
+        listID
+    );
 }
 
 void TNFAStartState::display(bool) {

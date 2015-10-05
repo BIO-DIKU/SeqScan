@@ -25,25 +25,47 @@ Modifiers::Modifiers(
     const int mismatches,
     const int insertions,
     const int deletions,
-    const int min_repeats,
-    const int max_repeats,
+    const int indels,
     const bool reverse,
     const bool complement,
-    const bool greedy
+    const bool greedy,
+    const std::string label
 ):
     max_edits_(max_edits),
     mismatches_(mismatches),
     insertions_(insertions),
     deletions_(deletions),
-    min_repeats_(min_repeats),
-    max_repeats_(max_repeats),
+    indels_(indels),
     reverse_(reverse),
     complement_(complement),
-    greedy_(greedy)
+    greedy_(greedy),
+    label_(label)
 {}
 
+std::ostream& Modifiers::PrintPUPrefix(std::ostream &os) const {
+  if (!label_.empty())
+    os << label_ << "=";
+
+  if (reverse_ && complement_) os << "~";
+  else if (reverse_) os << "<";
+  else if (complement_) os << "<~";
+
+  return os;
+}
+
+std::ostream& Modifiers::PrintPUSuffix(std::ostream &os) const {
+  if (max_edits_) os << "/" << max_edits_;
+
+  if (indels_)
+    os << "/" << mismatches_ << "," << indels_;
+  else if (mismatches_ || insertions_ || deletions_)
+    os << "/" << mismatches_ << "," << insertions_ << "," << deletions_;
+
+  return os;
+}
+
 Modifiers Modifiers::CreateStdModifiers() {
-  Modifiers ret(0, 0, 0, 0, 0, 0, false, false, false);
+  Modifiers ret(0, 0, 0, 0, 0, false, false, false, "");
   return std::move(ret);
 }
 
@@ -51,7 +73,6 @@ Modifiers Modifiers::CreateMIDModifiers(
     const int mismatches,
     const int insertions,
     const int deletions) {
-  Modifiers ret(0, mismatches, insertions, deletions, 0, 0,
-      false, false, false);
+  Modifiers ret(0, mismatches, insertions, deletions, 0, false, false, false, "");
   return std::move(ret);
 }

@@ -40,10 +40,11 @@ public:
 
   void Initialize(std::string::const_iterator pos,
                   std::string::const_iterator max_pos,
-                  bool stay_at_pos = false);
+                  bool stay_at_pos = false) override;
+
   bool FindMatch() override;
 
-  const Match& GetMatch() override;
+  const Match& GetMatch() const override;
 
   std::ostream&Print(std::ostream &os) const override;
 
@@ -69,6 +70,9 @@ private:
   /** The current child-unit, i.e. the first unit that hasn't detected a match. If
    * current_unit_==child_units_.size() then all child-units have found consecutive matches. */
   size_t current_unit_;
+
+protected:
+  std::unique_ptr<PatternUnit> Clone() const override;
 
 };
 

@@ -24,24 +24,32 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <set>
 
 #include "tnfa_state.h"
 
-using std::pair;
-
 
 class TNFAFinalState : public TNFAState {
- public:
+public:
+
   TNFAFinalState(int len, int edits);
-  void addEpsilonTransitions(bool, std::string::const_iterator,
-                             vector< TNFAState * > [2],
-                             map<int, int> &, uint32_t);
-  void addOutStates(bool, std::string::const_iterator,
-                    vector< TNFAState * > [2], map<int, int> &, uint32_t);
- private:
+
+  void addEpsilonTransitions(bool,
+                             std::string::const_iterator,
+                             std::vector< TNFAState * > [2],
+                             std::unordered_map<int, int> &,
+                             uint32_t);
+
+  void addOutStates(bool,
+                    std::string::const_iterator,
+                    std::vector< TNFAState * > [2],
+                    std::unordered_map<int, int> &,
+                    uint32_t);
+private:
+
   int patternLength_;
+
   int maxEdits_;
+
 };
 
 #endif  // PU_TNFA_FINAL_STATE_H_
