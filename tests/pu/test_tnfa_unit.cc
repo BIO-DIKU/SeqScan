@@ -233,7 +233,6 @@ TEST_CASE("TNFA unit staying at pos", "[tnfa,stay]") {
     REQUIRE(!pu->FindMatch());
   }
 
-
   SECTION("Stay-pos at start of sequence; with match") {
     string sequence = "AAAATTT";
     pu->Initialize(sequence.cbegin(), sequence.cend(), true);
