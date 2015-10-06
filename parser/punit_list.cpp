@@ -19,13 +19,13 @@
  */
 
 #include "punit_list.h"
+
 #include <vector>
 #include "../src/pu/pattern_unit.h"
+
 using namespace std;
 
-PunitList::PunitList() {
-  ;
-}
+PunitList::PunitList() {}
 
 void PunitList::push_back(PatternUnit* punit) {
   patlist_.push_back(punit);
