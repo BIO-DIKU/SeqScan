@@ -19,8 +19,10 @@
  */
 
 #include "parse_tree_list.h"
+
 #include <cstdio>
 #include <iostream>
+
 using namespace std;
 
 ParseTreeUnit::ParseTreeUnit() {
@@ -69,22 +71,27 @@ void ParseTreeUnit::pprint() {
   printf(" indels:      %d\n edits:       %d\n min_repeats: %d\n", indel_, edits_, min_repeats_);
   printf(" max_repeats: %d\n label:       %s\n reverse:     %d\n", max_repeats_, "", reverse_);
   printf(" complement:  %d\n greedy:      %d\n rep_open:    %d\n\n", complement_, greedy_, rep_open_);
+
   if (is_reference_) {
     printf("_______________________REFERENCE____________________\n");
     reference_->pprint();
     printf("____________________REFERENCE_END___________________\n");
   }
+
   if (is_or_) {
     printf("~~~~~~~~~~~~~~~~~~~~~~OR~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     or_units_[0]->pprint();
     or_units_[1]->pprint();
     printf("~~~~~~~~~~~~~~~~~~~~~~OR_END~~~~~~~~~~~~~~~~~~~~~~~~\n");
   }
+
   if (is_composite_) {
     printf("----------------------COMP--------------------------\n");
+
     for (int i = 0; i < composite_->get_size(); i++) {
       composite_->get_parse_unit(i)->pprint();
     }
+
     printf("----------------------COMP_END---------------------------\n");
   }
 }
