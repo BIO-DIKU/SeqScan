@@ -18,38 +18,37 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-//#include "parse_tree_unit.h"
 #include "parse_tree_list.h"
 #include <cstdio>
 #include <iostream>
 using namespace std;
 
 ParseTreeUnit::ParseTreeUnit() {
-  is_backtrack_ = false;
-  is_range_ = false;
-  is_composite_ = false;
-  is_labeled_ = false;
-  is_reference_ = false;
-  is_or_ = false;
+  is_backtrack_  = false;
+  is_range_      = false;
+  is_composite_  = false;
+  is_labeled_    = false;
+  is_reference_  = false;
+  is_or_         = false;
   is_matchgroup_ = false;
-  sequence_ = "";
-  mis_ = 0;
-  ins_ = 0;
-  del_ = 0;
-  indel_ = 0;
-  edits_ = 0;
-  min_repeats_ = 0;
-  max_repeats_ = 0;
-  range_min_ = 0;
-  range_max_ = 0;
-  reverse_ = false;
-  complement_ = false;
-  greedy_ = false;
-  rep_open_ = false;
-  group_not_ = false;
-  group_greedy_ = false;
-  group_ = "";
-  composite_ = new ParseTreeList();
+  reverse_       = false;
+  complement_    = false;
+  greedy_        = false;
+  rep_open_      = false;
+  group_not_     = false;
+  group_greedy_  = false;
+  group_         = "";
+  sequence_      = "";
+  mis_           = 0;
+  ins_           = 0;
+  del_           = 0;
+  indel_         = 0;
+  edits_         = 0;
+  min_repeats_   = 0;
+  max_repeats_   = 0;
+  range_min_     = 0;
+  range_max_     = 0;
+  composite_     = new ParseTreeList();
 }
 
 void ParseTreeUnit::init_or_units() {
