@@ -24,10 +24,10 @@ all: $(OUTPUT_FILES)
 	chmod a-w $<
 
 %/seqscan.txt: %/seqscan.pat $(SEQFILE)
-	(time $(SQS_BIN) -P $< -V $(SEQFILE)) &> $@
+	(time -p $(SQS_BIN) -P $< -V $(SEQFILE)) &> $@
 
 %/sfm.txt: %/sfm.pat $(SEQFILE)
-	(time $(SFM_BIN) $< < $(SEQFILE)) &> $@
+	(time -p $(SFM_BIN) $< < $(SEQFILE)) &> $@
 
 
 # Rules for generating plots

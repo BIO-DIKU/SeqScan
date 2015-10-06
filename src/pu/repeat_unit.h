@@ -54,7 +54,7 @@ public:
 
   const Match& GetMatch() const override;
 
-  std::ostream& Print(std::ostream &os) const;
+  std::ostream& Print(std::ostream &os) const override;
 
 private:
 

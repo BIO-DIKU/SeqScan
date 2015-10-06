@@ -2,6 +2,11 @@
 #include <cstdio>
 #include <iostream>
 #include "parse_tree_list.h"
+using namespace std;
+#include "../src/modifiers.h"
+#include "../src/match.h"
+#include "../src/pu/backtrack_unit.h"
+#include "punit_list.h"
 #include <utility>
 #include <vector>
 #include <map>

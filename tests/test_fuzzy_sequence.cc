@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "../modifiers.h"
-#include "../pu/backtrack_unit.h"
+#include "../src/modifiers.h"
+#include "../src/pu/backtrack_unit.h"
 
 using namespace std;
 
@@ -26,8 +26,8 @@ TEST_CASE( "Test sequence with fuzzy matching", "[sequence,fuzzy matching]" ) {
       REQUIRE( m.len == 5 );
       REQUIRE( m.edits == 1 );
       num_matches++;
-    }	
-    
+    }
+
     REQUIRE( num_matches == 1 );
   }
 }

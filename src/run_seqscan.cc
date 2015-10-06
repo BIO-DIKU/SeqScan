@@ -21,12 +21,12 @@
 #include <iostream>
 #include <memory>
 
+#include "io.h"
 #include "modifiers.h"
 #include "pu/composite_unit.h"
 #include "pu/backtrack_unit.h"
 #include "pu/tnfa_unit.h"
 #include "pu/repeat_unit.h"
-#include "io.h"
 #include "pu/reference_unit.h"
 #include "pu/range_unit.h"
 
@@ -134,6 +134,8 @@ int main(int argc, char** argv) {
   pu->AddUnit(pu0);
   pu->AddUnit(pu1);
   */
+
+  /*
   // Set up test pattern "p1=4..6 2..4 p1/2,0,0"
   Modifiers m0(0,0,0,0,0,false,false,false,"p1");
   unique_ptr <PatternUnit> pu0(new RangeUnit(m0, 12, 15));
@@ -147,12 +149,43 @@ int main(int argc, char** argv) {
   pu->AddUnit(pu0);
   pu->AddUnit(pu1);
   pu->AddUnit(pu2);
+  */
+
+  // Set up test pattern "p1=24..48 (24..48 p1){2,}"
+  Modifiers m0(0,0,0,0,0,false,false,false,"p1");
+  unique_ptr <PatternUnit> pu0(new RangeUnit(m0, 24, 48));
+
+  Modifiers m1 = Modifiers::CreateStdModifiers();
+  unique_ptr <PatternUnit> pu1(new RangeUnit(m1, 24, 48));
+  Modifiers m2 = Modifiers::CreateMIDModifiers(0,0,0);
+  unique_ptr <PatternUnit> pu2(new ReferenceUnit(pu0.get(), m2));
+  Modifiers m3 = Modifiers::CreateStdModifiers();
+  unique_ptr <PatternUnit> pu3( new CompositeUnit(m3) );
+  PatternUnit* pu3_ptr = pu3.get();
+  CompositeUnit* pu3_comp_ptr = (CompositeUnit*)pu3_ptr;
+  //pu3_comp_ptr->AddUnit(pu1);
+  //pu3_comp_ptr->AddUnit(pu2);
+  ((CompositeUnit*)pu3.get())->AddUnit(pu1);
+  ((CompositeUnit*)pu3.get())->AddUnit(pu2);
+  Modifiers m4 = Modifiers::CreateStdModifiers();
+  unique_ptr <PatternUnit> pu4( new RepeatUnit(pu3, m4,2,100) );
+
+  Modifiers mod_top = Modifiers::CreateStdModifiers();
+  unique_ptr<CompositeUnit> pu( new CompositeUnit(mod_top) );
+  pu->AddUnit(pu0);
+  pu->AddUnit(pu4);
+
 
   if(argc>1){
     const string fname = argv[argc-1];
 
     for (auto &head_seq_pair: IO::read_fasta(fname)){
-      cout<<"Searching for '"<<(*pu)<<"' in '"<<head_seq_pair.first<<"'"<<endl;
+      cout<<"Searching for '";
+      cout<<(*pu);
+      cout<<"' in '";
+      cout<<head_seq_pair.first;
+      cout<<"'"<<endl;
+      //cout<<"Searching for '"<<(*pu)<<"' in '"<<head_seq_pair.first<<"'"<<endl;
 
       const string& sequence = head_seq_pair.second;
 
@@ -173,4 +206,3 @@ int main(int argc, char** argv) {
 
   return EXIT_SUCCESS;
 }
-
