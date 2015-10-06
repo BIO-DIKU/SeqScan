@@ -1,7 +1,7 @@
 /* Initial C code is wrapped in '%{' */
 %{
 #include <iostream>
-#include "../pu/backtrack_unit.h"
+#include "../src/pu/backtrack_unit.h"
 using namespace std;
 
 // Just flex stuff
@@ -11,16 +11,24 @@ using namespace std;
 
 /* Double '%' initiates lexer rules section */
 %%
-[0-9]+      { yylval.inval = atoi(yytext); return INT; }
-[acgtACGT]+ { yylval.stval = strdup(yytext); return STRING; }
-\           { return SPACE; }
-\/          { return SLASH; }
-,           { return COMMA; }
-\{          { return LCURLY; }
-\}          { return RCURLY; }
-\<          { return GT; }
-\~          { return TILDE; }
-\|          { return OR; }
-\?          { return QMARK; }
-\.          { return DOT; }
+[0-9]+                         { yylval.inval = atoi(yytext); return INT; }
+[\.]*[acgtACGT]+[acgtACGT\.]*  { yylval.stval = strdup(yytext); return STRING; }
+[a-zA-Z0-9]+                   { yylval.stval = strdup(yytext); return LABEL; }
+\                              { return SPACE; }
+\/                             { return SLASH; }
+,                              { return COMMA; }
+\{                             { return LCURLY; }
+\}                             { return RCURLY; }
+\<                             { return ST; }
+\~                             { return TILDE; }
+\|                             { return OR; }
+\?                             { return QMARK; }
+\.                             { return DOT; }
+\(                             { return LPAR; }
+\)                             { return RPAR; }
+\[                             { return LBRACK; }
+\]                             { return RBRACK; }
+=                              { return EQUAL; }
+\+                             { return PLUS; }
+\^                             { return HAT; }
 %%
