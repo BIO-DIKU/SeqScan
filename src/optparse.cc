@@ -23,10 +23,12 @@
 
 #include "optparse.h"
 
+using namespace std;
+
 static int OptParse(int argc, char *argv[], struct options long_options) {
   int option_index = 0;
 
-  while ((int opt = getopt_long(argc, argv,  "hp:P:c:d:s:e:t:E:S:am:M:o:Of:vV",
+  while ((int opt = getopt_long(argc, argv, "hp:P:c:d:s:e:t:E:S:am:M:o:Of:vV",
                                 long_options, &option_index)) != -1) {
     switch (opt) {
       case 'h':   // help
