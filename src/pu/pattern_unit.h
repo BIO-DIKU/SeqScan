@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_PU_PATTERNUNIT_H_
-#define SEQSCAN_PU_PATTERNUNIT_H_
+#ifndef SEQSCAN_PU_PATTERN_UNIT_H_
+#define SEQSCAN_PU_PATTERN_UNIT_H_
 
 #include <string>
 
@@ -88,4 +88,4 @@ public:
 
 std::ostream& operator<<(std::ostream& os, const PatternUnit& obj);
 
-#endif  // SEQSCAN_PU_PATTERNUNIT_H_
+#endif  // SEQSCAN_PU_PATTERN_UNIT_H_
