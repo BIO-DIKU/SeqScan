@@ -18,20 +18,20 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_UNIT_H_
-#define PU_TNFA_UNIT_H_
+#ifndef PU_TNFA_MODEL_512_H_
+#define PU_TNFA_MODEL_512_H_
 
 #include <string>
 #include <vector>
 #include <unordered_map>
 
-#include "pattern_unit.h"
+#include "tnfa_state.h"
 #include "tnfa_model.h"
 
-class TNFAUnit : public PatternUnit {
+class TNFAModel512 : public TNFAModel {
 public:
 
-  TNFAUnit(const Modifiers &modifiers, const std::string);
+  TNFAModel512(const Modifiers &modifiers, const std::string& pattern);
 
   void Initialize(std::string::const_iterator pos,
                   std::string::const_iterator max_pos,
@@ -41,10 +41,22 @@ public:
 
   const Match& GetMatch() const;
 
+  // Create error codes from m,i,d modifiers
+  void ModifiersToErrorCode(const Modifiers &modifiers);
+
   std::ostream& Print(std::ostream &os) const;
 private:
-  TNFAModel         *model_;
-  const std::string pattern_;
+  const std::string           pattern_;
+  std::string::const_iterator sequence_iterator_;
+  std::string::const_iterator sequence_iterator_end_;
+  bool                        stay_at_pos_;
+  TNFAState                   *startState_;
+  uint64_t                    errorCode_[8];
+  std::vector< TNFAState * >  stateLists_[ 2 ];
+  bool                        listNo_;
+  std::vector< Match >        matches;
+  uint32_t                    listID_;
+  std::unordered_map< int, int >        matchMap_;
 };
 
 #endif  // PU_TNFA_UNIT_H_

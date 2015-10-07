@@ -18,37 +18,27 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "tnfa_unit.h"
-#include "tnfa_model_512.h"
-#include "tnfa_model_64.h"
+#ifndef PU_TNFA_MODEL_H_
+#define PU_TNFA_MODEL_H_
 
-TNFAUnit::TNFAUnit(const Modifiers &modifiers, const std::string pattern)
-  : pattern_(pattern), PatternUnit(modifiers)
-{
-  if(modifiers.insertions_ > 3 || modifiers.insertions_ > 3 || modifiers.deletions_ > 3)
-    model_ = new TNFAModel512(modifiers, pattern);
-  else
-    model_ = new TNFAModel64(modifiers, pattern);
-}
+#include <string>
+#include <vector>
+#include <unordered_map>
 
-void TNFAUnit::Initialize(std::string::const_iterator pos,
+#include "tnfa_state.h"
+#include "tnfa_start_state.h"
+#include "tnfa_final_state.h"
+#include "../modifiers.h"
+
+class TNFAModel {
+public:
+  virtual void Initialize(std::string::const_iterator pos,
                           std::string::const_iterator max_pos,
-                          bool stay_at_pos ) {
-  model_->Initialize(pos, max_pos, stay_at_pos);
-}
+                          bool stay_at_pos = false) = 0;
 
-bool TNFAUnit::FindMatch() {
-  return model_->FindMatch();
-}
+  virtual bool FindMatch() = 0;
 
-const Match& TNFAUnit::GetMatch() const
-{ return model_->GetMatch(); }
+  virtual const Match& GetMatch() const = 0;
+};
 
-std::ostream& TNFAUnit::Print(std::ostream &os) const
-{
-  modifiers_.PrintPUPrefix(os);
-  os<<pattern_;
-  modifiers_.PrintPUSuffix(os);
-
-  return os;
-}
+#endif  // PU_TNFA_UNIT_H_

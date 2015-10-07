@@ -13,7 +13,7 @@ include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
 if(COMPILER_SUPPORTS_CXX11)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
 elseif(COMPILER_SUPPORTS_CXX0X)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 else()
@@ -39,6 +39,9 @@ add_library(libseqscan
   pu/backtrack_unit.cc 
   pu/tnfa_unit.cc
   pu/tnfa_state.cc
+  pu/tnfa_start_state.cc
+  pu/tnfa_model_64.cc
+  pu/tnfa_model_512.cc
   pu/tnfa_final_state.cc pu/repeat_unit.cc pu/repeat_unit.h io.cc io.h match.cc pu/reference_unit.cc pu/reference_unit.h pu/range_unit.cc pu/range_unit.h)
 
 set_target_properties( libseqscan PROPERTIES PREFIX "" )
