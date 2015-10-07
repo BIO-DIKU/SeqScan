@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef COMPOSITE_UNIT_H_
-#define COMPOSITE_UNIT_H_
+#ifndef SEQSCAN_PU_COMPOSITE_UNIT_H_
+#define SEQSCAN_PU_COMPOSITE_UNIT_H_
 
 #include <vector>
 #include <set>
@@ -78,4 +78,4 @@ protected:
 
 std::ostream& operator<<(std::ostream& os, const CompositeUnit& obj);
 
-#endif  // COMPOSITE_UNIT_H_
+#endif  // SEQSCAN_PU_COMPOSITE_UNIT_H_
