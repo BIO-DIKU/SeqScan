@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef BACKTRACK_UNIT_H
-#define BACKTRACK_UNIT_H
+#ifndef SEQSCAN_PU_BACKTRACK_UNIT_H
+#define SEQSCAN_PU_BACKTRACK_UNIT_H
 
 #include <set>
 #include <vector>
@@ -88,4 +88,4 @@ protected:
 
 std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj);
 
-#endif  // BACKTRACK_UNIT_H
+#endif  // SEQSCAN_PU_BACKTRACK_UNIT_H
