@@ -22,7 +22,8 @@
 #define SEQSCAN_OPTPARSE_H_
 
 /*
- *
+ * Optios stucture for holding what-the-hell-is-it?
+ * TODO(Martin) find the proper getopt web page and figure out what is going on.
  */
 static struct options long_options[] = {
   {"help",           no_argument,       0, 'h'},
@@ -48,8 +49,9 @@ static struct options long_options[] = {
 
 /*
  * Parse options from argv and save the result in long_options.
+ * Returns true if parsing was OK else false.
  */
-static void OptParse(int argc, char *argv[], struct options long_options);
+static bool OptParse(int argc, char *argv[], struct options long_options);
 
 /*
  * Print usage to stderr.
