@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef MODIFIERS_H_
-#define MODIFIERS_H_
+#ifndef SEQSCAN_MODIFIERS_H_
+#define SEQSCAN_MODIFIERS_H_
 
 #include <memory>
 #include <string>
@@ -64,5 +64,4 @@ class Modifiers {
   static Modifiers CreateStdModifiers();
 };
 
-
-#endif  // MODIFIERS_H_
+#endif  // SEQSCAN_MODIFIERS_H_
