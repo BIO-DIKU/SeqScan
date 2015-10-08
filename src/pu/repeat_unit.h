@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_REPEAT_UNIT_H
-#define SEQSCAN_REPEAT_UNIT_H
+#ifndef SEQSCAN_PU_REPEAT_UNIT_H_
+#define SEQSCAN_PU_REPEAT_UNIT_H_
 
 #include <vector>
 
@@ -88,4 +88,4 @@ private:
 
 std::ostream& operator<<(std::ostream& os, const RepeatUnit& obj);
 
-#endif //SEQSCAN_REPEAT_UNIT_H
+#endif  // SEQSCAN_PU_REPEAT_UNIT_H_

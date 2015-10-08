@@ -21,12 +21,12 @@
 #include <memory>
 #include <iostream>
 
-#include "catch.h"
+#include "../catch.h"
 
-#include "../modifiers.h"
-#include "../match.h"
-#include "../pu/backtrack_unit.h"
-#include "../pu/composite_unit.h"
+#include "../../src/modifiers.h"
+#include "../../src/match.h"
+#include "../../src/pu/backtrack_unit.h"
+#include "../../src/pu/composite_unit.h"
 
 using namespace std;
 
@@ -41,7 +41,6 @@ TEST_CASE("Composite unit with two children. No fuzziness.", "[composite]") {
   unique_ptr<CompositeUnit> pu(new CompositeUnit(m));
   pu->AddUnit(pu0);
   pu->AddUnit(pu1);
-
 
   SECTION("No match") {
     string sequence = "TTTAATCCCTTT";
@@ -75,7 +74,7 @@ TEST_CASE("Composite unit with two children. With fuzziness.", "[composite]") {
     string sequence = "TTTAAATCCCTTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
     REQUIRE(pu->FindMatch());
-    REQUIRE(pu->GetMatch().pos-sequence.cbegin() == 3);
+    REQUIRE(pu->GetMatch().pos - sequence.cbegin() == 3);
     REQUIRE(pu->GetMatch().len == 7);
     REQUIRE(pu->GetMatch().edits == 1);
   }

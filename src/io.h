@@ -18,9 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_IO_H
-#define SEQSCAN_IO_H
-
+#ifndef SEQSCAN_IO_H_
+#define SEQSCAN_IO_H_
 
 #include <string>
 #include <utility>
@@ -34,8 +33,6 @@ public:
    * upper-cased.
    */
   static std::vector< std::pair<std::string,std::string>> read_fasta(const std::string& fname);
-
 };
 
-
-#endif //SEQSCAN_IO_H
+#endif  // SEQSCAN_IO_H_

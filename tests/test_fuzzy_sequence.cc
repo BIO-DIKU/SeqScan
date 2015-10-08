@@ -18,23 +18,34 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "punit_list.h"
+#include <memory>
 
-#include <vector>
-#include "../src/pu/pattern_unit.h"
+#include "catch.h"
+#include "../src/modifiers.h"
+#include "../src/pu/backtrack_unit.h"
 
 using namespace std;
 
-PunitList::PunitList() {}
+TEST_CASE("Test sequence with fuzzy matching", "[sequence,fuzzy matching]") {
 
-void PunitList::push_back(PatternUnit* punit) {
-  patlist_.push_back(punit);
-}
+  // Set up test pattern "AATCA/1,0,0"
+  Modifiers first_modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
+  unique_ptr<PatternUnit> first_unit(new BacktrackUnit(first_modifiers, "AATCA"));
 
-PatternUnit* PunitList::get_punit(int index) {
-  return patlist_[index];
-}
+  // Define sequence
+  string sequence = "AUGAUGAUGAATTATTTTTTCGGG";
+  int num_matches = 0;
 
-int PunitList::get_size() {
-  return patlist_.size();
+  SECTION("test match with 1 mismatch") {
+    first_unit->Initialize(sequence.cbegin(), sequence.cend());
+    while (first_unit->FindMatch()) {
+      const Match& m = first_unit->GetMatch();
+      REQUIRE(m.pos-sequence.cbegin() == 9);
+      REQUIRE(m.len == 5);
+      REQUIRE(m.edits == 1);
+      num_matches++;
+    }
+
+    REQUIRE(num_matches == 1);
+  }
 }

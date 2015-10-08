@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef MATCH_H_
-#define MATCH_H_
+#ifndef SEQSCAN_MATCH_H_
+#define SEQSCAN_MATCH_H_
 
 #include <string>
 #include <iostream>
@@ -80,5 +80,4 @@ private:
 
 };
 
-
-#endif  // MATCH_H_
+#endif  // SEQSCAN_MATCH_H_

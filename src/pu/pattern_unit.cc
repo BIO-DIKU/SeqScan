@@ -21,21 +21,18 @@
 #include <sstream>
 #include "pattern_unit.h"
 
-
 PatternUnit::PatternUnit(const Modifiers& modifiers):
     modifiers_(modifiers)
 {}
 
-std::unique_ptr<PatternUnit> PatternUnit::Clone() const
-{
+std::unique_ptr<PatternUnit> PatternUnit::Clone() const {
   std::stringstream ss;
   Print(ss);
 
-  std::cerr<<"PatternUnit::Clone() - This pattern unit ("<<ss.str()<<") does not support cloning";
-  throw "PatternUnit::Clone() - This pattern unit ("+ss.str()+") does not support cloning";
+  std::cerr << "PatternUnit::Clone() - This pattern unit (" << ss.str() << ") does not support cloning";
+  throw "PatternUnit::Clone() - This pattern unit (" + ss.str() + ") does not support cloning";
 }
 
-std::ostream& operator<<(std::ostream& os, const PatternUnit& obj)
-{
+std::ostream& operator<<(std::ostream& os, const PatternUnit& obj) {
   return obj.Print(os);
 }

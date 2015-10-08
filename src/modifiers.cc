@@ -42,26 +42,24 @@ Modifiers::Modifiers(
     label_(label)
 {}
 
-std::ostream& Modifiers::PrintPUPrefix(std::ostream &os) const
-{
+std::ostream& Modifiers::PrintPUPrefix(std::ostream &os) const {
   if (!label_.empty())
-    os<<label_<<"=";
+    os << label_ << "=";
 
-  if (reverse_ && complement_) os<<"~";
-  else if (reverse_) os<<"<";
-  else if (complement_) os<<"<~";
+  if (reverse_ && complement_) os << "~";
+  else if (reverse_) os << "<";
+  else if (complement_) os << "<~";
 
   return os;
 }
 
-std::ostream& Modifiers::PrintPUSuffix(std::ostream &os) const
-{
-  if (max_edits_) os<<"/"<<max_edits_;
+std::ostream& Modifiers::PrintPUSuffix(std::ostream &os) const {
+  if (max_edits_) os << "/" << max_edits_;
 
   if (indels_)
-    os<<"/"<<mismatches_<<","<<indels_;
+    os << "/" << mismatches_ << "," << indels_;
   else if (mismatches_ || insertions_ || deletions_)
-    os<<"/"<<mismatches_<<","<<insertions_<<","<<deletions_;
+    os << "/" << mismatches_ << "," << insertions_ << "," << deletions_;
 
   return os;
 }
