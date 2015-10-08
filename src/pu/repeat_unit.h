@@ -58,6 +58,12 @@ public:
 
 private:
 
+  /**
+   * Assumes that child_units_[repeat-1] has returned true to a FindMatch call.
+   * p
+   */
+  bool FindMatch(int repeat);
+
   std::string::const_iterator sequence_iterator_end_;
 
   /// The child pattern units to detect repeated matches of
