@@ -18,23 +18,24 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "punit_list.h"
+#include "parse_tree_list.h"
 
+#include <cstdio>
+#include <iostream>
 #include <vector>
-#include "../src/pu/pattern_unit.h"
 
 using namespace std;
 
-PunitList::PunitList() {}
+ParseTreeList::ParseTreeList() {}
 
-void PunitList::push_back(PatternUnit* punit) {
-  patlist_.push_back(punit);
-}
-
-PatternUnit* PunitList::get_punit(int index) {
-  return patlist_[index];
-}
-
-int PunitList::get_size() {
+int ParseTreeList::get_size() {
   return patlist_.size();
+}
+
+void ParseTreeList::push_back(ParseTreeUnit* panit) {
+  patlist_.push_back(panit);
+}
+
+ParseTreeUnit* ParseTreeList::get_parse_unit(int index) {
+  return patlist_[index];
 }

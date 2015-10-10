@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_REFERENCEUNIT_H
-#define SEQSCAN_REFERENCEUNIT_H
+#ifndef SEQSCAN_PU_REFERENCE_UNIT_H_
+#define SEQSCAN_PU_REFERENCE_UNIT_H_
 
 #include "pattern_unit.h"
 
@@ -54,4 +54,4 @@ private:
 };
 
 
-#endif //SEQSCAN_REFERENCEUNIT_H
+#endif  // SEQSCAN_PU_REFERENCE_UNIT_H_

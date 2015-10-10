@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_H_
-#define PU_TNFA_H_
+#ifndef SEQSCAN_PU_TNFA_H_
+#define SEQSCAN_PU_TNFA_H_
 
 #include "pu/tnfa_sequence_unit.h"
 
@@ -35,4 +35,4 @@ TNFASequenceUnit::TNFASequenceUnit(
     tnfa_.patch( new TNFAState( c ) );
 }
 
-#endif   // PU_TNFA_H_
+#endif   // SEQSCAN_PU_TNFA_H_

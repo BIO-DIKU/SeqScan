@@ -1,12 +1,17 @@
 %{
 #include <cstdio>
 #include <iostream>
+#include "parse_tree_list.h"
 using namespace std;
 #include "../src/modifiers.h"
 #include "../src/match.h"
 #include "../src/pu/backtrack_unit.h"
 #include "punit_list.h"
 #include <utility>
+#include <vector>
+#include <map>
+
+using namespace std;
 
 // Stuff from flex that bison needs to know about:
 extern "C" int yylex();
@@ -15,98 +20,186 @@ extern "C" FILE *yyin;
 void yyerror(const char *s);
 
 // The final list of PatternUnit objects
-PunitList* plist;
+ParseTreeUnit* cur_unit = new ParseTreeUnit();
+ParseTreeList* par_list = new ParseTreeList();
+map<string, ParseTreeUnit*> vtable;
+map<string, ParseTreeUnit*>::iterator vtab_it;
 %}
 
 /* Defining token types */
 %union {
   int inval;
   char* stval;
-  struct {
-    int mis;
-    int ins;
-    int del;
-  } edits;
-  struct {
-    int min;
-    int max;
-  } multi;
-  class BacktrackUnit* punit;
-  class PunitList* pulis;
+  class ParseTreeUnit* panit;
+  class ParseTreeList* palis;
 }
 
 /* Defining invariable terminal symbols */
-%token SLASH COMMA SPACE LCURLY RCURLY GT TILDE OR QMARK DOT 
+%token SLASH COMMA SPACE LCURLY RCURLY ST TILDE OR QMARK DOT LPAR RPAR EQUAL LBRACK RBRACK PLUS HAT
 
 /* Defining variable terminal symbols and associating them with token types */
 %token <inval> INT
 %token <stval> STRING
+%token <stval> LABEL
 
-%type <punit> pattern_unit
-%type <edits> misindel
-%type <multi> multipliers
-%type <pulis> unit_list 
+%type <panit> pattern_unit
+%type <palis> unit_list 
+%type <palis> composite
 
+%left EQUAL
+%left OR
 
 /* Double '%' initiates parser grammar section */ 
 %%
 pattern:
-  unit_list                       { plist = $1; }
+  unit_list                              { par_list = $1; }
   ;
 
 unit_list:
-  unit_list SPACE pattern_unit    { $1->push_back($3);
-                                    $$ = $1; }
+  unit_list SPACE pattern_unit           { $1->push_back($3);
+                                           $$ = $1; } 
  
-| pattern_unit                    { PunitList* punitlist = new PunitList();
-                                    punitlist->push_back($1);
-                                    $$ = punitlist; }
+| pattern_unit                           { par_list->push_back($1);
+                                           $$ = par_list; }
 ;
 
 pattern_unit:
-  STRING multipliers misindel     { Modifiers* modifiers = 
-                                    //new Modifiers(0,$3.mis,$3.ins,$3.del,$2.min,$2.max,false,false,false);
-                                    new Modifiers(0,$3.mis,$3.ins,$3.del,0,false,false,false, "");
-                                    $$ = new BacktrackUnit(*modifiers, $1); }
+  LBRACK group_contents RBRACK PLUS      { cur_unit->is_matchgroup_ = true;
+                                           cur_unit->group_greedy_ = true;
+                                           $$ = cur_unit;
+                                           cur_unit = new ParseTreeUnit(); }
 
-| STRING misindel multipliers     { Modifiers* modifiers = 
-                                    new Modifiers(0,$2.mis,$2.ins,$2.del,0,true,false,false,"");
-                                    //new Modifiers(0,$2.mis,$2.ins,$2.del,$3.min,$3.max,true,false,false);
-                                    $$ = new BacktrackUnit(*modifiers, $1); }
+| LBRACK group_contents RBRACK           { cur_unit->is_matchgroup_ = true;
+                                           $$ = cur_unit;
+                                           cur_unit = new ParseTreeUnit(); }
 
-| STRING multipliers              { Modifiers* modifiers = 
-                                    new Modifiers(0,0,0,0,0,false,false,false,"");
-                                    //new Modifiers(0,0,0,0,$2.min,$2.max,false,false,false);
-                                    $$ = new BacktrackUnit(*modifiers, $1); }
+| LPAR composite RPAR                    { ParseTreeUnit* unit = new ParseTreeUnit();
+                                           unit->composite_ = $2;
+                                           unit->is_composite_ = true;
+                                           $$ = unit; }
 
-| STRING misindel                 { Modifiers modifiers = Modifiers::CreateMIDModifiers($2.mis,$2.ins,$2.del);
-                                    $$ = new BacktrackUnit(modifiers, $1); }
+| LABEL EQUAL pattern_unit               { $3->is_labeled_ = true;
+                                           vtable[$1] = $3;
+                                           $$ = $3; }
 
-| STRING                          { Modifiers modifiers = Modifiers::CreateStdModifiers();
-                                    $$ = new BacktrackUnit(modifiers, $1); }
+| front_modifiers LABEL back_modifiers   { vtab_it = vtable.find($2);
+                                           if (vtab_it != vtable.end()) {
+                                             cur_unit->is_reference_ = true;
+                                             cur_unit->reference_ = vtab_it->second;
+                                             $$ = cur_unit;
+                                           } else {
+                                             cout << "Unknown pattern unit: " << $2 << "\n";
+                                           } }
+
+| LABEL back_modifiers                   { vtab_it = vtable.find($1);
+                                           if (vtab_it != vtable.end()) {
+                                             cur_unit->is_reference_ = true;
+                                             cur_unit->reference_ = vtab_it->second;
+                                             $$ = cur_unit;
+                                           } else {
+                                             cout << "Unknown pattern unit: " << $1 << "\n";
+                                           } }
+
+
+
+| pattern_unit OR pattern_unit           { ParseTreeUnit* unit = new ParseTreeUnit();
+                                           unit->init_or_units();
+                                           unit->is_or_ = true;
+                                           unit->insert_or_units($1, $3);
+                                           $$ = unit; }
+
+| front_modifiers STRING back_modifiers  { cur_unit->sequence_ = $2;
+                                           $$ = cur_unit;
+                                           cur_unit = new ParseTreeUnit(); }
+
+| STRING back_modifiers                  { cur_unit->sequence_ = $1;
+                                           $$ = cur_unit;
+                                           cur_unit = new ParseTreeUnit(); }
+
+| INT DOT DOT DOT INT                    { cur_unit->is_range_ = true; 
+                                           cur_unit->range_min_ = $1;
+                                           cur_unit->range_max_ = $5;
+                                           $$ = cur_unit;
+                                           cur_unit = new ParseTreeUnit(); }
+
+| INT DOT DOT INT                        { cur_unit->is_range_ = true; 
+                                           cur_unit->range_min_ = $1;
+                                           cur_unit->range_max_ = $4; 
+                                           $$ = cur_unit;
+                                           cur_unit = new ParseTreeUnit(); }
 
 ;
 
-multipliers:
-  LCURLY INT COMMA INT RCURLY     { $$.min = $2;
-                                    $$.max = $4; }
+group_contents:
+  HAT STRING                             { cur_unit->group_not_ = true;
+                                             cur_unit->group_ = $2; }
 
-| LCURLY INT COMMA RCURLY         { $$.min = $2;
-                                    $$.max = 10000000; }
-
-| LCURLY INT RCURLY               { $$.min = $2;
-                                    $$.max = $2; }
+| STRING                                 { cur_unit->group_ = $1; }
 ;
 
-misindel:
-  SLASH INT COMMA INT COMMA INT   { $$.mis = $2;
-                                    $$.ins = $4;
-                                    $$.del = $6; }
+front_modifiers:
+  ST TILDE                               { cur_unit->complement_ = true; }
 
-| SLASH INT COMMA INT             { ; }
+| ST                                     { cur_unit->reverse_ = true; }
 
-| SLASH INT                       { ; }
+| TILDE                                  { cur_unit->complement_ = true;
+                                           cur_unit->reverse_ = true; }
+
 ;
+
+composite:
+  composite SPACE pattern_unit           { $1->push_back($3);
+                                           cur_unit = new ParseTreeUnit();
+                                           $$ = $1; }
+
+| pattern_unit                           { ParseTreeList* units = new ParseTreeList();
+                                           units->push_back($1);
+                                           cur_unit = new ParseTreeUnit();
+                                           $$ = units; }
+;
+
+back_modifiers:
+  edits repeats                          { ; }
+
+| repeats edits                          { ; }
+
+| edits                                  { ; }
+
+| repeats                                { ; }
+
+|                                        { ; }
+;
+
+edits:
+  SLASH INT COMMA INT COMMA INT          { cur_unit->mis_ = $2; 
+                                           cur_unit->ins_ = $4; 
+                                           cur_unit->del_ = $6; }
+
+| SLASH INT COMMA INT                    { cur_unit->mis_ = $2; 
+                                           cur_unit->indel_ = $4; }
+
+| SLASH INT                              { cur_unit->edits_ = $2; }
+;
+
+repeats:
+  LCURLY INT COMMA INT RCURLY QMARK      { cur_unit->min_repeats_ = $2; 
+                                           cur_unit->max_repeats_ = $4;
+                                           cur_unit->greedy_ = true; }
+
+| LCURLY INT COMMA RCURLY QMARK          { cur_unit->min_repeats_ = $2;
+                                           cur_unit->rep_open_ = true;
+                                           cur_unit->greedy_ = true;  }
+
+| LCURLY INT COMMA INT RCURLY            { cur_unit->min_repeats_ = $2; 
+                                           cur_unit->max_repeats_ = $4; }
+
+| LCURLY INT COMMA RCURLY                { cur_unit->min_repeats_ = $2;
+                                           cur_unit->rep_open_ = true; }
+
+| LCURLY INT RCURLY                      { cur_unit->min_repeats_ = $2; }
+; 
+
+
 %%
 
 /* Double '%' ends parser grammer section, and begins C code section */
@@ -123,9 +216,9 @@ int main(int, char**) {
   do {
     yyparse();
   } while (!feof(yyin));
-  for (int i = 0; i < plist->get_size(); i++) { 
-    plist->get_punit(i)->Print(cout);
-    cout << "\n";
+  for (int i = 0; i < par_list->get_size(); i++) {
+    ParseTreeUnit* x = par_list->get_parse_unit(i);
+    par_list->get_parse_unit(i)->pprint();
   }
 }
 

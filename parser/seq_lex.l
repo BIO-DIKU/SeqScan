@@ -18,16 +18,26 @@ using namespace std;
 /* All observed chars in README examples: */
 /* " $()*+,./01234568<=?ACDGHKNQRST[]^p{|}~" */
 %%
-[0-9]+      { yylval.inval = atoi(yytext); return INT; }
-[acgtACGT]+ { yylval.stval = strdup(yytext); return STRING; }
-\           { return SPACE; }
-\/          { return SLASH; }
-,           { return COMMA; }
-\{          { return LCURLY; }
-\}          { return RCURLY; }
-\<          { return GT; }
-\~          { return TILDE; }
-\|          { return OR; }
-\?          { return QMARK; }
-\.          { return DOT; }
+\                              { return SPACE; }
+\$                             { return DOLLAR; } // TODO(MartinWP) is DOLLAR correct?
+\(                             { return LPAR; }
+\)                             { return RPAR; }
+\*                             { return MULTIPLY; } // TODO(MartinWP) is MULTIPLY correct?
+\+                             { return PLUS; }
+,                              { return COMMA; }
+\.                             { return DOT; }
+\/                             { return SLASH; }
+[0-9]+                         { yylval.inval = atoi(yytext); return INT; }
+[\.]*[acgtACGT]+[acgtACGT\.]*  { yylval.stval = strdup(yytext); return STRING; }
+[a-zA-Z0-9]+                   { yylval.stval = strdup(yytext); return LABEL; }
+\<                             { return ST; }
+=                              { return EQUAL; }
+\?                             { return QMARK; }
+\[                             { return LBRACK; }
+\]                             { return RBRACK; }
+\^                             { return HAT; }
+\{                             { return LCURLY; }
+\|                             { return OR; }
+\}                             { return RCURLY; }
+\~                             { return TILDE; }
 %%

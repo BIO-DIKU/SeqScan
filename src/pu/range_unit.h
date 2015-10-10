@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_RANGE_UNIT_H
-#define SEQSCAN_RANGE_UNIT_H
+#ifndef SEQSCAN_PU_RANGE_UNIT_H_
+#define SEQSCAN_PU_RANGE_UNIT_H_
 
 #include <iostream>
 #include <vector>
@@ -58,4 +58,4 @@ private:
 };
 
 
-#endif //SEQSCAN_RANGE_UNIT_H
+#endif  // SEQSCAN_PU_RANGE_UNIT_H_
