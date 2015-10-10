@@ -6,7 +6,7 @@
 
 #include "../../src/modifiers.h"
 #include "../../src/match.h"
-#include "../../src/pu/tnfa_unit.h"
+#include "../../src/pu/tnfa/tnfa_unit.h"
 
 using namespace std;
 

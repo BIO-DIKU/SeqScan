@@ -18,21 +18,38 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_H_
-#define PU_TNFA_H_
+#ifndef PU_TNFA_FINAL_STATE_64_H_
+#define PU_TNFA_FINAL_STATE_64_H_
 
-#include "pu/tnfa_sequence_unit.h"
-
+#include <iostream>
+#include <vector>
 #include <string>
 
-TNFASequenceUnit::TNFASequenceUnit(
-    const Modifiers &modifiers,
-    const std::string& pattern
-) :
-    PatternUnit(modifiers),
-    pattern_(pattern) {
-  for (char c : pattern_ )
-    tnfa_.patch( new TNFAState( c ) );
-}
+#include "tnfa_state_64.h"
 
-#endif   // PU_TNFA_H_
+
+class TNFAFinalState64 : public TNFAState64 {
+public:
+
+  TNFAFinalState64(int len, int edits);
+
+  void addEpsilonTransitions(bool,
+                             std::string::const_iterator,
+                             std::vector< TNFAState64 * > [2],
+                             std::unordered_map<int, int> &,
+                             uint32_t);
+
+  void addOutStates(bool,
+                    std::string::const_iterator,
+                    std::vector< TNFAState64 * > [2],
+                    std::unordered_map<int, int> &,
+                    uint32_t);
+private:
+
+  int patternLength_;
+
+  int maxEdits_;
+
+};
+
+#endif  // PU_TNFA_FINAL_STATE_H_

@@ -18,20 +18,20 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_MODEL_512_H_
-#define PU_TNFA_MODEL_512_H_
+#ifndef PU_TNFA_MODEL_64_H_
+#define PU_TNFA_MODEL_64_H_
 
 #include <string>
 #include <vector>
 #include <unordered_map>
 
-#include "tnfa_state.h"
+#include "tnfa_state_64.h"
 #include "tnfa_model.h"
 
-class TNFAModel512 : public TNFAModel {
+class TNFAModel64 : public TNFAModel {
 public:
 
-  TNFAModel512(const Modifiers &modifiers, const std::string& pattern);
+  TNFAModel64(const Modifiers &modifiers, const std::string& pattern);
 
   void Initialize(std::string::const_iterator pos,
                   std::string::const_iterator max_pos,
@@ -46,17 +46,9 @@ public:
 
   std::ostream& Print(std::ostream &os) const;
 private:
-  const std::string           pattern_;
-  std::string::const_iterator sequence_iterator_;
-  std::string::const_iterator sequence_iterator_end_;
-  bool                        stay_at_pos_;
-  TNFAState                   *startState_;
-  uint64_t                    errorCode_[8];
-  std::vector< TNFAState * >  stateLists_[ 2 ];
-  bool                        listNo_;
-  std::vector< Match >        matches;
-  uint32_t                    listID_;
-  std::unordered_map< int, int >        matchMap_;
+  TNFAState64                  *startState_;
+  uint64_t                     errorCode_;
+  std::vector< TNFAState64 * > stateLists_[ 2 ];
 };
 
 #endif  // PU_TNFA_UNIT_H_

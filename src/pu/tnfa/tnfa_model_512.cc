@@ -18,36 +18,37 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "tnfa_model_64.h"
+#include "tnfa_model_512.h"
+#include "tnfa_start_state_512.h"
+#include "tnfa_final_state_512.h"
 
-TNFAModel64::TNFAModel64(const Modifiers &modifiers,
-                         const std::string& pattern) :
-  pattern_(pattern),
+TNFAModel512::TNFAModel512(const Modifiers &modifiers,
+                           const std::string& pattern) :
+  TNFAModel(pattern),
   startState_(nullptr),
-  errorCode_{ 0, 0, 0, 0, 0, 0, 0, 0 },
-  listID_(0)
+  errorCode_{ 0, 0, 0, 0, 0, 0, 0, 0 }
 {
-  TNFAState *currentState;
+  TNFAState512 *currentState;
   ModifiersToErrorCode(modifiers);
 
   // Set up states
-  startState_ = currentState = new TNFAStartState( errorCode_ );
+  startState_ = currentState = new TNFAStartState512( errorCode_ );
   for (char c : pattern_) {
-    currentState->setOutPtr(new TNFAState( c ));
+    currentState->setOutPtr(new TNFAState512( c ));
     currentState = currentState->getOutPtr();
   }
-  currentState->setOutPtr(new TNFAFinalState(pattern.length()
-                                             + modifiers.insertions_
-                                             - modifiers.deletions_,
-                                             modifiers.mismatches_ +
-                                             modifiers.deletions_ +
-                                             modifiers.insertions_
-                                             ));
+  currentState->setOutPtr(new TNFAFinalState512(pattern.length()
+                                                + modifiers.insertions_
+                                                - modifiers.deletions_,
+                                                modifiers.mismatches_ +
+                                                modifiers.deletions_ +
+                                                modifiers.insertions_
+                                                ));
 }
 
-void TNFAModel64::Initialize(std::string::const_iterator pos,
-                                  std::string::const_iterator max_pos,
-                                  bool stay_at_pos ) {
+void TNFAModel512::Initialize(std::string::const_iterator pos,
+                              std::string::const_iterator max_pos,
+                              bool stay_at_pos ) {
   sequence_iterator_ = pos;
   sequence_iterator_end_ = max_pos;
   stay_at_pos_ = stay_at_pos;
@@ -55,7 +56,7 @@ void TNFAModel64::Initialize(std::string::const_iterator pos,
   stateLists_[ 0 ].clear();
   stateLists_[ 1 ].clear();
   listNo_ = ++listID_ % 2;
-  startState_->addToList(TNFAState::newCode,
+  startState_->addToList(TNFAState512::newCode,
                          listNo_,
                          sequence_iterator_,
                          stateLists_,
@@ -63,7 +64,7 @@ void TNFAModel64::Initialize(std::string::const_iterator pos,
                          listID_);
 }
 
-bool TNFAModel64::FindMatch() {
+bool TNFAModel512::FindMatch() {
 
   if (!matches.empty()) {
     matches.pop_back();
@@ -79,7 +80,7 @@ bool TNFAModel64::FindMatch() {
     stateLists_[listNo_ = ++listID_ % 2].clear();
 
     if(!stay_at_pos_) {
-      startState_->addToList(TNFAState::newCode,
+      startState_->addToList(TNFAState512::newCode,
                              listNo_,
                              sequence_iterator_,
                              stateLists_,
@@ -87,7 +88,7 @@ bool TNFAModel64::FindMatch() {
                              listID_);
     }
 
-    for (TNFAState *s : stateLists_[!listNo_]) {
+    for (TNFAState512 *s : stateLists_[!listNo_]) {
       s->addOutStates(listNo_,
                       sequence_iterator_,
                       stateLists_,
@@ -104,7 +105,7 @@ bool TNFAModel64::FindMatch() {
   return !matches.empty();
 }
 
-void TNFAModel64::ModifiersToErrorCode(const Modifiers &modifiers) {
+void TNFAModel512::ModifiersToErrorCode(const Modifiers &modifiers) {
   for (int c = 0; c < TNFAState::kErrorCodeBits; c++) {
     if (TNFAState::counterToMismatches(c) <= modifiers.mismatches_ &&
         TNFAState::counterToDeletions(c)  <= modifiers.deletions_  &&
@@ -115,5 +116,5 @@ void TNFAModel64::ModifiersToErrorCode(const Modifiers &modifiers) {
   }
 }
 
-const Match& TNFAModel64::GetMatch() const
+const Match& TNFAModel512::GetMatch() const
 { return matches.back(); }

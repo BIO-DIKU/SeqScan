@@ -18,33 +18,36 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_UNIT_H_
-#define PU_TNFA_UNIT_H_
+#ifndef PU_TNFA_START_STATE_64_H_
+#define PU_TNFA_START_STATE_64_H_
 
+#include <inttypes.h>
 #include <string>
 #include <vector>
-#include <unordered_map>
 
-#include "pattern_unit.h"
-#include "tnfa_model.h"
+#include "tnfa_state_64.h"
 
-class TNFAUnit : public PatternUnit {
-public:
+using std::unordered_map;
 
-  TNFAUnit(const Modifiers &modifiers, const std::string);
+class TNFAStartState64 : public TNFAState64 {
+ public:
+  TNFAStartState64(uint64_t);
 
-  void Initialize(std::string::const_iterator pos,
-                  std::string::const_iterator max_pos,
-                  bool stay_at_pos = false);
+  void addEpsilonTransitions(bool, std::string::const_iterator,
+                             std::vector< TNFAState64 * > [],
+                             std::unordered_map<int, int> &,
+                             uint32_t);
 
-  bool FindMatch();
+  void addOutStates(bool, std::string::const_iterator,
+                    std::vector< TNFAState64 * > [],
+                    std::unordered_map<int, int> &,
+                    uint32_t);
 
-  const Match& GetMatch() const;
+  void display(bool);
 
-  std::ostream& Print(std::ostream &os) const;
-private:
-  TNFAModel         *model_;
-  const std::string pattern_;
+ private:
+
+  uint64_t stateErrorCode_;
 };
 
-#endif  // PU_TNFA_UNIT_H_
+#endif  // PU_TNFA_START_STATE_H_

@@ -25,7 +25,7 @@
 #include "modifiers.h"
 #include "pu/composite_unit.h"
 #include "pu/backtrack_unit.h"
-#include "pu/tnfa_unit.h"
+#include "pu/tnfa/tnfa_unit.h"
 #include "pu/repeat_unit.h"
 #include "pu/reference_unit.h"
 #include "pu/range_unit.h"

@@ -27,14 +27,14 @@
 using ::std::vector;
 using ::std::unordered_map;
 
-uint64_t TNFAState::newCode[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+uint64_t TNFAState::newCode = 0;
 
 TNFAState::TNFAState(char cInit) : c(cInit) {}
 
 void TNFAState::setOutPtr(TNFAState *out) { out_ = out; }
 TNFAState *TNFAState::getOutPtr() { return out_; }
 
-void TNFAState::addToList(uint64_t e[8],
+void TNFAState::addToList(uint64_t e,
                           bool listNo,
                           std::string::const_iterator pos,
                           vector< TNFAState * > stateLists[2],

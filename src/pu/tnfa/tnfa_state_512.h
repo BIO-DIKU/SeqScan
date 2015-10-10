@@ -18,25 +18,25 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_STATE_H_
-#define PU_TNFA_STATE_H_
+#ifndef PU_TNFA_STATE_512_H_
+#define PU_TNFA_STATE_512_H_
 
 #include <inttypes.h>
 #include <vector>
 #include <string>
 #include <unordered_map>
 
-#include "../match.h"
+#include "../../match.h"
 
-class TNFAState {
+class TNFAState512 {
  public:
   /*
    * Create a state on given character
    */
-  TNFAState(char);
+  TNFAState512(char);
 
-  void setOutPtr(TNFAState *);  // Set pointer to outgoing state
-  TNFAState *getOutPtr();       // Get pointer to outgoing state
+  void setOutPtr(TNFAState512 *);  // Set pointer to outgoing state
+  TNFAState512 *getOutPtr();       // Get pointer to outgoing state
 
   /*
    * Add this state to the new state list
@@ -44,7 +44,7 @@ class TNFAState {
   void addToList(uint64_t[8],
                  bool,
                  std::string::const_iterator,
-                 std::vector< TNFAState * > [2],
+                 std::vector< TNFAState512 * > [2],
                  std::unordered_map<int, int> &,
                  uint32_t);
 
@@ -53,7 +53,7 @@ class TNFAState {
    * Only transitions "eating" a character from the input string are considered.
    */
   virtual void addOutStates(bool, std::string::const_iterator,
-                            std::vector< TNFAState * > [2],
+                            std::vector< TNFAState512 * > [2],
                             std::unordered_map<int, int> &,
                             uint32_t);
 
@@ -62,7 +62,7 @@ class TNFAState {
    * This is the complementary function to addOutStates().
    */
   virtual void addEpsilonTransitions(bool, std::string::const_iterator,
-                                     std::vector< TNFAState * > [],
+                                     std::vector< TNFAState512 * > [],
                                      std::unordered_map<int, int> &,
                                      uint32_t);
 
@@ -86,7 +86,7 @@ class TNFAState {
   //0x1C0 = 0b000111000000
 protected:
   char c;  // Character to be matched
-  TNFAState *out_;  // Outgoing state
+  TNFAState512 *out_;  // Outgoing state
 
   /*
    * Error codes are 64-bit integers that represent subsets of allowed errors

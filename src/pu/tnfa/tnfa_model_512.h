@@ -18,27 +18,37 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_MODEL_H_
-#define PU_TNFA_MODEL_H_
+#ifndef PU_TNFA_MODEL_512_H_
+#define PU_TNFA_MODEL_512_H_
 
 #include <string>
 #include <vector>
 #include <unordered_map>
 
-#include "tnfa_state.h"
-#include "tnfa_start_state.h"
-#include "tnfa_final_state.h"
-#include "../modifiers.h"
+#include "tnfa_state_512.h"
+#include "tnfa_model.h"
 
-class TNFAModel {
+class TNFAModel512 : public TNFAModel {
 public:
-  virtual void Initialize(std::string::const_iterator pos,
-                          std::string::const_iterator max_pos,
-                          bool stay_at_pos = false) = 0;
 
-  virtual bool FindMatch() = 0;
+  TNFAModel512(const Modifiers &modifiers, const std::string& pattern);
 
-  virtual const Match& GetMatch() const = 0;
+  void Initialize(std::string::const_iterator pos,
+                  std::string::const_iterator max_pos,
+                  bool stay_at_pos = false);
+
+  bool FindMatch();
+
+  const Match& GetMatch() const;
+
+  // Create error codes from m,i,d modifiers
+  void ModifiersToErrorCode(const Modifiers &modifiers);
+
+  std::ostream& Print(std::ostream &os) const;
+private:
+  TNFAState512                *startState_;
+  uint64_t                    errorCode_[8];
+  std::vector< TNFAState512 * >  stateLists_[ 2 ];
 };
 
 #endif  // PU_TNFA_UNIT_H_

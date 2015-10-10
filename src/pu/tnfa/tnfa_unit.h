@@ -18,14 +18,33 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "pu/tnfa_sequence_unit.h"
+#ifndef PU_TNFA_UNIT_H_
+#define PU_TNFA_UNIT_H_
 
-TNFA::TNFA(
-    const Modifiers &modifiers,
-    const std::string& pattern
-) :
-    PatternUnit(modifiers),
-    pattern_(pattern) {
-  for (char c : pattern_ )
-    tnfa_.patch( new TNFAState( c ) );
-}
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+#include "../pattern_unit.h"
+#include "tnfa_model.h"
+
+class TNFAUnit : public PatternUnit {
+public:
+
+  TNFAUnit(const Modifiers &modifiers, const std::string);
+
+  void Initialize(std::string::const_iterator pos,
+                  std::string::const_iterator max_pos,
+                  bool stay_at_pos = false);
+
+  bool FindMatch();
+
+  const Match& GetMatch() const;
+
+  std::ostream& Print(std::ostream &os) const;
+private:
+  TNFAModel         *model_;
+  const std::string pattern_;
+};
+
+#endif  // PU_TNFA_UNIT_H_

@@ -28,21 +28,22 @@ add_library(libseqscan
   pu/pattern_unit.h
   pu/composite_unit.h
   pu/backtrack_unit.h
-  pu/tnfa_unit.h
-  pu/tnfa_state.h
-  pu/tnfa_final_state.h
-  pu/tnfa_start_state.h
+  pu/tnfa/tnfa_unit.h
 
   pu/pattern_unit.cc
   pu/composite_unit.cc
   modifiers.cc 
   pu/backtrack_unit.cc 
-  pu/tnfa_unit.cc
-  pu/tnfa_state.cc
-  pu/tnfa_start_state.cc
-  pu/tnfa_model_64.cc
-  pu/tnfa_model_512.cc
-  pu/tnfa_final_state.cc pu/repeat_unit.cc pu/repeat_unit.h io.cc io.h match.cc pu/reference_unit.cc pu/reference_unit.h pu/range_unit.cc pu/range_unit.h)
+  pu/tnfa/tnfa_unit.cc
+  pu/tnfa/tnfa_model_64.cc
+  pu/tnfa/tnfa_model_512.cc
+  pu/tnfa/tnfa_state_64.cc
+  pu/tnfa/tnfa_start_state_64.cc
+  pu/tnfa/tnfa_final_state_64.cc
+  pu/tnfa/tnfa_state_512.cc
+  pu/tnfa/tnfa_start_state_512.cc
+  pu/tnfa/tnfa_final_state_512.cc
+  pu/repeat_unit.cc pu/repeat_unit.h io.cc io.h match.cc pu/reference_unit.cc pu/reference_unit.h pu/range_unit.cc pu/range_unit.h)
 
 set_target_properties( libseqscan PROPERTIES PREFIX "" )
 
