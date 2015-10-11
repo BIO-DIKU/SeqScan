@@ -18,38 +18,24 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_FINAL_STATE_H_
-#define PU_TNFA_FINAL_STATE_H_
+#include "parse_tree_list.h"
 
+#include <cstdio>
 #include <iostream>
 #include <vector>
-#include <string>
 
-#include "tnfa_state.h"
+using namespace std;
 
+ParseTreeList::ParseTreeList() {}
 
-class TNFAFinalState : public TNFAState {
-public:
+int ParseTreeList::get_size() {
+  return patlist_.size();
+}
 
-  TNFAFinalState(int len, int edits);
+void ParseTreeList::push_back(ParseTreeUnit* panit) {
+  patlist_.push_back(panit);
+}
 
-  void addEpsilonTransitions(bool,
-                             std::string::const_iterator,
-                             std::vector< TNFAState * > [2],
-                             std::unordered_map<int, int> &,
-                             uint32_t);
-
-  void addOutStates(bool,
-                    std::string::const_iterator,
-                    std::vector< TNFAState * > [2],
-                    std::unordered_map<int, int> &,
-                    uint32_t);
-private:
-
-  int patternLength_;
-
-  int maxEdits_;
-
-};
-
-#endif  // PU_TNFA_FINAL_STATE_H_
+ParseTreeUnit* ParseTreeList::get_parse_unit(int index) {
+  return patlist_[index];
+}

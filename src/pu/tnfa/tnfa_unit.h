@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_UNIT_H_
-#define PU_TNFA_UNIT_H_
+#ifndef SEQSCAN_PU_TNFA_UNIT_H_
+#define SEQSCAN_PU_TNFA_UNIT_H_
 
 #include <string>
 #include <vector>
@@ -47,4 +47,5 @@ private:
   const std::string pattern_;
 };
 
-#endif  // PU_TNFA_UNIT_H_
+#endif   // SEQSCAN_PU_TNFA_UNIT_H_
+

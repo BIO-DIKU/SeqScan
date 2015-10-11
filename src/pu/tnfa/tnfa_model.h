@@ -26,8 +26,6 @@
 #include <unordered_map>
 
 #include "tnfa_state.h"
-#include "tnfa_start_state.h"
-#include "tnfa_final_state.h"
 #include "../../modifiers.h"
 
 class TNFAModel {

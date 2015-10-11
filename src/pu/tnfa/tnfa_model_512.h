@@ -51,4 +51,4 @@ private:
   std::vector< TNFAState512 * >  stateLists_[ 2 ];
 };
 
-#endif  // PU_TNFA_UNIT_H_
+#endif  // SEQSCAN_PU_TNFA_UNIT_H_

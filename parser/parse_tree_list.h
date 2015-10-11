@@ -18,36 +18,16 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_START_STATE_H_
-#define PU_TNFA_START_STATE_H_
-
-#include <inttypes.h>
-#include <string>
 #include <vector>
+#include "parse_tree_unit.h"
+using namespace std;
 
-#include "tnfa_state.h"
-
-using std::unordered_map;
-
-class TNFAStartState : public TNFAState {
- public:
-  TNFAStartState(uint64_t[8]);
-
-  void addEpsilonTransitions(bool, std::string::const_iterator,
-                             std::vector< TNFAState * > [],
-                             std::unordered_map<int, int> &,
-                             uint32_t);
-
-  void addOutStates(bool, std::string::const_iterator,
-                    std::vector< TNFAState * > [],
-                    std::unordered_map<int, int> &,
-                    uint32_t);
-
-  void display(bool);
-
- private:
-
-  uint64_t stateErrorCode_[ 8 ];
+class ParseTreeList {
+  public:
+    ParseTreeList();
+    void push_back(ParseTreeUnit* punit);
+    ParseTreeUnit* get_parse_unit(int index);
+    int get_size();
+  private:
+    vector<ParseTreeUnit*> patlist_;
 };
-
-#endif  // PU_TNFA_START_STATE_H_

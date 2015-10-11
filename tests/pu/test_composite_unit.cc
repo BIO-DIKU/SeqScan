@@ -42,7 +42,6 @@ TEST_CASE("Composite unit with two children. No fuzziness.", "[composite]") {
   pu->AddUnit(pu0);
   pu->AddUnit(pu1);
 
-
   SECTION("No match") {
     string sequence = "TTTAATCCCTTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
@@ -75,7 +74,7 @@ TEST_CASE("Composite unit with two children. With fuzziness.", "[composite]") {
     string sequence = "TTTAAATCCCTTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
     REQUIRE(pu->FindMatch());
-    REQUIRE(pu->GetMatch().pos-sequence.cbegin() == 3);
+    REQUIRE(pu->GetMatch().pos - sequence.cbegin() == 3);
     REQUIRE(pu->GetMatch().len == 7);
     REQUIRE(pu->GetMatch().edits == 1);
   }
