@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_MODEL_512_H_
-#define PU_TNFA_MODEL_512_H_
+#ifndef SEQSCAN_PU_TNFA_MODEL_512_H_
+#define SEQSCAN_PU_TNFA_MODEL_512_H_
 
 #include <string>
 #include <vector>
@@ -51,4 +51,4 @@ private:
   std::vector< TNFAState512 * >  stateLists_[ 2 ];
 };
 
-#endif  // SEQSCAN_PU_TNFA_UNIT_H_
+#endif  // SEQSCAN_PU_TNFA_MODEL_512_H_

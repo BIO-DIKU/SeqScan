@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_START_STATE_512_H_
-#define PU_TNFA_START_STATE_512_H_
+#ifndef SEQSCAN_PU_TNFA_START_STATE_512_H_
+#define SEQSCAN_PU_TNFA_START_STATE_512_H_
 
 #include <inttypes.h>
 #include <string>
@@ -50,4 +50,4 @@ class TNFAStartState512 : public TNFAState512 {
   uint64_t stateErrorCode_[ 8 ];
 };
 
-#endif  // PU_TNFA_START_STATE_H_
+#endif  // SEQSCAN_PU_TNFA_START_STATE_H_

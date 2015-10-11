@@ -106,12 +106,12 @@ bool TNFAModel512::FindMatch() {
 }
 
 void TNFAModel512::ModifiersToErrorCode(const Modifiers &modifiers) {
-  for (int c = 0; c < TNFAState::kErrorCodeBits; c++) {
-    if (TNFAState::counterToMismatches(c) <= modifiers.mismatches_ &&
-        TNFAState::counterToDeletions(c)  <= modifiers.deletions_  &&
-        TNFAState::counterToInsertions(c) <= modifiers.insertions_)
+  for (int c = 0; c < TNFAState512::kErrorCodeBits; c++) {
+    if (TNFAState512::counterToMismatches(c) <= modifiers.mismatches_ &&
+        TNFAState512::counterToDeletions(c)  <= modifiers.deletions_  &&
+        TNFAState512::counterToInsertions(c) <= modifiers.insertions_)
     {
-      errorCode_[ TNFAState::counterToInsertions(c) ] += (uint64_t) 1 << c % 64;
+      errorCode_[ TNFAState512::counterToInsertions(c) ] += (uint64_t) 1 << c % 64;
     }
   }
 }

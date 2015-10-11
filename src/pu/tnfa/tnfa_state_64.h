@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_STATE_64_H_
-#define PU_TNFA_STATE_64_H_
+#ifndef SEQSCAN_PU_TNFA_STATE_64_H_
+#define SEQSCAN_PU_TNFA_STATE_64_H_
 
 #include <inttypes.h>
 #include <vector>
@@ -99,4 +99,4 @@ protected:
   uint32_t listID_; // Used to check if state is already added to list
 };
 
-#endif  // PU_TNFA_STATE_H_
+#endif  // SEQSCAN_PU_TNFA_STATE_64_H_

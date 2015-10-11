@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef PU_TNFA_FINAL_STATE_512_H_
-#define PU_TNFA_FINAL_STATE_512_H_
+#ifndef SEQSCAN_PU_TNFA_FINAL_STATE_512_H_
+#define SEQSCAN_PU_TNFA_FINAL_STATE_512_H_
 
 #include <iostream>
 #include <vector>
@@ -52,4 +52,4 @@ private:
 
 };
 
-#endif  // PU_TNFA_FINAL_STATE_H_
+#endif  // SEQSCAN_PU_TNFA_FINAL_STATE_H_

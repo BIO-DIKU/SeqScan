@@ -100,4 +100,4 @@ protected:
   uint32_t listID_; // Used to check if state is already added to list
 };
 
-#endif  // SEQSCAN_PU_TNFA_STATE_H_
+#endif  // SEQSCAN_PU_TNFA_STATE_512_H_
