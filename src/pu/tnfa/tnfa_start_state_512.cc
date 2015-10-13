@@ -18,56 +18,26 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_PU_TNFA_START_STATE_H_
-#define SEQSCAN_PU_TNFA_START_STATE_H_
+#include "tnfa_start_state_512.h"
 
-#include <inttypes.h>
-#include <string>
-#include <vector>
-
-#include "tnfa_state.h"
-
-using std::unordered_map;
-
-class TNFAStartState : public TNFAState {
- public:
-  TNFAStartState(uint64_t[8]);
-
-  void addEpsilonTransitions(bool, std::string::const_iterator,
-                             std::vector< TNFAState * > [],
-                             std::unordered_map<int, int> &,
-                             uint32_t);
-
-  void addOutStates(bool, std::string::const_iterator,
-                    std::vector< TNFAState * > [],
-                    std::unordered_map<int, int> &,
-                    uint32_t);
-
-  void display(bool);
-
- private:
-
-  uint64_t stateErrorCode_[ 8 ];
-};
-
-TNFAStartState::TNFAStartState(uint64_t e[8]) : TNFAState(0) {
+TNFAStartState512::TNFAStartState512(uint64_t e[8]) : TNFAState512(0) {
   for (int i = 0; i < 8; i++)
     stateErrorCode_[ i ] = e[ i ];
 }
 
-void TNFAStartState::addEpsilonTransitions(
+void TNFAStartState512::addEpsilonTransitions(
     bool listNo,
     std::string::const_iterator pos,
-    std::vector< TNFAState * > stateLists[],
+    std::vector< TNFAState512 * > stateLists[],
     std::unordered_map<int, int> &matchMap,
     uint32_t listID)
 {
   out_->addToList(stateErrorCode_, listNo, pos, stateLists, matchMap, listID);
 }
 
-void TNFAStartState::addOutStates(bool listNo,
+void TNFAStartState512::addOutStates(bool listNo,
                                   std::string::const_iterator pos,
-                                  std::vector< TNFAState * > stateLists[],
+                                  std::vector< TNFAState512 * > stateLists[],
                                   std::unordered_map<int, int> &matchMap,
                                   uint32_t listID)
 {
@@ -82,10 +52,7 @@ void TNFAStartState::addOutStates(bool listNo,
     );
 }
 
-void TNFAStartState::display(bool) {
+void TNFAStartState512::display(bool) {
   printf("StartState %p points to %p with error code %llu\n",
     (void *) this, (void *) out_, stateErrorCode_[0]);
 }
-
-
-#endif  // SEQSCAN_PU_LEVENSHTEIN_STATE_H_

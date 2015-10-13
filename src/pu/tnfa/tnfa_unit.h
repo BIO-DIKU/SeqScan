@@ -25,13 +25,13 @@
 #include <vector>
 #include <unordered_map>
 
-#include "pattern_unit.h"
-#include "tnfa_state.h"
+#include "../pattern_unit.h"
+#include "tnfa_model.h"
 
 class TNFAUnit : public PatternUnit {
 public:
 
-  TNFAUnit(const Modifiers &modifiers, const std::string& pattern);
+  TNFAUnit(const Modifiers &modifiers, const std::string);
 
   void Initialize(std::string::const_iterator pos,
                   std::string::const_iterator max_pos,
@@ -41,22 +41,11 @@ public:
 
   const Match& GetMatch() const;
 
-  // Create error codes from m,i,d modifiers
-  void ModifiersToErrorCode(const Modifiers &modifiers);
-
   std::ostream& Print(std::ostream &os) const;
 private:
-  const std::string           pattern_;
-  std::string::const_iterator sequence_iterator_;
-  std::string::const_iterator sequence_iterator_end_;
-  bool                        stay_at_pos_;
-  TNFAState                   *startState_;
-  uint64_t                    errorCode_[8];
-  std::vector< TNFAState * >  stateLists_[ 2 ];
-  bool                        listNo_;
-  std::vector< Match >        matches;
-  uint32_t                    listID_;
-  std::unordered_map< int, int >        matchMap_;
+  TNFAModel         *model_;
+  const std::string pattern_;
 };
 
-#endif  // SEQSCAN_PU_TNFA_UNIT_H_
+#endif   // SEQSCAN_PU_TNFA_UNIT_H_
+

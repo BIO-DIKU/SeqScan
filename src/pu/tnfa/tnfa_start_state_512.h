@@ -18,21 +18,36 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_PU_TNFA_H_
-#define SEQSCAN_PU_TNFA_H_
+#ifndef SEQSCAN_PU_TNFA_START_STATE_512_H_
+#define SEQSCAN_PU_TNFA_START_STATE_512_H_
 
-#include "pu/tnfa_sequence_unit.h"
-
+#include <inttypes.h>
 #include <string>
+#include <vector>
 
-TNFASequenceUnit::TNFASequenceUnit(
-    const Modifiers &modifiers,
-    const std::string& pattern
-) :
-    PatternUnit(modifiers),
-    pattern_(pattern) {
-  for (char c : pattern_ )
-    tnfa_.patch( new TNFAState( c ) );
-}
+#include "tnfa_state_512.h"
 
-#endif   // SEQSCAN_PU_TNFA_H_
+using std::unordered_map;
+
+class TNFAStartState512 : public TNFAState512 {
+ public:
+  TNFAStartState512(uint64_t[8]);
+
+  void addEpsilonTransitions(bool, std::string::const_iterator,
+                             std::vector< TNFAState512 * > [],
+                             std::unordered_map<int, int> &,
+                             uint32_t);
+
+  void addOutStates(bool, std::string::const_iterator,
+                    std::vector< TNFAState512 * > [],
+                    std::unordered_map<int, int> &,
+                    uint32_t);
+
+  void display(bool);
+
+ private:
+
+  uint64_t stateErrorCode_[ 8 ];
+};
+
+#endif  // SEQSCAN_PU_TNFA_START_STATE_H_

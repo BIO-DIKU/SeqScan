@@ -18,14 +18,4 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "pu/tnfa_sequence_unit.h"
-
-TNFA::TNFA(
-    const Modifiers &modifiers,
-    const std::string& pattern
-) :
-    PatternUnit(modifiers),
-    pattern_(pattern) {
-  for (char c : pattern_ )
-    tnfa_.patch( new TNFAState( c ) );
-}
+#include "tnfa_unit.h"

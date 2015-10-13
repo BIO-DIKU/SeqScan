@@ -18,18 +18,18 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "tnfa_final_state.h"
+#include "tnfa_final_state_512.h"
 
 using ::std::string;
 using ::std::vector;
 using ::std::unordered_map;
 
-TNFAFinalState::TNFAFinalState(int len, int edits)
-  : TNFAState(0), patternLength_(len), maxEdits_(edits) {}
+TNFAFinalState512::TNFAFinalState512(int len, int edits)
+  : TNFAState512(0), patternLength_(len), maxEdits_(edits) {}
 
-void TNFAFinalState::addOutStates(bool listNo,
+void TNFAFinalState512::addOutStates(bool listNo,
                                   string::const_iterator pos,
-                                  vector< TNFAState * > stateLists[],
+                                  vector< TNFAState512 * > stateLists[],
                                   unordered_map<int, int> &matchMap,
                                   uint32_t listID)
 {
@@ -38,9 +38,9 @@ void TNFAFinalState::addOutStates(bool listNo,
               pos, stateLists, matchMap, listID);
 }
 
-void TNFAFinalState::addEpsilonTransitions(bool listNo,
+void TNFAFinalState512::addEpsilonTransitions(bool listNo,
                                            string::const_iterator pos,
-                                           vector< TNFAState * > stateLists[],
+                                           vector< TNFAState512 * > stateLists[],
                                            unordered_map<int, int> &matchMap,
                                            uint32_t listID)
 {
