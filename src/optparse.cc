@@ -39,58 +39,58 @@ bool OptParse::Parse() {
   while ((int opt = getopt_long(argc, argv, opt_string, opt_template,
                                 &option_index)) != -1) {
     switch (opt) {
-      case 'h':   // help
+      case 'h':
         options.help = atoi(optarg) ? true : false;
         break;
-      case 'p':   // pattern
+      case 'p':
         options.output = optarg;
         break;
-      case 'P':   // pattern_file
+      case 'P':
         options.output = optarg;
         break;
-      case 'c':   // complement
+      case 'c':
         options.complement = ParseComplement(optarg);
         break;
-      case 'd':   // direction
+      case 'd':
         options.direction = ParseDirection(optarg);
         break;
-      case 's':   // start
+      case 's':
         options.start = atoi(optarg);
         break;
-      case 'e':   // end
+      case 'e':
         options.end = atoi(optarg);
         break;
-      case 't':   // threads
+      case 't':
         options.score_min = atoi(optarg);
         break;
-      case 'E':   // score_encoding
+      case 'E':
         optinos.score_encoding = ParseScoreEnconding(optarg);
         break;
-      case 'S':   // score_min
+      case 'S':
         options.score_min = atoi(optarg);
         break;
-      case 'a':   // ambiguate
+      case 'a':
         options.help = atoi(optarg) ? true : false;
         break;
-      case 'm':   // match_type
+      case 'm':
         options.end = atoi(optarg);
         break;
-      case 'M':   // match_file
+      case 'M':
         options.output = optarg;
         break;
-      case 'o':   // output
+      case 'o':
         options.output = optarg;
         break;
-      case 'O':   // overlap
+      case 'O':
         options.help = atoi(optarg) ? true : false;
         break;
-      case 'f':   // filter
+      case 'f':
         options.filter = optarg;
         break;
-      case 'v':   // version
+      case 'v':
         options.help = atoi(optarg) ? true : false;
         break;
-      case 'V':   // verbose
+      case 'V':
         options.help = atoi(optarg) ? true : false;
         break;
       default:
@@ -106,7 +106,7 @@ bool OptParse::Parse() {
   return true;
 }
 
-inline const OptCompare ParseComplement(optarg) { // FIXME I have no idea what the type of optarg is?
+inline const OptCompare ParseComplement(optarg) {  // FIXME I have no idea what the type of optarg is?
   if (optarg == "forward") {
     return Forward;
   } else if (optarg == "reverse") {
@@ -118,7 +118,7 @@ inline const OptCompare ParseComplement(optarg) { // FIXME I have no idea what t
   }
 }
 
-inline const OptDirection ParseDirection(optarg) { // FIXME I have no idea what the type of optarg is?
+inline const OptDirection ParseDirection(optarg) {  // FIXME I have no idea what the type of optarg is?
   if (optarg == "forward") {
     return Forward;
   } else if (optarg == "reverse") {
@@ -128,7 +128,7 @@ inline const OptDirection ParseDirection(optarg) { // FIXME I have no idea what 
   }
 }
 
-inline const OptScoreEncoding ParseScoreEncoding(optarg) { // FIXME I have no idea what the type of optarg is?
+inline const OptScoreEncoding ParseScoreEncoding(optarg) {  // FIXME I have no idea what the type of optarg is?
   if (optarg == "Phred33") {
     return Phread33;
   } else if (optarg == "Phread64") {
@@ -140,17 +140,17 @@ inline const OptScoreEncoding ParseScoreEncoding(optarg) { // FIXME I have no id
 
 // FIXME(Martin) get rid of magic numbers.
 void OptParse::SetOptDefaults() {
-  options.help          = false;
-  options.complement    = Forward;
-  options.direction     = Forward;
-  options.threads       = 1;
-  option.score_encoding = Phred33;
-  optinos.score_min)    = 25;
-  options.ambiguate     = false;
-  options.match_type    = 1;
-  options.overlap       = false;
-  options.version       = false;
-  options.verbose       = false;
+  options.help           = false;
+  options.complement     = Forward;
+  options.direction      = Forward;
+  options.threads        = 1;
+  options.score_encoding = Phred33;
+  optinos.score_min)     = 25;
+  options.ambiguate      = false;
+  options.match_type     = 1;
+  options.overlap        = false;
+  options.version        = false;
+  options.verbose        = false;
 }
 
 void OptParse::PrintOptions() {
@@ -164,7 +164,7 @@ void OptParse::PrintOptions() {
   cerr << "  end: "            << to_string(options.end) << endl;
   cerr << "  threads: "        << to_string(options.threads) << endl;
   cerr << "  score_encoding: " << ScoreEncodingToString(option.score_encoding) << endl;
-  cerr << "  score_min: "      << to_string(optinos.score_min) << endl;
+  cerr << "  score_min: "      << to_string(options.score_min) << endl;
   cerr << "  ambiguate: "      << boolalpha << options.ambiguate << endl;
   cerr << "  match_type: "     << to_string(options.match_type) << endl;
   cerr << "  match_file: "     << options.match_file << endl;
