@@ -25,60 +25,183 @@
 
 using namespace std;
 
-static int OptParse(int argc, char *argv[], struct options long_options) {
-  int option_index = 0;
+OptParse::OptParse(int argc, char *argv[]) {
 
-  while ((int opt = getopt_long(argc, argv, "hp:P:c:d:s:e:t:E:S:am:M:o:Of:vV",
-                                long_options, &option_index)) != -1) {
+
+}
+
+bool OptParse::Parse() {
+  int option_index                  = 0;
+  string opt_string                 = OptParse.
+  struct OptTemplate opt_template[];
+  struct Options     options        = SetOptDefaults();
+
+  while ((int opt = getopt_long(argc, argv, opt_string, opt_template,
+                                &option_index)) != -1) {
     switch (opt) {
       case 'h':   // help
-        MainControl::instance()->setIdentity(atof(optarg));
+        options.help = atoi(optarg) ? true : false;
         break;
       case 'p':   // pattern
+        options.output = optarg;
         break;
       case 'P':   // pattern_file
+        options.output = optarg;
         break;
       case 'c':   // complement
+        options.complement = ParseComplement(optarg);
         break;
       case 'd':   // direction
+        options.direction = ParseDirection(optarg);
         break;
       case 's':   // start
+        options.start = atoi(optarg);
         break;
       case 'e':   // end
+        options.end = atoi(optarg);
         break;
       case 't':   // threads
+        options.score_min = atoi(optarg);
         break;
       case 'E':   // score_encoding
+        optinos.score_encoding = ParseScoreEnconding(optarg);
         break;
       case 'S':   // score_min
+        options.score_min = atoi(optarg);
         break;
       case 'a':   // ambiguate
+        options.help = atoi(optarg) ? true : false;
         break;
       case 'm':   // match_type
+        options.end = atoi(optarg);
         break;
       case 'M':   // match_file
+        options.output = optarg;
         break;
       case 'o':   // output
+        options.output = optarg;
         break;
       case 'O':   // overlap
+        options.help = atoi(optarg) ? true : false;
         break;
       case 'f':   // filter
+        options.filter = optarg;
         break;
       case 'v':   // version
+        options.help = atoi(optarg) ? true : false;
         break;
       case 'V':   // verbose
+        options.help = atoi(optarg) ? true : false;
         break;
       default:
-        std::cerr << "unexpected argument" << std::endl;
+        cerr << "unexpected argument: ->" << optarg << "<-" << endl;
         return false;
     }
   }
 
+  // processing non-option arguments i.e. sequence files.
+  for (index = optind; index < argc; index++)
+    printf("Non-option argument %s\n", argv[index]);
+
   return true;
 }
 
-static void PrintUsage() {
-  std::cerr << R"USAGE(
+inline const OptCompare ParseComplement(optarg) { // FIXME I have no idea what the type of optarg is?
+  if (optarg == "forward") {
+    return Forward;
+  } else if (optarg == "reverse") {
+    return Reverse;
+  } else if (optarg == "both") {
+    return Both;
+  } else {
+    // TODO(Martin): Collapse universe.
+  }
+}
+
+inline const OptDirection ParseDirection(optarg) { // FIXME I have no idea what the type of optarg is?
+  if (optarg == "forward") {
+    return Forward;
+  } else if (optarg == "reverse") {
+    return Reverse;
+  } else {
+    // TODO(Martin): Collapse universe.
+  }
+}
+
+inline const OptScoreEncoding ParseScoreEncoding(optarg) { // FIXME I have no idea what the type of optarg is?
+  if (optarg == "Phred33") {
+    return Phread33;
+  } else if (optarg == "Phread64") {
+    return Phread64;
+  } else {
+    // TODO(Martin): Collapse universe.
+  }
+}
+
+// FIXME(Martin) get rid of magic numbers.
+void OptParse::SetOptDefaults() {
+  options.help          = false;
+  options.complement    = Forward;
+  options.direction     = Forward;
+  options.threads       = 1;
+  option.score_encoding = Phred33;
+  optinos.score_min)    = 25;
+  options.ambiguate     = false;
+  options.match_type    = 1;
+  options.overlap       = false;
+  options.version       = false;
+  options.verbose       = false;
+}
+
+void OptParse::PrintOptions() {
+  cerr << "Options: " << endl;
+  cerr << "  help: "           << boolalpha << options.help << endl;
+  cerr << "  pattern: "        << options.pattern << endl;
+  cerr << "  pattern_file: "   << options.pattern_file << endl;
+  cerr << "  complement: "     << ComplementToString(options.complement) << endl;
+  cerr << "  direction: "      << DirectionToString(options.direction) << endl;
+  cerr << "  start: "          << to_string(options.start) << endl;
+  cerr << "  end: "            << to_string(options.end) << endl;
+  cerr << "  threads: "        << to_string(options.threads) << endl;
+  cerr << "  score_encoding: " << ScoreEncodingToString(option.score_encoding) << endl;
+  cerr << "  score_min: "      << to_string(optinos.score_min) << endl;
+  cerr << "  ambiguate: "      << boolalpha << options.ambiguate << endl;
+  cerr << "  match_type: "     << to_string(options.match_type) << endl;
+  cerr << "  match_file: "     << options.match_file << endl;
+  cerr << "  output: "         << options.output << endl;
+  cerr << "  overlap: "        << boolalpha << options.overlap << endl;
+  cerr << "  filter: "         << options.filter << endl;
+  cerr << "  version: "        << boolalpha << options.version << endl;
+  cerr << "  verbose: "        << boolalpha << options.verbose << endl;
+}
+
+inline const char* ComplementToString(OptComplement opt) {
+  switch (opt) {
+    case Forward: return "forward";
+    case Reverse: return "reverse";
+    case Both:    return "both";
+    default:      return "Unknown complement option";
+  }
+}
+
+inline const char* DirectionToString(OptDirection opt) {
+  switch (opt) {
+    case Forward: return "forward";
+    case Reverse: return "reverse";
+    default:      return "Unknown direction option";
+  }
+}
+
+inline const char* ScoreEncodingToString(OptScoreEncoding opt) {
+  switch (opt) {
+    case Phred33: return "Phred33";
+    case Phred64: return "Phred64";
+    default:      return "Unknown score_encoding option";
+  }
+}
+
+void OptParse::PrintUsage() {
+  cerr << R"USAGE(
 Usage: seqscan [options] <file(s)>
 
    [options]:
@@ -129,5 +252,5 @@ Usage: seqscan [options] <file(s)>
    -V --verbose                            Enable verbose messages.
 
 Documentation: https://github.com/BIO-DIKU/SeqScan
-)USAGE" << std::endl;
+)USAGE" << endl;
 }
