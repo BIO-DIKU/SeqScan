@@ -26,18 +26,13 @@
 using namespace std;
 
 OptParse::OptParse(int argc, char *argv[]) {
-
-
+  SetOptDefaults();
 }
 
 bool OptParse::Parse() {
-  int option_index                  = 0;
-  string opt_string                 = OptParse.
-  struct OptTemplate opt_template[];
-  struct Options     options        = SetOptDefaults();
+  int option_index  = 0;
 
-  while ((int opt = getopt_long(argc, argv, opt_string, opt_template,
-                                &option_index)) != -1) {
+  while (int opt = getopt_long(argc, argv, opt_string, opt_template, &option_index) != -1) {
     switch (opt) {
       case 'h':
         options.help = atoi(optarg) ? true : false;
@@ -64,7 +59,7 @@ bool OptParse::Parse() {
         options.score_min = atoi(optarg);
         break;
       case 'E':
-        optinos.score_encoding = ParseScoreEnconding(optarg);
+        options.score_encoding = ParseScoreEncoding(optarg);
         break;
       case 'S':
         options.score_min = atoi(optarg);
@@ -99,43 +94,11 @@ bool OptParse::Parse() {
     }
   }
 
-  // processing non-option arguments i.e. sequence files.
-  for (index = optind; index < argc; index++)
-    printf("Non-option argument %s\n", argv[index]);
+  for (index = optind; index < argc; index++) {
+    files.push_back(const &argv[index]);
+  }
 
   return true;
-}
-
-inline const OptCompare ParseComplement(optarg) {  // FIXME I have no idea what the type of optarg is?
-  if (optarg == "forward") {
-    return Forward;
-  } else if (optarg == "reverse") {
-    return Reverse;
-  } else if (optarg == "both") {
-    return Both;
-  } else {
-    // TODO(Martin): Collapse universe.
-  }
-}
-
-inline const OptDirection ParseDirection(optarg) {  // FIXME I have no idea what the type of optarg is?
-  if (optarg == "forward") {
-    return Forward;
-  } else if (optarg == "reverse") {
-    return Reverse;
-  } else {
-    // TODO(Martin): Collapse universe.
-  }
-}
-
-inline const OptScoreEncoding ParseScoreEncoding(optarg) {  // FIXME I have no idea what the type of optarg is?
-  if (optarg == "Phred33") {
-    return Phread33;
-  } else if (optarg == "Phread64") {
-    return Phread64;
-  } else {
-    // TODO(Martin): Collapse universe.
-  }
 }
 
 // FIXME(Martin) get rid of magic numbers.
@@ -145,7 +108,7 @@ void OptParse::SetOptDefaults() {
   options.direction      = Forward;
   options.threads        = 1;
   options.score_encoding = Phred33;
-  optinos.score_min)     = 25;
+  options.score_min)     = 25;
   options.ambiguate      = false;
   options.match_type     = 1;
   options.overlap        = false;
@@ -155,24 +118,24 @@ void OptParse::SetOptDefaults() {
 
 void OptParse::PrintOptions() {
   cerr << "Options: " << endl;
-  cerr << "  help: "           << boolalpha << options.help << endl;
-  cerr << "  pattern: "        << options.pattern << endl;
-  cerr << "  pattern_file: "   << options.pattern_file << endl;
-  cerr << "  complement: "     << ComplementToString(options.complement) << endl;
-  cerr << "  direction: "      << DirectionToString(options.direction) << endl;
-  cerr << "  start: "          << to_string(options.start) << endl;
-  cerr << "  end: "            << to_string(options.end) << endl;
-  cerr << "  threads: "        << to_string(options.threads) << endl;
-  cerr << "  score_encoding: " << ScoreEncodingToString(option.score_encoding) << endl;
-  cerr << "  score_min: "      << to_string(options.score_min) << endl;
-  cerr << "  ambiguate: "      << boolalpha << options.ambiguate << endl;
-  cerr << "  match_type: "     << to_string(options.match_type) << endl;
-  cerr << "  match_file: "     << options.match_file << endl;
-  cerr << "  output: "         << options.output << endl;
-  cerr << "  overlap: "        << boolalpha << options.overlap << endl;
-  cerr << "  filter: "         << options.filter << endl;
-  cerr << "  version: "        << boolalpha << options.version << endl;
-  cerr << "  verbose: "        << boolalpha << options.verbose << endl;
+  cerr << "  help:           " << boolalpha << options.help << endl;
+  cerr << "  pattern:        " << options.pattern << endl;
+  cerr << "  pattern_file:   " << options.pattern_file << endl;
+  cerr << "  complement:     " << ComplementToString(options.complement) << endl;
+  cerr << "  direction:      " << DirectionToString(options.direction) << endl;
+  cerr << "  start:          " << to_string(options.start) << endl;
+  cerr << "  end:            " << to_string(options.end) << endl;
+  cerr << "  threads:        " << to_string(options.threads) << endl;
+  cerr << "  score_encoding: " << ScoreEncodingToString(options.score_encoding) << endl;
+  cerr << "  score_min:      " << to_string(options.score_min) << endl;
+  cerr << "  ambiguate:      " << boolalpha << options.ambiguate << endl;
+  cerr << "  match_type:     " << to_string(options.match_type) << endl;
+  cerr << "  match_file:     " << options.match_file << endl;
+  cerr << "  output:         " << options.output << endl;
+  cerr << "  overlap:        " << boolalpha << options.overlap << endl;
+  cerr << "  filter:         " << options.filter << endl;
+  cerr << "  version:        " << boolalpha << options.version << endl;
+  cerr << "  verbose:        " << boolalpha << options.verbose << endl;
 }
 
 inline const char* ComplementToString(OptComplement opt) {

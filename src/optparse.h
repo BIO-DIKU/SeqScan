@@ -22,17 +22,50 @@
 #define SEQSCAN_OPTPARSE_H_
 
 #include <string>
+#include <vector>
 
 /**
  * @brief Class for parsing command line arguments using Getopt-Long:
  *
  * http://www.gnu.org/software/libc/manual/html_node/Getopt-Long-Option-Example.html
+ *
+ * OptParse holdes a struct with Options and a vector of non-option arguments
+ * i.e. files.
  */
 class OptParse {
  public:
   OptParse(int argc, char *argv[]);
 
   ~OptParse();
+
+  /*
+   * Struct for parsed command line options.
+   */
+  struct Options {
+    bool             help;
+    std::string      pattern;
+    std::string      pattern_file;
+    OptComplement    complement;
+    OptDirection     direction;
+    int              start;
+    int              end;
+    int              threads;
+    OptScoreEncoding score_encoding;
+    int              score_min;
+    bool             ambiguate;
+    int              match_type;
+    std::string      match_file;
+    std::string      output;
+    bool             overlap;
+    std::string      filter;
+    bool             version;
+    bool             verbose;
+  } options;
+
+  /*
+   * Vector for holding non-option command line arguments i.e. sequence files.
+   */
+  std::vector<std::string> files;
 
   /*
    * Parse options from argv and save the result in Options struct.
@@ -51,6 +84,11 @@ class OptParse {
   void PrintUsage();
 
  private:
+
+ /*
+  * Set options default to sane values
+  */
+ void SetOptDefaults();
 
   /*
    * Struct for holding option template.
@@ -75,7 +113,7 @@ class OptParse {
     {"version",        no_argument,       0, 'v'},
     {"verbose",        no_argument,       0, 'V'},
     {0,                 0,                0,  0 }
-  };
+  } opt_template[];
 
   /*
    * String with one char options followed by : iif the option requies an
@@ -109,28 +147,46 @@ class OptParse {
   };
 
   /*
-   * Struct for parsed command line options.
+   * Inline function for parsing complement option into enum OptCompare.
    */
-  struct Options {
-    bool             help;
-    std::string      pattern;
-    std::string      pattern_file;
-    OptComplement    complement;
-    OptDirection     direction;
-    int              start;
-    int              end;
-    int              threads;
-    OptScoreEncoding score_encoding;
-    int              score_min;
-    bool             ambiguate;
-    int              match_type;
-    std::string      match_file;
-    std::string      output;
-    bool             overlap;
-    std::string      filter;
-    bool             version;
-    bool             verbose;
-  };
-}
+  inline const OptCompare ParseComplement(char *optarg) {
+    if (optarg == "forward") {
+      return Forward;
+    } else if (optarg == "reverse") {
+      return Reverse;
+    } else if (optarg == "both") {
+      return Both;
+    } else {
+      // TODO(Martin): Collapse universe.
+    }
+  }
+
+  /*
+   * Inline function for parsing direction option into enum OptDirection.
+   */
+  inline const OptDirection ParseDirection(char *optarg) {
+    if (optarg == "forward") {
+      return Forward;
+    } else if (optarg == "reverse") {
+      return Reverse;
+    } else {
+      // TODO(Martin): Collapse universe.
+    }
+  }
+
+  /*
+   * Inline function for parsing score_encoding option into enum
+   * OptScoreEncoding.
+   */
+  inline const OptScoreEncoding ParseScoreEncoding(char* optarg) {
+    if (optarg == "Phred33") {
+      return Phred33;
+    } else if (optarg == "Phred64") {
+      return Phred64;
+    } else {
+      // TODO(Martin): Collapse universe.
+    }
+  }
+};
 
 #endif  // SEQSCAN_OPTPARSE_H_
