@@ -22,7 +22,6 @@
 #define SEQSCAN_OPTPARSE_H_
 
 #include <string>
-#include <map>
 
 /**
  * @brief Class for parsing command line arguments using Getopt-Long:
@@ -40,6 +39,11 @@ class OptParse {
    * Returns true if parsing was OK else false.
    */
   bool Parse();
+
+  /*
+   * Print options for debugging.
+   */
+  void PrintOptions();
 
   /*
    * Print usage to stderr.
@@ -74,9 +78,15 @@ class OptParse {
   };
 
   /*
+   * String with one char options followed by : iif the option requies an
+   * argument.
+   */
+  std::string opt_string = "hp:P:c:d:s:e:t:E:S:am:M:o:Of:vV";
+
+  /*
    * Enum for direction option.
    */
-  enum Direction {
+  enum OptDirection {
     Forward,
     Reverse
   };
@@ -84,7 +94,7 @@ class OptParse {
   /*
    * Enum for complement option.
    */
-  enum Complement {
+  enum OptComplement {
     Forward,
     Reverse,
     Both
@@ -93,7 +103,7 @@ class OptParse {
   /*
    * Enum for score encoding option.
    */
-  enum ScoreEncoding {
+  enum OptScoreEncoding {
     Phred33,
     Phred64
   };
@@ -102,24 +112,24 @@ class OptParse {
    * Struct for parsed command line options.
    */
   struct Options {
-    bool        help;
-    std::string pattern;
-    std::string pattern_file;
-    enum        Complement;
-    enum        Direction;
-    int         start;
-    int         end;
-    int         threads;
-    enum        ScoreEncoding;
-    int         score_min;
-    bool        ambiguate;
-    int         match_type;
-    std::string match_file;
-    std::string output;
-    bool        overlap;
-    std::string filter;
-    bool        version;
-    bool        verbose;
+    bool             help;
+    std::string      pattern;
+    std::string      pattern_file;
+    OptComplement    complement;
+    OptDirection     direction;
+    int              start;
+    int              end;
+    int              threads;
+    OptScoreEncoding score_encoding;
+    int              score_min;
+    bool             ambiguate;
+    int              match_type;
+    std::string      match_file;
+    std::string      output;
+    bool             overlap;
+    std::string      filter;
+    bool             version;
+    bool             verbose;
   };
 }
 
