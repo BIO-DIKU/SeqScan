@@ -51,10 +51,10 @@ void OptParse::SetOptDefaults() {
 }
 
 bool OptParse::Parse() {
-  int option_index  = 0;
-  int opt = 0;
+  int opt_index = 0;
+  int opt       = 0;
 
-  while ((opt = getopt_long(argc_, argv_, opt_string_.c_str(), opt_templates_, &option_index)) != -1) {
+  while ((opt = getopt_long(argc_, argv_, opt_string_.c_str(), opt_templates_, &opt_index)) != -1) {
     switch (opt) {
       case 'h':
         options_.help = atoi(optarg) ? true : false;
