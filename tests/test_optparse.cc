@@ -19,6 +19,7 @@
  */
 
 #include "catch.h"
+#include "optparse.h"
 
 using namespace std;
 
@@ -26,7 +27,9 @@ TEST_CASE("OptParse w/o input file(s) raises", "[optparse]") {
   int  argc = 0;
   char argv = "";
 
-  OptParse(argc, argv, long_options);
+  OptParse options(argc, argv);
+
+  options.PrintOptions();
 }
 
 TEST_CASE("OptParse w/o pattern or pattern_file raises", "[optparse]") {
@@ -40,15 +43,15 @@ TEST_CASE("OptParse w match_type and match_file raises", "[optparse]") {
 
 TEST_CASE("OptParse w complement option", "[optparse]") {
   SECTION("forward value OK") {
-    REQUIRE(long_optinos[] == "forward");
+    REQUIRE(long_options[] == "forward");
   }
 
   SECTION("reverse value OK") {
-    REQUIRE(long_optinos[] == "reverse");
+    REQUIRE(long_options[] == "reverse");
   }
 
   SECTION("both value OK") {
-    REQUIRE(long_optinos[] == "both");
+    REQUIRE(long_options[] == "both");
   }
 
   SECTION("bad value raises") {
@@ -57,11 +60,11 @@ TEST_CASE("OptParse w complement option", "[optparse]") {
 
 TEST_CASE("OptParse w direction option", "[optparse]") {
   SECTION("forward value OK") {
-    REQUIRE(long_optinos[] == "forward");
+    REQUIRE(long_options[] == "forward");
   }
 
   SECTION("reverse value OK") {
-    REQUIRE(long_optinos[] == "reverse");
+    REQUIRE(long_options[] == "reverse");
   }
 
   SECTION("bad value raises") {
@@ -70,11 +73,11 @@ TEST_CASE("OptParse w direction option", "[optparse]") {
 
 TEST_CASE("OptParse w score_encoding option", "[optparse]") {
   SECTION("Phred33 value OK") {
-    REQUIRE(long_optinos[] == "Phread33");
+    REQUIRE(long_options[] == "Phread33");
   }
 
   SECTION("Phred64 value OK") {
-    REQUIRE(long_optinos[] == "Phread64");
+    REQUIRE(long_options[] == "Phread64");
   }
 
   SECTION("bad value raises") {

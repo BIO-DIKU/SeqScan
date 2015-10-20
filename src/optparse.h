@@ -21,6 +21,8 @@
 #ifndef SEQSCAN_OPTPARSE_H_
 #define SEQSCAN_OPTPARSE_H_
 
+#include <getopt.h>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -37,6 +39,31 @@ class OptParse {
   OptParse(int argc, char *argv[]);
 
   ~OptParse();
+
+  /*
+   * Enum for direction option.
+   */
+  enum class OptDirection {
+    Forward,
+    Reverse
+  };
+
+  /*
+   * Enum for complement option.
+   */
+  enum class OptComplement {
+    Forward,
+    Reverse,
+    Both
+  };
+
+  /*
+   * Enum for score encoding option.
+   */
+  enum class OptScoreEncoding {
+    Phred33,
+    Phred64
+  };
 
   /*
    * Struct for parsed command line options.
@@ -60,18 +87,14 @@ class OptParse {
     std::string      filter;
     bool             version;
     bool             verbose;
-  } options;
+  };
+
+  Options options_;
 
   /*
    * Vector for holding non-option command line arguments i.e. sequence files.
    */
-  std::vector<std::string> files;
-
-  /*
-   * Parse options from argv and save the result in Options struct.
-   * Returns true if parsing was OK else false.
-   */
-  bool Parse();
+  std::vector<std::string> files_;
 
   /*
    * Print options for debugging.
@@ -85,18 +108,35 @@ class OptParse {
 
  private:
 
-  int  argc;
-  char *argv[];
+  /*
+   * Magic numbers for default options.
+   *
+   * TODO(Martin) rename to kDefault<option>.
+   */
+  static const int kThreads   = 1;
+  static const int kMatchType = 1;
+  static const int kScoreMin  = 25;
 
- /*
-  * Set options default to sane values
-  */
- void SetOptDefaults();
+  int  argc_;
+  char **argv_;
 
   /*
-   * Struct for holding option template.
+   * Set options default to sane values
    */
-  struct OptTemplate {
+  void SetOptDefaults();
+
+  /*
+   * Parse options from argv and save the result in Options struct and files
+   * vector.
+   *
+   * Returns true if parsing was OK else false.
+   */
+  bool Parse();
+
+  /*
+   * Array for holding option templates.
+   */
+  const option opt_templates_[19] = {
     {"help",           no_argument,       0, 'h'},
     {"pattern",        required_argument, 0, 'p'},
     {"pattern_file",   required_argument, 0, 'P'},
@@ -116,80 +156,34 @@ class OptParse {
     {"version",        no_argument,       0, 'v'},
     {"verbose",        no_argument,       0, 'V'},
     {0,                 0,                0,  0 }
-  } opt_template[];
+  };
 
   /*
    * String with one char options followed by : iif the option requies an
    * argument.
    */
-  std::string opt_string = "hp:P:c:d:s:e:t:E:S:am:M:o:Of:vV";
+  const std::string opt_string_ = "hp:P:c:d:s:e:t:E:S:am:M:o:Of:vV";
 
   /*
-   * Enum for direction option.
+   * Function for parsing complement option into enum OptComplement.
    */
-  enum OptDirection {
-    Forward,
-    Reverse
-  };
+  const OptComplement ParseComplement(std::string optarg);
 
   /*
-   * Enum for complement option.
+   * Function for parsing direction option into enum OptDirection.
    */
-  enum OptComplement {
-    Forward,
-    Reverse,
-    Both
-  };
+  const OptDirection ParseDirection(std::string optarg);
 
   /*
-   * Enum for score encoding option.
-   */
-  enum OptScoreEncoding {
-    Phred33,
-    Phred64
-  };
-
-  /*
-   * Inline function for parsing complement option into enum OptCompare.
-   */
-  inline const OptCompare ParseComplement(char *optarg) {
-    if (optarg == "forward") {
-      return Forward;
-    } else if (optarg == "reverse") {
-      return Reverse;
-    } else if (optarg == "both") {
-      return Both;
-    } else {
-      // TODO(Martin): Collapse universe.
-    }
-  }
-
-  /*
-   * Inline function for parsing direction option into enum OptDirection.
-   */
-  inline const OptDirection ParseDirection(char *optarg) {
-    if (optarg == "forward") {
-      return Forward;
-    } else if (optarg == "reverse") {
-      return Reverse;
-    } else {
-      // TODO(Martin): Collapse universe.
-    }
-  }
-
-  /*
-   * Inline function for parsing score_encoding option into enum
+   * Function for parsing score_encoding option into enum
    * OptScoreEncoding.
    */
-  inline const OptScoreEncoding ParseScoreEncoding(char* optarg) {
-    if (optarg == "Phred33") {
-      return Phred33;
-    } else if (optarg == "Phred64") {
-      return Phred64;
-    } else {
-      // TODO(Martin): Collapse universe.
-    }
-  }
+  const OptScoreEncoding ParseScoreEncoding(std::string optarg);
+
+  // TODO(Martin) doc theses.
+  const char* ComplementToString(OptComplement opt);
+  const char* DirectionToString(OptDirection opt);
+  const char* ScoreEncodingToString(OptScoreEncoding opt);
 };
 
 #endif  // SEQSCAN_OPTPARSE_H_

@@ -20,149 +20,185 @@
 
 #include <getopt.h>
 #include <iostream>
+#include <string>
+#include <vector>
 
 #include "optparse.h"
 
 using namespace std;
 
-OptParse::OptParse(int argc, char *argv[]) {
-  argc = argc;
-  argv = argv;
-
+OptParse::OptParse(int argc, char *argv[]) :
+  argc_(argc),
+  argv_(argv),
+  files_(),
+  options_() {
   SetOptDefaults();
+  Parse();
+}
+
+void OptParse::SetOptDefaults() {
+  options_.help           = false;
+  options_.complement     = OptComplement::Forward;
+  options_.direction      = OptDirection::Forward;
+  options_.threads        = kThreads;
+  options_.score_encoding = OptScoreEncoding::Phred33;
+  options_.score_min      = kScoreMin;
+  options_.ambiguate      = false;
+  options_.match_type     = kMatchType;
+  options_.overlap        = false;
+  options_.version        = false;
+  options_.verbose        = false;
 }
 
 bool OptParse::Parse() {
   int option_index  = 0;
+  int opt = 0;
 
-  while (int opt = getopt_long(argc, argv, opt_string, opt_template, &option_index) != -1) {
+  while ((opt = getopt_long(argc_, argv_, opt_string_.c_str(), opt_templates_, &option_index)) != -1) {
     switch (opt) {
       case 'h':
-        options.help = atoi(optarg) ? true : false;
+        options_.help = atoi(optarg) ? true : false;
         break;
       case 'p':
-        options.output = optarg;
+        options_.pattern = string(optarg);
         break;
       case 'P':
-        options.output = optarg;
+        options_.pattern_file = string(optarg);
         break;
       case 'c':
-        options.complement = ParseComplement(optarg);
+        options_.complement = ParseComplement(string(optarg));
         break;
       case 'd':
-        options.direction = ParseDirection(optarg);
+        options_.direction = ParseDirection(string(optarg));
         break;
       case 's':
-        options.start = atoi(optarg);
+        options_.start = atoi(optarg);
         break;
       case 'e':
-        options.end = atoi(optarg);
+        options_.end = atoi(optarg);
         break;
       case 't':
-        options.score_min = atoi(optarg);
+        options_.score_min = atoi(optarg);
         break;
       case 'E':
-        options.score_encoding = ParseScoreEncoding(optarg);
+        options_.score_encoding = ParseScoreEncoding(string(optarg));
         break;
       case 'S':
-        options.score_min = atoi(optarg);
+        options_.score_min = atoi(optarg);
         break;
       case 'a':
-        options.help = atoi(optarg) ? true : false;
+        options_.ambiguate = atoi(optarg) ? true : false;
         break;
       case 'm':
-        options.end = atoi(optarg);
+        options_.match_type = atoi(optarg);
         break;
       case 'M':
-        options.output = optarg;
+        options_.match_file = string(optarg);
         break;
       case 'o':
-        options.output = optarg;
+        options_.output = string(optarg);
         break;
       case 'O':
-        options.help = atoi(optarg) ? true : false;
+        options_.help = atoi(optarg) ? true : false;
         break;
       case 'f':
-        options.filter = optarg;
+        options_.filter = string(optarg);
         break;
       case 'v':
-        options.help = atoi(optarg) ? true : false;
+        options_.help = atoi(optarg) ? true : false;
         break;
       case 'V':
-        options.help = atoi(optarg) ? true : false;
+        options_.help = atoi(optarg) ? true : false;
         break;
       default:
-        cerr << "unexpected argument: ->" << optarg << "<-" << endl;
+        cerr << "Unexpected argument: ->" << optarg << "<-" << endl;
         return false;
     }
   }
 
-  for (index = optind; index < argc; index++) {
-    files.push_back(const &argv[index]);
+  for (int index = optind; index < argc_; index++) {
+    files_.push_back(argv_[index]);
   }
 
   return true;
 }
 
-// FIXME(Martin) get rid of magic numbers.
-void OptParse::SetOptDefaults() {
-  options.help           = false;
-  options.complement     = Forward;
-  options.direction      = Forward;
-  options.threads        = 1;
-  options.score_encoding = Phred33;
-  options.score_min)     = 25;
-  options.ambiguate      = false;
-  options.match_type     = 1;
-  options.overlap        = false;
-  options.version        = false;
-  options.verbose        = false;
-}
-
 void OptParse::PrintOptions() {
   cerr << "Options: " << endl;
-  cerr << "  help:           " << boolalpha << options.help << endl;
-  cerr << "  pattern:        " << options.pattern << endl;
-  cerr << "  pattern_file:   " << options.pattern_file << endl;
-  cerr << "  complement:     " << ComplementToString(options.complement) << endl;
-  cerr << "  direction:      " << DirectionToString(options.direction) << endl;
-  cerr << "  start:          " << to_string(options.start) << endl;
-  cerr << "  end:            " << to_string(options.end) << endl;
-  cerr << "  threads:        " << to_string(options.threads) << endl;
-  cerr << "  score_encoding: " << ScoreEncodingToString(options.score_encoding) << endl;
-  cerr << "  score_min:      " << to_string(options.score_min) << endl;
-  cerr << "  ambiguate:      " << boolalpha << options.ambiguate << endl;
-  cerr << "  match_type:     " << to_string(options.match_type) << endl;
-  cerr << "  match_file:     " << options.match_file << endl;
-  cerr << "  output:         " << options.output << endl;
-  cerr << "  overlap:        " << boolalpha << options.overlap << endl;
-  cerr << "  filter:         " << options.filter << endl;
-  cerr << "  version:        " << boolalpha << options.version << endl;
-  cerr << "  verbose:        " << boolalpha << options.verbose << endl;
+  cerr << "  help:           " << boolalpha << options_.help << endl;
+  cerr << "  pattern:        " << options_.pattern << endl;
+  cerr << "  pattern_file:   " << options_.pattern_file << endl;
+  cerr << "  complement:     " << ComplementToString(options_.complement) << endl;
+  cerr << "  direction:      " << DirectionToString(options_.direction) << endl;
+  cerr << "  start:          " << to_string(options_.start) << endl;
+  cerr << "  end:            " << to_string(options_.end) << endl;
+  cerr << "  threads:        " << to_string(options_.threads) << endl;
+  cerr << "  score_encoding: " << ScoreEncodingToString(options_.score_encoding) << endl;
+  cerr << "  score_min:      " << to_string(options_.score_min) << endl;
+  cerr << "  ambiguate:      " << boolalpha << options_.ambiguate << endl;
+  cerr << "  match_type:     " << to_string(options_.match_type) << endl;
+  cerr << "  match_file:     " << options_.match_file << endl;
+  cerr << "  output:         " << options_.output << endl;
+  cerr << "  overlap:        " << boolalpha << options_.overlap << endl;
+  cerr << "  filter:         " << options_.filter << endl;
+  cerr << "  version:        " << boolalpha << options_.version << endl;
+  cerr << "  verbose:        " << boolalpha << options_.verbose << endl;
 }
 
-inline const char* ComplementToString(OptComplement opt) {
+const char* OptParse::ComplementToString(OptComplement opt) {
   switch (opt) {
-    case Forward: return "forward";
-    case Reverse: return "reverse";
-    case Both:    return "both";
+    case OptComplement::Forward: return "forward";
+    case OptComplement::Reverse: return "reverse";
+    case OptComplement::Both:    return "both";
     default:      return "Unknown complement option";
   }
 }
 
-inline const char* DirectionToString(OptDirection opt) {
+const char* OptParse::DirectionToString(OptDirection opt) {
   switch (opt) {
-    case Forward: return "forward";
-    case Reverse: return "reverse";
+    case OptDirection::Forward: return "forward";
+    case OptDirection::Reverse: return "reverse";
     default:      return "Unknown direction option";
   }
 }
 
-inline const char* ScoreEncodingToString(OptScoreEncoding opt) {
+const char* OptParse::ScoreEncodingToString(OptScoreEncoding opt) {
   switch (opt) {
-    case Phred33: return "Phred33";
-    case Phred64: return "Phred64";
+    case OptScoreEncoding::Phred33: return "Phred33";
+    case OptScoreEncoding::Phred64: return "Phred64";
     default:      return "Unknown score_encoding option";
+  }
+}
+
+const OptParse::OptComplement OptParse::ParseComplement(string optarg) {
+  if (optarg == "forward") {
+    return OptComplement::Forward;
+  } else if (optarg == "reverse") {
+    return OptComplement::Reverse;
+  } else if (optarg == "both") {
+    return OptComplement::Both;
+  } else {
+    // TODO(Martin): Collapse universe.
+  }
+}
+
+const OptParse::OptDirection OptParse::ParseDirection(string optarg) {
+  if (optarg == "forward") {
+    return OptDirection::Forward;
+  } else if (optarg == "reverse") {
+    return OptDirection::Reverse;
+  } else {
+    // TODO(Martin): Collapse universe.
+  }
+}
+
+const OptParse::OptScoreEncoding OptParse::ParseScoreEncoding(string optarg) {
+  if (optarg == "Phred33") {
+    return OptScoreEncoding::Phred33;
+  } else if (optarg == "Phred64") {
+    return OptScoreEncoding::Phred64;
+  } else {
+    // TODO(Martin): Collapse universe.
   }
 }
 
