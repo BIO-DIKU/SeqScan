@@ -18,84 +18,87 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+#include <string>
+
 #include "catch.h"
-#include "optparse.h"
+#include "../src/optparse.h"
 
 using namespace std;
 
 TEST_CASE("OptParse w/o input file(s) raises", "[optparse]") {
-  int  argc = 0;
-  char argv = "";
+  int  argc      = 0;
+  char argv[]    = "";
+  char *argv_ptr = argv;
 
-  OptParse options(argc, argv);
+//  OptParse options(argc, &argv_ptr);
 
-  options.PrintOptions();
+//  options.PrintOptions();
 }
 
-TEST_CASE("OptParse w/o pattern or pattern_file raises", "[optparse]") {
-}
-
-TEST_CASE("OptParse w pattern and pattern_file raises", "[optparse]") {
-}
-
-TEST_CASE("OptParse w match_type and match_file raises", "[optparse]") {
-}
-
-TEST_CASE("OptParse w complement option", "[optparse]") {
-  SECTION("forward value OK") {
-    REQUIRE(long_options[] == "forward");
-  }
-
-  SECTION("reverse value OK") {
-    REQUIRE(long_options[] == "reverse");
-  }
-
-  SECTION("both value OK") {
-    REQUIRE(long_options[] == "both");
-  }
-
-  SECTION("bad value raises") {
-  }
-}
-
-TEST_CASE("OptParse w direction option", "[optparse]") {
-  SECTION("forward value OK") {
-    REQUIRE(long_options[] == "forward");
-  }
-
-  SECTION("reverse value OK") {
-    REQUIRE(long_options[] == "reverse");
-  }
-
-  SECTION("bad value raises") {
-  }
-}
-
-TEST_CASE("OptParse w score_encoding option", "[optparse]") {
-  SECTION("Phred33 value OK") {
-    REQUIRE(long_options[] == "Phread33");
-  }
-
-  SECTION("Phred64 value OK") {
-    REQUIRE(long_options[] == "Phread64");
-  }
-
-  SECTION("bad value raises") {
-  }
-}
-
-TEST_CASE("OptParse w pattern_file and non-existing file raises", "[optparse]") {
-}
-
-TEST_CASE("OptParse w match_file and non-existing file raises", "[optparse]") {
-}
-
-TEST_CASE("OptParse have correct default option values", "[optparse]") {
-}
-
-TEST_CASE("OptParse short options can be set OK", "[optparse]") {
-  char argv = "-p ATC"
-}
-
-TEST_CASE("OptParse long options can be set OK", "[optparse]") {
-}
+// TEST_CASE("OptParse w/o pattern or pattern_file raises", "[optparse]") {
+// }
+//
+// TEST_CASE("OptParse w pattern and pattern_file raises", "[optparse]") {
+// }
+//
+// TEST_CASE("OptParse w match_type and match_file raises", "[optparse]") {
+// }
+//
+// TEST_CASE("OptParse w complement option", "[optparse]") {
+//   SECTION("forward value OK") {
+//     REQUIRE(long_options[] == "forward");
+//   }
+//
+//   SECTION("reverse value OK") {
+//     REQUIRE(long_options[] == "reverse");
+//   }
+//
+//   SECTION("both value OK") {
+//     REQUIRE(long_options[] == "both");
+//   }
+//
+//   SECTION("bad value raises") {
+//   }
+// }
+//
+// TEST_CASE("OptParse w direction option", "[optparse]") {
+//   SECTION("forward value OK") {
+//     REQUIRE(long_options[] == "forward");
+//   }
+//
+//   SECTION("reverse value OK") {
+//     REQUIRE(long_options[] == "reverse");
+//   }
+//
+//   SECTION("bad value raises") {
+//   }
+// }
+//
+// TEST_CASE("OptParse w score_encoding option", "[optparse]") {
+//   SECTION("Phred33 value OK") {
+//     REQUIRE(long_options[] == "Phread33");
+//   }
+//
+//   SECTION("Phred64 value OK") {
+//     REQUIRE(long_options[] == "Phread64");
+//   }
+//
+//   SECTION("bad value raises") {
+//   }
+// }
+//
+// TEST_CASE("OptParse w pattern_file and non-existing file raises", "[optparse]") {
+// }
+//
+// TEST_CASE("OptParse w match_file and non-existing file raises", "[optparse]") {
+// }
+//
+// TEST_CASE("OptParse have correct default option values", "[optparse]") {
+// }
+//
+// TEST_CASE("OptParse short options can be set OK", "[optparse]") {
+//   char argv = "-p ATC"
+// }
+//
+// TEST_CASE("OptParse long options can be set OK", "[optparse]") {
+// }
