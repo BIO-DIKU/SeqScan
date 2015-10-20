@@ -46,9 +46,6 @@ class OptParseException : public std::exception {
   const std::string exceptionMsg;
 };
 
-std::string msg = "Exception message";
-throw OptParseException(msg);
-
 /**
  * @brief Class for parsing command line arguments using Getopt-Long:
  *
