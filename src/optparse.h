@@ -110,8 +110,6 @@ class OptParse {
 
   /*
    * Magic numbers for default options.
-   *
-   * TODO(Martin) rename to kDefault<option>.
    */
   static const int kDefaultThreads   = 1;
   static const int kDefaultMatchType = 1;
