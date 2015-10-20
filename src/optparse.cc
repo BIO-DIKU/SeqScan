@@ -150,7 +150,7 @@ const char* OptParse::ComplementToString(OptComplement opt) {
     case OptComplement::Forward: return "forward";
     case OptComplement::Reverse: return "reverse";
     case OptComplement::Both:    return "both";
-    default:      return "Unknown complement option";
+    default:                     return "Unknown complement option";
   }
 }
 
@@ -158,7 +158,7 @@ const char* OptParse::DirectionToString(OptDirection opt) {
   switch (opt) {
     case OptDirection::Forward: return "forward";
     case OptDirection::Reverse: return "reverse";
-    default:      return "Unknown direction option";
+    default:                    return "Unknown direction option";
   }
 }
 
@@ -166,7 +166,7 @@ const char* OptParse::ScoreEncodingToString(OptScoreEncoding opt) {
   switch (opt) {
     case OptScoreEncoding::Phred33: return "Phred33";
     case OptScoreEncoding::Phred64: return "Phred64";
-    default:      return "Unknown score_encoding option";
+    default:                        return "Unknown score_encoding option";
   }
 }
 
