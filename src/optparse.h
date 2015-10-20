@@ -85,6 +85,9 @@ class OptParse {
 
  private:
 
+  int  argc;
+  char *argv[];
+
  /*
   * Set options default to sane values
   */

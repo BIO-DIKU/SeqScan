@@ -26,6 +26,9 @@
 using namespace std;
 
 OptParse::OptParse(int argc, char *argv[]) {
+  argc = argc;
+  argv = argv;
+
   SetOptDefaults();
 }
 
