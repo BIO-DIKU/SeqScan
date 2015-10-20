@@ -27,6 +27,22 @@
 #include <vector>
 
 /**
+ * @brief Exception class for OptParse class.
+ */
+class OptParseException : public std::exception {
+ public:
+  OptParseException(std::string &msg) :
+    exceptionMsg(msg)
+  {}
+
+  OptParseException(const OptParseException &e) :
+    exceptionMsg(e.exceptionMsg)
+  {}
+
+  const std::string exceptionMsg;
+};
+
+/**
  * @brief Class for parsing command line arguments using Getopt-Long:
  *
  * http://www.gnu.org/software/libc/manual/html_node/Getopt-Long-Option-Example.html
