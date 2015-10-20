@@ -113,9 +113,9 @@ class OptParse {
    *
    * TODO(Martin) rename to kDefault<option>.
    */
-  static const int kThreads   = 1;
-  static const int kMatchType = 1;
-  static const int kScoreMin  = 25;
+  static const int kDefaultThreads   = 1;
+  static const int kDefaultMatchType = 1;
+  static const int kDefaultScoreMin  = 25;
 
   int  argc_;
   char **argv_;

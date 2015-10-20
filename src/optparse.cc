@@ -40,11 +40,11 @@ void OptParse::SetOptDefaults() {
   options_.help           = false;
   options_.complement     = OptComplement::Forward;
   options_.direction      = OptDirection::Forward;
-  options_.threads        = kThreads;
+  options_.threads        = kDefaultThreads;
   options_.score_encoding = OptScoreEncoding::Phred33;
-  options_.score_min      = kScoreMin;
+  options_.score_min      = kDefaultScoreMin;
   options_.ambiguate      = false;
-  options_.match_type     = kMatchType;
+  options_.match_type     = kDefaultMatchType;
   options_.overlap        = false;
   options_.version        = false;
   options_.verbose        = false;
