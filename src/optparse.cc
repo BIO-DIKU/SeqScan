@@ -178,7 +178,8 @@ const OptParse::OptComplement OptParse::ParseComplement(string optarg) {
   } else if (optarg == "both") {
     return OptComplement::Both;
   } else {
-    // TODO(Martin): Collapse universe.
+    string msg = "Bad argument for complement option: " + optarg;
+    throw OptParseException(msg);
   }
 }
 
@@ -188,7 +189,8 @@ const OptParse::OptDirection OptParse::ParseDirection(string optarg) {
   } else if (optarg == "reverse") {
     return OptDirection::Reverse;
   } else {
-    // TODO(Martin): Collapse universe.
+    string msg = "Bad argument for direction option: " + optarg;
+    throw OptParseException(msg);
   }
 }
 
@@ -198,7 +200,8 @@ const OptParse::OptScoreEncoding OptParse::ParseScoreEncoding(string optarg) {
   } else if (optarg == "Phred64") {
     return OptScoreEncoding::Phred64;
   } else {
-    // TODO(Martin): Collapse universe.
+    string msg = "Bad argument for score_encoding option: " + optarg;
+    throw OptParseException(msg);
   }
 }
 
