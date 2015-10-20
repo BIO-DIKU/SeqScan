@@ -26,14 +26,53 @@
 using namespace std;
 
 TEST_CASE("OptParse w/o input file(s) raises", "[optparse]") {
-  int  argc      = 0;
-  char argv[]    = "";
-  char *argv_ptr = argv;
+  int  argc   = 0;
+  char argv[] = "";
 
-//  OptParse options(argc, &argv_ptr);
-
-//  options.PrintOptions();
+  REQUIRE_THROWS_AS(OptParse opt_parse(argc, &argv), OptParseException);
 }
+
+TEST_CASE("OptParse have correct default option values", "[optparse]") {
+  int  argc   = 1;
+  char argv[] = "file";
+
+  OptParse opt_parse(argc, &argv);
+
+  REQUIRE(opt_parse.options_.help,           false);
+  REQUIRE(opt_parse.options_.complement,     OptComplement::Forward);
+  REQUIRE(opt_parse.options_.direction,      OptDirection::Forward);
+  REQUIRE(opt_parse.options_.threads,        kDefaultThreads);
+  REQUIRE(opt_parse.options_.score_encoding, OptScoreEncoding::Phred33);
+  REQUIRE(opt_parse.options_.score_min,      kDefaultScoreMin);
+  REQUIRE(opt_parse.options_.ambiguate,      false);
+  REQUIRE(opt_parse.options_.match_type,     kDefaultMatchType);
+  REQUIRE(opt_parse.options_.overlap,        false);
+  REQUIRE(opt_parse.options_.version,        false);
+  REQUIRE(opt_parse.options_.verbose,        false);
+}
+
+TEST_CASE("OptParse help", "[optparse]") {
+  int argc = 1;
+
+  SECTION("short option can be set OK") {
+    char argv[] = "-h"
+
+    OptParse opt_parse(argc, &argv);
+
+    REQUIRE(opt_parse.options_.help);
+  }
+
+  SECTION("long option can be set OK") {
+    char argv[] = "--help"
+
+    OptParse opt_parse(argc, &argv);
+
+    REQUIRE(opt_parse.options_.help);
+  }
+}
+
+// TEST_CASE("OptParse long options can be set OK", "[optparse]") {
+// }
 
 // TEST_CASE("OptParse w/o pattern or pattern_file raises", "[optparse]") {
 // }
@@ -87,18 +126,11 @@ TEST_CASE("OptParse w/o input file(s) raises", "[optparse]") {
 //   }
 // }
 //
+// TEST_CASE("OptParse w grouped short options can be set OK") {
+// }
+//
 // TEST_CASE("OptParse w pattern_file and non-existing file raises", "[optparse]") {
 // }
 //
 // TEST_CASE("OptParse w match_file and non-existing file raises", "[optparse]") {
-// }
-//
-// TEST_CASE("OptParse have correct default option values", "[optparse]") {
-// }
-//
-// TEST_CASE("OptParse short options can be set OK", "[optparse]") {
-//   char argv = "-p ATC"
-// }
-//
-// TEST_CASE("OptParse long options can be set OK", "[optparse]") {
 // }
