@@ -31,9 +31,14 @@ OptParse::OptParse(int argc, char *argv[]) :
   argc_(argc),
   argv_(argv),
   files_(),
-  options_() {
+  options_() 
+{
   SetOptDefaults();
   Parse();
+}
+
+OptParse::~OptParse()
+{
 }
 
 void OptParse::SetOptDefaults() {

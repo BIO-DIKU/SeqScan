@@ -129,14 +129,14 @@ class OptParse {
    */
   void PrintUsage();
 
- private:
 
+ private:
   /*
    * Magic numbers for default options.
    */
-  static const int kDefaultThreads   = 1;
-  static const int kDefaultMatchType = 1;
-  static const int kDefaultScoreMin  = 25;
+  const int kDefaultThreads   = 1;
+  const int kDefaultMatchType = 1;
+  const int kDefaultScoreMin  = 25;
 
   int  argc_;
   char **argv_;
