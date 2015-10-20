@@ -32,6 +32,9 @@
  * @example
  *   std::string msg = "Exception message";
  *   throw OptParseException(msg);
+ *
+ * @example
+ *   throw OptParseException("Exception message");
  */
 class OptParseException : public std::exception {
  public:
