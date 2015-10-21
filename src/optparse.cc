@@ -31,15 +31,14 @@ OptParse::OptParse(int argc, char *argv[]) :
   argc_(argc),
   argv_(argv),
   files_(),
-  options_() 
+  options_()
 {
   SetOptDefaults();
   Parse();
 }
 
 OptParse::~OptParse()
-{
-}
+{}
 
 void OptParse::SetOptDefaults() {
   options_.help           = false;
@@ -62,7 +61,7 @@ bool OptParse::Parse() {
   while ((opt = getopt_long(argc_, argv_, opt_string_.c_str(), opt_templates_, &opt_index)) != -1) {
     switch (opt) {
       case 'h':
-        options_.help = atoi(optarg) ? true : false;
+        options_.help = true;
         break;
       case 'p':
         options_.pattern = string(optarg);
@@ -92,7 +91,7 @@ bool OptParse::Parse() {
         options_.score_min = atoi(optarg);
         break;
       case 'a':
-        options_.ambiguate = atoi(optarg) ? true : false;
+        options_.ambiguate = true;
         break;
       case 'm':
         options_.match_type = atoi(optarg);
@@ -104,16 +103,16 @@ bool OptParse::Parse() {
         options_.output = string(optarg);
         break;
       case 'O':
-        options_.help = atoi(optarg) ? true : false;
+        options_.overlap = true;
         break;
       case 'f':
         options_.filter = string(optarg);
         break;
       case 'v':
-        options_.help = atoi(optarg) ? true : false;
+        options_.verbose = true;
         break;
       case 'V':
-        options_.help = atoi(optarg) ? true : false;
+        options_.version = true;
         break;
       default:
         cerr << "Unexpected argument: ->" << optarg << "<-" << endl;
