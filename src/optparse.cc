@@ -82,7 +82,7 @@ bool OptParse::Parse() {
         options_.end = atoi(optarg);
         break;
       case 't':
-        options_.score_min = atoi(optarg);
+        options_.threads = atoi(optarg);
         break;
       case 'E':
         options_.score_encoding = ParseScoreEncoding(string(optarg));
@@ -109,10 +109,10 @@ bool OptParse::Parse() {
         options_.filter = string(optarg);
         break;
       case 'v':
-        options_.verbose = true;
+        options_.version = true;
         break;
       case 'V':
-        options_.version = true;
+        options_.verbose = true;
         break;
       default:
         cerr << "Unexpected argument: ->" << optarg << "<-" << endl;
