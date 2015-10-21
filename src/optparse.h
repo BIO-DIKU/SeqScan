@@ -158,6 +158,16 @@ class OptParse {
   bool Parse();
 
   /*
+   * Throw exception on bad options or combination of same.
+   */
+  void OptCheck();
+
+  /*
+   * Throw exception if neither pattern or pattern_file option is set.
+   */
+  void OptCheckPatternGiven();
+
+  /*
    * Array for holding option templates.
    */
   const option opt_templates_[19] = {

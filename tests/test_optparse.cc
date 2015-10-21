@@ -25,7 +25,7 @@
 
 using namespace std;
 
-// TEST_CASE("OptParse w/o input file(s) raises", "[optparse]") {
+// TEST_CASE("OptParse w/o arguments sets help option", "[optparse]") {
 //   int   argc         = 1;
 //   const char *argv[] = {"seqscan"};
 //
@@ -74,15 +74,15 @@ TEST_CASE("OptParse help", "[optparse]") {
 
 TEST_CASE("OptParse pattern", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-p", "ATC"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.pattern == "ATC");
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-p", "ATC"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.pattern == "ATC");
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--pattern", "ATC"};
@@ -95,36 +95,36 @@ TEST_CASE("OptParse pattern", "[optparse]") {
 
 TEST_CASE("OptParse pattern_file", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-P", "file"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.pattern_file == "file");
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-P", "file"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.pattern_file == "file");
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--pattern_file", "file"};
 
     OptParse opt_parse(argc, (char**)argv);
 
-     REQUIRE(opt_parse.options_.pattern_file == "file");
+    REQUIRE(opt_parse.options_.pattern_file == "file");
   }
 }
 
 TEST_CASE("OptParse complement", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-c", "both"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.complement == OptParse::OptComplement::Both);
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-c", "both"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.complement == OptParse::OptComplement::Both);
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--complement", "both"};
@@ -137,15 +137,15 @@ TEST_CASE("OptParse complement", "[optparse]") {
 
 TEST_CASE("OptParse direction", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-d", "reverse"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.direction == OptParse::OptDirection::Reverse);
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-d", "reverse"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.direction == OptParse::OptDirection::Reverse);
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--direction", "reverse"};
@@ -158,15 +158,15 @@ TEST_CASE("OptParse direction", "[optparse]") {
 
 TEST_CASE("OptParse start", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-s", "123"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.start == 123);
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-s", "123"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.start == 123);
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--start", "123"};
@@ -179,15 +179,15 @@ TEST_CASE("OptParse start", "[optparse]") {
 
 TEST_CASE("OptParse end", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-e", "123"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.end == 123);
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-e", "123"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.end == 123);
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--end", "123"};
@@ -200,15 +200,15 @@ TEST_CASE("OptParse end", "[optparse]") {
 
 TEST_CASE("OptParse threads", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-t", "12"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.threads == 12);
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-t", "12"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.threads == 12);
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--threads", "12"};
@@ -221,15 +221,15 @@ TEST_CASE("OptParse threads", "[optparse]") {
 
 TEST_CASE("OptParse score_encoding", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-E", "Phred64"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.score_encoding == OptParse::OptScoreEncoding::Phred64);
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-E", "Phred64"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.score_encoding == OptParse::OptScoreEncoding::Phred64);
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--score_encoding", "Phred64"};
@@ -242,15 +242,15 @@ TEST_CASE("OptParse score_encoding", "[optparse]") {
 
 TEST_CASE("OptParse score_min", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-S", "12"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.score_min == 12);
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-S", "12"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.score_min == 12);
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--score_min", "12"};
@@ -284,15 +284,15 @@ TEST_CASE("OptParse ambiguate", "[optparse]") {
 
 TEST_CASE("OptParse match_type", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-m", "12"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.match_type == 12);
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-m", "12"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.match_type == 12);
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--match_type", "12"};
@@ -305,15 +305,15 @@ TEST_CASE("OptParse match_type", "[optparse]") {
 
 TEST_CASE("OptParse match_file", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-M", "file"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.match_file == "file");
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-M", "file"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.match_file == "file");
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--match_file", "file"};
@@ -326,15 +326,15 @@ TEST_CASE("OptParse match_file", "[optparse]") {
 
 TEST_CASE("OptParse output", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-o", "file"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.output == "file");
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-o", "file"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.output == "file");
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--output", "file"};
@@ -368,15 +368,15 @@ TEST_CASE("OptParse overlap", "[optparse]") {
 
 TEST_CASE("OptParse filter", "[optparse]") {
   optind   = 1;  // reset getopt
-  int argc = 2;
+  int argc = 3;
 
-  // SECTION("short option can be set OK") {
-  //   const char* argv[] = {"seqscan", "-f", "filter"};
-  //
-  //   OptParse opt_parse(argc, (char**)argv);
-  //
-  //   REQUIRE(opt_parse.options_.filter == "filter");
-  // }
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-f", "filter"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE(opt_parse.options_.filter == "filter");
+  }
 
   SECTION("long option can be set OK") {
     const char* argv[] = {"seqscan", "--filter", "filter"};
@@ -429,13 +429,18 @@ TEST_CASE("OptParse verbose", "[optparse]") {
   }
 }
 
-// TEST_CASE("OptParse long options can be set OK", "[optparse]") {
-// }
-
 // TEST_CASE("OptParse w/o pattern or pattern_file raises", "[optparse]") {
+//   int        argc    = 1;
+//   const char *argv[] = {"seqscan"};
+//
+//   REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
 // }
 //
 // TEST_CASE("OptParse w pattern and pattern_file raises", "[optparse]") {
+//   int        argc    = 3;
+//   const char *argv[] = {"seqscan", "-p", "ATC", "-P", "file"};
+//
+//   REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
 // }
 //
 // TEST_CASE("OptParse w match_type and match_file raises", "[optparse]") {
@@ -485,10 +490,4 @@ TEST_CASE("OptParse verbose", "[optparse]") {
 // }
 //
 // TEST_CASE("OptParse w grouped short options can be set OK") {
-// }
-//
-// TEST_CASE("OptParse w pattern_file and non-existing file raises", "[optparse]") {
-// }
-//
-// TEST_CASE("OptParse w match_file and non-existing file raises", "[optparse]") {
 // }

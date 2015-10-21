@@ -35,6 +35,7 @@ OptParse::OptParse(int argc, char *argv[]) :
 {
   SetOptDefaults();
   Parse();
+  OptCheck();
 }
 
 OptParse::~OptParse()
@@ -125,6 +126,17 @@ bool OptParse::Parse() {
   }
 
   return true;
+}
+
+void OptParse::OptCheck() {
+  OptCheckPatternGiven();
+}
+
+void OptParse::OptCheckPatternGiven() {
+  // if (options_.pattern.empty() && options_.pattern_file.empty()) {
+  //   string msg = "Error: missing pattern or pattern_file";
+  //   throw OptParseException(msg);
+  // }
 }
 
 void OptParse::PrintOptions() {
