@@ -55,7 +55,7 @@ void OptParse::SetOptDefaults() {
   options_.verbose        = false;
 }
 
-bool OptParse::Parse() {
+void OptParse::Parse() {
   int opt_index = 0;
   int opt       = 0;
 
@@ -116,16 +116,14 @@ bool OptParse::Parse() {
         options_.verbose = true;
         break;
       default:
-        cerr << "Unexpected argument: ->" << optarg << "<-" << endl;
-        return false;
+        string msg = "Unexpected argument: ->" + string(optarg) + "<-";
+        throw OptParseException(msg);
     }
   }
 
   for (int index = optind; index < argc_; index++) {
     files_.push_back(argv_[index]);
   }
-
-  return true;
 }
 
 void OptParse::OptCheck() {

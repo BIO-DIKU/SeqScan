@@ -32,6 +32,13 @@ using namespace std;
 //   REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
 // }
 
+TEST_CASE("OptParse with bad option raises", "[optparse]") {
+  int        argc    = 4;
+  const char *argv[] = {"seqscan", "-p", "ATC", "-X"};
+
+  REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
+}
+
 TEST_CASE("OptParse have correct default option values", "[optparse]") {
   int   argc         = 3;
   const char* argv[] = {"seqscan", "-p", "ATC"};
@@ -134,7 +141,7 @@ TEST_CASE("OptParse complement", "[optparse]") {
     REQUIRE(opt_parse.options_.complement == OptParse::OptComplement::Both);
   }
 
-  SECTION("bad value throws exception") {
+  SECTION("bad value raises") {
     const char* argv[] = {"seqscan", "-p", "ATC", "--complement", "foo"};
 
     REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
@@ -161,7 +168,7 @@ TEST_CASE("OptParse direction", "[optparse]") {
     REQUIRE(opt_parse.options_.direction == OptParse::OptDirection::Reverse);
   }
 
-  SECTION("bad value throws exception") {
+  SECTION("bad value raises") {
     const char* argv[] = {"seqscan", "-p", "ATC", "--direction", "foo"};
 
     REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
@@ -251,7 +258,7 @@ TEST_CASE("OptParse score_encoding", "[optparse]") {
     REQUIRE(opt_parse.options_.score_encoding == OptParse::OptScoreEncoding::Phred64);
   }
 
-  SECTION("bad value throws exception") {
+  SECTION("bad value raises") {
     const char* argv[] = {"seqscan", "-p", "ATC", "--score_encoding", "foo"};
 
     REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
@@ -461,7 +468,7 @@ TEST_CASE("OptParse w pattern and pattern_file raises", "[optparse]") {
   REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
 }
 
-TEST_CASE("OptParse w grouped short options can be set OK") {
+TEST_CASE("OptParse w grouped short options can be set OK", "[optparse]") {
   int        argc    = 3;
   const char *argv[] = {"seqscan", "-vVp", "ATC"};
 
@@ -472,7 +479,7 @@ TEST_CASE("OptParse w grouped short options can be set OK") {
   REQUIRE(opt_parse.options_.pattern == "ATC");
 }
 
-TEST_CASE("OptParse w non-optional arguments i.e. sequence files") {
+TEST_CASE("OptParse w non-optional arguments", "[optparse]") {
   int        argc    = 5;
   const char *argv[] = {"seqscan", "-p", "ATC", "file1", "file2"};
 
@@ -480,4 +487,26 @@ TEST_CASE("OptParse w non-optional arguments i.e. sequence files") {
 
   REQUIRE(opt_parse.files_.front() == "file1");
   REQUIRE(opt_parse.files_.back()  == "file2");
+}
+
+TEST_CASE("OptParse w/o non-optional arguments", "[optparse]") {
+  optind = 1;  // reset getopt
+
+  SECTION("dont raise if -h given") {
+    int        argc    = 2;
+    const char *argv[] = {"seqscan", "-h"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE_NOTHROW(OptParse opt_parse(argc, (char**)argv));
+  }
+
+  SECTION("raise if no -h given") {
+    int        argc    = 3;
+    const char *argv[] = {"seqscan", "-p", "ATC"};
+
+    OptParse opt_parse(argc, (char**)argv);
+
+    REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
+  }
 }

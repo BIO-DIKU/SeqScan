@@ -152,10 +152,8 @@ class OptParse {
   /*
    * Parse options from argv and save the result in Options struct and files
    * vector.
-   *
-   * Returns true if parsing was OK else false.
    */
-  bool Parse();
+  void Parse();
 
   /*
    * Throw exception on bad options or combination of same.
