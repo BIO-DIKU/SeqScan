@@ -133,6 +133,12 @@ TEST_CASE("OptParse complement", "[optparse]") {
 
     REQUIRE(opt_parse.options_.complement == OptParse::OptComplement::Both);
   }
+
+  SECTION("bad value throws exception") {
+    const char* argv[] = {"seqscan", "-p", "ATC", "--complement", "foo"};
+
+    REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
+  }
 }
 
 TEST_CASE("OptParse direction", "[optparse]") {
@@ -153,6 +159,12 @@ TEST_CASE("OptParse direction", "[optparse]") {
     OptParse opt_parse(argc, (char**)argv);
 
     REQUIRE(opt_parse.options_.direction == OptParse::OptDirection::Reverse);
+  }
+
+  SECTION("bad value throws exception") {
+    const char* argv[] = {"seqscan", "-p", "ATC", "--direction", "foo"};
+
+    REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
   }
 }
 
@@ -237,6 +249,12 @@ TEST_CASE("OptParse score_encoding", "[optparse]") {
     OptParse opt_parse(argc, (char**)argv);
 
     REQUIRE(opt_parse.options_.score_encoding == OptParse::OptScoreEncoding::Phred64);
+  }
+
+  SECTION("bad value throws exception") {
+    const char* argv[] = {"seqscan", "-p", "ATC", "--score_encoding", "foo"};
+
+    REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
   }
 }
 
