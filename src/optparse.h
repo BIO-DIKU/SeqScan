@@ -56,6 +56,10 @@ class OptParseException : public std::exception {
  *
  * OptParse holdes a struct with Options and a vector of non-option arguments
  * i.e. files.
+ *
+ * @param argc Command line argument count.
+ * @param argv Command line argument C vector.
+ *
  */
 class OptParse {
  public:
@@ -129,7 +133,6 @@ class OptParse {
    */
   void PrintUsage();
 
-
  private:
   /*
    * Magic numbers for default options.
@@ -201,9 +204,19 @@ class OptParse {
    */
   const OptScoreEncoding ParseScoreEncoding(std::string optarg);
 
-  // TODO(Martin) doc theses.
+  /*
+   * Function for converting OptComplement enum to string.
+   */
   const char* ComplementToString(OptComplement opt);
+
+  /*
+   * Function for converting OptDirection enum to string.
+   */
   const char* DirectionToString(OptDirection opt);
+
+  /*
+   * Function for converting OptScoreEncoding enum to string.
+   */
   const char* ScoreEncodingToString(OptScoreEncoding opt);
 };
 
