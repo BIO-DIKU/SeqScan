@@ -62,7 +62,7 @@ class OptParseException : public std::exception {
  * http://www.gnu.org/software/libc/manual/html_node/Getopt-Long-Option-Example.html
  *
  * OptParse holdes a struct with Options and a vector of non-option arguments
- * i.e. files.
+ * i.e. files. The existence of files is not checked.
  *
  * @param argc Command line argument count.
  * @param argv Command line argument C vector.

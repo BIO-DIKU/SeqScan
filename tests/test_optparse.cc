@@ -471,3 +471,13 @@ TEST_CASE("OptParse w grouped short options can be set OK") {
   REQUIRE(opt_parse.options_.verbose);
   REQUIRE(opt_parse.options_.pattern == "ATC");
 }
+
+TEST_CASE("OptParse w non-optional arguments i.e. sequence files") {
+  int        argc    = 5;
+  const char *argv[] = {"seqscan", "-p", "ATC", "file1", "file2"};
+
+  OptParse opt_parse(argc, (char**)argv);
+
+  REQUIRE(opt_parse.files_.front() == "file1");
+  REQUIRE(opt_parse.files_.back()  == "file2");
+}
