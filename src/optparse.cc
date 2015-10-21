@@ -133,10 +133,15 @@ void OptParse::OptCheck() {
 }
 
 void OptParse::OptCheckPatternGiven() {
-  // if (options_.pattern.empty() && options_.pattern_file.empty()) {
-  //   string msg = "Error: missing pattern or pattern_file";
-  //   throw OptParseException(msg);
-  // }
+  if (options_.pattern.empty() && options_.pattern_file.empty()) {
+    string msg = "Error: missing pattern or pattern_file";
+    throw OptParseException(msg);
+  }
+
+  if (!options_.pattern.empty() && !options_.pattern_file.empty()) {
+    string msg = "Error: both pattern and pattern_file given";
+    throw OptParseException(msg);
+  }
 }
 
 void OptParse::PrintOptions() {

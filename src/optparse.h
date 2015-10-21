@@ -163,7 +163,7 @@ class OptParse {
   void OptCheck();
 
   /*
-   * Throw exception if neither pattern or pattern_file option is set.
+   * Throw exception if both or neither pattern or pattern_file option is set.
    */
   void OptCheckPatternGiven();
 
