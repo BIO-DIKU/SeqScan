@@ -26,6 +26,13 @@
 #include <string>
 #include <vector>
 
+/*
+ * Magic numbers for default options.
+ */
+const int kDefaultThreads   = 1;
+const int kDefaultMatchType = 1;
+const int kDefaultScoreMin  = 25;
+
 /**
  * @brief Exception class for OptParse class.
  *
@@ -134,13 +141,6 @@ class OptParse {
   void PrintUsage();
 
  private:
-  /*
-   * Magic numbers for default options.
-   */
-  const int kDefaultThreads   = 1;
-  const int kDefaultMatchType = 1;
-  const int kDefaultScoreMin  = 25;
-
   int  argc_;
   char **argv_;
 
