@@ -429,65 +429,27 @@ TEST_CASE("OptParse verbose", "[optparse]") {
   }
 }
 
-// TEST_CASE("OptParse w/o pattern or pattern_file raises", "[optparse]") {
-//   int        argc    = 1;
-//   const char *argv[] = {"seqscan"};
-//
-//   REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
-// }
-//
-// TEST_CASE("OptParse w pattern and pattern_file raises", "[optparse]") {
-//   int        argc    = 3;
-//   const char *argv[] = {"seqscan", "-p", "ATC", "-P", "file"};
-//
-//   REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
-// }
-//
-// TEST_CASE("OptParse w match_type and match_file raises", "[optparse]") {
-// }
-//
-// TEST_CASE("OptParse w complement option", "[optparse]") {
-//   SECTION("forward value OK") {
-//     REQUIRE(long_options[] == "forward");
-//   }
-//
-//   SECTION("reverse value OK") {
-//     REQUIRE(long_options[] == "reverse");
-//   }
-//
-//   SECTION("both value OK") {
-//     REQUIRE(long_options[] == "both");
-//   }
-//
-//   SECTION("bad value raises") {
-//   }
-// }
-//
-// TEST_CASE("OptParse w direction option", "[optparse]") {
-//   SECTION("forward value OK") {
-//     REQUIRE(long_options[] == "forward");
-//   }
-//
-//   SECTION("reverse value OK") {
-//     REQUIRE(long_options[] == "reverse");
-//   }
-//
-//   SECTION("bad value raises") {
-//   }
-// }
-//
-// TEST_CASE("OptParse w score_encoding option", "[optparse]") {
-//   SECTION("Phred33 value OK") {
-//     REQUIRE(long_options[] == "Phread33");
-//   }
-//
-//   SECTION("Phred64 value OK") {
-//     REQUIRE(long_options[] == "Phread64");
-//   }
-//
-//   SECTION("bad value raises") {
-//   }
-// }
-//
-// TEST_CASE("OptParse w grouped short options can be set OK") {
-// }
+TEST_CASE("OptParse w/o pattern or pattern_file raises", "[optparse]") {
+  int        argc    = 1;
+  const char *argv[] = {"seqscan"};
+
+  REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
+}
+
+TEST_CASE("OptParse w pattern and pattern_file raises", "[optparse]") {
+  int        argc    = 5;
+  const char *argv[] = {"seqscan", "-p", "ATC", "-P", "file"};
+
+  REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv), OptParseException);
+}
+
+TEST_CASE("OptParse w grouped short options can be set OK") {
+  int        argc    = 3;
+  const char *argv[] = {"seqscan", "-vVp", "ATC"};
+
+  OptParse opt_parse(argc, (char**)argv);
+
+  REQUIRE(opt_parse.options_.version);
+  REQUIRE(opt_parse.options_.verbose);
+  REQUIRE(opt_parse.options_.pattern == "ATC");
+}
