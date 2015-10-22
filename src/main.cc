@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
   OptParse opt_parse(argc, (char**)argv);
 
   if (opt_parse.verbose) {
-      OptParse::PrintOptions();
+    OptParse::PrintOptions();
   }
 
   return EXIT_SUCCESS;
