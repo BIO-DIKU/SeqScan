@@ -43,7 +43,25 @@ add_library(libseqscan
   pu/tnfa/tnfa_state_512.cc
   pu/tnfa/tnfa_start_state_512.cc
   pu/tnfa/tnfa_final_state_512.cc
-  pu/repeat_unit.cc pu/repeat_unit.h io.cc io.h match.cc pu/reference_unit.cc pu/reference_unit.h pu/range_unit.cc pu/range_unit.h)
+  pu/repeat_unit.cc
+  pu/repeat_unit.h
+  io.cc
+  io.h
+  match.cc
+  pu/reference_unit.cc
+  pu/reference_unit.h
+  pu/range_unit.cc
+  pu/range_unit.h
+  parser/Parser.cc
+  parser/Parser.h
+  parser/parse_tree_list.cpp
+  parser/parse_tree_list.h
+  parser/parse_tree_unit.cpp
+  parser/parse_tree_unit.h
+  parser/seq_par.tab.h
+        parser/seq_par.tab.cc
+  parser/lex.yy.c
+)
 
 set_target_properties( libseqscan PROPERTIES PREFIX "" )
 
