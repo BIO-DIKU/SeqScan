@@ -21,7 +21,6 @@
 #include "optparse.h"
 
 #include <getopt.h>
-#include <iostream>
 #include <string>
 #include <vector>
 
