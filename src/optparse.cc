@@ -28,20 +28,21 @@
 using namespace std;
 
 OptParse::OptParse(int argc, char *argv[]) :
+  OptParse(argc,argv,false)
+{
+}
+
+OptParse::OptParse(int argc, char *argv[], bool test) :
   argc_(argc),
   argv_(argv),
   files_(),
-  options_()
+  options_(),
+  test_(test)
 {
   SetOptDefaults();
   Parse();
   OptCheck();
 }
-
-OptParse::OptParse(int argc, char *argv[], bool test) :
-  OptParse(argc, argv),
-  test_(test)
-{ }
 
 OptParse::~OptParse()
 {}
