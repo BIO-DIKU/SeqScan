@@ -25,7 +25,7 @@
 #include "modifiers.h"
 #include "pu/composite_unit.h"
 #include "pu/backtrack_unit.h"
-#include "pu/tnfa_unit.h"
+#include "pu/tnfa/tnfa_unit.h"
 #include "pu/repeat_unit.h"
 #include "pu/reference_unit.h"
 #include "pu/range_unit.h"
@@ -77,10 +77,9 @@ int main(int argc, char** argv) {
 
   */
 
-  /*
   // Set up test pattern "AAAAAAA/1,1,0 CCCCCCC"
   Modifiers m0 = Modifiers::CreateMIDModifiers(1, 1, 0);
-//  unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AAAAAAA"));
+  //unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AAAAAAA"));
   unique_ptr <PatternUnit> pu0(new TNFAUnit(m0, "AAAAAAA"));
   Modifiers m1 = Modifiers::CreateStdModifiers();
   unique_ptr <PatternUnit> pu1(new BacktrackUnit(m1, "CCCCCCC"));
@@ -89,7 +88,6 @@ int main(int argc, char** argv) {
   unique_ptr<CompositeUnit> pu( new CompositeUnit(m) );
   pu->AddUnit(pu0);
   pu->AddUnit(pu1);
-  */
 
   /*
   string sequence = "TTTAAATCCCTTT";
@@ -152,7 +150,7 @@ int main(int argc, char** argv) {
   */
 
   // Set up test pattern "p1=24..48 (24..48 p1){2,}"
-  Modifiers m0(0,0,0,0,0,false,false,false,"p1");
+  /*Modifiers m0(0,0,0,0,0,false,false,false,"p1");
   unique_ptr <PatternUnit> pu0(new RangeUnit(m0, 24, 48));
 
   Modifiers m1 = Modifiers::CreateStdModifiers();
@@ -174,7 +172,7 @@ int main(int argc, char** argv) {
   unique_ptr<CompositeUnit> pu( new CompositeUnit(mod_top) );
   pu->AddUnit(pu0);
   pu->AddUnit(pu4);
-
+  */
 
   if(argc>1){
     const string fname = argv[argc-1];

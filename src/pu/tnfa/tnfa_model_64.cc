@@ -18,37 +18,35 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "tnfa_unit.h"
-#include "tnfa_start_state.h"
-#include "tnfa_final_state.h"
+#include "tnfa_model_64.h"
+#include "tnfa_start_state_64.h"
+#include "tnfa_final_state_64.h"
 
-TNFAUnit::TNFAUnit(const Modifiers &modifiers,
-                   const std::string& pattern) :
-  PatternUnit(modifiers),
-  pattern_(pattern),
+TNFAModel64::TNFAModel64(const Modifiers &modifiers,
+                         const std::string& pattern) :
+  TNFAModel(pattern),
   startState_(nullptr),
-  errorCode_{ 0, 0, 0, 0, 0, 0, 0, 0 },
-  listID_(0)
+  errorCode_(0)
 {
-  TNFAState *currentState;
+  TNFAState64 *currentState;
   ModifiersToErrorCode(modifiers);
 
   // Set up states
-  startState_ = currentState = new TNFAStartState( errorCode_ );
+  startState_ = currentState = new TNFAStartState64( errorCode_ );
   for (char c : pattern_) {
-    currentState->setOutPtr(new TNFAState( c ));
+    currentState->setOutPtr(new TNFAState64( c ));
     currentState = currentState->getOutPtr();
   }
-  currentState->setOutPtr(new TNFAFinalState(pattern.length()
-                                             + modifiers.insertions_
-                                             - modifiers.deletions_,
-                                             modifiers.mismatches_ +
-                                             modifiers.deletions_ +
-                                             modifiers.insertions_
-                                             ));
+  currentState->setOutPtr(new TNFAFinalState64(pattern.length()
+                                               + modifiers.insertions_
+                                               - modifiers.deletions_,
+                                               modifiers.mismatches_ +
+                                               modifiers.deletions_ +
+                                               modifiers.insertions_
+                                               ));
 }
 
-void TNFAUnit::Initialize(std::string::const_iterator pos,
+void TNFAModel64::Initialize(std::string::const_iterator pos,
                                   std::string::const_iterator max_pos,
                                   bool stay_at_pos ) {
   sequence_iterator_ = pos;
@@ -58,7 +56,7 @@ void TNFAUnit::Initialize(std::string::const_iterator pos,
   stateLists_[ 0 ].clear();
   stateLists_[ 1 ].clear();
   listNo_ = ++listID_ % 2;
-  startState_->addToList(TNFAState::newCode,
+  startState_->addToList(0,
                          listNo_,
                          sequence_iterator_,
                          stateLists_,
@@ -66,7 +64,7 @@ void TNFAUnit::Initialize(std::string::const_iterator pos,
                          listID_);
 }
 
-bool TNFAUnit::FindMatch() {
+bool TNFAModel64::FindMatch() {
 
   if (!matches.empty()) {
     matches.pop_back();
@@ -79,10 +77,15 @@ bool TNFAUnit::FindMatch() {
   for (; sequence_iterator_ != sequence_iterator_end_ && matchMap_.empty();
        sequence_iterator_++)
   {
+    while (*sequence_iterator_ == 'N')
+      if( ++sequence_iterator_ == sequence_iterator_end_ )
+        return false;
+      
+
     stateLists_[listNo_ = ++listID_ % 2].clear();
 
     if(!stay_at_pos_) {
-      startState_->addToList(TNFAState::newCode,
+      startState_->addToList(0,
                              listNo_,
                              sequence_iterator_,
                              stateLists_,
@@ -90,7 +93,7 @@ bool TNFAUnit::FindMatch() {
                              listID_);
     }
 
-    for (TNFAState *s : stateLists_[!listNo_]) {
+    for (TNFAState64 *s : stateLists_[!listNo_]) {
       s->addOutStates(listNo_,
                       sequence_iterator_,
                       stateLists_,
@@ -107,25 +110,16 @@ bool TNFAUnit::FindMatch() {
   return !matches.empty();
 }
 
-void TNFAUnit::ModifiersToErrorCode(const Modifiers &modifiers) {
-  for (int c = 0; c < TNFAState::kErrorCodeBits; c++) {
-    if (TNFAState::counterToMismatches(c) <= modifiers.mismatches_ &&
-        TNFAState::counterToDeletions(c)  <= modifiers.deletions_  &&
-        TNFAState::counterToInsertions(c) <= modifiers.insertions_)
+void TNFAModel64::ModifiersToErrorCode(const Modifiers &modifiers) {
+  for (int c = 0; c < TNFAState64::kErrorCodeBits; c++) {
+    if (TNFAState64::counterToMismatches(c) <= modifiers.mismatches_ &&
+        TNFAState64::counterToDeletions(c)  <= modifiers.deletions_  &&
+        TNFAState64::counterToInsertions(c) <= modifiers.insertions_)
     {
-      errorCode_[ TNFAState::counterToInsertions(c) ] += (uint64_t) 1 << c % 64;
+      errorCode_ += (uint64_t) 1 << c;
     }
   }
 }
 
-const Match& TNFAUnit::GetMatch() const
+const Match& TNFAModel64::GetMatch() const
 { return matches.back(); }
-
-std::ostream& TNFAUnit::Print(std::ostream &os) const
-{
-  modifiers_.PrintPUPrefix(os);
-  os<<pattern_;
-  modifiers_.PrintPUSuffix(os);
-
-  return os;
-}

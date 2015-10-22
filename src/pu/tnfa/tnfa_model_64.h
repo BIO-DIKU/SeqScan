@@ -18,38 +18,37 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_PU_TNFA_FINAL_STATE_H_
-#define SEQSCAN_PU_TNFA_FINAL_STATE_H_
+#ifndef SEQSCAN_PU_TNFA_MODEL_64_H_
+#define SEQSCAN_PU_TNFA_MODEL_64_H_
 
-#include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
+#include <unordered_map>
 
-#include "tnfa_state.h"
+#include "tnfa_state_64.h"
+#include "tnfa_model.h"
 
-
-class TNFAFinalState : public TNFAState {
+class TNFAModel64 : public TNFAModel {
 public:
 
-  TNFAFinalState(int len, int edits);
+  TNFAModel64(const Modifiers &modifiers, const std::string& pattern);
 
-  void addEpsilonTransitions(bool,
-                             std::string::const_iterator,
-                             std::vector< TNFAState * > [2],
-                             std::unordered_map<int, int> &,
-                             uint32_t);
+  void Initialize(std::string::const_iterator pos,
+                  std::string::const_iterator max_pos,
+                  bool stay_at_pos = false);
 
-  void addOutStates(bool,
-                    std::string::const_iterator,
-                    std::vector< TNFAState * > [2],
-                    std::unordered_map<int, int> &,
-                    uint32_t);
+  bool FindMatch();
+
+  const Match& GetMatch() const;
+
+  // Create error codes from m,i,d modifiers
+  void ModifiersToErrorCode(const Modifiers &modifiers);
+
+  std::ostream& Print(std::ostream &os) const;
 private:
-
-  int patternLength_;
-
-  int maxEdits_;
-
+  TNFAState64                  *startState_;
+  uint64_t                     errorCode_;
+  std::vector< TNFAState64 * > stateLists_[ 2 ];
 };
 
-#endif  // SEQSCAN_PU_TNFA_FINAL_STATE_H_
+#endif  // SEQSCAN_PU_TNFA_MODEL_64_H_

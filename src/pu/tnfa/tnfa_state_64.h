@@ -18,33 +18,33 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_PU_TNFA_STATE_H_
-#define SEQSCAN_PU_TNFA_STATE_H_
+#ifndef SEQSCAN_PU_TNFA_STATE_64_H_
+#define SEQSCAN_PU_TNFA_STATE_64_H_
 
 #include <inttypes.h>
 #include <vector>
 #include <string>
 #include <unordered_map>
 
-#include "../match.h"
+#include "../../match.h"
 
-class TNFAState {
+class TNFAState64 {
  public:
   /*
    * Create a state on given character
    */
-  TNFAState(char);
+  TNFAState64(char);
 
-  void setOutPtr(TNFAState *);  // Set pointer to outgoing state
-  TNFAState *getOutPtr();       // Get pointer to outgoing state
+  void setOutPtr(TNFAState64 *);  // Set pointer to outgoing state
+  TNFAState64 *getOutPtr();       // Get pointer to outgoing state
 
   /*
    * Add this state to the new state list
    */
-  void addToList(uint64_t[8],
+  void addToList(uint64_t,
                  bool,
                  std::string::const_iterator,
-                 std::vector< TNFAState * > [2],
+                 std::vector< TNFAState64 * > [2],
                  std::unordered_map<int, int> &,
                  uint32_t);
 
@@ -53,7 +53,7 @@ class TNFAState {
    * Only transitions "eating" a character from the input string are considered.
    */
   virtual void addOutStates(bool, std::string::const_iterator,
-                            std::vector< TNFAState * > [2],
+                            std::vector< TNFAState64 * > [2],
                             std::unordered_map<int, int> &,
                             uint32_t);
 
@@ -62,31 +62,30 @@ class TNFAState {
    * This is the complementary function to addOutStates().
    */
   virtual void addEpsilonTransitions(bool, std::string::const_iterator,
-                                     std::vector< TNFAState * > [],
+                                     std::vector< TNFAState64 * > [],
                                      std::unordered_map<int, int> &,
                                      uint32_t);
 
   // Show some info for current State. Mainly used for debugging.
   virtual void display(bool);
 
-  static uint64_t newCode[8];
-  static const int kErrorCodeBits = 512;
+  static const int kErrorCodeBits = 64;
   // TODO(Sune): The following functions should probably also be static
-  bool mismatches(uint64_t[8]);  // Are mismatches allowed
-  bool insertions(uint64_t[8]);  // Are insertions allowed
-  bool deletions(uint64_t[8]);   // Are deletions allowed
-  uint64_t *decrementMismatches(uint64_t[8]);  // Decr. mismatches in error code
-  uint64_t *decrementInsertions(uint64_t[8]);  // Decr. insertions in error code
-  uint64_t *decrementDeletions(uint64_t[8]);   // Decr. deletions  in error code
-  static inline int counterToMismatches( int cnt ) { return cnt & 7; }
-  static inline int counterToDeletions( int cnt )  { return (cnt & 0x38) / 8; }
-  static inline int counterToInsertions( int cnt ) { return (cnt & 0x1C0) / 64; }
+  bool mismatches(uint64_t);  // Are mismatches allowed
+  bool insertions(uint64_t);  // Are insertions allowed
+  bool deletions(uint64_t);   // Are deletions allowed
+  uint64_t decrementMismatches(uint64_t);  // Decr. mismatches in error code
+  uint64_t decrementInsertions(uint64_t);  // Decr. insertions in error code
+  uint64_t decrementDeletions(uint64_t);   // Decr. deletions  in error code
+  static inline int counterToMismatches( int cnt ) { return cnt & 3; }
+  static inline int counterToDeletions( int cnt )  { return (cnt & 0xC) / 4; }
+  static inline int counterToInsertions( int cnt ) { return (cnt & 0x30) / 16; }
   //   7  = 0b000000000111
   //0x38  = 0b000000111000
   //0x1C0 = 0b000111000000
 protected:
   char c;  // Character to be matched
-  TNFAState *out_;  // Outgoing state
+  TNFAState64 *out_;  // Outgoing state
 
   /*
    * Error codes are 64-bit integers that represent subsets of allowed errors
@@ -95,9 +94,9 @@ protected:
    * other is read. If only one error code was used race conditions could
    * arise.
    */
-  uint64_t errorCode_[2][8];
+  uint64_t errorCode_[2];
 
   uint32_t listID_; // Used to check if state is already added to list
 };
 
-#endif  // SEQSCAN_PU_TNFA_STATE_H_
+#endif  // SEQSCAN_PU_TNFA_STATE_64_H_
