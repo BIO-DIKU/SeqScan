@@ -59,14 +59,17 @@ add_library(libseqscan
   parser/parse_tree_unit.cpp
   parser/parse_tree_unit.h
   parser/seq_par.tab.hh
-        parser/seq_par.tab.cc
-  parser/lex.yy.c
+  parser/seq_par.tab.cc
+  parser/lex.yy.cc
 )
 
 set_target_properties( libseqscan PROPERTIES PREFIX "" )
 
+include_directories(${PROJECT_SOURCE_DIR})
+
 add_executable( seqscan run_seqscan.cc )
 target_link_libraries( seqscan libseqscan )
+
 
 # Test executable
 add_executable( seqscan_unittests 

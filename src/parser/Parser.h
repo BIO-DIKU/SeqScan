@@ -11,9 +11,9 @@
 #include "../pu/pattern_unit.h"
 #include "parse_tree_unit.h"
 #include "parse_tree_list.h"
+#include "seq_par.tab.hh"
 
 class Parser {
-
 public:
   Parser();
 
