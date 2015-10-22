@@ -13,7 +13,7 @@ using namespace std;
 /* DNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
 /* RNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
 /* Protein:  FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx */
-/* Combined: ABCDEFGHIKLMNPQRSTUVWXYabcdefghiklmnpqrstuvwyx /*
+/* Combined: ABCDEFGHIKLMNPQRSTUVWXYabcdefghiklmnpqrstuvwyx */
 
 /* All observed chars in README examples: */
 /* " $()*+,./01234568<=?ACDGHKNQRST[]^p{|}~" */
