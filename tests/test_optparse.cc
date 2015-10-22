@@ -48,11 +48,11 @@ TEST_CASE("OptParse have correct default option values", "[optparse]") {
   REQUIRE(opt_parse.options_.help           == false);
   REQUIRE(opt_parse.options_.complement     == OptParse::OptComplement::Forward);
   REQUIRE(opt_parse.options_.direction      == OptParse::OptDirection::Forward);
-  REQUIRE(opt_parse.options_.threads        == 1);
+  REQUIRE(opt_parse.options_.threads        == kDefaultThreads);
   REQUIRE(opt_parse.options_.score_encoding == OptParse::OptScoreEncoding::Phred33);
-  REQUIRE(opt_parse.options_.score_min      == 25);
+  REQUIRE(opt_parse.options_.score_min      == kDefaultScoreMin);
   REQUIRE(opt_parse.options_.ambiguate      == false);
-  REQUIRE(opt_parse.options_.match_type     == 1);
+  REQUIRE(opt_parse.options_.match_type     == kDefaultMatchType);
   REQUIRE(opt_parse.options_.overlap        == false);
   REQUIRE(opt_parse.options_.version        == false);
   REQUIRE(opt_parse.options_.verbose        == false);
