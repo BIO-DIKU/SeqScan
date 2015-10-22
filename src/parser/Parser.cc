@@ -17,8 +17,6 @@ using namespace std;
 
 
 extern "C" FILE *yyin;
-extern "C" FILE *yyin;
-extern "C++" int yyparse();
 extern ParseTreeList* par_list;
 
 Parser::Parser()
@@ -40,17 +38,22 @@ PatternUnit* Parser::final_parse(ParseTreeList* plist)
 ParseTreeList* Parser::first_parse(std::string raw_pattern)
 {
 
-  FILE* in = fopen(raw_pattern.c_str(),"r");
-  yyin = in;
-  yyparse();
-  do {
-    yyparse();
-  } while (!feof(yyin));
-  fclose(in);
+  //FILE* in = fopen(raw_pattern.c_str(),"r");
+  //yyin = in;
+  //yyparse();
+  //do {
+  //  yyparse();
+  //} while (!feof(yyin));
+  //fclose(in);
 
-  for (int i = 0; i < par_list->get_size(); i++) {
-    ParseTreeUnit* x = par_list->get_parse_unit(i);
-    par_list->get_parse_unit(i)->pprint();
+  //for (int i = 0; i < par_list->get_size(); i++) {
+  //  ParseTreeUnit* x = par_list->get_parse_unit(i);
+  //  par_list->get_parse_unit(i)->pprint();
+  //}
+
+  ParseTreeList* ret = seq_par_main();
+  for (int i = 0; i < ret->get_size(); i++) {
+    ret->get_parse_unit(i)->pprint();
   }
 
 

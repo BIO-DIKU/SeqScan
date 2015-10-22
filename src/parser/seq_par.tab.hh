@@ -33,6 +33,8 @@
 #ifndef YY_YY_SEQ_PAR_TAB_HH_INCLUDED
 # define YY_YY_SEQ_PAR_TAB_HH_INCLUDED
 /* Debug traces.  */
+#include "parse_tree_unit.h"
+
 #ifndef YYDEBUG
 # define YYDEBUG 0
 #endif
@@ -94,5 +96,7 @@ typedef union YYSTYPE YYSTYPE;
 extern YYSTYPE yylval;
 
 int yyparse (void);
+
+ParseTreeList* seq_par_main();
 
 #endif /* !YY_YY_SEQ_PAR_TAB_HH_INCLUDED  */

@@ -68,6 +68,8 @@ set_target_properties( libseqscan PROPERTIES PREFIX "" )
 include_directories(${PROJECT_SOURCE_DIR})
 
 add_executable( seqscan run_seqscan.cc )
+link_directories(/usr/local/opt/flex/lib)
+target_link_libraries( seqscan fl )
 target_link_libraries( seqscan libseqscan )
 
 
@@ -78,7 +80,7 @@ add_executable( seqscan_unittests
   ../tests/pu/test_backtrack_unit.cc
   ../tests/pu/test_composite_unit.cc
   ../tests/pu/test_tnfa_unit.cc)
-  
+
 target_link_libraries( seqscan_unittests libseqscan )
 
 enable_testing()

@@ -1,3 +1,4 @@
+
 %{
 #include <cstdio>
 #include <iostream>
@@ -23,6 +24,7 @@ map<string, ParseTreeUnit*> vtable;
 map<string, ParseTreeUnit*>::iterator vtab_it;
 %}
 
+%option c++
 /* Defining token types */
 %union {
   int inval;

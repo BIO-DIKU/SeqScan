@@ -1813,24 +1813,20 @@ yyreturn:
 /* Double '%' ends parser grammer section, and begins C code section */
 
 
-/*
-int main(int, char**) {
+
+ParseTreeList* seq_par_main() {
   FILE *myfile = fopen("input.txt", "r");
   if (!myfile) {
     cout << "cannot open input.txt\n";
-    return -1;
+    return NULL;
   }
   yyin = myfile;
   do {
     yyparse();
   } while (!feof(yyin));
-  for (int i = 0; i < par_list->get_size(); i++) {
-    ParseTreeUnit* x = par_list->get_parse_unit(i);
-    par_list->get_parse_unit(i)->pprint();
-  }
-  check_sanity(par_list);
+  return par_list;
 }
-*/
+
 void yyerror(const char *s) {
   cout << "EEK, parse error!  Message: " << s << endl;
   exit(-1);

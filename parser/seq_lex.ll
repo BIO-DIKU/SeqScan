@@ -5,6 +5,8 @@
 #include "seq_par.tab.hh"
 %}
 
+%option c++
+
 /* Double '%' initiates lexer rules section */
 /* DNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
 /* RNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
