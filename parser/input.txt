@@ -1,1 +1,1 @@
-(T ~AC)|ACT{4,7}? [^ATTG]
+p1=AGT{3,4} GGGA/1,4,2
