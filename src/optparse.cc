@@ -122,7 +122,7 @@ void OptParse::Parse() {
         options_.verbose = true;
         break;
       default:
-        string msg = "Unexpected argument: ->" + string(optarg) + "<-";
+        string msg = "Unexpected argument: ->" + string(1,(char)opt) + "<-";
         throw OptParseException(msg);
     }
   }

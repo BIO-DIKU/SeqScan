@@ -25,13 +25,12 @@
 
 using namespace std;
 
-// TODO(Someone): Fix this test which causes Segfault.
-// TEST_CASE("OptParse with bad option raises", "[optparse]") {
-//   int        argc    = 4;
-//   const char *argv[] = {"seqscan", "-p", "ATC", "-X"};
-//
-//   REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv, true), OptParseException);
-// }
+TEST_CASE("OptParse with bad option raises", "[optparse]") {
+  int        argc    = 4;
+  const char *argv[] = {"seqscan", "-p", "ATC", "-X"};
+
+  REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv, true), OptParseException);
+}
 
 TEST_CASE("OptParse have correct default option values", "[optparse]") {
   int   argc         = 4;
