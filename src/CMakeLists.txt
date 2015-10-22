@@ -25,14 +25,17 @@ endif()
 add_library(libseqscan
   match.h
   modifiers.h
+  optparse.h
   pu/pattern_unit.h
   pu/composite_unit.h
   pu/backtrack_unit.h
   pu/tnfa/tnfa_unit.h
 
+  match.cc
+  modifiers.cc 
+  optparse.cc
   pu/pattern_unit.cc
   pu/composite_unit.cc
-  modifiers.cc 
   pu/backtrack_unit.cc 
   pu/tnfa/tnfa_unit.cc
   pu/tnfa/tnfa_model_64.cc
@@ -54,6 +57,7 @@ target_link_libraries( seqscan libseqscan )
 add_executable( seqscan_unittests 
   ../tests/run_tests.cc
   ../tests/test_fuzzy_sequence.cc
+  ../tests/test_optparse.cc
   ../tests/pu/test_backtrack_unit.cc
   ../tests/pu/test_composite_unit.cc
   ../tests/pu/test_tnfa_unit.cc)
