@@ -75,7 +75,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 31 "seq_par.yy" /* yacc.c:1909  */
+#line 27 "seq_par.yy" /* yacc.c:1909  */
 
   int inval;
   char* stval;

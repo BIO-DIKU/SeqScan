@@ -66,13 +66,9 @@
 
 #include <cstdio>
 #include <iostream>
-//#include "parse_tree_list.h"
-#include "sanity_check.h"
 using namespace std;
-#include "../src/modifiers.h"
-#include "../src/match.h"
-#include "../src/pu/backtrack_unit.h"
-#include "punit_list.h"
+#include "parser/parse_tree_list.h"
+#include "parser/parse_tree_unit.h"
 #include <utility>
 #include <vector>
 #include <map>
@@ -91,7 +87,7 @@ ParseTreeList* par_list = new ParseTreeList();
 map<string, ParseTreeUnit*> vtable;
 map<string, ParseTreeUnit*>::iterator vtab_it;
 
-#line 95 "seq_par.tab.cc" /* yacc.c:339  */
+#line 91 "seq_par.tab.cc" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -156,14 +152,14 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 31 "seq_par.yy" /* yacc.c:355  */
+#line 27 "seq_par.yy" /* yacc.c:355  */
 
   int inval;
   char* stval;
   class ParseTreeUnit* panit;
   class ParseTreeList* palis;
 
-#line 167 "seq_par.tab.cc" /* yacc.c:355  */
+#line 163 "seq_par.tab.cc" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -178,7 +174,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 182 "seq_par.tab.cc" /* yacc.c:358  */
+#line 178 "seq_par.tab.cc" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -477,10 +473,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    55,    55,    59,    62,    67,    71,    75,    81,    86,
-      90,    95,    99,   109,   121,   127,   132,   137,   143,   152,
-     155,   159,   161,   163,   169,   171,   173,   175,   177,   181,
-     185,   192,   196,   199,   203,   207,   211,   214,   217
+       0,    51,    51,    55,    58,    63,    67,    71,    77,    82,
+      86,    91,    95,   105,   117,   123,   128,   133,   139,   148,
+     151,   155,   157,   159,   165,   167,   169,   171,   173,   177,
+     181,   188,   192,   195,   199,   203,   207,   210,   213
 };
 #endif
 
@@ -1290,86 +1286,86 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 55 "seq_par.yy" /* yacc.c:1646  */
+#line 51 "seq_par.yy" /* yacc.c:1646  */
     { par_list = (yyvsp[0].palis); }
-#line 1296 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1292 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 59 "seq_par.yy" /* yacc.c:1646  */
+#line 55 "seq_par.yy" /* yacc.c:1646  */
     { (yyvsp[-2].palis)->push_back((yyvsp[0].panit));
                                            (yyval.palis) = (yyvsp[-2].palis); }
-#line 1303 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1299 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 62 "seq_par.yy" /* yacc.c:1646  */
+#line 58 "seq_par.yy" /* yacc.c:1646  */
     { (yyvsp[-1].panit)->start_anchor_ = true;
                                            (yyvsp[-1].panit)->end_anchor_ = true;
                                            par_list->push_back((yyvsp[-1].panit));
                                            (yyval.palis) = par_list; }
-#line 1312 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1308 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 67 "seq_par.yy" /* yacc.c:1646  */
+#line 63 "seq_par.yy" /* yacc.c:1646  */
     { (yyvsp[0].panit)->start_anchor_ = true;
                                            par_list->push_back((yyvsp[0].panit));
                                            (yyval.palis) = par_list; }
-#line 1320 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1316 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 71 "seq_par.yy" /* yacc.c:1646  */
+#line 67 "seq_par.yy" /* yacc.c:1646  */
     { (yyvsp[-1].panit)->end_anchor_ = true;
                                            par_list->push_back((yyvsp[-1].panit));
                                            (yyval.palis) = par_list; }
-#line 1328 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1324 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 75 "seq_par.yy" /* yacc.c:1646  */
+#line 71 "seq_par.yy" /* yacc.c:1646  */
     { par_list->push_back((yyvsp[0].panit));
                                            (yyval.palis) = par_list; }
-#line 1335 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1331 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 81 "seq_par.yy" /* yacc.c:1646  */
+#line 77 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->type_ = 7;
                                            cur_unit->group_greedy_ = true;
                                            (yyval.panit) = cur_unit;
                                            cur_unit = new ParseTreeUnit(); }
-#line 1344 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1340 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 86 "seq_par.yy" /* yacc.c:1646  */
+#line 82 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->type_ = 7;
                                            (yyval.panit) = cur_unit;
                                            cur_unit = new ParseTreeUnit(); }
-#line 1352 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1348 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 90 "seq_par.yy" /* yacc.c:1646  */
+#line 86 "seq_par.yy" /* yacc.c:1646  */
     { ParseTreeUnit* unit = new ParseTreeUnit();
                                            unit->composite_ = (yyvsp[-1].palis);
                                            unit->type_ = 3;
                                            (yyval.panit) = unit; }
-#line 1361 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1357 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 95 "seq_par.yy" /* yacc.c:1646  */
+#line 91 "seq_par.yy" /* yacc.c:1646  */
     { (yyvsp[0].panit)->type_ = 4;
                                            vtable[(yyvsp[-2].stval)] = (yyvsp[0].panit);
                                            (yyval.panit) = (yyvsp[0].panit); }
-#line 1369 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1365 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 99 "seq_par.yy" /* yacc.c:1646  */
+#line 95 "seq_par.yy" /* yacc.c:1646  */
     { vtab_it = vtable.find((yyvsp[-1].stval));
                                            if (vtab_it != vtable.end()) {
                                              cur_unit->type_ = 5;
@@ -1379,11 +1375,11 @@ yyreduce:
                                                cout << "Unknown pattern unit: " << (yyvsp[-1].stval) << "\n";
                                                return -1;
                                            } }
-#line 1383 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1379 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 109 "seq_par.yy" /* yacc.c:1646  */
+#line 105 "seq_par.yy" /* yacc.c:1646  */
     { vtab_it = vtable.find((yyvsp[-1].stval));
                                            if (vtab_it != vtable.end()) {
                                              cur_unit->type_ = 5;
@@ -1393,195 +1389,195 @@ yyreduce:
                                                cout << "Unknown pattern unit: " << (yyvsp[-1].stval) << "\n";
                                                return -1;
                                            } }
-#line 1397 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1393 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 121 "seq_par.yy" /* yacc.c:1646  */
+#line 117 "seq_par.yy" /* yacc.c:1646  */
     { ParseTreeUnit* unit = new ParseTreeUnit();
                                            unit->init_or_units();
                                            unit->type_ = 6;
                                            unit->insert_or_units((yyvsp[-2].panit), (yyvsp[0].panit));
                                            (yyval.panit) = unit; }
-#line 1407 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1403 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 127 "seq_par.yy" /* yacc.c:1646  */
+#line 123 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->sequence_ = (yyvsp[-1].stval);
                                            cur_unit->type_ = 1;
                                            (yyval.panit) = cur_unit;
                                            cur_unit = new ParseTreeUnit(); }
-#line 1416 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1412 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 132 "seq_par.yy" /* yacc.c:1646  */
+#line 128 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->sequence_ = (yyvsp[-1].stval);
                                            cur_unit->type_ = 1;
                                            (yyval.panit) = cur_unit;
                                            cur_unit = new ParseTreeUnit(); }
-#line 1425 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1421 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 137 "seq_par.yy" /* yacc.c:1646  */
+#line 133 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->type_ = 2;
                                            cur_unit->range_min_ = (yyvsp[-4].inval);
                                            cur_unit->range_max_ = (yyvsp[0].inval);
                                            (yyval.panit) = cur_unit;
                                            cur_unit = new ParseTreeUnit(); }
-#line 1435 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1431 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 143 "seq_par.yy" /* yacc.c:1646  */
+#line 139 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->type_ = 2;
                                            cur_unit->range_min_ = (yyvsp[-3].inval);
                                            cur_unit->range_max_ = (yyvsp[0].inval); 
                                            (yyval.panit) = cur_unit;
                                            cur_unit = new ParseTreeUnit(); }
-#line 1445 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1441 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 152 "seq_par.yy" /* yacc.c:1646  */
+#line 148 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->group_not_ = true;
                                            cur_unit->group_ = (yyvsp[0].stval); }
-#line 1452 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1448 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 155 "seq_par.yy" /* yacc.c:1646  */
+#line 151 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->group_ = (yyvsp[0].stval); }
-#line 1458 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1454 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 159 "seq_par.yy" /* yacc.c:1646  */
+#line 155 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->complement_ = true; }
-#line 1464 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1460 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 161 "seq_par.yy" /* yacc.c:1646  */
+#line 157 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->reverse_ = true; }
-#line 1470 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1466 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 163 "seq_par.yy" /* yacc.c:1646  */
+#line 159 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->complement_ = true;
                                            cur_unit->reverse_ = true; }
-#line 1477 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1473 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 169 "seq_par.yy" /* yacc.c:1646  */
+#line 165 "seq_par.yy" /* yacc.c:1646  */
     { ; }
-#line 1483 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1479 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 171 "seq_par.yy" /* yacc.c:1646  */
+#line 167 "seq_par.yy" /* yacc.c:1646  */
     { ; }
-#line 1489 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1485 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 173 "seq_par.yy" /* yacc.c:1646  */
+#line 169 "seq_par.yy" /* yacc.c:1646  */
     { ; }
-#line 1495 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1491 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 175 "seq_par.yy" /* yacc.c:1646  */
+#line 171 "seq_par.yy" /* yacc.c:1646  */
     { ; }
-#line 1501 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1497 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 177 "seq_par.yy" /* yacc.c:1646  */
+#line 173 "seq_par.yy" /* yacc.c:1646  */
     { ; }
-#line 1507 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1503 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 181 "seq_par.yy" /* yacc.c:1646  */
+#line 177 "seq_par.yy" /* yacc.c:1646  */
     { (yyvsp[-2].palis)->push_back((yyvsp[0].panit));
                                            cur_unit = new ParseTreeUnit();
                                            (yyval.palis) = (yyvsp[-2].palis); }
-#line 1515 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1511 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 185 "seq_par.yy" /* yacc.c:1646  */
+#line 181 "seq_par.yy" /* yacc.c:1646  */
     { ParseTreeList* units = new ParseTreeList();
                                            units->push_back((yyvsp[0].panit));
                                            cur_unit = new ParseTreeUnit();
                                            (yyval.palis) = units; }
-#line 1524 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1520 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 192 "seq_par.yy" /* yacc.c:1646  */
+#line 188 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->mis_ = (yyvsp[-4].inval); 
                                            cur_unit->ins_ = (yyvsp[-2].inval); 
                                            cur_unit->del_ = (yyvsp[0].inval); }
-#line 1532 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1528 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 196 "seq_par.yy" /* yacc.c:1646  */
+#line 192 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->mis_ = (yyvsp[-2].inval); 
                                            cur_unit->indel_ = (yyvsp[0].inval); }
-#line 1539 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1535 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 199 "seq_par.yy" /* yacc.c:1646  */
+#line 195 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->edits_ = (yyvsp[0].inval); }
-#line 1545 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1541 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 203 "seq_par.yy" /* yacc.c:1646  */
+#line 199 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->min_repeats_ = (yyvsp[-4].inval); 
                                            cur_unit->max_repeats_ = (yyvsp[-2].inval);
                                            cur_unit->non_greedy_ = true; }
-#line 1553 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1549 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 207 "seq_par.yy" /* yacc.c:1646  */
+#line 203 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->min_repeats_ = (yyvsp[-3].inval);
                                            cur_unit->rep_open_ = true;
                                            cur_unit->non_greedy_ = true;  }
-#line 1561 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1557 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 211 "seq_par.yy" /* yacc.c:1646  */
+#line 207 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->min_repeats_ = (yyvsp[-3].inval); 
                                            cur_unit->max_repeats_ = (yyvsp[-1].inval); }
-#line 1568 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1564 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 214 "seq_par.yy" /* yacc.c:1646  */
+#line 210 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->min_repeats_ = (yyvsp[-2].inval);
                                            cur_unit->rep_open_ = true; }
-#line 1575 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1571 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 217 "seq_par.yy" /* yacc.c:1646  */
+#line 213 "seq_par.yy" /* yacc.c:1646  */
     { cur_unit->min_repeats_ = (yyvsp[-1].inval); }
-#line 1581 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1577 "seq_par.tab.cc" /* yacc.c:1646  */
     break;
 
 
-#line 1585 "seq_par.tab.cc" /* yacc.c:1646  */
+#line 1581 "seq_par.tab.cc" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1809,7 +1805,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 221 "seq_par.yy" /* yacc.c:1906  */
+#line 217 "seq_par.yy" /* yacc.c:1906  */
 
 
 /* Double '%' ends parser grammer section, and begins C code section */
