@@ -6,7 +6,7 @@ using namespace std;
 
 // Just flex stuff
 #define YY_DECL extern "C" int yylex()
-#include "seq_par.tab.h"
+#include "seq_par.tab.hh"
 %}
 
 /* Double '%' initiates lexer rules section */

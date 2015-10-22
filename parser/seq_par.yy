@@ -223,7 +223,7 @@ repeats:
 /* Double '%' ends parser grammer section, and begins C code section */
 
 
-
+/*
 int main(int, char**) {
   FILE *myfile = fopen("input.txt", "r");
   if (!myfile) {
@@ -240,7 +240,7 @@ int main(int, char**) {
   }
   check_sanity(par_list);
 }
-
+*/
 void yyerror(const char *s) {
   cout << "EEK, parse error!  Message: " << s << endl;
   exit(-1);
