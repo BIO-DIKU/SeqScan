@@ -1,9 +1,5 @@
 /* Initial C code is wrapped in '%{' */
 %{
-#include <iostream>
-#include "../src/pu/backtrack_unit.h"
-using namespace std;
-
 // Just flex stuff
 #define YY_DECL extern "C" int yylex()
 #include "seq_par.tab.hh"
