@@ -16,4 +16,4 @@ lexer:
 	flex $(LEXER_FILE)
 
 clean:
-	rm lex.yy.c seq_par.tab.c seq_par.tab.h $(BIN_FILE)
+	rm lex.yy.c seq_par.tab.cc seq_par.tab.hh $(BIN_FILE)

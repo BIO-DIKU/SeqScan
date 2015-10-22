@@ -58,7 +58,7 @@ add_library(libseqscan
   parser/parse_tree_list.h
   parser/parse_tree_unit.cpp
   parser/parse_tree_unit.h
-  parser/seq_par.tab.h
+  parser/seq_par.tab.hh
         parser/seq_par.tab.cc
   parser/lex.yy.c
 )
