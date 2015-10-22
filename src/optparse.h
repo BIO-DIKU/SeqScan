@@ -140,6 +140,11 @@ class OptParse {
    */
   void PrintUsage();
 
+  /*
+   * Print usage to stderr.
+   */
+  void PrintVersion();
+
  private:
   int  argc_;
   char **argv_;
@@ -156,14 +161,20 @@ class OptParse {
   void Parse();
 
   /*
-   * Throw exception on bad options or combination of same.
+   * Throw exception on bad options or combination of same. Returns true if
+   * check was OK.
    */
-  void OptCheck();
+  bool OptCheck();
 
   /*
    * Throw exception if both or neither pattern or pattern_file option is set.
    */
   void OptCheckPatternGiven();
+
+  /*
+   * Throws exception when no files given and help option is not set.
+   */
+  void OptCheckFilesGiven();
 
   /*
    * Array for holding option templates.

@@ -18,12 +18,12 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+#include "optparse.h"
+
 #include <getopt.h>
 #include <iostream>
 #include <string>
 #include <vector>
-
-#include "optparse.h"
 
 using namespace std;
 
@@ -126,8 +126,21 @@ void OptParse::Parse() {
   }
 }
 
-void OptParse::OptCheck() {
+bool OptParse::OptCheck() {
+  if (options_.help || argc_ == 1) {
+    PrintUsage();
+    return false;
+  }
+
+  if (options_.version) {
+    PrintVersion();
+    return false;
+  }
+
   OptCheckPatternGiven();
+  OptCheckFilesGiven();
+
+  return true;
 }
 
 void OptParse::OptCheckPatternGiven() {
@@ -138,6 +151,13 @@ void OptParse::OptCheckPatternGiven() {
 
   if (!options_.pattern.empty() && !options_.pattern_file.empty()) {
     string msg = "Error: both pattern and pattern_file given";
+    throw OptParseException(msg);
+  }
+}
+
+void OptParse::OptCheckFilesGiven() {
+  if (files_.empty()) {
+    string msg = "Error: no sequence files given";
     throw OptParseException(msg);
   }
 }
@@ -277,4 +297,8 @@ Usage: seqscan [options] <file(s)>
 
 Documentation: https://github.com/BIO-DIKU/SeqScan
 )USAGE" << endl;
+}
+
+void OptParse::PrintVersion() {
+  cerr << "123.2.23" << endl;  // TODO(Someone): Find a cannonical way to get version
 }
