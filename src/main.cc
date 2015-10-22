@@ -18,6 +18,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+#include <stdio.h>
 #include <cstdlib>
 // #include "optparse.h"
 // #include "pattern_io.h"
@@ -25,6 +26,7 @@
 // #include "match_matrix_io.h"
 
 int main(int argc, char *argv[]) {
+  printf("Hello World");
   // std::vector<std::string> patterns;
   // MatchMatrix match_matrix;
   //
