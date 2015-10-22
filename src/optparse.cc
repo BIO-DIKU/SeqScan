@@ -39,16 +39,9 @@ OptParse::OptParse(int argc, char *argv[]) :
 }
 
 OptParse::OptParse(int argc, char *argv[], bool test) :
-  argc_(argc),
-  argv_(argv),
-  test_(test),
-  files_(),
-  options_()
-{
-  SetOptDefaults();
-  Parse();
-  OptCheck();
-}
+  OptParse(argc, argv),
+  test_(test)
+{ }
 
 OptParse::~OptParse()
 {}
