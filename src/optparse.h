@@ -133,6 +133,11 @@ class OptParse {
   std::vector<std::string> files_;
 
   /*
+   * Flag indicating that instance is invoced from unit tests.
+   */
+  bool test_;
+
+  /*
    * Print options for debugging.
    */
   void PrintOptions();
