@@ -61,7 +61,7 @@ void OptParse::SetOptDefaults() {
 }
 
 void OptParse::Parse() {
-  optind        = 1; // Reset getopt status in case multiple OptParse objects are created
+  optind        = 0; // Reset getopt status in case multiple OptParse objects are created
   int opt_index = 0;
   int opt       = 0;
 
