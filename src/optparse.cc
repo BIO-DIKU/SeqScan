@@ -38,6 +38,18 @@ OptParse::OptParse(int argc, char *argv[]) :
   OptCheck();
 }
 
+OptParse::OptParse(int argc, char *argv[], bool test) :
+  argc_(argc),
+  argv_(argv),
+  test_(test),
+  files_(),
+  options_()
+{
+  SetOptDefaults();
+  Parse();
+  OptCheck();
+}
+
 OptParse::~OptParse()
 {}
 
@@ -245,6 +257,10 @@ const OptParse::OptScoreEncoding OptParse::ParseScoreEncoding(string optarg) {
 }
 
 void OptParse::PrintUsage() {
+  if (test_) {
+    return;
+  }
+
   cerr << R"USAGE(
 Usage: seqscan [options] <file(s)>
 
@@ -300,5 +316,9 @@ Documentation: https://github.com/BIO-DIKU/SeqScan
 }
 
 void OptParse::PrintVersion() {
+  if (test_) {
+    return;
+  }
+
   cerr << "123.2.23" << endl;  // TODO(Someone): Find a cannonical way to get version
 }

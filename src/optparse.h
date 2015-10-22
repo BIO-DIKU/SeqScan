@@ -66,11 +66,13 @@ class OptParseException : public std::exception {
  *
  * @param argc Command line argument count.
  * @param argv Command line argument C vector.
+ * @param test Flag indicating we are running unit tests.
  *
  */
 class OptParse {
  public:
   OptParse(int argc, char *argv[]);
+  OptParse(int argc, char *argv[], bool test);
 
   ~OptParse();
 
