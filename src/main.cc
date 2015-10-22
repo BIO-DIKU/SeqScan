@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "optparse.h"
 #include <cstdlib>
+#include "optparse.h"
 
 int main(int argc, char *argv[]) {
   OptParse opt_parse(argc, (char**)argv);
