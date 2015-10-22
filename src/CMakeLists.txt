@@ -33,6 +33,7 @@ add_library(libseqscan
   pu/tnfa_final_state.h
   pu/tnfa_start_state.h
 
+  main.cc
   pu/pattern_unit.cc
   pu/composite_unit.cc
   modifiers.cc 
