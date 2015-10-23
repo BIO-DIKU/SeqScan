@@ -48,8 +48,8 @@ void RepeatUnit::Initialize(
 bool RepeatUnit::FindMatch() {
   // Inner loop tries to find a match with current unit and increase to the
   // next unit. If this fails, the outer loop will decrease current unit.
-  for ( ; cur_repeat_ >=0; cur_repeat_-- ) {
-    for ( ; cur_repeat_ <max_repeats_; cur_repeat_++ ) {
+  for ( ; cur_repeat_ >= 0; cur_repeat_-- ) {
+    for ( ; cur_repeat_ < max_repeats_; cur_repeat_++ ) {
       if ( child_units_.at(cur_repeat_)->FindMatch() ) {
         // A match was found on the last of the punits. Success
         if (cur_repeat_ == max_repeats_) {
@@ -58,7 +58,7 @@ bool RepeatUnit::FindMatch() {
         }
 
         // Next loop iteration will FindMatch on next current_unit_. Create it if necessary
-        if (cur_repeat_ + 1 == child_units_.size()) {
+        if (cur_repeat_ + 1 == (int) child_units_.size()) {
           child_units_.push_back(std::move(
             std::unique_ptr<PatternUnit>(child_units_[cur_repeat_]->Clone())));
         }

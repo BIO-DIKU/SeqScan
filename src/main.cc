@@ -25,7 +25,8 @@
 // #include "match_matrix.h"
 // #include "match_matrix_io.h"
 
-int main(int argc, char *argv[]) {
+//int main(int argc, char *argv[]) {
+int main() {
   printf("Hello World");
   // std::vector<std::string> patterns;
   // MatchMatrix match_matrix;
