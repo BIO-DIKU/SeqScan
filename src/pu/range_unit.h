@@ -54,7 +54,7 @@ private:
   const unsigned int max_length_;
 
   std::vector< Match > matches_;
-  int cur_match_;
+  size_t cur_match_;
 };
 
 

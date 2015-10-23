@@ -32,11 +32,11 @@ OptParse::OptParse(int argc, char *argv[]) :
 }
 
 OptParse::OptParse(int argc, char *argv[], bool test) :
-  argc_(argc),
-  argv_(argv),
-  files_(),
   options_(),
-  test_(test)
+  files_(),
+  test_(test),
+  argc_(argc),
+  argv_(argv)
 {
   SetOptDefaults();
   Parse();
@@ -215,7 +215,7 @@ const char* OptParse::ScoreEncodingToString(OptScoreEncoding opt) {
   }
 }
 
-const OptParse::OptComplement OptParse::ParseComplement(string optarg) {
+OptParse::OptComplement OptParse::ParseComplement(string optarg) const {
   if (optarg == "forward") {
     return OptComplement::Forward;
   } else if (optarg == "reverse") {
@@ -228,7 +228,7 @@ const OptParse::OptComplement OptParse::ParseComplement(string optarg) {
   }
 }
 
-const OptParse::OptDirection OptParse::ParseDirection(string optarg) {
+OptParse::OptDirection OptParse::ParseDirection(string optarg) const {
   if (optarg == "forward") {
     return OptDirection::Forward;
   } else if (optarg == "reverse") {
@@ -239,7 +239,7 @@ const OptParse::OptDirection OptParse::ParseDirection(string optarg) {
   }
 }
 
-const OptParse::OptScoreEncoding OptParse::ParseScoreEncoding(string optarg) {
+OptParse::OptScoreEncoding OptParse::ParseScoreEncoding(string optarg) const {
   if (optarg == "Phred33") {
     return OptScoreEncoding::Phred33;
   } else if (optarg == "Phred64") {

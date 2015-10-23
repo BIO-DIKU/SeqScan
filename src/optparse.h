@@ -217,18 +217,18 @@ class OptParse {
   /*
    * Function for parsing complement option into enum OptComplement.
    */
-  const OptComplement ParseComplement(std::string optarg);
+  OptComplement ParseComplement(std::string optarg) const;
 
   /*
    * Function for parsing direction option into enum OptDirection.
    */
-  const OptDirection ParseDirection(std::string optarg);
+  OptDirection ParseDirection(std::string optarg) const;
 
   /*
    * Function for parsing score_encoding option into enum
    * OptScoreEncoding.
    */
-  const OptScoreEncoding ParseScoreEncoding(std::string optarg);
+  OptScoreEncoding ParseScoreEncoding(std::string optarg) const;
 
   /*
    * Function for converting OptComplement enum to string.

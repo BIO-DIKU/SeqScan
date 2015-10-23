@@ -70,10 +70,10 @@ private:
   std::vector< std::unique_ptr<PatternUnit> > child_units_;
 
   /// Minimum number of repeats
-  const size_t min_repeats_;
+  const int min_repeats_;
 
   /// Maximum number of repeats
-  const size_t max_repeats_;
+  const int max_repeats_;
 
   int cur_repeat_;
 

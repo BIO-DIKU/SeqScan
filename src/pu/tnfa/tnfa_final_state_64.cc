@@ -39,10 +39,10 @@ void TNFAFinalState64::addOutStates(bool listNo,
 }
 
 void TNFAFinalState64::addEpsilonTransitions(bool listNo,
-                                           string::const_iterator pos,
-                                           vector< TNFAState64 * > stateLists[],
+                                           string::const_iterator,
+                                           vector< TNFAState64 * >[],
                                            unordered_map<int, int> &matchMap,
-                                           uint32_t listID)
+                                           uint32_t)
 {
   // Find length and number of used edits for all matches
   int                matchLength = 0;
