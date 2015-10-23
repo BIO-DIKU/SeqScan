@@ -42,8 +42,8 @@ class PatternIOException : public std::exception {
   virtual const char* what() const throw() { return exceptionMsg.c_str(); }
 
   const std::string exceptionMsg;
-};
 
+};
 /**
 * @brief Class for parsing patterns from a given ASCII text file with one pattern
 * per line.
@@ -52,7 +52,7 @@ class PatternIOException : public std::exception {
 */
 class PatternIO {
  public:
-  PatternIO(std::string pat_file, std::vector<std::string> patterns);
+  PatternIO(std::string pat_file, std::vector<std::string>& patterns);
 
   ~PatternIO();
 
@@ -66,7 +66,7 @@ class PatternIO {
   /*
    * Vector of strings with patterns.
    */
-  std::vector<std::string> patterns_;
+  std::vector<std::string>& patterns_;
 
   /*
    * Parse pattern file.

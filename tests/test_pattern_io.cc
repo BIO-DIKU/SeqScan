@@ -55,15 +55,15 @@ TEST_CASE("PatternIO w OK file parses OK", "[pattern_io]") {
 
   ofstream output;
   output.open(file);
-  output << "p1=ATC"      << endl;
-  output << ""            << endl;
+  output << "p1=ATC" << endl;
+  output << "" << endl;
   output << "ATG ... TGA" << endl;
   output.close();
 
   PatternIO pat_parse(file, patterns);
 
   REQUIRE(patterns.front() == "p1=ATC");
-  REQUIRE(patterns.back()  == "ATG ... TGA");
+  REQUIRE(patterns.back() == "ATG ... TGA");
 
   remove(file.c_str());
 }
