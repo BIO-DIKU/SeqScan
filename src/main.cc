@@ -21,12 +21,9 @@
 #include <stdio.h>
 #include "optparse.h"
 #include "pattern_io.h"
-// #include "res_matcher.h"
-// #include "match_matrix_io.h"
 
 int main(int argc, char *argv[]) {
   std::vector<std::string> patterns;
-  // MatchMatrix match_matrix;
 
   OptParse opt_parse(argc, (char**)argv);
 
