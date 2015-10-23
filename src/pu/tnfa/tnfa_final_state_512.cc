@@ -39,14 +39,14 @@ void TNFAFinalState512::addOutStates(bool listNo,
 }
 
 void TNFAFinalState512::addEpsilonTransitions(bool listNo,
-                                           string::const_iterator pos,
-                                           vector< TNFAState512 * > stateLists[],
+                                           string::const_iterator,
+                                           vector< TNFAState512 * >[],
                                            unordered_map<int, int> &matchMap,
-                                           uint32_t listID)
+                                           uint32_t)
 {
   // Find length and number of used edits for all matches
-  int                matchLength = 0;
-  int                editsLeft   = 0;
+  int matchLength = 0;
+  int editsLeft   = 0;
 
   for (int c = kErrorCodeBits -1; c >= 0; c--) {
     // Check if relevant bit in error code is set

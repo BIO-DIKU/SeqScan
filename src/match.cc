@@ -61,7 +61,7 @@ std::ostream& Match::Print(std::ostream& os, const std::string::const_iterator& 
     }
 
   } else {
-    for (auto c = 0; c < sub_matches_.size(); c++) {
+    for (size_t c = 0; c < sub_matches_.size(); c++) {
       if (c > 0) os << ";";
 
       sub_matches_[c].Print(os, seq_start);
