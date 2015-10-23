@@ -32,8 +32,9 @@ int main(int argc, char *argv[]) {
 
   if (opt_parse.options_.verbose) {
     opt_parse.PrintVersion();
+    std::cerr << std::endl;
     opt_parse.PrintCommandLine();
-    std::cout << std::endl;
+    std::cerr << std::endl << std::endl;
     opt_parse.PrintOptions();
   }
 
