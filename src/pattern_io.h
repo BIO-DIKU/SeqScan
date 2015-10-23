@@ -52,7 +52,7 @@ class PatternIOException : public std::exception {
 */
 class PatternIO {
  public:
-  PatternIO(std::string pat_file, std::vector<std::string>& patterns);
+  PatternIO(std::string pat_file, std::vector<std::string> &patterns);
 
   ~PatternIO();
 
