@@ -51,6 +51,7 @@ FILE(GLOB HEADER_FILES src/*.h src/pu/*.h src/pu/tnfa/*.h)
 # http://stackoverflow.com/questions/16449676/remove-specific-file-from-cmake-build
 set(TEST_SOURCE_FILES ${SOURCE_FILES})
 list(REMOVE_ITEM TEST_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc)
+list(REMOVE_ITEM TEST_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/run_seqscan.cc)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_tests.cc)
 
 add_executable(seqscan ${SOURCE_FILES} ${HEADER_FILES})
