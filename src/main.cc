@@ -19,24 +19,24 @@
  */
 
 #include <stdio.h>
-#include <cstdlib>
-// #include "optparse.h"
+#include "optparse.h"
 // #include "pattern_io.h"
 // #include "match_matrix.h"
 // #include "match_matrix_io.h"
 
-//int main(int argc, char *argv[]) {
-int main() {
-  printf("Hello World");
+int main(int argc, char *argv[]) {
   // std::vector<std::string> patterns;
   // MatchMatrix match_matrix;
   //
-  // OptParse opt_parse(argc, (char**)argv);
-  //
-  // if (opt_parse.verbose) {
-  //   OptParse::PrintOptions();
-  // }
-  //
+  OptParse opt_parse(argc, (char**)argv);
+
+  if (opt_parse.options_.verbose) {
+    opt_parse.PrintVersion();
+    opt_parse.PrintCommandLine();
+    std::cout << std::endl;
+    opt_parse.PrintOptions();
+  }
+
   // if (opt_parse.pattern_file) {
   //   PatternIO.parse(const &opt_parse.pattern_file, patterns);
   // } else {

@@ -154,6 +154,11 @@ class OptParse {
    */
   void PrintVersion();
 
+  /*
+   * Print command line to stderr.
+   */
+  void PrintCommandLine();
+
  private:
   int  argc_;
   char **argv_;
