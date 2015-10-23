@@ -21,13 +21,13 @@
 #include <stdio.h>
 #include "optparse.h"
 #include "pattern_io.h"
-// #include "match_matrix.h"
+// #include "res_matcher.h"
 // #include "match_matrix_io.h"
 
 int main(int argc, char *argv[]) {
   std::vector<std::string> patterns;
   // MatchMatrix match_matrix;
-  //
+
   OptParse opt_parse(argc, (char**)argv);
 
   if (!opt_parse.options_.pattern_file.empty()) {
@@ -49,13 +49,6 @@ int main(int argc, char *argv[]) {
       std::cerr << "  " << it << std::endl;
     }
   }
-
-
-  // if (opt_parse.match_file) {
-  //   MatchMatrixIO.parse(const &opt_parse.match_file, match_matrix);
-  // } else {
-  //   match_matrix.generate(opt_parse.match_matrix);
-  // }
 
   return EXIT_SUCCESS;
 }
