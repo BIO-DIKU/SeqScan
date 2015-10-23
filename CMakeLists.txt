@@ -43,6 +43,8 @@ endif()
 
 # Executable
 # ------------------------
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 FILE(GLOB SOURCE_FILES src/*.cc src/pu/*.cc src/pu/tnfa/*.cc)
 FILE(GLOB HEADER_FILES src/*.h src/pu/*.h src/pu/tnfa/*.h)
 
