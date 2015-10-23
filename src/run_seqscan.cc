@@ -33,7 +33,7 @@
 
 using namespace std;
 
-int main(int argc, char** argv) {
+int main_X(int argc, char** argv) {
   /*
   // Example of setting up the seqscan pattern "AATCA/1,0,0 TTTTTTC"
   //Modifiers top_modifiers = Modifiers::CreateStdModifiers();
