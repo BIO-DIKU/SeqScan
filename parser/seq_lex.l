@@ -13,16 +13,16 @@ using namespace std;
 /* DNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
 /* RNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
 /* Protein:  FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx */
-/* Combined: ABCDEFGHIKLMNPQRSTUVWXYabcdefghiklmnpqrstuvwyx /*
+/* Combined: ABCDEFGHIKLMNPQRSTUVWXYabcdefghiklmnpqrstuvwyx */
 
 /* All observed chars in README examples: */
 /* " $()*+,./01234568<=?ACDGHKNQRST[]^p{|}~" */
 %%
 \                              { return SPACE; }
-\$                             { return DOLLAR; } // TODO(MartinWP) is DOLLAR correct?
+\$                             { return DOLLAR; } 
 \(                             { return LPAR; }
 \)                             { return RPAR; }
-\*                             { return MULTIPLY; } // TODO(MartinWP) is MULTIPLY correct?
+\*                             { return MULT; } 
 \+                             { return PLUS; }
 ,                              { return COMMA; }
 \.                             { return DOT; }

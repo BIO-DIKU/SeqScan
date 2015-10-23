@@ -23,7 +23,7 @@
 #include "tnfa_model_64.h"
 
 TNFAUnit::TNFAUnit(const Modifiers &modifiers, const std::string pattern)
-  : pattern_(pattern), PatternUnit(modifiers)
+  : PatternUnit(modifiers), pattern_(pattern)
 {
   if(modifiers.insertions_ > 3 || modifiers.insertions_ > 3 || modifiers.deletions_ > 3)
     model_ = new TNFAModel512(modifiers, pattern);
