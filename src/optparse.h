@@ -53,6 +53,8 @@ class OptParseException : public std::exception {
     exceptionMsg(e.exceptionMsg)
   {}
 
+  virtual const char* what() const throw() { return exceptionMsg.c_str(); }
+
   const std::string exceptionMsg;
 };
 
