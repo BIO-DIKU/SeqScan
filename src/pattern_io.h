@@ -28,9 +28,6 @@
  * @example
  *   std::string msg = "Exception message";
  *   throw PatternIOException(msg);
- *
- * @example
- *   throw PatternIOException("Exception message");
  */
 class PatternIOException : public std::exception {
  public:
@@ -54,15 +51,30 @@ class PatternIOException : public std::exception {
 * @param path Path to pattern file.
 */
 class PatternIO {
-  public:
-   PatternIO(const std::string &pat_file, std::vector<string> patterns);
+ public:
+  PatternIO(const std::string &pat_file, std::vector<std::string> patterns);
 
-   ~PatternIO();
+  ~PatternIO();
 
  private:
+
+  /*
+   * Path to pattern file.
+   */
+  const std::string pat_file_;
+
+  /*
+   * Vector of strings with patterns.
+   */
+  std::vector<std::string> patterns_;
 
   /*
    * Parse pattern file.
    */
   void Parse();
-}
+
+  /*
+   * Check if any patterns were parsed.
+   */
+  void CheckPatterns();
+};
