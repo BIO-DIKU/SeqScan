@@ -18,7 +18,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "tnfa_state.h"
+#include "tnfa_state_512.h"
 
 #include <iostream>
 #include <functional>
@@ -27,17 +27,17 @@
 using ::std::vector;
 using ::std::unordered_map;
 
-uint64_t TNFAState::newCode[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+uint64_t TNFAState512::newCode[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-TNFAState::TNFAState(char cInit) : c(cInit) {}
+TNFAState512::TNFAState512(char cInit) : c(cInit) {}
 
-void TNFAState::setOutPtr(TNFAState *out) { out_ = out; }
-TNFAState *TNFAState::getOutPtr() { return out_; }
+void TNFAState512::setOutPtr(TNFAState512 *out) { out_ = out; }
+TNFAState512 *TNFAState512::getOutPtr() { return out_; }
 
-void TNFAState::addToList(uint64_t e[8],
+void TNFAState512::addToList(uint64_t e[8],
                           bool listNo,
                           std::string::const_iterator pos,
-                          vector< TNFAState * > stateLists[2],
+                          vector< TNFAState512 * > stateLists[2],
                           unordered_map<int, int> &matchMap, uint32_t listID)
 {
   if (listID_ != listID) {
@@ -70,9 +70,9 @@ void TNFAState::addToList(uint64_t e[8],
   }
 }
 
-void TNFAState::addEpsilonTransitions(bool listNo,
+void TNFAState512::addEpsilonTransitions(bool listNo,
                                       std::string::const_iterator pos,
-                                      vector< TNFAState * > stateLists[],
+                                      vector< TNFAState512 * > stateLists[],
                                       unordered_map<int, int> &matchMap,
                                       uint32_t listID) {
   // Handle deletions
@@ -82,8 +82,8 @@ void TNFAState::addEpsilonTransitions(bool listNo,
   }
 }
 
-void TNFAState::addOutStates(bool listNo, std::string::const_iterator pos,
-                             vector< TNFAState * > stateLists[],
+void TNFAState512::addOutStates(bool listNo, std::string::const_iterator pos,
+                             vector< TNFAState512 * > stateLists[],
                              unordered_map<int, int> &matchMap, uint32_t listID) {
   // TODO(Sune): Handle lower/upper case with modifiers
   if (*pos == c) {
@@ -100,38 +100,38 @@ void TNFAState::addOutStates(bool listNo, std::string::const_iterator pos,
   }
 }
 
-void TNFAState::display(bool listNo) {
-  printf("TNFAState %p on %c points to %p with errorcode %llu\n", (void *) this,
+void TNFAState512::display(bool listNo) {
+  printf("TNFAState512 %p on %c points to %p with errorcode %llu\n", (void *) this,
          c, (void *) out_, errorCode_[!listNo][0]);
 }
 
-bool TNFAState::mismatches(uint64_t eCode[8]) {
+bool TNFAState512::mismatches(uint64_t eCode[8]) {
   return eCode[0] & 2;
 }
 
-bool TNFAState::deletions(uint64_t eCode[8]) {
+bool TNFAState512::deletions(uint64_t eCode[8]) {
   return eCode[ 0 ] & 0x100;
 }
 
-bool TNFAState::insertions(uint64_t eCode[8]) {
+bool TNFAState512::insertions(uint64_t eCode[8]) {
   return eCode[ 1 ] & 1;
 }
 
-uint64_t *TNFAState::decrementMismatches(uint64_t eCode[8]) {
+uint64_t *TNFAState512::decrementMismatches(uint64_t eCode[8]) {
   for (int i = 0; i < 8; i++ )
     newCode[i] = (eCode[i] & 0xFEFEFEFEFEFEFEFE) >> 1;
 
   return newCode;
 }
 
-uint64_t *TNFAState::decrementDeletions(uint64_t eCode[8]) {
+uint64_t *TNFAState512::decrementDeletions(uint64_t eCode[8]) {
   for (int i = 0; i < 8; i++)
     newCode[i] = (eCode[i] & 0xFFFFFFFFFFFFFF00) >> 8;
 
   return newCode;
 }
 
-uint64_t *TNFAState::decrementInsertions(uint64_t eCode[8]) {
+uint64_t *TNFAState512::decrementInsertions(uint64_t eCode[8]) {
   for (int i = 0; i < 7; i++ )
     newCode[i] = eCode[ i + 1 ];
 
