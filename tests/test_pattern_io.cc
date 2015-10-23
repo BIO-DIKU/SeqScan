@@ -30,37 +30,37 @@
 using namespace std;
 
 TEST_CASE("PatternIO w non-exiting file raises", "[pattern_io]") {
-  const string file = "pat_file";
+  string file = "pat_file";
   vector<string> patterns;
 
-  REQUIRE_THROWS_AS(PatternIO pat_parse(&file, patterns), PatternIOException);
+  REQUIRE_THROWS_AS(PatternIO pat_parse(file, patterns), PatternIOException);
 }
 
 TEST_CASE("PatternIO w empty file raises", "[pattern_io]") {
-  const string file = "pat_file";
+  string file = "pat_file";
   vector<string> patterns;
 
   ofstream output;
   output.open(file);
   output.close();
 
-  REQUIRE_THROWS_AS(PatternIO pat_parse(&file, patterns), PatternIOException);
+  REQUIRE_THROWS_AS(PatternIO pat_parse(file, patterns), PatternIOException);
 
   remove(file.c_str());
 }
 
 TEST_CASE("PatternIO w OK file parses OK", "[pattern_io]") {
-  const string file = "pat_file";
+  string file = "pat_file";
   vector<string> patterns;
 
   ofstream output;
   output.open(file);
-  output << "p1=ATC";
-  output << "";
-  output << "ATG ... TGA";
+  output << "p1=ATC"      << endl;
+  output << ""            << endl;
+  output << "ATG ... TGA" << endl;
   output.close();
 
-  PatternIO pat_parse(&file, patterns);
+  PatternIO pat_parse(file, patterns);
 
   REQUIRE(patterns.front() == "p1=ATC");
   REQUIRE(patterns.back()  == "ATG ... TGA");

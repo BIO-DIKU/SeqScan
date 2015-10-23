@@ -27,7 +27,7 @@
 
 using namespace std;
 
-PatternIO::PatternIO(const string &pat_file, vector<string> patterns) :
+PatternIO::PatternIO(string pat_file, vector<string> patterns) :
   pat_file_(pat_file),
   patterns_(patterns)
 {
