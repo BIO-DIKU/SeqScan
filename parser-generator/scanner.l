@@ -64,29 +64,32 @@
 %%
 
 
-[a-zA-Z]+   { 
-                return EzAquarii::Parser::make_STRING(yytext, EzAquarii::location( /* put location data here if you want */ )); 
-            }
-            
-\(          {
-                return EzAquarii::Parser::make_LEFTPAR(EzAquarii::location());
-            }
-            
-\)          { 
-                return EzAquarii::Parser::make_RIGHTPAR(EzAquarii::location());
-            }
-            
-            
-\           { 
-                return EzAquarii::Parser::make_SPACE(EzAquarii::location());
-            }
-            
-.           { 
-                cout << "Scanner: unknown character [" << yytext << "]" << endl; 
-            }
-            
-[\n\r]      { return EzAquarii::Parser::make_END(EzAquarii::location()); }
-<<EOF>>     { return EzAquarii::Parser::make_END(EzAquarii::location()); }
+[a-zA-Z]+   { return EzAquarii::Parser::make_STRING(yytext, EzAquarii::location());     }
+p[0-9]+     { return EzAquarii::Parser::make_LABEL(yytext, EzAquarii::location());      }
+[0-9]+      { uint64_t number = strtoull(yytext, 0, 10);
+              return EzAquarii::Parser::make_INT(number, EzAquarii::location());        }
+\           { return EzAquarii::Parser::make_SPACE(EzAquarii::location());              }
+\(          { return EzAquarii::Parser::make_LPAR(EzAquarii::location());               }
+\)          { return EzAquarii::Parser::make_RPAR(EzAquarii::location());               }
+\/          { return EzAquarii::Parser::make_SLASH(EzAquarii::location());              }
+\=          { return EzAquarii::Parser::make_EQUAL(EzAquarii::location());              }
+\*          { return EzAquarii::Parser::make_STAR(EzAquarii::location());               }
+\+          { return EzAquarii::Parser::make_PLUS(EzAquarii::location());               }
+\,          { return EzAquarii::Parser::make_COMMA(EzAquarii::location());              }
+\.          { return EzAquarii::Parser::make_DOT(EzAquarii::location());                }
+\[          { return EzAquarii::Parser::make_LBRACK(EzAquarii::location());             }
+\]          { return EzAquarii::Parser::make_RBRACK(EzAquarii::location());             }
+\^          { return EzAquarii::Parser::make_HAT(EzAquarii::location());                }
+\{          { return EzAquarii::Parser::make_LCURLY(EzAquarii::location());             }
+\}          { return EzAquarii::Parser::make_RCURLY(EzAquarii::location());             }
+\|          { return EzAquarii::Parser::make_OR(EzAquarii::location());                 }
+\~          { return EzAquarii::Parser::make_TILDE(EzAquarii::location());              }
+\<          { return EzAquarii::Parser::make_LESS(EzAquarii::location());               }
+
+
+.           { cerr << "Scanner: unknown character [" << yytext << "]" << endl;          }
+[\n\r]      { return EzAquarii::Parser::make_END(EzAquarii::location());                }
+<<EOF>>     { return EzAquarii::Parser::make_END(EzAquarii::location());                }
 
 
 %%

@@ -38,13 +38,12 @@ using std::endl;
 PTNode::PTNode(int type) :
 	node_type_(type)
 {
-	cout<<"PTNode("<<type<<")"<<endl;
 }
+
 PTNode::PTNode(const std::string &sequence):
-	node_type_(PTNode::SEQUENCE),
+	node_type_(PTNode::kSequence),
 	sequence_(sequence)
 {
-	cout<<"PTNode("<<node_type_<<")"<<endl;
 }
 
 PTNode::~PTNode()
@@ -57,22 +56,54 @@ PTNode::~PTNode()
 std::string PTNode::str() const {
     std::stringstream ts;
     ts << "PTNode[" << node_type_;
-
-	if(!children_.empty()){
-		ts<<",(";
     
-		for(size_t i = 0; i < children_.size(); i++) {
-			if(i>0) ts<<" ";
+    if(!label_.empty())
+      ts << ",lbl=" << label_;
 
-			ts<<children_[i]->str();
-		}
-		ts<<")";
-	}
-	if(node_type_==PTNode::SEQUENCE){
-		ts<<",seq="<<sequence_;
-	}
+    if(!children_.empty()){
+      ts<<",(";
+
+      for(size_t i = 0; i < children_.size(); i++) {
+        if(i>0) ts<<" ";
+
+        ts<<children_[i]->str();
+      }
+      ts<<")";
+    }
+    if(node_type_==PTNode::kSequence){
+      ts<<",seq="<<sequence_;
+    }
+    if(node_type_==PTNode::kRepeat){
+      ts<<",rep={"<<min_repeats_<<","<<max_repeats_<<"}";
+    }
+    if(node_type_==PTNode::kReference){
+      ts<<",ref="<<referenced_label_;
+    }
     
-    ts << "]";
+    std::string pre = pre_modifier_.str();
+    if(!pre.empty())
+      ts << ",pre_mod="<<pre;
+
+    std::string suf = modifier_.str();
+    if(!suf.empty())
+      ts << ",suf_mod="<<suf;
+
+    ts<<"]";
     return ts.str();
+}
+
+void PTNode::add_modifier(PTSufModifier* m)
+{
+  modifier_.mismatches_  += m->mismatches_;
+  modifier_.insertions_  += m->insertions_;
+  modifier_.deletions_   += m->deletions_;
+  modifier_.indels_      += m->indels_;
+  modifier_.errors_      += m->errors_;
+}
+
+void PTNode::add_modifier(PTPreModifier* m)
+{
+  pre_modifier_.reverse_    = m->reverse_;
+  pre_modifier_.complement_ = m->complement_;
 }
 

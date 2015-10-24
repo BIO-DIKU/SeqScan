@@ -37,19 +37,19 @@
 %define api.namespace { EzAquarii }
 %code requires
 {
-    #include <iostream>
-    #include <string>
-    #include <vector>
-    #include <stdint.h>
-    #include "command.h"
-    #include "ptnode.h"
+  #include <iostream>
+  #include <string>
+  #include <vector>
+  #include <stdint.h>
+  #include "command.h"
+  #include "ptnode.h"
 
-    using namespace std;
+  using namespace std;
 
-    namespace EzAquarii {
-        class Scanner;
-        class Interpreter;
-    }
+  namespace EzAquarii {
+      class Scanner;
+      class Interpreter;
+  }
 }
 
 // Bison calls yylex() function that must be provided by us to suck tokens
@@ -59,22 +59,22 @@
 // to avoid potential linking conflicts.
 %code top
 {
-    #include <iostream>
-    #include "scanner.h"
-    #include "parser.hpp"
-    #include "interpreter.h"
-    #include "location.hh"
-    
-    // yylex() arguments are defined in parser.y
-    static EzAquarii::Parser::symbol_type yylex(EzAquarii::Scanner &scanner, EzAquarii::Interpreter &driver) {
-        return scanner.get_next_token();
-    }
-    
-    // you can accomplish the same thing by inlining the code using preprocessor
-    // x and y are same as in above static function
-    // #define yylex(x, y) scanner.get_next_token()
-    
-    using namespace EzAquarii;
+  #include <iostream>
+  #include "scanner.h"
+  #include "parser.hpp"
+  #include "interpreter.h"
+  #include "location.hh"
+  
+  // yylex() arguments are defined in parser.y
+  static EzAquarii::Parser::symbol_type yylex(EzAquarii::Scanner &scanner, EzAquarii::Interpreter &driver) {
+      return scanner.get_next_token();
+  }
+  
+  // you can accomplish the same thing by inlining the code using preprocessor
+  // x and y are same as in above static function
+  // #define yylex(x, y) scanner.get_next_token()
+  
+  using namespace EzAquarii;
 }
 
 %lex-param { EzAquarii::Scanner &scanner }
@@ -88,50 +88,164 @@
 %define api.token.prefix {TOKEN_}
 
 %token END 0 "end of file"
-%token <std::string> STRING  "string";
-%token <uint64_t> NUMBER "number";
-%token LEFTPAR "leftpar";
-%token RIGHTPAR "rightpar";
+%token <std::string> STRING "string";
+%token <std::string> LABEL "label";
+%token <uint64_t> INT "number";
+
+%token SLASH "slash";
+%token COMMA "comma";
 %token SPACE "space";
+%token LCURLY "lcurly";
+%token RCURLY "rcurly";
+%token LESS "less";
+%token TILDE "tilde";
+%token OR "or";
+%token QMARK "qmark";
+%token DOT "dot";
+%token LPAR "lpar";
+%token RPAR "rpar";
+%token EQUAL "equal";
+%token LBRACK "lbrack";
+%token RBRACK "rbrack";
+%token PLUS "plus";
+%token HAT "hat";
+%token DOLLAR "dollar";
+%token STAR "star";
+
+%left EQUAL
+%left OR
+
 
 %type< PTNode* > unit_list;
 %type< PTNode* > punit;
+%type< PTSufModifier* > suffix_modifier;
+%type< PTPreModifier* > prefix_modifier;
 
 %start pattern
 
 %%
 
 pattern:  
-  unit_list { 
-    cout<<" ======= DONE ======"<<endl; 
+  unit_list 
+  { 
     driver.set_parse_tree($1);
-} ;
+  } 
+;
 
 unit_list : 
-  unit_list SPACE punit {
-	cout<<"Parsing punit in list"<<endl;
+  unit_list SPACE punit 
+  {
     $1->children_.push_back($3);
-	cout<<" .. adding child "<<$3->str()<<endl;
 	$$ = $1;
-	cout<<" .. returning "<<$$->str()<<endl;
   }
-| punit	{
-	cout<<"Parsing punit list terminal"<<endl;
-    $$ = new PTNode(PTNode::COMPOSITE);
-	cout<<" .. adding child "<<$1->str()<<endl;
+| punit	
+  {
+    $$ = new PTNode(PTNode::kComposite);
 	$$->children_.push_back($1);
-	cout<<" .. returning "<<$$->str()<<endl;
   }
 ;
 
 punit : 
-  STRING {
-    cout<<"Parsing sequence "<<$1<<endl;
+  STRING 
+  {
     $$ = new PTNode($1);
   }
-| LEFTPAR unit_list RIGHTPAR {
-    cout<<"Parsing parenthesized punit"<<endl;
+| LABEL
+  {
+    $$ = new PTNode(PTNode::kReference);
+    $$->referenced_label_ = $1;
+  }
+| punit LCURLY INT COMMA INT RCURLY
+  {
+    $$ = new PTNode(PTNode::kRepeat);
+    $$->min_repeats_ = $3;
+    $$->max_repeats_ = $5;
+    $$->children_.push_back($1);
+  }
+| punit LCURLY INT COMMA RCURLY
+  {
+    $$ = new PTNode(PTNode::kRepeat);
+    $$->min_repeats_ = $3;
+    $$->max_repeats_ = -1;
+    $$->children_.push_back($1);
+  }
+| punit LCURLY INT RCURLY
+  {
+    $$ = new PTNode(PTNode::kRepeat);
+    $$->min_repeats_ = $3;
+    $$->max_repeats_ = $3;
+    $$->children_.push_back($1);
+  }
+| prefix_modifier punit 
+  {
+    $2->add_modifier($1);
     $$ = $2;
+  }
+| punit suffix_modifier
+  {
+    $1->add_modifier($2);
+    $$ = $1;
+  }
+| LABEL EQUAL punit
+  {
+    $3->label_ = $1;
+    $$ = $3;
+  }
+| LPAR unit_list RPAR 
+  {
+    $$ = $2;
+  }
+| INT DOT DOT DOT INT 
+  {
+    $$ = new PTNode(PTNode::kRepeat);
+	$$->min_repeats_ = $1;
+	$$->max_repeats_ = $5;
+  }
+| INT DOT DOT INT 
+  {
+    $$ = new PTNode(PTNode::kRepeat);
+	$$->min_repeats_ = $1;
+	$$->max_repeats_ = $4;
+  }
+;
+
+suffix_modifier :
+  SLASH INT COMMA INT COMMA INT
+  {
+    $$ = new PTSufModifier();
+    $$->mismatches_ = $2;
+    $$->insertions_ = $4;
+    $$->deletions_  = $6;
+  }
+| SLASH INT COMMA INT
+  {
+    $$ = new PTSufModifier();
+    $$->mismatches_ = $2;
+    $$->indels_     = $4;
+  }
+| SLASH INT
+  {
+    $$ = new PTSufModifier();
+    $$->errors_ = $2;
+  }
+;
+
+prefix_modifier :
+  LESS TILDE
+  {
+    $$ = new PTPreModifier();
+    $$->complement_ = true;
+  }
+| LESS
+  {
+    $$ = new PTPreModifier();
+    $$->reverse_ = true;
+  }
+| TILDE
+  {
+    $$ = new PTPreModifier();
+    $$->reverse_ = true;
+    $$->complement_ = true;
   }
 ;
 

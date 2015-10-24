@@ -80,7 +80,6 @@ void Interpreter::set_parse_tree(PTNode* ptree)
 
 void Interpreter::increaseLocation(unsigned int loc) {
     m_location += loc;
-    cout << "increaseLocation(): " << loc << ", total = " << m_location << endl;
 }
 
 unsigned int Interpreter::location() const {

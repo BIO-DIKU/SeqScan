@@ -32,29 +32,92 @@
 #include <string>
 #include <vector>
 #include <stdint.h>
+#include <sstream>
 
 namespace EzAquarii {
 
+class PTPreModifier{
+  public:
+    PTPreModifier():
+      reverse_(false),
+      complement_(false) {}
+
+    bool reverse_;
+    bool complement_;
+
+    std::string str() const
+    {
+      std::stringstream ss;
+      if(reverse_ && complement_)
+        ss<<"~";
+      else if(reverse_)
+        ss<<"<";
+      else if(complement_)
+        ss<<"<~";
+      return ss.str();
+    }
+};
+
+class PTSufModifier{
+  public:
+    PTSufModifier():
+      mismatches_(0),
+      insertions_(0),
+      deletions_(0),
+      indels_(0),
+      errors_(0) {}
+
+    int mismatches_;
+    int insertions_;
+    int deletions_;
+    int indels_;
+    int errors_;
+
+    std::string str() const
+    {
+      std::stringstream ss;
+      if(insertions_>0 || deletions_>0)
+        ss<<"/"<<mismatches_<<","<<insertions_<<","<<deletions_;
+      else if(indels_>0)
+        ss<<"/"<<mismatches_<<","<<indels_;
+      else if(errors_>0)
+        ss<<"/"<<errors_;
+      else if(mismatches_>0)
+        ss<<"/"<<mismatches_<<",0";
+      return ss.str();
+    }
+};
+
 class PTNode
 {
-public:
+  public:
     PTNode(const int type);
     PTNode(const std::string &sequence);
     ~PTNode();
-    
+
     std::string str() const;
 
-	const int node_type_;
-	std::vector<PTNode*> children_;
+    const int node_type_;
+    std::vector<PTNode*> children_;
     std::string sequence_;
-	int mismatch;
-	int insertion;
-	int deletion;
+    std::string label_;
+    std::string referenced_label_;
+    int min_repeats_;
+    int max_repeats_;
 
-	static const int COMPOSITE = 0;
-	static const int SEQUENCE = 1;
+    static const int kComposite = 0;
+    static const int kSequence = 1;
+    static const int kRepeat = 2;
+    static const int kReference = 3;
+    
+    void add_modifier(PTPreModifier* m);
+    void add_modifier(PTSufModifier* m);
+  private:
+    PTPreModifier pre_modifier_;
+    PTSufModifier modifier_;
 
 };
+
 
 }
 
