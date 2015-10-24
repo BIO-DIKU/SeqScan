@@ -71,7 +71,7 @@ target_link_libraries(seqscan /usr/local/opt/flex/lib/libfl.a)
 # Build tests if CMAKE_BUILD_TYPE=Debug is set
 # ------------------------
 if (CMAKE_BUILD_TYPE MATCHES DEBUG OR CMAKE_BUILD_TYPE MATCHES "Debug")
-    FILE(GLOB TEST_FILES tests/*.cc tests/pu/*.cc tests/pu/tnfa/*.cc)
+    FILE(GLOB TEST_FILES tests/*.cc tests/parser/*.cc tests/pu/*.cc tests/pu/tnfa/*.cc)
     add_executable("seqscan_test" ${TEST_FILES} ${TEST_SOURCE_FILES} ${HEADER_FILES})
     target_link_libraries(seqscan_test /usr/local/opt/flex/lib/libfl.a)
 endif()
