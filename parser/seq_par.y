@@ -1,18 +1,22 @@
 %{
-#include <cstdio>
+//#include <cstdio>
+#include <stdio.h>
 #include <iostream>
 #include "parse_tree_list.h"
 #include "parse_tree_unit.h"
 #include <utility>
 #include <vector>
 #include <map>
-
+//#include <FlexLexer>
 using namespace std;
 
 // Stuff from flex that bison needs to know about:
+typedef struct yy_buffer_state * YY_BUFFER_STATE;
 extern "C" int yylex();
 extern "C" int yyparse();
 extern "C" FILE *yyin;  
+extern YY_BUFFER_STATE yy_scan_string(const char * str);
+extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
 void yyerror(const char *s);
 
 // The final list of PatternUnit objects
@@ -215,22 +219,10 @@ repeats:
 %%
 
 /* Double '%' ends parser grammer section, and begins C code section */
-
-int testf() {
-  std::cout << "hejhehjesiojojsoiejfosiejfosijefosiejfiosejfosiejf===============!!!!!!!!!!!!!\n";
-  return 7;
-}
-
-ParseTreeList* pparse() {
-  FILE *myfile = fopen("input.txt", "r");
-  if (!myfile) {
-    cout << "cannot open input.txt\n";
-    return par_list;
-  }
-  yyin = myfile;
-  do {
-    yyparse();
-  } while (!feof(yyin));
+ParseTreeList* pparse(const char* s) {
+  YY_BUFFER_STATE buf = yy_scan_string(s);
+  yyparse();
+  yy_delete_buffer(buf);
   return par_list;
 }
 
