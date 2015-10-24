@@ -1,13 +1,10 @@
+
 %{
 #include <cstdio>
 #include <iostream>
-//#include "parse_tree_list.h"
-#include "sanity_check.h"
 using namespace std;
-#include "../src/modifiers.h"
-#include "../src/match.h"
-#include "../src/pu/backtrack_unit.h"
-#include "punit_list.h"
+#include "parser/parse_tree_list.h"
+#include "parser/parse_tree_unit.h"
 #include <utility>
 #include <vector>
 #include <map>
@@ -27,6 +24,7 @@ map<string, ParseTreeUnit*> vtable;
 map<string, ParseTreeUnit*>::iterator vtab_it;
 %}
 
+%option c++
 /* Defining token types */
 %union {
   int inval;
@@ -223,7 +221,7 @@ repeats:
 /* Double '%' ends parser grammer section, and begins C code section */
 
 
-
+/*
 int main(int, char**) {
   FILE *myfile = fopen("input.txt", "r");
   if (!myfile) {
@@ -240,7 +238,7 @@ int main(int, char**) {
   }
   check_sanity(par_list);
 }
-
+*/
 void yyerror(const char *s) {
   cout << "EEK, parse error!  Message: " << s << endl;
   exit(-1);

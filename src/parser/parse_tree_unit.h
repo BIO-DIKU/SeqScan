@@ -17,21 +17,63 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-#ifndef PARSE_TREE_LIST_H_
-#define PARSE_TREE_LIST_H_
 
+#ifndef PARSE_TREE_UNIT_H_
+#define PARSE_TREE_UNIT_H_
+
+#include <string>
 #include <vector>
-#include "parse_tree_unit.h"
+
 using namespace std;
 
-class ParseTreeList {
-  public:
-    ParseTreeList();
-    void push_back(ParseTreeUnit* punit);
-    ParseTreeUnit* get_parse_unit(int index);
-    int get_size();
-  private:
-    vector<ParseTreeUnit*> patlist_;
+class ParseTreeList;
+
+/* Attribute "type" indicates the type of pattern unit
+   1: Backtrack
+   2: Range
+   3: Composite
+   4: Labeled
+   5: Reference
+   6: Or
+   7: Matchgroup
+ */
+class ParseTreeUnit {
+ public:
+  ParseTreeUnit();
+  string sequence_;
+  int type_;
+
+  int mis_;
+  int ins_;
+  int del_;
+  int indel_;
+  int edits_;
+
+  int min_repeats_;
+  int max_repeats_;
+  bool rep_open_;
+  bool non_greedy_;
+
+  int range_min_;
+  int range_max_;
+
+  bool reverse_;
+  bool complement_;
+
+  bool group_not_;
+  bool group_greedy_;
+  string group_;
+
+  bool start_anchor_;
+  bool end_anchor_;
+
+  ParseTreeUnit* reference_;
+  ParseTreeList* composite_;
+  ParseTreeUnit* or_units_[2];
+
+  void init_or_units();
+  void insert_or_units(ParseTreeUnit* p1, ParseTreeUnit* p2);
+  void pprint();
 };
 
 #endif

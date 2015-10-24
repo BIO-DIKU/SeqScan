@@ -17,21 +17,25 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-#ifndef PARSE_TREE_LIST_H_
-#define PARSE_TREE_LIST_H_
 
+#include "parse_tree_list.h"
+
+#include <cstdio>
+#include <iostream>
 #include <vector>
-#include "parse_tree_unit.h"
+
 using namespace std;
 
-class ParseTreeList {
-  public:
-    ParseTreeList();
-    void push_back(ParseTreeUnit* punit);
-    ParseTreeUnit* get_parse_unit(int index);
-    int get_size();
-  private:
-    vector<ParseTreeUnit*> patlist_;
-};
+ParseTreeList::ParseTreeList() {}
 
-#endif
+int ParseTreeList::get_size() {
+  return patlist_.size();
+}
+
+void ParseTreeList::push_back(ParseTreeUnit* panit) {
+  patlist_.push_back(panit);
+}
+
+ParseTreeUnit* ParseTreeList::get_parse_unit(int index) {
+  return patlist_[index];
+}
