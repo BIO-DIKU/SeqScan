@@ -219,8 +219,8 @@ repeats:
 %%
 
 /* Double '%' ends parser grammer section, and begins C code section */
-ParseTreeList* pparse(const char* s) {
-  YY_BUFFER_STATE buf = yy_scan_string(s);
+ParseTreeList* parse(string s) {
+  YY_BUFFER_STATE buf = yy_scan_string(s.c_str());
   yyparse();
   yy_delete_buffer(buf);
   return par_list;
