@@ -44,6 +44,6 @@ int main(int argc, char **argv) {
 	}
     int res = i.parse();
     cout << "Parse complete. Result = " << res << endl;
-	cout << i.str()<<endl;
+	cout << i.parse_tree()->str()<<endl;
     return res;
 }

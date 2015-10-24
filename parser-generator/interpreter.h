@@ -73,6 +73,11 @@ public:
      * Print AST
      */
     std::string str() const;
+
+	/**
+	 * Return parse-tree 
+	 */
+	PTNode* parse_tree() const;
     
     /**
      * Switch scanner input stream. Default is standard input (std::cin).

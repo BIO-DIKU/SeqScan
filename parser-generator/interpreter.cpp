@@ -67,6 +67,11 @@ void Interpreter::switchInputStream(std::istream *is) {
 	parse_tree_ = NULL;
 }
 
+PTNode* Interpreter::parse_tree() const
+{
+	return parse_tree_;
+}
+
 void Interpreter::set_parse_tree(PTNode* ptree)
 {
 	if(parse_tree_) delete parse_tree_;
