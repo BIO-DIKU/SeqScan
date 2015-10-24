@@ -24,6 +24,8 @@
 #include "parse_tree_unit.h"
 using namespace std;
 
+class ParseTreeUnit;
+
 class ParseTreeList {
   public:
     ParseTreeList();
