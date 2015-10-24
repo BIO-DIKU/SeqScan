@@ -1,19 +1,8 @@
-CPP         = g++
-SRC_DIR     = ../src
-PARSER_FILE = seq_par.yy
-LEXER_FILE  = seq_lex.ll
-BIN_FILE    = seqscan
-CPP_FLAGS   = -std=c++11
-
-all: parser lexer
-	$(CPP) $(CPP_FLAGS) $(SRC_DIR)/modifiers.cc $(SRC_DIR)/match.cc $(SRC_DIR)/pu/backtrack_unit.cc $(SRC_DIR)/pu/pattern_unit.cc punit_list.cpp parse_tree_unit.cpp parse_tree_list.cpp sanity_check.cpp final_parser.cpp seq_par.tab.cc lex.yy.cc -L/usr/local/opt/flex/lib -I../src -lfl -o $(BIN_FILE)
-	
-
-parser:
-	bison -d $(PARSER_FILE)
-
-lexer:
-	flex++ $(LEXER_FILE)
+all:
+	bison -d seq_par.y
+	flex seq_lex.l
+	g++ -std=c++0x parse_tree_list.cpp parse_tree_unit.cpp seq_par.tab.c lex.yy.c main.cpp -lfl -o seqscan
 
 clean:
-	rm lex.yy.cc seq_par.tab.cc seq_par.tab.hh $(BIN_FILE)
+	rm -rf lex.yy.c seq_par.tab.h seq_par.tab.c seqscan
+

@@ -1,10 +1,8 @@
-
 %{
 #include <cstdio>
 #include <iostream>
-using namespace std;
-#include "parser/parse_tree_list.h"
-#include "parser/parse_tree_unit.h"
+#include "parse_tree_list.h"
+#include "parse_tree_unit.h"
 #include <utility>
 #include <vector>
 #include <map>
@@ -24,8 +22,6 @@ map<string, ParseTreeUnit*> vtable;
 map<string, ParseTreeUnit*>::iterator vtab_it;
 %}
 
-%option c++
-/* Defining token types */
 %union {
   int inval;
   char* stval;
@@ -220,25 +216,24 @@ repeats:
 
 /* Double '%' ends parser grammer section, and begins C code section */
 
+int testf() {
+  std::cout << "hejhehjesiojojsoiejfosiejfosijefosiejfiosejfosiejf===============!!!!!!!!!!!!!\n";
+  return 7;
+}
 
-/*
-int main(int, char**) {
+ParseTreeList* pparse() {
   FILE *myfile = fopen("input.txt", "r");
   if (!myfile) {
     cout << "cannot open input.txt\n";
-    return -1;
+    return par_list;
   }
   yyin = myfile;
   do {
     yyparse();
   } while (!feof(yyin));
-  for (int i = 0; i < par_list->get_size(); i++) {
-    ParseTreeUnit* x = par_list->get_parse_unit(i);
-    par_list->get_parse_unit(i)->pprint();
-  }
-  check_sanity(par_list);
+  return par_list;
 }
-*/
+
 void yyerror(const char *s) {
   cout << "EEK, parse error!  Message: " << s << endl;
   exit(-1);

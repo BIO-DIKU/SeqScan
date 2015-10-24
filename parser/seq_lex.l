@@ -2,11 +2,8 @@
 %{
 // Just flex stuff
 #define YY_DECL extern "C" int yylex()
-#include "seq_par.tab.hh"
+#include "seq_par.tab.h"
 %}
-
-%option c++
-
 /* Double '%' initiates lexer rules section */
 /* DNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
 /* RNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
@@ -15,6 +12,7 @@
 
 /* All observed chars in README examples: */
 /* " $()*+,./01234568<=?ACDGHKNQRST[]^p{|}~" */
+
 %%
 \                              { return SPACE; }
 \$                             { return DOLLAR; } 
@@ -39,3 +37,4 @@
 \}                             { return RCURLY; }
 \~                             { return TILDE; }
 %%
+

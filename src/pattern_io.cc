@@ -18,16 +18,51 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+#include "pattern_io.h"
+
+#include <string>
 #include <vector>
-#include "../src/pu/pattern_unit.h"
+#include <fstream>
+#include <sstream>
+
 using namespace std;
 
-class PunitList {
-  public:
-    PunitList();
-    void push_back(PatternUnit* punit);
-    PatternUnit* get_punit(int index);
-    int get_size();
-  private:
-    vector<PatternUnit*> patlist_;
-};
+PatternIO::PatternIO(string pat_file, vector<string> &patterns) :
+  pat_file_(pat_file),
+  patterns_(patterns)
+{
+  Parse();
+  CheckPatterns();
+}
+
+PatternIO::~PatternIO()
+{}
+
+void PatternIO::Parse() {
+  std::ifstream input(pat_file_);
+  std::string   line;
+
+  if (!input.good()) {
+    std::string msg = "Error: File not found or readable: " + pat_file_;
+    throw PatternIOException(msg);
+  }
+
+  while (std::getline(input, line)) {
+    if (line.empty()) {
+      continue;
+    }
+
+    patterns_.push_back(line);
+  }
+
+  input.close();
+}
+
+void PatternIO::CheckPatterns() {
+  if (!patterns_.empty()) {
+    return;
+  }
+
+  std::string msg = "Error: No patterns in file: " + pat_file_;
+  throw PatternIOException(msg);
+}
