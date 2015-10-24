@@ -35,9 +35,9 @@
 using namespace EzAquarii;
 
 Interpreter::Interpreter() :
-    parse_tree_(NULL),
     m_scanner(*this),
     m_parser(m_scanner, *this),
+    parse_tree_(NULL),
     m_location(0)
 {
 
