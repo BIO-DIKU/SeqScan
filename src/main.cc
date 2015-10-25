@@ -19,35 +19,33 @@
  */
 
 #include <stdio.h>
-#include <cstdlib>
-// #include "optparse.h"
-// #include "pattern_io.h"
-// #include "match_matrix.h"
-// #include "match_matrix_io.h"
+#include "optparse.h"
+#include "pattern_io.h"
 
-//int main(int argc, char *argv[]) {
-int main() {
-  printf("Hello World");
-  // std::vector<std::string> patterns;
-  // MatchMatrix match_matrix;
-  //
-  // OptParse opt_parse(argc, (char**)argv);
-  //
-  // if (opt_parse.verbose) {
-  //   OptParse::PrintOptions();
-  // }
-  //
-  // if (opt_parse.pattern_file) {
-  //   PatternIO.parse(const &opt_parse.pattern_file, patterns);
-  // } else {
-  //   patterns.push_back(opt_parse.pattern);
-  // }
-  //
-  // if (opt_parse.match_file) {
-  //   MatchMatrixIO.parse(const &opt_parse.match_file, match_matrix);
-  // } else {
-  //   match_matrix.generate(opt_parse.match_matrix);
-  // }
+int main(int argc, char *argv[]) {
+  std::vector<std::string> patterns;
+
+  OptParse opt_parse(argc, (char**)argv);
+
+  if (!opt_parse.options_.pattern_file.empty()) {
+    PatternIO pat_parse(opt_parse.options_.pattern_file, patterns);
+  } else {
+    patterns.push_back(opt_parse.options_.pattern);
+  }
+
+  if (opt_parse.options_.verbose) {
+    opt_parse.PrintVersion();
+    std::cerr << std::endl;
+    opt_parse.PrintCommandLine();
+    std::cerr << std::endl << std::endl;
+    opt_parse.PrintOptions();
+
+    std::cerr << std::endl << "Patterns:" << std::endl;
+
+    for (auto it : patterns) {
+      std::cerr << "  " << it << std::endl;
+    }
+  }
 
   return EXIT_SUCCESS;
 }
