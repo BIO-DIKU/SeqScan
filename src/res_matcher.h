@@ -21,6 +21,8 @@
 #include "res_template.h"
 #include <bitset>
 
+static const size_t kSizeOfChar = size_of(char);
+
 /**
  * @brief Class for matching residues using a residue template with encoded
  * information on which residue pairs match.
@@ -40,9 +42,9 @@ class ResMatcher {
    * @param a First residue
    * @parem b Second residue
    */
-  bool match(char a, char b);
+  bool Match(char a, char b);
 
  private:
 
-  std::bitset<65536> res_template_;  // FIXME(Martin): Avaid hard coded value
+  std::bitset<65536> res_template_;  // FIXME(Martin): Avoid hard coded value
 };

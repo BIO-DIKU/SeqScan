@@ -30,11 +30,10 @@ ResMatcher::ResMatcher(ResTemplate res_template) :
 ResMatcher::~ResMatcher()
 {};
 
-bool ResMatcher::match(char a, char b) {
+bool ResMatcher::Match(char a, char b) {
   if (a == b) {
     return true;
   }
 
-  // TODO(Martin) We want size_of(char) in a static var to avoid determining this for all comparisons.
-  return res_template_[a << size_of(char) | b];  // FIXME(Martin): Fix type casts
+  return res_template_[a << kSizeOfChar | b];  // FIXME(Martin): Fix type casts
 }

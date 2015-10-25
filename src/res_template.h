@@ -19,6 +19,30 @@
  */
 
 #include <bitset>
+#include <vector>
+
+/* DNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
+/* RNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
+/* Protein:  FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx */
+
+static const size_t      kSizeOfChar = size_of(char);
+static const std::string kTemplate1 = R"TEMPLATE(
+ ACGTU
+Ax
+C x
+G  x
+T   xx
+U   xx
+)TEMPLATE";
+
+static const std::string kTemplate1rc = R"TEMPLATE(
+~ACGTU
+A   xx
+C  x
+G x
+Tx
+Ux
+)TEMPLATE";
 
 /**
  * @brief Class for creating a match template, which contians specification on
@@ -60,7 +84,27 @@ class ResTemplate {
   std::bitset<65536> res_template_;
 
   /*
+   * Path to file with custom template matrix.
+   */
+  std::string template_file_;
+
+  /*
+   * Number of hardcoded template matrix to use.
+   */
+  int template_num_;
+
+  /*
+   * Parse a custom matrix from file.
+   */
+  void FileMatrixToTemplate();
+
+  /*
+   * Create a match template from a hard coded matrix.
+   */
+  void MatrixToTemplate();
+
+  /*
    * Create a match template from a vector of match pairs i.e. two char strings.
    */
-  void ResTemplate::MatchPairsToTemplate();
+  void MatchPairsToTemplate();
 };

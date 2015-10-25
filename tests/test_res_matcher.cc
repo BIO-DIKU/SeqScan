@@ -30,14 +30,14 @@ TEST_CASE("ResMatcher returns correctly", "[res_matcher]") {
   ResMatcher     res_matcher(res_template);
 
   SECTION("w identical residues") {
-    REQUIRE(res_matcher.match("A", "A"));
+    REQUIRE(res_matcher.Match("A", "A"));
   }
 
   SECTION("w matching residue pair") {
-    REQUIRE(res_matcher.match("T", "U"));
+    REQUIRE(res_matcher.Match("T", "U"));
   }
 
   SECTION("w/o matching residue pair") {
-    REQUIRE_FALSE(res_matcher.match("A", "T"));
+    REQUIRE_FALSE(res_matcher.Match("A", "T"));
   }
 }

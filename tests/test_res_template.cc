@@ -23,6 +23,30 @@
 
 using namespace std;
 
-TEST_CASE("Dummy test", "[res_template]") {
+TEST_CASE("ResTemplate::FileMatrixToTemplate", "[res_template]") {
+  SECTION("Unreadable file") {
+    REQUIRE_THROWS_AS();
+  }
+
+  SECTION("Bad format") {
+    REQUIRE_THROWS_AS();
+  }
+
+  SECTION("OK MatrixBad format") {
+    REQUIRE();
+  }
+}
+
+TEST_CASE("ResTemplate::MatrixToTemplate", "[res_template]") {
   REQUIRE(true);
+}
+
+TEST_CASE("ResTemplate::MatchPairsToTemplate", "[res_template]") {
+  SECTION("Bad format") {
+    REQUIRE_THROWS_AS();
+  }
+
+  SECTION("OK format") {
+    REQUIRE();
+  }
 }
