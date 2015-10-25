@@ -34,38 +34,22 @@
 #include <stdint.h>
 #include <sstream>
 
-namespace EzAquarii {
+namespace SeqScan {
+
 
 class PTPreModifier{
   public:
-    PTPreModifier():
-      reverse_(false),
-      complement_(false) {}
+    PTPreModifier();
 
     bool reverse_;
     bool complement_;
 
-    std::string str() const
-    {
-      std::stringstream ss;
-      if(reverse_ && complement_)
-        ss<<"~";
-      else if(reverse_)
-        ss<<"<";
-      else if(complement_)
-        ss<<"<~";
-      return ss.str();
-    }
+    std::string str() const;
 };
 
 class PTSufModifier{
   public:
-    PTSufModifier():
-      mismatches_(0),
-      insertions_(0),
-      deletions_(0),
-      indels_(0),
-      errors_(0) {}
+    PTSufModifier();
 
     int mismatches_;
     int insertions_;
@@ -73,19 +57,7 @@ class PTSufModifier{
     int indels_;
     int errors_;
 
-    std::string str() const
-    {
-      std::stringstream ss;
-      if(insertions_>0 || deletions_>0)
-        ss<<"/"<<mismatches_<<","<<insertions_<<","<<deletions_;
-      else if(indels_>0)
-        ss<<"/"<<mismatches_<<","<<indels_;
-      else if(errors_>0)
-        ss<<"/"<<errors_;
-      else if(mismatches_>0)
-        ss<<"/"<<mismatches_<<",0";
-      return ss.str();
-    }
+    std::string str() const;
 };
 
 class PTNode
@@ -119,6 +91,6 @@ class PTNode
 };
 
 
-}
+} // namespace SeqScan
 
 #endif // COMMAND_H

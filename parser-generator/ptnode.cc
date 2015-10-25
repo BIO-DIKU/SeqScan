@@ -31,9 +31,10 @@
 #include <iostream>
 #include <sstream>
 
-using namespace EzAquarii;
 using std::cout;
 using std::endl;
+
+namespace SeqScan {
 
 PTNode::PTNode(int type) :
 	node_type_(type)
@@ -107,3 +108,56 @@ void PTNode::add_modifier(PTPreModifier* m)
   pre_modifier_.complement_ = m->complement_;
 }
 
+
+// ---------------- class PTPreModifier ------------------ 
+
+PTPreModifier::PTPreModifier():
+  reverse_(false),
+  complement_(false) 
+{}
+
+
+std::string PTPreModifier::str() const
+{
+  std::stringstream ss;
+  if(reverse_ && complement_)
+    ss<<"~";
+  else if(reverse_)
+    ss<<"<";
+  else if(complement_)
+    ss<<"<~";
+  return ss.str();
+}
+
+
+// ---------------- class PTSufModifier ------------------
+
+PTSufModifier::PTSufModifier():
+  mismatches_(0),
+  insertions_(0),
+  deletions_(0),
+  indels_(0),
+  errors_(0) 
+{}
+
+std::string PTSufModifier::str() const
+{
+  std::stringstream ss;
+  if(insertions_>0 || deletions_>0)
+    ss<<"/"<<mismatches_<<","<<insertions_<<","<<deletions_;
+  else if(indels_>0)
+    ss<<"/"<<mismatches_<<","<<indels_;
+  else if(errors_>0)
+    ss<<"/"<<errors_;
+  else if(mismatches_>0)
+    ss<<"/"<<mismatches_<<",0";
+  return ss.str();
+}
+
+
+
+
+
+
+
+} // namespace seqscan

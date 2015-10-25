@@ -34,21 +34,19 @@
 %define api.token.constructor
 %define api.value.type variant
 %define parse.assert
-%define api.namespace { EzAquarii }
+%define api.namespace { SeqScan }
 %code requires
 {
   #include <iostream>
   #include <string>
   #include <vector>
   #include <stdint.h>
-  #include "command.h"
+
   #include "ptnode.h"
 
-  using namespace std;
-
-  namespace EzAquarii {
-      class Scanner;
-      class Interpreter;
+  namespace SeqScan {
+	class Scanner;
+	class Interpreter;
   }
 }
 
@@ -60,13 +58,14 @@
 %code top
 {
   #include <iostream>
+
   #include "scanner.h"
-  #include "parser.hpp"
+  #include "parser.hh"
   #include "interpreter.h"
   #include "location.hh"
   
   // yylex() arguments are defined in parser.y
-  static EzAquarii::Parser::symbol_type yylex(EzAquarii::Scanner &scanner, EzAquarii::Interpreter &driver) {
+  static SeqScan::Parser::symbol_type yylex(SeqScan::Scanner &scanner, SeqScan::Interpreter &driver) {
       return scanner.get_next_token();
   }
   
@@ -74,13 +73,12 @@
   // x and y are same as in above static function
   // #define yylex(x, y) scanner.get_next_token()
   
-  using namespace EzAquarii;
 }
 
-%lex-param { EzAquarii::Scanner &scanner }
-%lex-param { EzAquarii::Interpreter &driver }
-%parse-param { EzAquarii::Scanner &scanner }
-%parse-param { EzAquarii::Interpreter &driver }
+%lex-param { SeqScan::Scanner &scanner }
+%lex-param { SeqScan::Interpreter &driver }
+%parse-param { SeqScan::Scanner &scanner }
+%parse-param { SeqScan::Interpreter &driver }
 %locations
 %define parse.trace
 %define parse.error verbose
@@ -179,11 +177,13 @@ punit :
 | prefix_modifier punit 
   {
     $2->add_modifier($1);
+    delete $1;
     $$ = $2;
   }
 | punit suffix_modifier
   {
     $1->add_modifier($2);
+    delete $2;
     $$ = $1;
   }
 | LABEL EQUAL punit
@@ -253,11 +253,6 @@ prefix_modifier :
 %%
 
 // Bison expects us to provide implementation - otherwise linker complains
-void EzAquarii::Parser::error(const location &loc , const std::string &message) {
-        
-        // Location should be initialized inside scanner action, but is not in this example.
-        // Let's grab location directly from driver class.
-	// cout << "Error: " << message << endl << "Location: " << loc << endl;
-	
-        cout << "Error: " << message << endl << "Error location: " << driver.location() << endl;
+void SeqScan::Parser::error(const location &loc , const std::string &message) {
+  std::cout << "Error: " << message << std::endl << "Error location: " << driver.location() << std::endl;
 }

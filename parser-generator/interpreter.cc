@@ -26,53 +26,64 @@
  * 
  */
 
-#include "command.h"
+#include "interpreter.h"
+#include "ptnode.h"
 
-#include <iostream>
 #include <sstream>
 
-using namespace EzAquarii;
-using std::cout;
-using std::endl;
+namespace SeqScan {
 
-Command::Command(const std::string &name, const std::vector<uint64_t> arguments) :
-    m_name(name),
-    m_args(arguments)
+Interpreter::Interpreter() :
+    m_scanner(*this),
+    m_parser(m_scanner, *this),
+    parse_tree_(NULL),
+    m_location(0)
 {
+
 }
 
-Command::Command(const std::string &name) :
-    m_name(name),
-    m_args()
+int Interpreter::parse() {
+    m_location = 0;
+    return m_parser.parse();
+}
+
+void Interpreter::clear() {
+    m_location = 0;
+	if(parse_tree_) delete parse_tree_;
+	parse_tree_ = NULL;
+}
+
+std::string Interpreter::str() const {
+    std::stringstream s;
+    s << "Interpreter. ";
+   	if(parse_tree_)
+	  s<<"Parsed: "<<parse_tree_->str();
+	return s.str();
+}
+
+void Interpreter::switchInputStream(std::istream *is) {
+    m_scanner.switch_streams(is, NULL);
+	if(parse_tree_) delete parse_tree_;
+	parse_tree_ = NULL;
+}
+
+PTNode* Interpreter::parse_tree() const
 {
+	return parse_tree_;
 }
 
-Command::Command() :
-    m_name(),
-    m_args()
+void Interpreter::set_parse_tree(PTNode* ptree)
 {
+	if(parse_tree_) delete parse_tree_;
+	parse_tree_ = ptree;
 }
 
-Command::~Command()
-{
-}
-    
-std::string Command::str() const {
-    std::stringstream ts;
-    ts << "name = [" << m_name << "], ";
-    ts << "arguments = [";
-    
-    for(int i = 0; i < m_args.size(); i++) {
-        ts << m_args[i];
-        if(i < m_args.size() - 1) {
-            ts << ", ";
-        }
-    }
-    
-    ts << "]";
-    return ts.str();
+void Interpreter::increaseLocation(unsigned int loc) {
+    m_location += loc;
 }
 
-std::string Command::name() const {
-    return m_name;
+unsigned int Interpreter::location() const {
+    return m_location;
 }
+
+} // namespace SeqScan

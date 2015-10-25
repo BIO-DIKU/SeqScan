@@ -26,62 +26,25 @@
  * 
  */
 
-#include "interpreter.h"
-#include "command.h"
-
+#include <iostream>
 #include <sstream>
 
-using namespace EzAquarii;
+#include "scanner.h"
+#include "parser.hh"
+#include "interpreter.h"
 
-Interpreter::Interpreter() :
-    m_scanner(*this),
-    m_parser(m_scanner, *this),
-    parse_tree_(NULL),
-    m_location(0)
-{
+using namespace SeqScan;
+using namespace std;
 
-}
-
-int Interpreter::parse() {
-    m_location = 0;
-    return m_parser.parse();
-}
-
-void Interpreter::clear() {
-    m_location = 0;
-	if(parse_tree_) delete parse_tree_;
-	parse_tree_ = NULL;
-}
-
-std::string Interpreter::str() const {
-    std::stringstream s;
-    s << "Interpreter. ";
-   	if(parse_tree_)
-	  s<<"Parsed: "<<parse_tree_->str();
-	return s.str();
-}
-
-void Interpreter::switchInputStream(std::istream *is) {
-    m_scanner.switch_streams(is, NULL);
-	if(parse_tree_) delete parse_tree_;
-	parse_tree_ = NULL;
-}
-
-PTNode* Interpreter::parse_tree() const
-{
-	return parse_tree_;
-}
-
-void Interpreter::set_parse_tree(PTNode* ptree)
-{
-	if(parse_tree_) delete parse_tree_;
-	parse_tree_ = ptree;
-}
-
-void Interpreter::increaseLocation(unsigned int loc) {
-    m_location += loc;
-}
-
-unsigned int Interpreter::location() const {
-    return m_location;
+int main(int argc, char **argv) {
+    Interpreter i;
+	stringstream ss;
+	if(argc>1){
+		ss<<argv[1];
+		i.switchInputStream(&ss);
+	}
+    int res = i.parse();
+    cout << "Parse complete. Result = " << res << endl;
+	cout << i.parse_tree()->str()<<endl;
+    return res;
 }

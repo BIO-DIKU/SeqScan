@@ -31,14 +31,12 @@
 	#include <cstdlib>
 	#include "scanner.h"
 	#include "interpreter.h"
-	#include "parser.hpp"
+	#include "parser.hh"
 	#include "location.hh"
-
-	using namespace std;
 
 	// Original yyterminate() macro returns int. Since we're using Bison 3 variants
 	// as tokens, we must redefine it to change type from `int` to `Parser::semantic_type`
-	#define yyterminate() EzAquarii::Parser::make_END(EzAquarii::location());
+	#define yyterminate() SeqScan::Parser::make_END(SeqScan::location());
 
 	// This will track current scanner location.
 	// Action is called when length of the token is known.
@@ -51,7 +49,7 @@
 	// pass location value in every action code block below. I'm going to waste more time writing
 	// this excuse than putting this boilerplate below...
 	//
-	// Location class can be found in location.hh and posistion.hh files. It's just a bit too much
+	// Location class can be found in location.hh and position.hh files. It's just a bit too much
 	// boilerplate for this small example. Bummer.
 %}
 
@@ -59,37 +57,39 @@
 %option noyywrap
 %option c++
 %option yyclass="Scanner"
-%option prefix="EzAquarii_"
+%option prefix="SeqScan_"
 
 %%
 
 
-[a-zA-Z]+   { return EzAquarii::Parser::make_STRING(yytext, EzAquarii::location());     }
-p[0-9]+     { return EzAquarii::Parser::make_LABEL(yytext, EzAquarii::location());      }
+[a-zA-Z]+   { return SeqScan::Parser::make_STRING(yytext, SeqScan::location());     }
+p[0-9]+     { return SeqScan::Parser::make_LABEL(yytext, SeqScan::location());      }
 [0-9]+      { uint64_t number = strtoull(yytext, 0, 10);
-              return EzAquarii::Parser::make_INT(number, EzAquarii::location());        }
-\           { return EzAquarii::Parser::make_SPACE(EzAquarii::location());              }
-\(          { return EzAquarii::Parser::make_LPAR(EzAquarii::location());               }
-\)          { return EzAquarii::Parser::make_RPAR(EzAquarii::location());               }
-\/          { return EzAquarii::Parser::make_SLASH(EzAquarii::location());              }
-\=          { return EzAquarii::Parser::make_EQUAL(EzAquarii::location());              }
-\*          { return EzAquarii::Parser::make_STAR(EzAquarii::location());               }
-\+          { return EzAquarii::Parser::make_PLUS(EzAquarii::location());               }
-\,          { return EzAquarii::Parser::make_COMMA(EzAquarii::location());              }
-\.          { return EzAquarii::Parser::make_DOT(EzAquarii::location());                }
-\[          { return EzAquarii::Parser::make_LBRACK(EzAquarii::location());             }
-\]          { return EzAquarii::Parser::make_RBRACK(EzAquarii::location());             }
-\^          { return EzAquarii::Parser::make_HAT(EzAquarii::location());                }
-\{          { return EzAquarii::Parser::make_LCURLY(EzAquarii::location());             }
-\}          { return EzAquarii::Parser::make_RCURLY(EzAquarii::location());             }
-\|          { return EzAquarii::Parser::make_OR(EzAquarii::location());                 }
-\~          { return EzAquarii::Parser::make_TILDE(EzAquarii::location());              }
-\<          { return EzAquarii::Parser::make_LESS(EzAquarii::location());               }
+              return SeqScan::Parser::make_INT(number, SeqScan::location());        }
+\           { return SeqScan::Parser::make_SPACE(SeqScan::location());              }
+\(          { return SeqScan::Parser::make_LPAR(SeqScan::location());               }
+\)          { return SeqScan::Parser::make_RPAR(SeqScan::location());               }
+\/          { return SeqScan::Parser::make_SLASH(SeqScan::location());              }
+\=          { return SeqScan::Parser::make_EQUAL(SeqScan::location());              }
+\*          { return SeqScan::Parser::make_STAR(SeqScan::location());               }
+\+          { return SeqScan::Parser::make_PLUS(SeqScan::location());               }
+\,          { return SeqScan::Parser::make_COMMA(SeqScan::location());              }
+\.          { return SeqScan::Parser::make_DOT(SeqScan::location());                }
+\[          { return SeqScan::Parser::make_LBRACK(SeqScan::location());             }
+\]          { return SeqScan::Parser::make_RBRACK(SeqScan::location());             }
+\^          { return SeqScan::Parser::make_HAT(SeqScan::location());                }
+\{          { return SeqScan::Parser::make_LCURLY(SeqScan::location());             }
+\}          { return SeqScan::Parser::make_RCURLY(SeqScan::location());             }
+\|          { return SeqScan::Parser::make_OR(SeqScan::location());                 }
+\~          { return SeqScan::Parser::make_TILDE(SeqScan::location());              }
+\<          { return SeqScan::Parser::make_LESS(SeqScan::location());               }
 
 
-.           { cerr << "Scanner: unknown character [" << yytext << "]" << endl;          }
-[\n\r]      { return EzAquarii::Parser::make_END(EzAquarii::location());                }
-<<EOF>>     { return EzAquarii::Parser::make_END(EzAquarii::location());                }
+.           { std::cerr << "Scanner: Unknown character [" << yytext << "] ";
+              std::cerr << "at location" << SeqScan::location() << std::endl;
+              yyterminate();                                                                  }
+[\n\r]      { return SeqScan::Parser::make_END(SeqScan::location());                }
+<<EOF>>     { return SeqScan::Parser::make_END(SeqScan::location());                }
 
 
 %%
