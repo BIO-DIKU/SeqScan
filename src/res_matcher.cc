@@ -35,5 +35,6 @@ bool ResMatcher::match(char a, char b) {
     return true;
   }
 
+  // TODO(Martin) We want size_of(char) in a static var to avoid determining this for all comparisons.
   return res_template_[a << size_of(char) | b];  // FIXME(Martin): Fix type casts
 }
