@@ -6,3 +6,6 @@ position.hh
 stack.hh
 main
 *.dSYM
+parser.cpp
+parser.hpp
+scanner.cpp
