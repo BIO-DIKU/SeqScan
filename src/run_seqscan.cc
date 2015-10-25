@@ -21,7 +21,10 @@
 #include <iostream>
 #include <memory>
 
-#include "interpreter.h"
+#include <interpreter.h>
+#include <ptnode.h>
+
+#include "pu_factory/sanity_checker.h"
 #include "io.h"
 #include "modifiers.h"
 #include "pu/composite_unit.h"
@@ -206,7 +209,9 @@ int main(int argc, char** argv) {
    */
 
   SeqScan::Interpreter i;
-  cout<<i.parse("AA TT")->str(0)<<endl;
+  SeqScan::PTNode* ptree = i.parse("AA p1=(BB CC p1)");
+  SeqScan::SanityChecker s;
+  cout<<s.is_sane(ptree);
 
 
   return EXIT_SUCCESS;

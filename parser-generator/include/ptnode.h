@@ -37,18 +37,18 @@
 namespace SeqScan {
 
 
-class PTPreModifier{
-  public:
+  class PTPreModifier{
+   public:
     PTPreModifier();
 
     bool reverse_;
     bool complement_;
 
     std::string str() const;
-};
+  };
 
-class PTSufModifier{
-  public:
+  class PTSufModifier{
+   public:
     PTSufModifier();
 
     int mismatches_;
@@ -58,11 +58,11 @@ class PTSufModifier{
     int errors_;
 
     std::string str() const;
-};
+  };
 
-class PTNode
-{
-  public:
+  class PTNode
+  {
+   public:
     PTNode(const int type);
     PTNode(const std::string &sequence);
     ~PTNode();
@@ -77,18 +77,18 @@ class PTNode
     int min_repeats_;
     int max_repeats_;
 
-    static const int kComposite = 0;
-    static const int kSequence = 1;
-    static const int kRepeat = 2;
-    static const int kReference = 3;
-    
+    static const int kComposite  = 0;
+    static const int kSequence   = 1;
+    static const int kRepeat     = 2;
+    static const int kReference  = 3;
+
     void add_modifier(PTPreModifier* m);
     void add_modifier(PTSufModifier* m);
-  private:
+   private:
     PTPreModifier pre_modifier_;
     PTSufModifier modifier_;
 
-};
+  };
 
 
 } // namespace SeqScan
