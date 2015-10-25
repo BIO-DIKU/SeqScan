@@ -46,8 +46,8 @@ endif()
 # ------------------------
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-FILE(GLOB SOURCE_FILES src/*.cc src/pu/*.cc src/pu/tnfa/*.cc )
-FILE(GLOB HEADER_FILES src/*.h src/pu/*.h src/pu/tnfa/*.h )
+FILE(GLOB SOURCE_FILES src/*.cc src/pu/*.cc src/pu/tnfa/*.cc src/pu_factory/*.cc )
+FILE(GLOB HEADER_FILES src/*.h src/pu/*.h src/pu/tnfa/*.h src/pu_factory/*.h )
 
 #https://cmake.org/cmake/help/v3.0/command/include_directories.html
 #Enables us to #include "pu/backtrack_unit.h" from files that are in "pu"

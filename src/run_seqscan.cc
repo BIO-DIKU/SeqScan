@@ -25,6 +25,7 @@
 #include <ptnode.h>
 
 #include "pu_factory/sanity_checker.h"
+#include "pu_factory/pattern_unit_creator.h"
 #include "io.h"
 #include "modifiers.h"
 #include "pu/composite_unit.h"
@@ -208,10 +209,22 @@ int main(int argc, char** argv) {
   }
    */
 
+  if(argc!=2)
+    cout<<"Usage: "<<argv[0]<<" <pattern>"<<endl;
+
+  //Parse pattern
   SeqScan::Interpreter i;
-  SeqScan::PTNode* ptree = i.parse("AA p1=(BB CC p1)");
+  SeqScan::PTNode* ptree = i.parse(argv[1]);
+
+  //Sanity check parse tree
   SeqScan::SanityChecker s;
-  cout<<s.is_sane(ptree);
+  if(!s.is_sane(ptree))
+    return EXIT_FAILURE;
+
+  //Compile parse tree into PatternUnit
+  SeqScan::PatternUnitCreator creator;
+  unique_ptr<PatternUnit> pu = creator.create_from_parse_tree(ptree);
+  pu->Print(cout)<<endl;
 
 
   return EXIT_SUCCESS;

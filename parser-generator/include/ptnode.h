@@ -84,7 +84,7 @@ namespace SeqScan {
 
     void add_modifier(PTPreModifier* m);
     void add_modifier(PTSufModifier* m);
-   private:
+
     PTPreModifier pre_modifier_;
     PTSufModifier modifier_;
 
