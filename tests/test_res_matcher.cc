@@ -20,9 +20,24 @@
 
 #include "catch.h"
 #include "../src/res_matcher.h"
+#include <vector>
 
 using namespace std;
 
-TEST_CASE("Dummy test", "[res_matcher]") {
-  REQUIRE(true);
+TEST_CASE("ResMatcher returns correctly", "[res_matcher]") {
+  vector<string> match_pairs = {"AA", "TU"};
+  ResTemplate res_template(match_pairs);
+  ResMatcher res_matcher(res_template);
+
+  SECTION("w identical residues") {
+    REQUIRE(res_matcher.match("A", "A"));
+  }
+
+  SECTION("w matching residue pair") {
+    REQUIRE(res_matcher.match("T", "U"));
+  }
+
+  SECTION("w/o matching residue pair") {
+    REQUIRE_FALSE(res_matcher.match("A", "T"));
+  }
 }
