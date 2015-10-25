@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
         pattern->Initialize(seq.cbegin(), seq.cend());
         while (pattern->FindMatch()) {
           const Match& match = pattern->GetMatch();
-          std::cout<<match<<std::endl;
+          match.Print(std::cout, seq.cbegin())<<std::endl;
         }
 
       } // end while (fasta_reader.hasNextEntry())
