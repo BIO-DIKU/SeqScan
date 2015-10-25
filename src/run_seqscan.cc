@@ -21,7 +21,7 @@
 #include <iostream>
 #include <memory>
 
-#include "parser/Parser.h"
+#include "interpreter.h"
 #include "io.h"
 #include "modifiers.h"
 #include "pu/composite_unit.h"
@@ -205,11 +205,8 @@ int main(int argc, char** argv) {
   }
    */
 
-  cout<<argc<<argv[0]<<endl;
-
-  Parser parser;
-  parser.parse("input.txt");
-
+  SeqScan::Interpreter i;
+  cout<<i.parse("AA TT")->str(0)<<endl;
 
 
   return EXIT_SUCCESS;

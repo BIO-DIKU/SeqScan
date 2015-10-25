@@ -1,7 +1,7 @@
 
 # Parser generator for SeqScan
 
-Uses flex and bison to generate lexer and parser for SeqScan patterns and copies the result into `../src/pattern`. The generated parser is wrapped by the `Interface` class which takes a string-representation of a SeqScan pattern and compiles it into a parse-tree represented by the `PTNode` class. For example, the commands
+Uses flex and bison to generate lexer and parser for SeqScan patterns. The final parser is compiled into `lib/libseqscanparser.a`. The parser is wrapped by the `Interface` class which takes a string-representation of a SeqScan pattern and compiles it into a parse-tree represented by the `PTNode` class. For example, the commands
 ```
 Intepreter i;
 PTNode* ptree = i.parse("AA/1 p2=(CC p1=DD) p2/1");

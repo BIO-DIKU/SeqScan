@@ -9,10 +9,10 @@ LIBFILE = lib/libseqscanparser.a
 all: $(LIBFILE) main
 
 scanner.cc: scanner.l
-	flex -o scanner.cc scanner.l
+	flex -o $@ $<
 
 parser.cc: parser.y
-	bison -o parser.cc parser.y
+	bison -o $@ $<
 	mv -f *.hh include/
 
 %.o: %.cc
