@@ -17,4 +17,32 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
- 
+
+#include "res_template.h"
+#include <bitset>
+
+/**
+ * @brief Class for matching residues using a residue template with encoded
+ * information on which residue pairs match.
+ *
+ * @param Residue template.
+ */
+class ResMatcher {
+ public:
+  ResMatcher(ResTemplate res_template);
+
+  ~ResMatcher();
+
+  /**
+   * Match two residues and return true if they match according to the
+   * res_template.
+   *
+   * @param a First residue
+   * @parem b Second residue
+   */
+  bool match(char a, char b);
+
+ private:
+
+  std::bitset<65536> res_template_;  // FIXME(Martin): Avaid hard coded value
+};
