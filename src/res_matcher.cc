@@ -17,4 +17,23 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
- 
+
+#include "res_matcher.h"
+#include "res_template.h"
+
+using namespace std;
+
+ResMatcher::ResMatcher(ResTemplate res_template) :
+  res_template_(res_template)
+{};
+
+ResMatcher::~ResMatcher()
+{};
+
+bool ResMatcher::match(char a, char b) {
+  if (a == b) {
+    return true;
+  }
+
+  return res_template_[a << size_of(char) | b];  // FIXME(Martin): Fix type casts
+}
