@@ -1,7 +1,8 @@
-scanner.cpp
-parser.cpp 
-parser.hpp 
+scanner.cc
+parser.cc 
+parser.hh 
 location.hh 
 position.hh 
 stack.hh
-a.out
+main
+*.dSYM

@@ -60,7 +60,7 @@
   #include <iostream>
 
   #include "scanner.h"
-  #include "parser.hh"
+  #include "parser.h"
   #include "interpreter.h"
   #include "location.hh"
   

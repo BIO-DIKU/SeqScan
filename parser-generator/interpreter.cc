@@ -59,14 +59,11 @@ PTNode* Interpreter::parse(const std::string& raw_pattern) {
 
 void Interpreter::switchInputStream(std::istream *is) {
   scanner_.switch_streams(is, NULL);
-  if(parse_tree_) delete parse_tree_;
-  parse_tree_ = NULL;
 }
 
 
 void Interpreter::set_parse_tree(PTNode* ptree)
 {
-  if(parse_tree_) delete parse_tree_;
   parse_tree_ = ptree;
 }
 

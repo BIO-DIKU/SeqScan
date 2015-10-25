@@ -32,7 +32,7 @@
 #include <vector>
 
 #include "scanner.h"
-#include "parser.hh"
+#include "parser.h"
 
 namespace SeqScan {
 
