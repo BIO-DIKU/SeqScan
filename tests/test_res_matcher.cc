@@ -17,3 +17,12 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
+
+ #include "catch.h"
+ #include "../src/res_matcher.h"
+
+ using namespace std;
+
+ TEST_CASE("Dummy test", "[res_matcher]") {
+    REQUIRE(true);
+ }
