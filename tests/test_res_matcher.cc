@@ -26,8 +26,8 @@ using namespace std;
 
 TEST_CASE("ResMatcher returns correctly", "[res_matcher]") {
   vector<string> match_pairs = {"AA", "TU"};
-  ResTemplate res_template(match_pairs);
-  ResMatcher res_matcher(res_template);
+  ResTemplate    res_template(match_pairs);
+  ResMatcher     res_matcher(res_template);
 
   SECTION("w identical residues") {
     REQUIRE(res_matcher.match("A", "A"));
