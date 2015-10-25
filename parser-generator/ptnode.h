@@ -67,7 +67,7 @@ class PTNode
     PTNode(const std::string &sequence);
     ~PTNode();
 
-    std::string str() const;
+    std::string str(size_t indent) const;
 
     const int node_type_;
     std::vector<PTNode*> children_;

@@ -36,19 +36,11 @@
 
 namespace SeqScan {
 
-// forward declare our simplistic AST node class so we
-// can declare container for it without the header
-class Command;
-
 /**
  * This class is the interface for our scanner/lexer. The end user
- * is expected to use this. It drives scanner/lexer, keeps
- * parsed AST and generally is a good place to store additional
- * context data. Both parser and lexer have access to it via internal 
+ * is expected to use this. It drives scanner/lexer, and returns a 
+ * parse tree. Both parser and lexer have access to it via internal 
  * references.
- * 
- * I know that the AST is a bit too strong word for a simple
- * vector with nodes, but this is only an example. Get off me.
  */
 class Interpreter
 {
@@ -56,31 +48,11 @@ public:
     Interpreter();
     
     /**
-     * Run parser. Results are stored inside.
-     * \returns 0 on success, 1 on failure
+     * Run parser on pattern. Returns a PTNode pointer on success, 
+	 * NULL on failure.
      */
-    int parse();
+    PTNode* parse(const std::string& raw_pattern);
     
-    /**
-     * Clear AST
-     */
-    void clear();
-    
-    /**
-     * Print AST
-     */
-    std::string str() const;
-
-	/**
-	 * Return parse-tree 
-	 */
-	PTNode* parse_tree() const;
-    
-    /**
-     * Switch scanner input stream. Default is standard input (std::cin).
-     * It will also reset AST.
-     */
-    void switchInputStream(std::istream *is);
     
     /**
      * This is needed so that Scanner and Parser can call some
@@ -90,7 +62,7 @@ public:
     friend class Scanner;
     
 private:
-    // Used internally by Parser to insert AST nodes.
+    // Used internally by Parser to set the main parse tree.
     void set_parse_tree(PTNode* ptree);
     
     // Used internally by Scanner YY_USER_ACTION to update location indicator
@@ -99,11 +71,15 @@ private:
     // Used to get last Scanner location. Used in error messages.
     unsigned int location() const;
     
+    /**
+     * Switch scanner input stream. Default is standard input (std::cin).
+     */
+    void switchInputStream(std::istream *is);
 private:
-    Scanner m_scanner;
-    Parser m_parser;
+    Scanner scanner_;
+    Parser parser_;
 	PTNode* parse_tree_;
-    unsigned int m_location;          // Used by scanner
+    unsigned int location_;          // Used by scanner
 };
 
 }

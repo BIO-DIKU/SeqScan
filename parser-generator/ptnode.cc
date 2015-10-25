@@ -54,20 +54,23 @@ PTNode::~PTNode()
 	}
 }
     
-std::string PTNode::str() const {
+std::string PTNode::str(size_t indent) const {
     std::stringstream ts;
+
+    for(size_t i=0;i<indent;++i) ts<<" ";
     ts << "PTNode[" << node_type_;
     
     if(!label_.empty())
       ts << ",lbl=" << label_;
 
     if(!children_.empty()){
-      ts<<",(";
+      ts<<",children=(";
 
       for(size_t i = 0; i < children_.size(); i++) {
-        if(i>0) ts<<" ";
+        //if(i>0) ts<<" ";
+        ts<<std::endl;
 
-        ts<<children_[i]->str();
+        ts<<children_[i]->str(indent+2);
       }
       ts<<")";
     }

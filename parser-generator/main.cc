@@ -37,14 +37,19 @@ using namespace SeqScan;
 using namespace std;
 
 int main(int argc, char **argv) {
-    Interpreter i;
-	stringstream ss;
-	if(argc>1){
-		ss<<argv[1];
-		i.switchInputStream(&ss);
-	}
-    int res = i.parse();
-    cout << "Parse complete. Result = " << res << endl;
-	cout << i.parse_tree()->str()<<endl;
-    return res;
+  Interpreter i;
+
+  if(argc==0){
+    cout<<"Usage: "<<argv[0]<<" \"seqscan pattern\""<<endl;
+  }
+
+  PTNode* parsetree = i.parse(argv[1]);
+  cout << "Parse complete. Parse tree:"<< endl;
+  if(parsetree){
+    cout << parsetree->str(0)<<endl;
+    return 0;
+  }else{
+    cout << "NULL"<<endl;
+    return -1;
+  }
 }

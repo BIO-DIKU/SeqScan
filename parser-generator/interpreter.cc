@@ -34,56 +34,48 @@
 namespace SeqScan {
 
 Interpreter::Interpreter() :
-    m_scanner(*this),
-    m_parser(m_scanner, *this),
-    parse_tree_(NULL),
-    m_location(0)
+  scanner_(*this),
+  parser_(scanner_, *this),
+  parse_tree_(NULL),
+  location_(0)
 {
 
 }
 
-int Interpreter::parse() {
-    m_location = 0;
-    return m_parser.parse();
-}
+PTNode* Interpreter::parse(const std::string& raw_pattern) {
+  parse_tree_ = NULL;
+  location_ = 0;
 
-void Interpreter::clear() {
-    m_location = 0;
-	if(parse_tree_) delete parse_tree_;
-	parse_tree_ = NULL;
-}
+  //Set the input stream to read from raw_pattern
+  std::istringstream string_stream(raw_pattern);
+  switchInputStream(&string_stream);
 
-std::string Interpreter::str() const {
-    std::stringstream s;
-    s << "Interpreter. ";
-   	if(parse_tree_)
-	  s<<"Parsed: "<<parse_tree_->str();
-	return s.str();
+  int status = parser_.parse();
+  if(status==0)
+    return parse_tree_;
+  else
+    return NULL;
 }
 
 void Interpreter::switchInputStream(std::istream *is) {
-    m_scanner.switch_streams(is, NULL);
-	if(parse_tree_) delete parse_tree_;
-	parse_tree_ = NULL;
+  scanner_.switch_streams(is, NULL);
+  if(parse_tree_) delete parse_tree_;
+  parse_tree_ = NULL;
 }
 
-PTNode* Interpreter::parse_tree() const
-{
-	return parse_tree_;
-}
 
 void Interpreter::set_parse_tree(PTNode* ptree)
 {
-	if(parse_tree_) delete parse_tree_;
-	parse_tree_ = ptree;
+  if(parse_tree_) delete parse_tree_;
+  parse_tree_ = ptree;
 }
 
 void Interpreter::increaseLocation(unsigned int loc) {
-    m_location += loc;
+  location_ += loc;
 }
 
 unsigned int Interpreter::location() const {
-    return m_location;
+  return location_;
 }
 
 } // namespace SeqScan
