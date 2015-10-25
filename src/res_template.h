@@ -24,7 +24,7 @@
  * @brief Class for creating a match template, which contians specification on
  * matching residue pairs. The match template consists of a bitset and the index
  * of matching residues pairs are set by concatenating the char bits. So for the
- *  matching residue pair T-U the binary representations are:
+ * matching residue pair T-U the binary representations are:
  *
  * T:          0000000001010100 = 84
  * U:          0000000001010101 = 85
@@ -32,8 +32,6 @@
  *
  * We use the index position 21589 to indicate that T-U is a matching residue
  * pair.
- *
- * @param Residue template.
  */
 class ResTemplate {
  public:
