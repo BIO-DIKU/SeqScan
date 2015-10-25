@@ -12,8 +12,6 @@ include(ExternalProject)
 set(bioio_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/bioio")
 set(bioio_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/bioio")
 set(bioio_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${bioio_INSTALL_DIR})
-message("bioio_PREFIX='${bioio_PREFIX}'")
-message("bioio_INSTALL_DIR='${bioio_INSTALL_DIR}'")
 ExternalProject_Add(
 	bioio
 	PREFIX ${bioio_PREFIX}

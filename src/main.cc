@@ -79,6 +79,7 @@ int main(int argc, char *argv[]) {
 
       if (!parse_tree_checker.is_sane(parse_tree)){
         std::cerr<<"Insane pattern: "<<raw_pat<<std::endl;
+        std::cerr<<parse_tree->str(0)<<std::endl;
         continue;
       }
 
@@ -98,7 +99,6 @@ int main(int argc, char *argv[]) {
         }
 
       } // end while (fasta_reader.hasNextEntry())
-
 
     } // end for (auto& raw_pat : patterns)
 
