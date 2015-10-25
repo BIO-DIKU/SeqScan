@@ -6,6 +6,23 @@ cmake_minimum_required (VERSION 2.8)
 project(SeqScan)
 
 
+# Set up BioIO so it downloads and compiles automatically
+# ------------------------
+include(ExternalProject)
+set(bioio_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/bioio")
+set(bioio_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/bioio")
+set(bioio_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${bioio_INSTALL_DIR})
+message("bioio_PREFIX='${bioio_PREFIX}'")
+message("bioio_INSTALL_DIR='${bioio_INSTALL_DIR}'")
+ExternalProject_Add(
+	bioio
+	PREFIX ${bioio_PREFIX}
+	GIT_REPOSITORY https://github.com/BIO-DIKU/BioIO.git
+	GIT_TAG install-feature
+	INSTALL_DIR ${bioio_INSTALL_DIR}
+	CMAKE_ARGS ${bioio_CMAKE_ARGS}
+)
+
 # Options
 # ------------------------
 # Change default install path
@@ -57,6 +74,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/parser-generator/include)
 link_libraries(${CMAKE_CURRENT_SOURCE_DIR}/parser-generator/lib/libseqscanparser.a)
 
+#Link BioIO
+include_directories(${bioio_INSTALL_DIR}/include)
+link_libraries(${bioio_INSTALL_DIR}/lib/libBioIO.a)
+
 
 # http://stackoverflow.com/questions/16449676/remove-specific-file-from-cmake-build
 set(TEST_SOURCE_FILES ${SOURCE_FILES})
@@ -82,21 +103,3 @@ if (CMAKE_BUILD_TYPE MATCHES DEBUG OR CMAKE_BUILD_TYPE MATCHES "Debug")
 	#target_link_libraries(seqscan_test /usr/local/opt/flex/lib/libfl.a)
 endif()
 
-include(ExternalProject)
-set(bioio_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/bioio")
-set(bioio_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/bioio")
-#set(bioio_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${bioio_INSTALL_DIR})
-
-message("bioio_PREFIX='${bioio_PREFIX}'")
-message("bioio_INSTALL_DIR='${bioio_INSTALL_DIR}'")
-#message("bioio_CMAKE_ARGS='${bioio_CMAKE_ARGS}'")
-message("GIT_EXECUTABLE='${GIT_EXECUTABLE}'")
-
-ExternalProject_Add(
-	bioio
-	PREFIX ${bioio_PREFIX}
-	GIT_REPOSITORY https://github.com/BIO-DIKU/BioIO.git
-	GIT_TAG install-feature
-	INSTALL_DIR ${bioio_INSTALL_DIR}
-    INSTALL_COMMAND ""
-)
