@@ -17,10 +17,14 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
+#ifndef PARSE_TREE_LIST_H_
+#define PARSE_TREE_LIST_H_
 
 #include <vector>
 #include "parse_tree_unit.h"
 using namespace std;
+
+class ParseTreeUnit;
 
 class ParseTreeList {
   public:
@@ -31,3 +35,5 @@ class ParseTreeList {
   private:
     vector<ParseTreeUnit*> patlist_;
 };
+
+#endif

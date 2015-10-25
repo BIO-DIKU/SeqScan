@@ -21,6 +21,11 @@
 #include <iostream>
 #include <memory>
 
+#include <interpreter.h>
+#include <ptnode.h>
+
+#include "pu_factory/sanity_checker.h"
+#include "pu_factory/pattern_unit_creator.h"
 #include "io.h"
 #include "modifiers.h"
 #include "pu/composite_unit.h"
@@ -32,7 +37,7 @@
 
 using namespace std;
 
-int main_X(int argc, char** argv) {
+int main(int argc, char** argv) {
   /*
   // Example of setting up the seqscan pattern "AATCA/1,0,0 TTTTTTC"
   //Modifiers top_modifiers = Modifiers::CreateStdModifiers();
@@ -77,6 +82,7 @@ int main_X(int argc, char** argv) {
 
   */
 
+  /*
   // Set up test pattern "AAAAAAA/1,1,0 CCCCCCC"
   Modifiers m0 = Modifiers::CreateMIDModifiers(1, 1, 0);
   //unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AAAAAAA"));
@@ -88,6 +94,7 @@ int main_X(int argc, char** argv) {
   unique_ptr<CompositeUnit> pu( new CompositeUnit(m) );
   pu->AddUnit(pu0);
   pu->AddUnit(pu1);
+   */
 
   /*
   string sequence = "TTTAAATCCCTTT";
@@ -174,6 +181,7 @@ int main_X(int argc, char** argv) {
   pu->AddUnit(pu4);
   */
 
+  /*
   if(argc>1){
     const string fname = argv[argc-1];
 
@@ -199,7 +207,24 @@ int main_X(int argc, char** argv) {
     }
 
   }
+   */
 
+  if(argc!=2)
+    cout<<"Usage: "<<argv[0]<<" <pattern>"<<endl;
+
+  //Parse pattern
+  SeqScan::Interpreter i;
+  SeqScan::PTNode* ptree = i.parse(argv[1]);
+
+  //Sanity check parse tree
+  SeqScan::SanityChecker s;
+  if(!s.is_sane(ptree))
+    return EXIT_FAILURE;
+
+  //Compile parse tree into PatternUnit
+  SeqScan::PatternUnitCreator creator;
+  unique_ptr<PatternUnit> pu = creator.create_from_parse_tree(ptree);
+  pu->Print(cout)<<endl;
 
 
   return EXIT_SUCCESS;
