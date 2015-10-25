@@ -62,12 +62,11 @@ link_libraries(${CMAKE_CURRENT_SOURCE_DIR}/parser-generator/lib/libseqscanparser
 set(TEST_SOURCE_FILES ${SOURCE_FILES})
 list(REMOVE_ITEM TEST_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc)
 list(REMOVE_ITEM TEST_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/run_seqscan.cc)
-#list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/run_seqscan.cc)
-list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc)
+list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/run_seqscan.cc)
+#list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_tests.cc)
 
 add_executable(seqscan ${SOURCE_FILES} ${HEADER_FILES})
-
 
 
 
@@ -82,3 +81,22 @@ if (CMAKE_BUILD_TYPE MATCHES DEBUG OR CMAKE_BUILD_TYPE MATCHES "Debug")
     add_executable("seqscan_test" ${TEST_FILES} ${TEST_SOURCE_FILES} ${HEADER_FILES})
 	#target_link_libraries(seqscan_test /usr/local/opt/flex/lib/libfl.a)
 endif()
+
+include(ExternalProject)
+set(bioio_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/bioio")
+set(bioio_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/bioio")
+#set(bioio_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${bioio_INSTALL_DIR})
+
+message("bioio_PREFIX='${bioio_PREFIX}'")
+message("bioio_INSTALL_DIR='${bioio_INSTALL_DIR}'")
+#message("bioio_CMAKE_ARGS='${bioio_CMAKE_ARGS}'")
+message("GIT_EXECUTABLE='${GIT_EXECUTABLE}'")
+
+ExternalProject_Add(
+	bioio
+	PREFIX ${bioio_PREFIX}
+	GIT_REPOSITORY https://github.com/BIO-DIKU/BioIO.git
+	GIT_TAG install-feature
+	INSTALL_DIR ${bioio_INSTALL_DIR}
+    INSTALL_COMMAND ""
+)
