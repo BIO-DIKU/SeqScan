@@ -56,13 +56,13 @@ class ResTemplate {
 
  private:
 
-/*
- * Residue template.
- */
-std::bitset<65536> res_template_;
+  /*
+   * Residue template.
+   */
+  std::bitset<65536> res_template_;
 
-/*
- * Create a match template from a vector of match pairs i.e. two char strings.
- */
-void ResTemplate::MatchPairsToTemplate();
+  /*
+   * Create a match template from a vector of match pairs i.e. two char strings.
+   */
+  void ResTemplate::MatchPairsToTemplate();
 };
