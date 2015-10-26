@@ -80,6 +80,9 @@ std::string PTNode::str(size_t indent) const {
     if(node_type_==PTNode::kRepeat){
       ts<<",rep={"<<min_repeats_<<","<<max_repeats_<<"}";
     }
+    if(node_type_==PTNode::kRange){
+      ts<<",ran=("<<min_range_<<".."<<max_range_<<")";
+    }
     if(node_type_==PTNode::kReference){
       ts<<",ref="<<referenced_label_;
     }

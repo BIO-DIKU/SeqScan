@@ -32,7 +32,7 @@ namespace SeqScan {
         if(!check_sequence(node)) return false;
         break;
       case PTNode::kRepeat:
-        if(!check_repeat(node)) return false;
+        if(!check_repeat(node, visited_labels)) return false;
         break;
     }
 
@@ -65,6 +65,18 @@ namespace SeqScan {
 
   bool SanityChecker::check_sequence(const PTNode *node)
   {
+    if( ! node->children_.empty() )
+    { cerr<<"Sanity: Sequence units can't have children"<<endl; return false; }
+
+    if( node->max_repeats_ || node->min_repeats_ )
+    { cerr<<"Sanity: Sequence units can't be repeat units"<<endl; return false; }
+
+    if( node->sequence_.empty() )
+    { cerr<<"Sanity: Sequence units must have a non-empty sequence to match"<<endl; return false; }
+
+    if( !node->referenced_label_.empty() )
+    { cerr<<"Sanity: Sequence units can't be reference units"<<endl; return false; }
+
     return true;
   }
 
@@ -90,8 +102,26 @@ namespace SeqScan {
     return true;
   }
 
-  bool SanityChecker::check_repeat(const PTNode *node)
+  bool SanityChecker::check_repeat(const PTNode *node, std::set<std::string>& visited_labels)
   {
+    if( node->children_.size()!=1 )
+    { cerr<<"Sanity: Repeat units must have something to repeat"<<endl; return false; }
+
+    if( node->max_repeats_>0 && node->max_repeats_<node->min_repeats_ )
+    { cerr<<"Sanity: Repeat units must have min-repeat <= max-repeat"<<endl; return false; }
+
+    if( node->max_repeats_==0 && node->min_repeats_==0 )
+    { cerr<<"Sanity: Repeat units can't have min-repeat = max-repeat = 0"<<endl; return false; }
+
+    if( !node->sequence_.empty() )
+    { cerr<<"Sanity: Repeat units can't be sequence units"<<endl; return false; }
+
+    if( !node->referenced_label_.empty() )
+    { cerr<<"Sanity: Repeat units can't be reference units"<<endl; return false; }
+
+    // Call is_sane recursively on child
+    if( !is_sane(node->children_[0], visited_labels) ) return false;
+
     return true;
   }
 

@@ -223,7 +223,7 @@ int main(int argc, char** argv) {
 
   //Compile parse tree into PatternUnit
   SeqScan::PatternUnitCreator creator;
-  unique_ptr<PatternUnit> pu = creator.create_from_parse_tree(ptree);
+  std::unique_ptr<PatternUnit> pu = creator.create_from_parse_tree(ptree);
   pu->Print(cout)<<endl;
 
 

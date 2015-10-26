@@ -28,7 +28,7 @@ namespace SeqScan {
     bool check_reference(const PTNode *node, std::set<std::string>& visited_labels);
     bool check_sequence(const PTNode *node);
     bool check_composite(const PTNode *node, std::set<std::string>& visited_labels);
-    bool check_repeat(const PTNode *node);
+    bool check_repeat(const PTNode *node, std::set<std::string>& visited_labels);
 
   };
 
