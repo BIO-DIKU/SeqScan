@@ -18,6 +18,9 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+#ifndef SEQSCAN_RES_TEMPLATE_H_
+#define SEQSCAN_RES_TEMPLATE_H_
+
 #include <bitset>
 #include <vector>
 
@@ -25,8 +28,8 @@
 /* RNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
 /* Protein:  FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx */
 
-static const size_t      kSizeOfChar = size_of(char);
-static const std::string kTemplate1 = R"TEMPLATE(
+static const size_t      kSizeOfChar = 8; // FIXME(someone) size_of(char);
+static const std::string kTemplate1  = R"TEMPLATE(
  ACGTU
 Ax
 C x
@@ -89,9 +92,14 @@ class ResTemplate {
   std::string template_file_;
 
   /*
+   * Vector with match pairs.
+   */
+  std::vector<std::string> match_pairs_;
+
+  /*
    * Number of hardcoded template matrix to use.
    */
-  int template_num_;
+//  int template_num_;
 
   /*
    * Parse a custom matrix from file.
@@ -108,3 +116,5 @@ class ResTemplate {
    */
   void MatchPairsToTemplate();
 };
+
+#endif  // SEQSCAN_RES_TEMPALTE_H_

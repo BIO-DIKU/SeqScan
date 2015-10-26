@@ -21,7 +21,8 @@
 #include "res_template.h"
 #include <bitset>
 
-static const size_t kSizeOfChar = size_of(char);
+#ifndef SEQSCAN_RES_MATCHER_H_
+#define SEQSCAN_RES_MATCHER_H_
 
 /**
  * @brief Class for matching residues using a residue template with encoded
@@ -31,7 +32,7 @@ static const size_t kSizeOfChar = size_of(char);
  */
 class ResMatcher {
  public:
-  ResMatcher(ResTemplate res_template);
+  ResMatcher(std::bitset<65536> res_template);
 
   ~ResMatcher();
 
@@ -48,3 +49,5 @@ class ResMatcher {
 
   std::bitset<65536> res_template_;  // FIXME(Martin): Avoid hard coded value
 };
+
+#endif  // SEQSCAN_RES_MATCHER_H_

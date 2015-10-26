@@ -37,7 +37,7 @@ ResTemplate::ResTemplate(int template_num) :
   MatrixToTemplate();
 };
 
-ResTemplate::ResTemplate(std::vector<std::string> match_pairs) :
+ResTemplate::ResTemplate(vector<string> match_pairs) :
   res_template_(),
   match_pairs_(match_pairs)
 {
@@ -58,17 +58,17 @@ void ResTemplate::MatrixToTemplate() {
   string seq1;
 
   while (!matrix.eof()) {
-    std::string line;
+    string line;
 
     if (first) {
-      seq1 = getline(matrix, seq1);
+      getline(matrix, seq1);
       first = false;
     } else {
       getline(matrix, line);
 
-      for (i = 1; i < line.size(); ++i) {
+      for (size_t i = 1; i < line.size(); ++i) {
         if (line[i] == 'x') {
-          res_template_.set(ses1[0] << kSizeOfChar | line[0], true);
+          res_template_.set(seq1[0] << kSizeOfChar | line[0], true);
         }
       }
     }
