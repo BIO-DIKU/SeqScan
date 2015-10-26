@@ -96,7 +96,10 @@ int main(int argc, char *argv[]) {
         pattern->Initialize(seq.cbegin(), seq.cend());
         while (pattern->FindMatch()) {
           const Match& match = pattern->GetMatch();
-          match.Print(std::cout, seq.cbegin())<<std::endl;
+
+          std::cout<<entry->name()<<"\t+\t";
+          match.Print(std::cout, seq.cbegin());
+          std::cout<<"\t"<<match.len<<std::endl;
         }
 
       } // end while (fasta_reader.hasNextEntry())
