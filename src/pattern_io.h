@@ -18,6 +18,9 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+ #ifndef SEQSCAN_PATTERN_IO_H_
+ #define SEQSCAN_PATTERN_IO_H_
+
  #include <iostream>
  #include <string>
  #include <vector>
@@ -78,3 +81,5 @@ class PatternIO {
    */
   void CheckPatterns();
 };
+
+#endif  // SEQSCAN_PATTERN_IO_H_
