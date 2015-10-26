@@ -18,10 +18,10 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+#include <vector>
 #include "catch.h"
 #include "../src/res_template.h"
 #include "../src/res_matcher.h"
-#include <vector>
 
 using namespace std;
 
