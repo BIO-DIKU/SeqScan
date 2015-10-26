@@ -42,13 +42,3 @@ TEST_CASE("ResTemplate::MatrixToTemplate", "[res_template]") {
 
   REQUIRE(res_template.is_set('A' << kSizeOfChar | 'N'));
 }
-
-TEST_CASE("ResTemplate::MatchPairsToTemplate", "[res_template]") {
-  SECTION("Bad format") {
-    // REQUIRE_THROWS_AS();
-  }
-
-  SECTION("OK format") {
-    // REQUIRE();
-  }
-}

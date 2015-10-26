@@ -22,7 +22,6 @@
 #define SEQSCAN_RES_TEMPLATE_H_
 
 #include <bitset>
-#include <vector>
 
 /* DNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
 /* RNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
@@ -74,11 +73,6 @@ class ResTemplate {
    */
   ResTemplate(std::string template_file);
 
-  /*
-   * Create a match template from a vector of match pairs i.e. two char strings.
-   */
-  ResTemplate(std::vector<std::string> match_pairs);
-
   ~ResTemplate();
 
   /*
@@ -104,11 +98,6 @@ class ResTemplate {
   std::string template_file_;
 
   /*
-   * Vector with match pairs.
-   */
-  std::vector<std::string> match_pairs_;
-
-  /*
    * Number of hardcoded template matrix to use.
    */
   int template_num_;
@@ -127,11 +116,6 @@ class ResTemplate {
    * Parse a hardcoded matrix.
    */
   void ParseMatrix(const std::string matrix_str);
-
-  /*
-   * Create a match template from a vector of match pairs i.e. two char strings.
-   */
-  void MatchPairsToTemplate();
 };
 
 #endif  // SEQSCAN_RES_TEMPALTE_H_

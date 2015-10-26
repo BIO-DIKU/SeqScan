@@ -37,13 +37,6 @@ ResTemplate::ResTemplate(int template_num) :
   MatrixToTemplate();
 };
 
-ResTemplate::ResTemplate(vector<string> match_pairs) :
-  res_template_(),
-  match_pairs_(match_pairs)
-{
-  MatchPairsToTemplate();
-};
-
 ResTemplate::~ResTemplate()
 {};
 
@@ -95,11 +88,5 @@ void ResTemplate::ParseMatrix(const string matrix_str) {
         }
       }
     }
-  }
-}
-
-void ResTemplate::MatchPairsToTemplate() {
-  for (auto it : match_pairs_) {
-    res_template_.set(it[0] << kSizeOfChar | it[1], true);
   }
 }
