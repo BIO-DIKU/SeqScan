@@ -34,7 +34,5 @@ bool ResMatcher::Match(const char a, const char b) {
     return true;
   }
 
-  int index = a << kSizeOfChar | b;
-
-  return res_template_.is_set(index);
+  return res_template_.is_set(a << kSizeOfChar | b);
 }
