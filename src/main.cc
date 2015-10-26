@@ -22,8 +22,8 @@
 
 #include <ptnode.h>
 #include <interpreter.h>
-#include <seq_entry.h>
-#include <fasta_reader.h>
+#include <BioIO/seq_entry.h>
+#include <BioIO/fasta_reader.h>
 
 #include "optparse.h"
 #include "pattern_io.h"
