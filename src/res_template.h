@@ -31,22 +31,22 @@
 static const size_t      kSizeOfChar = 8; // FIXME(someone) size_of(char);
 static const std::string kTemplate1  = R"TEMPLATE(
  ACGTUN
-Ax    x
-C x   x
-G  x  x
-T   xxx
-U   xxx
-Nxxxxxx
+A+    +
+C +   +
+G  +  +
+T   +++
+U   +++
+N++++++
 )TEMPLATE";
 
-static const std::string kTemplate1rc = R"TEMPLATE(
+static const std::string kTemplate2 = R"TEMPLATE(
 ~ACGTUN
-A   xxx
-C  x  x
-G x   x
-Tx    x
-Ux    x
-Nxxxxxx
+A   +++
+C  +  +
+G +   +
+T+    +
+U+    +
+N++++++
 )TEMPLATE";
 
 /**
@@ -122,6 +122,11 @@ class ResTemplate {
    * Create a match template from a hard coded matrix.
    */
   void MatrixToTemplate();
+
+  /*
+   * Parse a hardcoded matrix.
+   */
+  void ParseMatrix(const std::string matrix_str);
 
   /*
    * Create a match template from a vector of match pairs i.e. two char strings.

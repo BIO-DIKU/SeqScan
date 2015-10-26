@@ -63,11 +63,19 @@ void ResTemplate::FileMatrixToTemplate() {
 void ResTemplate::MatrixToTemplate() {
   switch (template_num_) {
     case 1:
-      istringstream matrix(kTemplate1);
+      ParseMatrix(kTemplate1);
+      break;
+    case 2:
+      ParseMatrix(kTemplate2);
+      break;
+    default:
+      cerr << "Unknown matrix" << endl;  // TODO(Martin): Proper error handling.
       break;
   }
+}
 
-  istringstream matrix(kTemplate1);
+void ResTemplate::ParseMatrix(const string matrix_str) {
+  istringstream matrix(matrix_str);
   bool first = true;
   string seq1;
 
@@ -75,14 +83,14 @@ void ResTemplate::MatrixToTemplate() {
     string line;
 
     if (first) {
-      getline(matrix, seq1); // TODO(Someone): fix nasty hack to advance a line.
+      getline(matrix, seq1); // TODO(Someone): fix nasty hack to advance 1 line.
       getline(matrix, seq1);
       first = false;
     } else {
       getline(matrix, line);
 
       for (size_t i = 1; i < line.size(); ++i) {
-        if (line[i] == 'x') {
+        if (line[i] == '+') {
           res_template_.set(seq1[0 + 1] << kSizeOfChar | line[0], true);
         }
       }
