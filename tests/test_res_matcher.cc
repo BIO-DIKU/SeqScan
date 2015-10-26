@@ -18,7 +18,6 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include <vector>
 #include "catch.h"
 #include "../src/res_template.h"
 #include "../src/res_matcher.h"
@@ -26,19 +25,22 @@
 using namespace std;
 
 TEST_CASE("ResMatcher returns correctly", "[res_matcher]") {
-  vector<string> match_pairs = {"AA", "TU"};
-  ResTemplate    res_template(match_pairs);
-  ResMatcher     res_matcher(res_template);
+  ResTemplate res_template(1);
+  ResMatcher  res_matcher(res_template);
 
-  SECTION("w identical residues") {
+  SECTION("w identical residues is OK") {
     REQUIRE(res_matcher.Match('A', 'A'));
   }
 
-  SECTION("w matching residue pair") {
+  SECTION("w matching residue pair is OK") {
     REQUIRE(res_matcher.Match('T', 'U'));
   }
 
-  SECTION("w/o matching residue pair") {
+  SECTION("w matching ambiguity is OK") {
+    REQUIRE(res_matcher.Match('T', 'U'));
+  }
+
+  SECTION("w/o matching residue pair is bad") {
     REQUIRE_FALSE(res_matcher.Match('A', 'T'));
   }
 }
