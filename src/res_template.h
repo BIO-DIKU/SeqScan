@@ -79,7 +79,15 @@ class ResTemplate {
 
   ~ResTemplate();
 
-  
+  /*
+   * Set the value at index.
+   */
+  void set(size_t index);
+
+  /*
+   * Test if the value at index is set.
+   */
+  bool is_set(size_t index);
 
  private:
 

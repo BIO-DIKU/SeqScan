@@ -43,7 +43,7 @@ class ResMatcher {
    * @param a First residue
    * @parem b Second residue
    */
-  bool Match(char a, char b);
+  bool Match(const char a, const char b);
 
  private:
 

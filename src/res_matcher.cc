@@ -29,10 +29,12 @@ ResMatcher::ResMatcher(ResTemplate res_template) :
 ResMatcher::~ResMatcher()
 {};
 
-bool ResMatcher::Match(char a, char b) {
+bool ResMatcher::Match(const char a, const char b) {
   if (a == b) {
     return true;
   }
 
-  return res_template_[a << kSizeOfChar | b];  // FIXME(Martin): Fix type casts
+  int index = a << kSizeOfChar | b;
+
+  return res_template_.is_set(index);
 }

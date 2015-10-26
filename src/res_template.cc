@@ -47,6 +47,14 @@ ResTemplate::ResTemplate(vector<string> match_pairs) :
 ResTemplate::~ResTemplate()
 {};
 
+void ResTemplate::set(size_t index) {
+  res_template_.set(index, true);
+}
+
+bool ResTemplate::is_set(size_t index) {
+  return res_template_.test(index);
+}
+
 void ResTemplate::FileMatrixToTemplate() {
   // TODO(Martin): implement this.
 }
@@ -77,6 +85,6 @@ void ResTemplate::MatrixToTemplate() {
 
 void ResTemplate::MatchPairsToTemplate() {
   for (auto it : match_pairs_) {
-    res_template_.set(it[0] << kSizeOfChar | it[1] , true);
+    res_template_.set(it[0] << kSizeOfChar | it[1], true);
   }
 }
