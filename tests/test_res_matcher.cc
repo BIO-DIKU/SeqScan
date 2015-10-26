@@ -37,7 +37,7 @@ TEST_CASE("ResMatcher returns correctly", "[res_matcher]") {
   }
 
   SECTION("w matching ambiguity is OK") {
-    REQUIRE(res_matcher.Match('T', 'U'));
+    REQUIRE(res_matcher.Match('T', 'N'));
   }
 
   SECTION("w/o matching residue pair is bad") {

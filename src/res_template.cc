@@ -69,8 +69,8 @@ void ResTemplate::MatrixToTemplate() {
 
 void ResTemplate::ParseMatrix(const string matrix_str) {
   istringstream matrix(matrix_str);
-  bool first = true;
-  string seq1;
+  string        seq1;
+  bool          first = true;
 
   while (!matrix.eof()) {
     string line;
@@ -82,9 +82,9 @@ void ResTemplate::ParseMatrix(const string matrix_str) {
     } else {
       getline(matrix, line);
 
-      for (size_t i = 1; i < line.size(); ++i) {
+      for (size_t i = 1; i <= line.size(); ++i) {
         if (line[i] == '+') {
-          res_template_.set(seq1[0 + 1] << kSizeOfChar | line[0], true);
+          res_template_.set(seq1[i] << kSizeOfChar | line[0], true);
         }
       }
     }
