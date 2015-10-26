@@ -31,11 +31,11 @@ ResTemplate::ResTemplate(string template_file) :
   FileMatrixToTemplate();
 };
 
-ResTemplate::ResTemplate(int template_num) :
-  template_num_(template_num)
-{
-  MatrixToTemplate();
-};
+// ResTemplate::ResTemplate(int template_num) :
+//   template_num_(template_num)
+// {
+//   MatrixToTemplate();
+// };
 
 ResTemplate::ResTemplate(vector<string> match_pairs) :
   res_template_(),

@@ -19,6 +19,7 @@
  */
 
 #include "catch.h"
+#include "../src/res_template.h"
 #include "../src/res_matcher.h"
 #include <vector>
 
