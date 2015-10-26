@@ -70,20 +70,21 @@ int main(int argc, char *argv[]) {
     for (auto& raw_pat : patterns){
 
       //Parse and check string-pattern
-      SeqScan::PTNode* parse_tree = parse_tree_generator.parse(raw_pat);
+      std::unique_ptr<SeqScan::PTNode> parse_tree( parse_tree_generator.parse(raw_pat) );
 
       if (parse_tree==NULL){
         std::cerr<<"Error parsing pattern: "<<raw_pat<<std::endl;
         continue;
       }
 
-      if (!parse_tree_checker.is_sane(parse_tree)){
+      if (!parse_tree_checker.is_sane( parse_tree.get() )){
         std::cerr<<"Insane pattern: "<<raw_pat<<std::endl;
         std::cerr<<parse_tree->str(0)<<std::endl;
         continue;
       }
 
-      std::unique_ptr<PatternUnit> pattern = pattern_unit_factory.create_from_parse_tree(parse_tree);
+      std::unique_ptr<PatternUnit> pattern =
+          pattern_unit_factory.create_from_parse_tree(parse_tree.get());
 
 
       //For each SeqEntry: attempt to match pattern
