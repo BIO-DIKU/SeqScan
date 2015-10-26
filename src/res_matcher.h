@@ -32,7 +32,7 @@
  */
 class ResMatcher {
  public:
-  ResMatcher(std::bitset<65536> res_template);
+  ResMatcher(ResTemplate res_template);
 
   ~ResMatcher();
 
@@ -47,7 +47,7 @@ class ResMatcher {
 
  private:
 
-  std::bitset<65536> res_template_;  // FIXME(Martin): Avoid hard coded value
+  ResTemplate res_template_;
 };
 
 #endif  // SEQSCAN_RES_MATCHER_H_

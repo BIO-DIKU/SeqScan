@@ -79,6 +79,8 @@ class ResTemplate {
 
   ~ResTemplate();
 
+  
+
  private:
 
   /*

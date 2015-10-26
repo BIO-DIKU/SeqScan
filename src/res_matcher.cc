@@ -22,7 +22,7 @@
 
 using namespace std;
 
-ResMatcher::ResMatcher(bitset<65536> res_template) :
+ResMatcher::ResMatcher(ResTemplate res_template) :
   res_template_(res_template)
 {};
 
