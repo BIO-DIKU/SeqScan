@@ -30,21 +30,23 @@
 
 static const size_t      kSizeOfChar = 8; // FIXME(someone) size_of(char);
 static const std::string kTemplate1  = R"TEMPLATE(
- ACGTU
-Ax
-C x
-G  x
-T   xx
-U   xx
+ ACGTUN
+Ax    x
+C x   x
+G  x  x
+T   xxx
+U   xxx
+Nxxxxxx
 )TEMPLATE";
 
 static const std::string kTemplate1rc = R"TEMPLATE(
-~ACGTU
-A   xx
-C  x
-G x
-Tx
-Ux
+~ACGTUN
+A   xxx
+C  x  x
+G x   x
+Tx    x
+Ux    x
+Nxxxxxx
 )TEMPLATE";
 
 /**
@@ -109,7 +111,7 @@ class ResTemplate {
   /*
    * Number of hardcoded template matrix to use.
    */
-//  int template_num_;
+  int template_num_;
 
   /*
    * Parse a custom matrix from file.

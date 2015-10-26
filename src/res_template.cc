@@ -31,11 +31,11 @@ ResTemplate::ResTemplate(string template_file) :
   FileMatrixToTemplate();
 };
 
-// ResTemplate::ResTemplate(int template_num) :
-//   template_num_(template_num)
-// {
-//   MatrixToTemplate();
-// };
+ResTemplate::ResTemplate(int template_num) :
+  template_num_(template_num)
+{
+  MatrixToTemplate();
+};
 
 ResTemplate::ResTemplate(vector<string> match_pairs) :
   res_template_(),
@@ -61,6 +61,12 @@ void ResTemplate::FileMatrixToTemplate() {
 
 // TODO(Martin): Allow chosing of matrix.
 void ResTemplate::MatrixToTemplate() {
+  switch (template_num_) {
+    case 1:
+      istringstream matrix(kTemplate1);
+      break;
+  }
+
   istringstream matrix(kTemplate1);
   bool first = true;
   string seq1;
@@ -69,6 +75,7 @@ void ResTemplate::MatrixToTemplate() {
     string line;
 
     if (first) {
+      getline(matrix, seq1); // TODO(Someone): fix nasty hack to advance a line.
       getline(matrix, seq1);
       first = false;
     } else {
@@ -76,7 +83,7 @@ void ResTemplate::MatrixToTemplate() {
 
       for (size_t i = 1; i < line.size(); ++i) {
         if (line[i] == 'x') {
-          res_template_.set(seq1[0] << kSizeOfChar | line[0], true);
+          res_template_.set(seq1[0 + 1] << kSizeOfChar | line[0], true);
         }
       }
     }
