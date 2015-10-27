@@ -314,5 +314,23 @@ void OptParse::PrintVersion() {
     return;
   }
 
-  cerr << "123.2.23" << endl;  // TODO(Someone): Find a cannonical way to get version
+  string path       = string(argv_[0]);
+  string executable = path.substr(path.find_last_of("/\\") + 1);
+
+  cerr << executable << "_123.2.23" << endl;  // TODO(Someone): Find a cannonical way to get version
+}
+
+void OptParse::PrintCommandLine() {
+  if (test_) {
+    return;
+  }
+
+  string path     = string(argv_[0]);
+  string cmd_line = path.substr(path.find_last_of("/\\") + 1);
+
+  for (int i = 1; i < argc_; ++i) {
+    cmd_line += " " + string(argv_[i]);
+  }
+
+  cerr << cmd_line;
 }

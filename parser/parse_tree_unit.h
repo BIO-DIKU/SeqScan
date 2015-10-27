@@ -17,9 +17,12 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
+#ifndef PARSE_TREE_UNIT_H_
+#define PARSE_TREE_UNIT_H_
 
 #include <string>
 #include <vector>
+#include "parse_tree_list.h"
 using namespace std;
 
 class ParseTreeList;
@@ -71,3 +74,5 @@ class ParseTreeUnit {
     void insert_or_units(ParseTreeUnit* p1, ParseTreeUnit* p2);
     void pprint();
 };
+
+#endif
