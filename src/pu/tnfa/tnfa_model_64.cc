@@ -49,7 +49,7 @@ TNFAModel64::TNFAModel64(const Modifiers &modifiers,
 void TNFAModel64::Initialize(std::string::const_iterator pos,
                                   std::string::const_iterator max_pos,
                                   bool stay_at_pos ) {
-  sequence_iterator_ = pos;
+  stay_sequence_iterator_ = sequence_iterator_ = pos;
   sequence_iterator_end_ = max_pos;
   stay_at_pos_ = stay_at_pos;
   matches.clear();
@@ -102,11 +102,17 @@ bool TNFAModel64::FindMatch() {
     }
   }
 
-  for (auto matchPair : matchMap_)
-    matches.push_back(
+  for (auto matchPair : matchMap_) {
+    if (stay_at_pos_)
+      matches.push_back(
+        Match(stay_sequence_iterator_, matchPair.first, matchPair.second)
+      );
+    else
+      matches.push_back(
         Match(sequence_iterator_ - matchPair.first, matchPair.first, matchPair.second)
-    );
-
+      );
+  }
+  
   return !matches.empty();
 }
 

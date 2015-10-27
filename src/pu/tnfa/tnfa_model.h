@@ -40,6 +40,7 @@ public:
 protected:
   const std::string            pattern_;
   std::string::const_iterator  sequence_iterator_;
+  std::string::const_iterator  stay_sequence_iterator_;
   std::string::const_iterator  sequence_iterator_end_;
   bool                         stay_at_pos_;
   bool                         listNo_;

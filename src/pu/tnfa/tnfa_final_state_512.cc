@@ -27,7 +27,13 @@ using ::std::unordered_map;
 TNFAFinalState512::TNFAFinalState512(int len, int edits)
   : TNFAState512(0), patternLength_(len), maxEdits_(edits) {}
 
-void TNFAFinalState512::addOutStates(bool listNo,
+void TNFAFinalState512::addOutStates(bool,
+                                    string::const_iterator,
+                                    vector< TNFAState512 * > [],
+                                    unordered_map<int, int> &,
+                                    uint32_t) {}
+
+/*void TNFAFinalState512::addOutStates(bool listNo,
                                   string::const_iterator pos,
                                   vector< TNFAState512 * > stateLists[],
                                   unordered_map<int, int> &matchMap,
@@ -36,7 +42,7 @@ void TNFAFinalState512::addOutStates(bool listNo,
   if (insertions(errorCode_[!listNo]))
     addToList(decrementInsertions(errorCode_[!listNo]), listNo,
               pos, stateLists, matchMap, listID);
-}
+}*/
 
 void TNFAFinalState512::addEpsilonTransitions(bool listNo,
                                            string::const_iterator,
