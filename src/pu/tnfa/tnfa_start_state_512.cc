@@ -53,6 +53,6 @@ void TNFAStartState512::addOutStates(bool listNo,
 }
 
 void TNFAStartState512::display(bool) {
-  printf("StartState %p points to %p with error code %llu\n",
+  printf("StartState %p points to %p with error code %lu\n",
     (void *) this, (void *) out_, stateErrorCode_[0]);
 }
