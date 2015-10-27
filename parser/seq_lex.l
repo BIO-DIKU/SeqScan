@@ -1,22 +1,18 @@
 /* Initial C code is wrapped in '%{' */
 %{
-#include <iostream>
-#include "../src/pu/backtrack_unit.h"
-using namespace std;
-
 // Just flex stuff
 #define YY_DECL extern "C" int yylex()
 #include "seq_par.tab.h"
 %}
-
 /* Double '%' initiates lexer rules section */
 /* DNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
 /* RNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
 /* Protein:  FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx */
-/* Combined: ABCDEFGHIKLMNPQRSTUVWXYabcdefghiklmnpqrstuvwyx /*
+/* Combined: ABCDEFGHIKLMNPQRSTUVWXYabcdefghiklmnpqrstuvwyx */
 
 /* All observed chars in README examples: */
 /* " $()*+,./01234568<=?ACDGHKNQRST[]^p{|}~" */
+
 %%
 \                              { return SPACE; }
 \$                             { return DOLLAR; } 
@@ -41,3 +37,4 @@ using namespace std;
 \}                             { return RCURLY; }
 \~                             { return TILDE; }
 %%
+

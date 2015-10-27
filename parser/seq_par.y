@@ -1,23 +1,22 @@
 %{
-#include <cstdio>
+//#include <cstdio>
+#include <stdio.h>
 #include <iostream>
-//#include "parse_tree_list.h"
-#include "sanity_check.h"
-using namespace std;
-#include "../src/modifiers.h"
-#include "../src/match.h"
-#include "../src/pu/backtrack_unit.h"
-#include "punit_list.h"
+#include "parse_tree_list.h"
+#include "parse_tree_unit.h"
 #include <utility>
 #include <vector>
 #include <map>
-
+//#include <FlexLexer>
 using namespace std;
 
 // Stuff from flex that bison needs to know about:
+typedef struct yy_buffer_state * YY_BUFFER_STATE;
 extern "C" int yylex();
 extern "C" int yyparse();
 extern "C" FILE *yyin;  
+extern YY_BUFFER_STATE yy_scan_string(const char * str);
+extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
 void yyerror(const char *s);
 
 // The final list of PatternUnit objects
@@ -27,7 +26,6 @@ map<string, ParseTreeUnit*> vtable;
 map<string, ParseTreeUnit*>::iterator vtab_it;
 %}
 
-/* Defining token types */
 %union {
   int inval;
   char* stval;
@@ -221,24 +219,11 @@ repeats:
 %%
 
 /* Double '%' ends parser grammer section, and begins C code section */
-
-
-
-int main(int, char**) {
-  FILE *myfile = fopen("input.txt", "r");
-  if (!myfile) {
-    cout << "cannot open input.txt\n";
-    return -1;
-  }
-  yyin = myfile;
-  do {
-    yyparse();
-  } while (!feof(yyin));
-  for (int i = 0; i < par_list->get_size(); i++) {
-    ParseTreeUnit* x = par_list->get_parse_unit(i);
-    par_list->get_parse_unit(i)->pprint();
-  }
-  check_sanity(par_list);
+ParseTreeList* parse(string s) {
+  YY_BUFFER_STATE buf = yy_scan_string(s.c_str());
+  yyparse();
+  yy_delete_buffer(buf);
+  return par_list;
 }
 
 void yyerror(const char *s) {

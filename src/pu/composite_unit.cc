@@ -113,7 +113,7 @@ std::ostream& CompositeUnit::Print(std::ostream &os) const {
 
   os << "(";
 
-  for (auto i = 0; i < child_units_.size() - 1; i++) {
+  for (size_t i = 0; i < child_units_.size() - 1; i++) {
     child_units_.at(i)->Print(os) << " ";
   }
 

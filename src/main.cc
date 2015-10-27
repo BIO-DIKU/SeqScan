@@ -17,23 +17,35 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
-#ifndef PARSE_TREE_LIST_H_
-#define PARSE_TREE_LIST_H_
 
-#include <vector>
-#include "parse_tree_unit.h"
-using namespace std;
+#include <stdio.h>
+#include "optparse.h"
+#include "pattern_io.h"
 
-class ParseTreeUnit;
+int main(int argc, char *argv[]) {
+  std::vector<std::string> patterns;
 
-class ParseTreeList {
-  public:
-    ParseTreeList();
-    void push_back(ParseTreeUnit* punit);
-    ParseTreeUnit* get_parse_unit(int index);
-    int get_size();
-  private:
-    vector<ParseTreeUnit*> patlist_;
-};
+  OptParse opt_parse(argc, (char**)argv);
 
-#endif
+  if (!opt_parse.options_.pattern_file.empty()) {
+    PatternIO pat_parse(opt_parse.options_.pattern_file, patterns);
+  } else {
+    patterns.push_back(opt_parse.options_.pattern);
+  }
+
+  if (opt_parse.options_.verbose) {
+    opt_parse.PrintVersion();
+    std::cerr << std::endl;
+    opt_parse.PrintCommandLine();
+    std::cerr << std::endl << std::endl;
+    opt_parse.PrintOptions();
+
+    std::cerr << std::endl << "Patterns:" << std::endl;
+
+    for (auto it : patterns) {
+      std::cerr << "  " << it << std::endl;
+    }
+  }
+
+  return EXIT_SUCCESS;
+}

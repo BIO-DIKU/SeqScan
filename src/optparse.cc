@@ -32,11 +32,11 @@ OptParse::OptParse(int argc, char *argv[]) :
 }
 
 OptParse::OptParse(int argc, char *argv[], bool test) :
-  argc_(argc),
-  argv_(argv),
-  files_(),
   options_(),
-  test_(test)
+  files_(),
+  test_(test),
+  argc_(argc),
+  argv_(argv)
 {
   SetOptDefaults();
   Parse();
@@ -215,7 +215,7 @@ const char* OptParse::ScoreEncodingToString(OptScoreEncoding opt) {
   }
 }
 
-const OptParse::OptComplement OptParse::ParseComplement(string optarg) {
+OptParse::OptComplement OptParse::ParseComplement(string optarg) const {
   if (optarg == "forward") {
     return OptComplement::Forward;
   } else if (optarg == "reverse") {
@@ -228,7 +228,7 @@ const OptParse::OptComplement OptParse::ParseComplement(string optarg) {
   }
 }
 
-const OptParse::OptDirection OptParse::ParseDirection(string optarg) {
+OptParse::OptDirection OptParse::ParseDirection(string optarg) const {
   if (optarg == "forward") {
     return OptDirection::Forward;
   } else if (optarg == "reverse") {
@@ -239,7 +239,7 @@ const OptParse::OptDirection OptParse::ParseDirection(string optarg) {
   }
 }
 
-const OptParse::OptScoreEncoding OptParse::ParseScoreEncoding(string optarg) {
+OptParse::OptScoreEncoding OptParse::ParseScoreEncoding(string optarg) const {
   if (optarg == "Phred33") {
     return OptScoreEncoding::Phred33;
   } else if (optarg == "Phred64") {
@@ -314,5 +314,23 @@ void OptParse::PrintVersion() {
     return;
   }
 
-  cerr << "123.2.23" << endl;  // TODO(Someone): Find a cannonical way to get version
+  string path       = string(argv_[0]);
+  string executable = path.substr(path.find_last_of("/\\") + 1);
+
+  cerr << executable << "_123.2.23" << endl;  // TODO(Someone): Find a cannonical way to get version
+}
+
+void OptParse::PrintCommandLine() {
+  if (test_) {
+    return;
+  }
+
+  string path     = string(argv_[0]);
+  string cmd_line = path.substr(path.find_last_of("/\\") + 1);
+
+  for (int i = 1; i < argc_; ++i) {
+    cmd_line += " " + string(argv_[i]);
+  }
+
+  cerr << cmd_line;
 }

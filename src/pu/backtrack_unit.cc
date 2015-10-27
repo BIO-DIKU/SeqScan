@@ -120,11 +120,15 @@ void BacktrackUnit::CollectMatches(
 
   if (I_left > 0) CollectMatches(seq_it + 1, pat_it, M_left, I_left - 1, D_left, M_used, I_used + 1, D_used);
 
+
   if (pat_it == pattern_.cend()) {
     last_found_matches_.insert(
       Match(sequence_iterator_, pattern_.length() + I_used - D_used, M_used + I_used + D_used));
     return;
   }
+
+  if (seq_it == sequence_iterator_end_)
+    return;
 
   if (D_left > 0) CollectMatches(seq_it, pat_it + 1, M_left, I_left, D_left - 1, M_used, I_used, D_used + 1);
 

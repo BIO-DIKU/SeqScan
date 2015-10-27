@@ -53,6 +53,8 @@ class OptParseException : public std::exception {
     exceptionMsg(e.exceptionMsg)
   {}
 
+  virtual const char* what() const throw() { return exceptionMsg.c_str(); }
+
   const std::string exceptionMsg;
 };
 
@@ -152,6 +154,11 @@ class OptParse {
    */
   void PrintVersion();
 
+  /*
+   * Print command line to stderr.
+   */
+  void PrintCommandLine();
+
  private:
   int  argc_;
   char **argv_;
@@ -217,18 +224,18 @@ class OptParse {
   /*
    * Function for parsing complement option into enum OptComplement.
    */
-  const OptComplement ParseComplement(std::string optarg);
+  OptComplement ParseComplement(std::string optarg) const;
 
   /*
    * Function for parsing direction option into enum OptDirection.
    */
-  const OptDirection ParseDirection(std::string optarg);
+  OptDirection ParseDirection(std::string optarg) const;
 
   /*
    * Function for parsing score_encoding option into enum
    * OptScoreEncoding.
    */
-  const OptScoreEncoding ParseScoreEncoding(std::string optarg);
+  OptScoreEncoding ParseScoreEncoding(std::string optarg) const;
 
   /*
    * Function for converting OptComplement enum to string.
