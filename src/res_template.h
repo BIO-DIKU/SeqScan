@@ -48,6 +48,26 @@ U+    +
 N++++++
 )TEMPLATE";
 
+static const std::string kTemplate3 = R"TEMPLATE(
+ACGTURYWSMKHDVBN
+A+    + + + +++ +
+C +    + ++ + +++
+G  +  +  + + ++++
+T   ++ ++  +++ ++
+U   ++ ++  +++ ++
+R+ +  +      ++ +
+Y + ++ +    +  ++
+W+  ++  +   ++  +
+S ++     +    +++
+M++       + + + +
+K  +++     + +  +
+H++ ++ ++ + +   +
+D+ ++++ +  + +  +
+V+++  +  ++   + +
+B ++++ + + +   ++
+N++++++++++++++++
+)TEMPLATE";
+
 /**
  * @brief Class for creating a match template, which contians specification on
  * matching residue pairs. The match template consists of a bitset and the index
