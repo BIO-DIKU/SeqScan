@@ -73,7 +73,7 @@ class BacktrackUnit: public PatternUnit{
   std::set<Match> last_found_matches_;
 
   /** The index of the match in last_found_matches_ that GetMatch should return. */
-  int last_found_index_;
+  size_t last_found_index_;
 
   /** A recursive function that fills up last_found_matches_. This is the core of the
    * backtracking algorithm. */

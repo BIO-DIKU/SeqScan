@@ -27,7 +27,13 @@ using ::std::unordered_map;
 TNFAFinalState512::TNFAFinalState512(int len, int edits)
   : TNFAState512(0), patternLength_(len), maxEdits_(edits) {}
 
-void TNFAFinalState512::addOutStates(bool listNo,
+void TNFAFinalState512::addOutStates(bool,
+                                    string::const_iterator,
+                                    vector< TNFAState512 * > [],
+                                    unordered_map<int, int> &,
+                                    uint32_t) {}
+
+/*void TNFAFinalState512::addOutStates(bool listNo,
                                   string::const_iterator pos,
                                   vector< TNFAState512 * > stateLists[],
                                   unordered_map<int, int> &matchMap,
@@ -36,17 +42,17 @@ void TNFAFinalState512::addOutStates(bool listNo,
   if (insertions(errorCode_[!listNo]))
     addToList(decrementInsertions(errorCode_[!listNo]), listNo,
               pos, stateLists, matchMap, listID);
-}
+}*/
 
 void TNFAFinalState512::addEpsilonTransitions(bool listNo,
-                                           string::const_iterator pos,
-                                           vector< TNFAState512 * > stateLists[],
+                                           string::const_iterator,
+                                           vector< TNFAState512 * >[],
                                            unordered_map<int, int> &matchMap,
-                                           uint32_t listID)
+                                           uint32_t)
 {
   // Find length and number of used edits for all matches
-  int                matchLength = 0;
-  int                editsLeft   = 0;
+  int matchLength = 0;
+  int editsLeft   = 0;
 
   for (int c = kErrorCodeBits -1; c >= 0; c--) {
     // Check if relevant bit in error code is set

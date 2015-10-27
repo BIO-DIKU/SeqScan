@@ -28,7 +28,7 @@
 
 using namespace std;
 
-TEST_CASE("Test backtrack sequence unit matching without fuzziness", "[backtrack,exact]") {
+TEST_CASE("Test backtrack sequence unit matching without fuzziness", "[backtrack]") {
   // Set up test pattern "AAAA/0,0,0"
   Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
   unique_ptr<PatternUnit> pu(new BacktrackUnit(modifiers, "AAAA"));
@@ -126,14 +126,14 @@ TEST_CASE("Test backtrack sequence unit matching without fuzziness", "[backtrack
   }
 }
 
-TEST_CASE("Test backtrack sequence unit matching with mismatches", "[backtrack,mismatches]") {
+TEST_CASE("Test backtrack sequence unit matching with mismatches", "[backtrack]") {
   // Set up test pattern "AAAA/1,0,0"
   Modifiers modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
   unique_ptr<PatternUnit> pu(new BacktrackUnit(modifiers, "AAAA"));
 
   // Set up test pattern "AAAA/1,0,0"
   Modifiers modifiers_2 = Modifiers::CreateMIDModifiers(2, 0, 0);
-  unique_ptr<PatternUnit> pu_2(new BacktrackUnit(modifiers, "AAAA"));
+  unique_ptr<PatternUnit> pu_2(new BacktrackUnit(modifiers_2, "AAAA"));
 
   SECTION("0 matches") {
     string sequence = "TTTAATTT";
@@ -209,7 +209,7 @@ TEST_CASE("Test backtrack sequence unit matching with mismatches", "[backtrack,m
   }
 }
 
-TEST_CASE("Backtrack unit staying at pos", "[backtrack,stay]") {
+TEST_CASE("Backtrack unit staying at pos", "[backtrack]") {
   // Set up test pattern "AAAA/1,0,0"
   Modifiers modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
   unique_ptr<PatternUnit> pu(new BacktrackUnit(modifiers, "AAAA"));
@@ -248,7 +248,7 @@ TEST_CASE("Backtrack unit staying at pos", "[backtrack,stay]") {
   }
 }
 
-TEST_CASE("Backtrack unit staying at pos; several matches", "[backtrack,stay]") {
+TEST_CASE("Backtrack unit staying at pos; several matches", "[backtrack]") {
   // Set up test pattern "AAAA/1,0,0"
   Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 1, 0);
   unique_ptr<PatternUnit> pu(new BacktrackUnit(modifiers, "AAAA"));

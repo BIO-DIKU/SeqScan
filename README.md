@@ -201,7 +201,7 @@ submatches must occur.
 
     TAC{2,3} =~ GTACTACTACTACG => 2,3,0,TAC;5,3,0,TAC;8,3,0,TAC
 
-NB. SeqScan have default greedy behaviour so it will match as much as possible.
+NB. SeqScan have greedy behaviour so it will match as much as possible.
 
 **Open repetitions:** allow a minimum of repetitions:
 
@@ -210,17 +210,6 @@ NB. SeqScan have default greedy behaviour so it will match as much as possible.
 This allows for shorthands using the Kleene `*` and `+` modifiers indicating
 zero or more matches, and one or more matches, respectively. E.g. `TAC*` is
 equal to `TAC{0,}` and `TAC+` is equal to `TAC{1,0}`.
-
-Non-greedy behaviour can be enforced using the non-greedy modifier `?` on
-closed and open repetitions:
-
-**Non-greedy closed repetitions:**
-
-    TAC{2,3}? =~ GTACTACTACTACG => 2,3,0,TAC;5,3,0,TAC and 8,3,0,TAC;11,3,0,TAC
-
-**Non-greedy open repetitions:**
-
-    TAC{2,}? =~ GTACTACTACTACG => 2,3,0,TAC;5,3,0,TAC and 8,3,0,TAC;11,3,0,TAC
 
 It is also possible to add edit modifiers to repetitions:
 
@@ -248,9 +237,6 @@ with a closed repetition e.g. `.{20,30}` which can be replaced by the shorthand
 `20..30` or the synonym `20...30`.
 
     AG 2..4 TG =~ CAGCCCTGC => 2,2,0,AG;4,3,0,CCC;7,2,0,TG
-
-It is possible to add the non-greedy modifier `?` on ranges. See the Repetitions
-section.
 
 ### Backreferences
 

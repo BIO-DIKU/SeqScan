@@ -3,9 +3,10 @@ SRC_DIR     = ../src
 PARSER_FILE = seq_par.y
 LEXER_FILE  = seq_lex.l
 BIN_FILE    = seqscan
+CPP_FLAGS   = -std=c++11
 
 all: parser lexer
-	$(CPP) -std=c++11 $(SRC_DIR)/modifiers.cc $(SRC_DIR)/match.cc $(SRC_DIR)/pu/backtrack_unit.cc $(SRC_DIR)/pu/pattern_unit.cc punit_list.cpp seq_par.tab.c lex.yy.c -L/usr/local/opt/flex/lib -lfl -o $(BIN_FILE)
+	$(CPP) $(CPP_FLAGS) $(SRC_DIR)/modifiers.cc $(SRC_DIR)/match.cc $(SRC_DIR)/pu/backtrack_unit.cc $(SRC_DIR)/pu/pattern_unit.cc parse_tree_unit.cpp parse_tree_list.cpp seq_par.tab.c lex.yy.c main.cpp -o $(BIN_FILE)
 	
 
 parser:

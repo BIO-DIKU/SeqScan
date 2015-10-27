@@ -17,24 +17,30 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
+#ifndef PARSE_TREE_UNIT_H_
+#define PARSE_TREE_UNIT_H_
 
 #include <string>
 #include <vector>
+#include "parse_tree_list.h"
 using namespace std;
 
 class ParseTreeList;
 
+/* Attribute "type" indicates the type of pattern unit
+   1: Backtrack
+   2: Range
+   3: Composite
+   4: Labeled
+   5: Reference
+   6: Or
+   7: Matchgroup
+ */
 class ParseTreeUnit {
   public:
     ParseTreeUnit();
-    bool is_backtrack_;
-    bool is_range_;
-    bool is_composite_;
-    bool is_labeled_;
-    bool is_reference_;
-    bool is_or_;
-    bool is_matchgroup_;
     string sequence_;
+    int type_;
 
     int mis_;
     int ins_;
@@ -45,7 +51,7 @@ class ParseTreeUnit {
     int min_repeats_;
     int max_repeats_;
     bool rep_open_;
-    bool greedy_;
+    bool non_greedy_;
 
     int range_min_;
     int range_max_;
@@ -57,6 +63,9 @@ class ParseTreeUnit {
     bool group_greedy_;
     string group_;
 
+    bool start_anchor_;
+    bool end_anchor_;
+
     ParseTreeUnit* reference_;
     ParseTreeList* composite_;
     ParseTreeUnit* or_units_[2];
@@ -65,3 +74,5 @@ class ParseTreeUnit {
     void insert_or_units(ParseTreeUnit* p1, ParseTreeUnit* p2);
     void pprint();
 };
+
+#endif
