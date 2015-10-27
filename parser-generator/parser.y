@@ -197,15 +197,15 @@ punit :
   }
 | INT DOT DOT DOT INT 
   {
-    $$ = new PTNode(PTNode::kRepeat);
-	$$->min_repeats_ = $1;
-	$$->max_repeats_ = $5;
+    $$ = new PTNode(PTNode::kRange);
+	  $$->min_range_ = $1;
+	  $$->max_range_ = $5;
   }
 | INT DOT DOT INT 
   {
-    $$ = new PTNode(PTNode::kRepeat);
-	$$->min_repeats_ = $1;
-	$$->max_repeats_ = $4;
+    $$ = new PTNode(PTNode::kRange);
+	  $$->min_range_ = $1;
+	  $$->max_range_ = $4;
   }
 ;
 

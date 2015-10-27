@@ -76,11 +76,14 @@ namespace SeqScan {
     std::string referenced_label_;
     int min_repeats_;
     int max_repeats_;
+    int min_range_;
+    int max_range_;
 
     static const int kComposite  = 0;
     static const int kSequence   = 1;
     static const int kRepeat     = 2;
     static const int kReference  = 3;
+    static const int kRange      = 4;
 
     void add_modifier(PTPreModifier* m);
     void add_modifier(PTSufModifier* m);
