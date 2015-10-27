@@ -24,7 +24,7 @@ $(LIBFILE): $(OBJECTS)
 	ar rcs $@ $(OBJECTS)
 
 main: $(LIBFILE)
-	g++ -Wall -I ./include -L ./lib -lseqscanparser main.cpp -o main
+	g++ -std=c++11 -Wall -I ./include -L ./lib -lseqscanparser main.cpp -o main
 
 clean:
 	rm -rf $(LEXYAC_SOURCES) $(LEXYAC_HEADERS) $(OBJECTS)

@@ -42,7 +42,7 @@
   #include <vector>
   #include <stdint.h>
 
-  #include "ptnode.h"
+  #include "parse_tree_unit.h"
 
   namespace SeqScan {
 	class Scanner;
@@ -63,7 +63,7 @@
   #include "parser.hh"
   #include "interpreter.h"
   #include "location.hh"
-  
+ 
   // yylex() arguments are defined in parser.y
   static SeqScan::Parser::symbol_type yylex(SeqScan::Scanner &scanner, SeqScan::Interpreter &driver) {
       return scanner.get_next_token();
@@ -117,9 +117,11 @@
 
 %type< ParseTreeUnit* > unit_list;
 %type< ParseTreeUnit* > pattern_unit;
-%type< PTSufModifier* > front_modifier;
-%type< PTPreModifier* > back_modifier;
-%type< std::pair<int,int> > repeats;
+%type< ParseTreeUnit* > or_list;
+%type< PTSufModifier* > front_modifiers;
+%type< PTPreModifier* > back_modifiers;
+%type< std::pair<std::pair<int,int>,bool> > repeats;
+%type< ParseTreeUnit* > composite;
 
 %start pattern
 
@@ -144,8 +146,8 @@ unit_list:
 | HAT pattern_unit                       { $2->pre_modifier_.start_anchor_ = true;
                                            $$ = $2; 
                                          }
-| pattern_unit DOLLAR                    { $2->suf_modifier_.end_anchor_ = true;
-                                           $$ = $2; 
+| pattern_unit DOLLAR                    { $1->suf_modifier_.end_anchor_ = true;
+                                           $$ = $1; 
                                          }
 | pattern_unit                           { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Composite);
                                            $$->children_.push_back($1); 
@@ -159,19 +161,18 @@ pattern_unit:
                                            $$ = $5;
                                            $$->children_.push_back(gr);
                                          }
-  LBRACK STRING RBRACK repeats           { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
+| LBRACK STRING RBRACK repeats           { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
                                            gr->pre_modifiers_.hat_ = false;
-                                           $$ = $5;
+                                           $$ = $4;
                                            $$->children_.push_back(gr);
                                          }
-  LBRACK HAT STRING RBRACK               { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
+| LBRACK HAT STRING RBRACK               { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
                                            gr->pre_modifiers_.hat_ = true;
                                            $$ = gr;
                                          }
-  LBRACK STRING RBRACK                   { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
+| LBRACK STRING RBRACK                   { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
                                            gr->pre_modifiers_.hat_ = false;
-                                           $$ = $5;
-                                           $$->children_.push_back(gr);
+                                           $$ = gr;
                                          }
 
 
@@ -192,12 +193,12 @@ pattern_unit:
                                          }
 
 | LABEL back_modifiers                   { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Reference);
-                                           $$->referenced_label_ = $2;
-                                           $$->add_modifier($3);
+                                           $$->referenced_label_ = $1;
+                                           $$->add_modifier($2);
                                          }
 
 /* Or units */
-| orlist                                 { $$ = $1; }
+| or_list                                { $$ = $1; }
 
 /* Sequence units */
 | front_modifiers STRING back_modifiers  { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Sequence);
@@ -223,21 +224,23 @@ pattern_unit:
                                          }
 
 /* Repeat units */
-| pattern_unit repeat                    { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Repeat);
+| pattern_unit repeats                   { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Repeat);
                                            $$->children_.push_back($1);
-                                           $$->min_repeats_ = $2.first;
-                                           $$->max_repeats_ = $2.second;
+                                           $$->min_repeats_ = $2.first.first;
+                                           $$->max_repeats_ = $2.first.second;
+                                           $$->open_repeats_ = $2.second;
                                          }
-| pattern_unit repeat back_modifiers     { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Repeat);
+| pattern_unit repeats back_modifiers    { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Repeat);
                                            $$->children_.push_back($1);
-                                           $$->min_repeats_ = $2.first;
-                                           $$->max_repeats_ = $2.second;
+                                           $$->min_repeats_ = $2.first.first;
+                                           $$->max_repeats_ = $2.first.second;
+                                           $$->open_repeats_ = $2.second;
                                            $$->add_modifier($3);
                                          }
 ;
 
 or_list :
-| or_list OR pattern_unit                { $1->children_.push_back($3);
+  or_list OR pattern_unit                { $1->children_.push_back($3);
                                            $$ = $1;
                                          }
 | pattern_unit OR pattern_unit           { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Or);
@@ -246,114 +249,54 @@ or_list :
                                          }
 ;
 
+repeats:
+  LCURLY INT COMMA INT RCURLY            { $$ = std::make_pair(std::make_pair($2, $4), false); }
 
+| LCURLY INT COMMA RCURLY                { $$ = std::make_pair(std::make_pair($2, 0), true); }
 
-punit : 
-  STRING 
-  {
-    $$ = new PTNode($1);
-  }
-| LABEL
-  {
-    $$ = new PTNode(PTNode::kReference);
-    $$->referenced_label_ = $1;
-  }
-| punit LCURLY INT COMMA INT RCURLY
-  {
-    $$ = new PTNode(PTNode::kRepeat);
-    $$->min_repeats_ = $3;
-    $$->max_repeats_ = $5;
-    $$->children_.push_back($1);
-  }
-| punit LCURLY INT COMMA RCURLY
-  {
-    $$ = new PTNode(PTNode::kRepeat);
-    $$->min_repeats_ = $3;
-    $$->max_repeats_ = -1;
-    $$->children_.push_back($1);
-  }
-| punit LCURLY INT RCURLY
-  {
-    $$ = new PTNode(PTNode::kRepeat);
-    $$->min_repeats_ = $3;
-    $$->max_repeats_ = $3;
-    $$->children_.push_back($1);
-  }
-| prefix_modifier punit 
-  {
-    $2->add_modifier($1);
-    delete $1;
-    $$ = $2;
-  }
-| punit suffix_modifier
-  {
-    $1->add_modifier($2);
-    delete $2;
-    $$ = $1;
-  }
-| LABEL EQUAL punit
-  {
-    $3->label_ = $1;
-    $$ = $3;
-  }
-| LPAR unit_list RPAR 
-  {
-    $$ = $2;
-  }
-| INT DOT DOT DOT INT 
-  {
-    $$ = new PTNode(PTNode::kRepeat);
-	$$->min_repeats_ = $1;
-	$$->max_repeats_ = $5;
-  }
-| INT DOT DOT INT 
-  {
-    $$ = new PTNode(PTNode::kRepeat);
-	$$->min_repeats_ = $1;
-	$$->max_repeats_ = $4;
-  }
+| LCURLY INT RCURLY                      { $$ = std::make_pair(std::make_pair($2, 0), false); }
 ;
 
-suffix_modifier :
-  SLASH INT COMMA INT COMMA INT
-  {
-    $$ = new PTSufModifier();
-    $$->mismatches_ = $2;
-    $$->insertions_ = $4;
-    $$->deletions_  = $6;
-  }
-| SLASH INT COMMA INT
-  {
-    $$ = new PTSufModifier();
-    $$->mismatches_ = $2;
-    $$->indels_     = $4;
-  }
-| SLASH INT
-  {
-    $$ = new PTSufModifier();
-    $$->errors_ = $2;
-  }
+
+front_modifiers:
+  LESS TILDE                             { PTPreModifier* pm = new PTPreModifier();
+                                           pm->less_ = true;
+                                           pm->tilde_ = true;
+                                           $$ = pm; }
+
+| LESS                                   { PTPreModifier* pm = new PTPreModifier();
+                                           pm->less_ = true;
+                                           $$ = pm  }
+
+| TILDE                                  { PTPreModifier* pm = new PTPreModifier();
+                                           pm->tilde_ = true;
+                                           $$ = pm; } 
 ;
 
-prefix_modifier :
-  LESS TILDE
-  {
-    $$ = new PTPreModifier();
-    $$->complement_ = true;
-  }
-| LESS
-  {
-    $$ = new PTPreModifier();
-    $$->reverse_ = true;
-  }
-| TILDE
-  {
-    $$ = new PTPreModifier();
-    $$->reverse_ = true;
-    $$->complement_ = true;
-  }
+back_modifiers:
+  SLASH INT COMMA INT COMMA INT          { PTSufModifiers* sm = new PTSufModifiers();
+                                           sm->mismatches_ = $2;
+                                           sm->insertions_ = $4;
+                                           sm->deletions_ = $6;
+                                           $$ = sm; }
+ 
+| SLASH INT COMMA INT                    { PTSufModifiers* sm = new PTSufModifiers();
+                                           sm->mismatches_ = $2;
+                                           sm->indels_ = $4; }
+
+| SLASH INT                              { PTSufModifiers* sm = new PTSufModifiers();
+                                           sm->errors_ = $2; }
+
+|                                        { $$ = new PTSufModifiers(); }
 ;
 
+composite:
+  composite SPACE pattern_unit           { $1->children.push_back($3);
+                                           $$ = $1; }
+
+| pattern_unit                           { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Composite);
+                                           $$->children.push_back($1); }
+;
     
 %%
 

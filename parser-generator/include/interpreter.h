@@ -51,7 +51,7 @@ public:
      * Run parser on pattern. Returns a PTNode pointer on success, 
 	 * NULL on failure.
      */
-    PTNode* parse(const std::string& raw_pattern);
+    ParseTreeUnit* parse(const std::string& raw_pattern);
     
     
     /**
@@ -63,7 +63,7 @@ public:
     
 private:
     // Used internally by Parser to set the main parse tree.
-    void set_parse_tree(PTNode* ptree);
+    void set_parse_tree(ParseTreeUnit* ptree);
     
     // Used internally by Scanner YY_USER_ACTION to update location indicator
     void increaseLocation(unsigned int loc);
@@ -78,7 +78,7 @@ private:
 private:
   Scanner scanner_;
   Parser parser_;
-  PTNode* parse_tree_;
+  ParseTreeUnit* parse_tree_;
     unsigned int location_;          // Used by scanner
 };
 
