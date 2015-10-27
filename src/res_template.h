@@ -49,7 +49,7 @@ N++++++
 )TEMPLATE";
 
 static const std::string kTemplate3 = R"TEMPLATE(
-ACGTURYWSMKHDVBN
+ ACGTURYWSMKHDVBN
 A+    + + + +++ +
 C +    + ++ + +++
 G  +  +  + + ++++
