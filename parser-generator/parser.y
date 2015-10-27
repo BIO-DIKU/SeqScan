@@ -112,36 +112,141 @@
 
 %left EQUAL
 %left OR
+%left LCURLY PLUS STAR
 
 
-%type< PTNode* > unit_list;
-%type< PTNode* > punit;
-%type< PTSufModifier* > suffix_modifier;
-%type< PTPreModifier* > prefix_modifier;
+%type< ParseTreeUnit* > unit_list;
+%type< ParseTreeUnit* > pattern_unit;
+%type< PTSufModifier* > front_modifier;
+%type< PTPreModifier* > back_modifier;
+%type< std::pair<int,int> > repeats;
 
 %start pattern
 
 %%
 
-pattern:  
-  unit_list 
-  { 
-    driver.set_parse_tree($1);
-  } 
+
+pattern:
+  unit_list                              { driver.set_parse_tree($1); }
 ;
 
-unit_list : 
-  unit_list SPACE punit 
-  {
-    $1->children_.push_back($3);
-	$$ = $1;
-  }
-| punit	
-  {
-    $$ = new PTNode(PTNode::kComposite);
-	$$->children_.push_back($1);
-  }
+unit_list:
+  unit_list SPACE pattern_unit           { 
+                                           $1->children_.push_back($3);
+                                           $$ = $1;
+                                         } 
+ 
+| HAT pattern_unit DOLLAR                { $2->pre_modifier_.start_anchor_ = true;
+                                           $2->suf_modifier_.end_anchor_   = true;
+                                           $$ = $2; 
+                                         }
+
+| HAT pattern_unit                       { $2->pre_modifier_.start_anchor_ = true;
+                                           $$ = $2; 
+                                         }
+| pattern_unit DOLLAR                    { $2->suf_modifier_.end_anchor_ = true;
+                                           $$ = $2; 
+                                         }
+| pattern_unit                           { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Composite);
+                                           $$->children_.push_back($1); 
+                                         }
 ;
+
+
+pattern_unit:
+  LBRACK HAT STRING RBRACK repeats       { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
+                                           gr->pre_modifiers_.hat_ = true;
+                                           $$ = $5;
+                                           $$->children_.push_back(gr);
+                                         }
+  LBRACK STRING RBRACK repeats           { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
+                                           gr->pre_modifiers_.hat_ = false;
+                                           $$ = $5;
+                                           $$->children_.push_back(gr);
+                                         }
+  LBRACK HAT STRING RBRACK               { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
+                                           gr->pre_modifiers_.hat_ = true;
+                                           $$ = gr;
+                                         }
+  LBRACK STRING RBRACK                   { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
+                                           gr->pre_modifiers_.hat_ = false;
+                                           $$ = $5;
+                                           $$->children_.push_back(gr);
+                                         }
+
+
+/* Parenthesation */
+| LPAR composite RPAR                    { $$ = $2; }
+
+
+/* Labeled units */
+| LABEL EQUAL pattern_unit               { $3->label_ = $1;
+                                           $$ = $3;
+                                         }
+
+/* Reference units */
+| front_modifiers LABEL back_modifiers   { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Reference);
+                                           $$->referenced_label_ = $2;
+                                           $$->add_modifier($1);
+                                           $$->add_modifier($3);
+                                         }
+
+| LABEL back_modifiers                   { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Reference);
+                                           $$->referenced_label_ = $2;
+                                           $$->add_modifier($3);
+                                         }
+
+/* Or units */
+| orlist                                 { $$ = $1; }
+
+/* Sequence units */
+| front_modifiers STRING back_modifiers  { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Sequence);
+                                           $$->sequence_ = $2;
+                                           $$->add_modifier($1);
+                                           $$->add_modifier($3);
+                                         }
+
+| STRING back_modifiers                  { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Sequence);
+                                           $$->sequence_ = $1;
+                                           $$->add_modifier($2);
+                                         }
+
+
+/* Range units */
+| INT DOT DOT DOT INT                    { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Range);
+                                           $$->range_min_ = $1;
+                                           $$->range_max_ = $5;
+                                         }
+| INT DOT DOT INT                        { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Range);
+                                           $$->range_min_ = $1;
+                                           $$->range_max_ = $4;
+                                         }
+
+/* Repeat units */
+| pattern_unit repeat                    { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Repeat);
+                                           $$->children_.push_back($1);
+                                           $$->min_repeats_ = $2.first;
+                                           $$->max_repeats_ = $2.second;
+                                         }
+| pattern_unit repeat back_modifiers     { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Repeat);
+                                           $$->children_.push_back($1);
+                                           $$->min_repeats_ = $2.first;
+                                           $$->max_repeats_ = $2.second;
+                                           $$->add_modifier($3);
+                                         }
+;
+
+or_list :
+| or_list OR pattern_unit                { $1->children_.push_back($3);
+                                           $$ = $1;
+                                         }
+| pattern_unit OR pattern_unit           { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Or);
+                                           $$->children_.push_back($1);
+                                           $$->children_.push_back($3);
+                                         }
+;
+
+
 
 punit : 
   STRING 

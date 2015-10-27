@@ -36,29 +36,29 @@ using std::endl;
 
 namespace SeqScan {
 
-PTNode::PTNode(int type) :
+ParseTreeUnit::ParseTreeUnit(const UnitType type) :
 	node_type_(type)
 {
 }
 
-PTNode::PTNode(const std::string &sequence):
-	node_type_(PTNode::kSequence),
+ParseTreeUnit::ParseTreeUnit(const std::string &sequence):
+	node_type_(ParseTreeUnit::kSequence),
 	sequence_(sequence)
 {
 }
 
-PTNode::~PTNode()
+ParseTreeUnit::~ParseTreeUnit()
 {
 	for(size_t i=0;i<children_.size();++i){
 		delete children_[i];
 	}
 }
     
-std::string PTNode::str(size_t indent) const {
+std::string ParseTreeUnit::str(size_t indent) const {
     std::stringstream ts;
 
     for(size_t i=0;i<indent;++i) ts<<" ";
-    ts << "PTNode[" << node_type_;
+    ts << "ParseTreeUnit[" << node_type_;
     
     if(!label_.empty())
       ts << ",lbl=" << label_;
@@ -74,13 +74,13 @@ std::string PTNode::str(size_t indent) const {
       }
       ts<<")";
     }
-    if(node_type_==PTNode::kSequence){
+    if(node_type_==ParseTreeUnit::kSequence){
       ts<<",seq="<<sequence_;
     }
-    if(node_type_==PTNode::kRepeat){
+    if(node_type_==ParseTreeUnit::kRepeat){
       ts<<",rep={"<<min_repeats_<<","<<max_repeats_<<"}";
     }
-    if(node_type_==PTNode::kReference){
+    if(node_type_==ParseTreeUnit::kReference){
       ts<<",ref="<<referenced_label_;
     }
     
@@ -96,7 +96,7 @@ std::string PTNode::str(size_t indent) const {
     return ts.str();
 }
 
-void PTNode::add_modifier(PTSufModifier* m)
+void ParseTreeUnit::add_modifier(PTSufModifier* m)
 {
   modifier_.mismatches_  += m->mismatches_;
   modifier_.insertions_  += m->insertions_;
@@ -105,7 +105,7 @@ void PTNode::add_modifier(PTSufModifier* m)
   modifier_.errors_      += m->errors_;
 }
 
-void PTNode::add_modifier(PTPreModifier* m)
+void ParseTreeUnit::add_modifier(PTPreModifier* m)
 {
   pre_modifier_.reverse_    = m->reverse_;
   pre_modifier_.complement_ = m->complement_;

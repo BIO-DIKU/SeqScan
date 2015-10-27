@@ -26,8 +26,8 @@
  * 
  */
 
-#ifndef PTNODE_H
-#define PTNODE_H
+#ifndef PARSE_TREE_UNIT_H
+#define PARSE_TREE_UNIT_H
 
 #include <string>
 #include <vector>
@@ -41,8 +41,10 @@ namespace SeqScan {
    public:
     PTPreModifier();
 
-    bool reverse_;
-    bool complement_;
+    bool tilde_;
+    bool hat_;
+    bool less_;
+    bool start_anchor_;
 
     std::string str() const;
   };
@@ -56,37 +58,52 @@ namespace SeqScan {
     int deletions_;
     int indels_;
     int errors_;
+    bool end_anchor_;
 
     std::string str() const;
   };
 
-  class PTNode
+  class ParseTreeUnit
   {
    public:
-    PTNode(const int type);
-    PTNode(const std::string &sequence);
-    ~PTNode();
+    ParseTreeUnit(const UnitType type);
+    ParseTreeUnit(const std::string &sequence);
+    ~ParseTreeUnit();
 
     std::string str(size_t indent) const;
 
-    const int node_type_;
-    std::vector<PTNode*> children_;
+    const UnitType node_type_;
+
+    std::vector<ParseTreeUnit*> children_;
+
     std::string sequence_;
+
     std::string label_;
+
     std::string referenced_label_;
+
     int min_repeats_;
     int max_repeats_;
 
-    static const int kComposite  = 0;
-    static const int kSequence   = 1;
-    static const int kRepeat     = 2;
-    static const int kReference  = 3;
+    int range_min_;
+    int range_max_;
+
+    enum UnitType {
+      Composite, Sequence, Repeat, Reference, Range, Or, Group
+    }
+    //static const int kComposite  = 0;
+    //static const int kSequence   = 1;
+    //static const int kRepeat     = 2;
+    //static const int kReference  = 3;
+    //static const int kRange      = 4;
+    //static const int kOr         = 5;
+    //static const int kGroup      = 6;
 
     void add_modifier(PTPreModifier* m);
     void add_modifier(PTSufModifier* m);
 
     PTPreModifier pre_modifier_;
-    PTSufModifier modifier_;
+    PTSufModifier suf_modifier_;
 
   };
 

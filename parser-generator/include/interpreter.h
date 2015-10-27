@@ -76,9 +76,9 @@ private:
      */
     void switchInputStream(std::istream *is);
 private:
-    Scanner scanner_;
-    Parser parser_;
-	PTNode* parse_tree_;
+  Scanner scanner_;
+  Parser parser_;
+  PTNode* parse_tree_;
     unsigned int location_;          // Used by scanner
 };
 

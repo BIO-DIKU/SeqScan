@@ -29,6 +29,7 @@
 #include "interpreter.h"
 #include "ptnode.h"
 
+#include <iostream>
 #include <sstream>
 
 namespace SeqScan {
@@ -48,17 +49,13 @@ PTNode* Interpreter::parse(const std::string& raw_pattern) {
 
   //Set the input stream to read from raw_pattern
   std::istringstream string_stream(raw_pattern);
-  switchInputStream(&string_stream);
+  scanner_.switch_streams(&string_stream, NULL);
 
   int status = parser_.parse();
   if(status==0)
     return parse_tree_;
   else
     return NULL;
-}
-
-void Interpreter::switchInputStream(std::istream *is) {
-  scanner_.switch_streams(is, NULL);
 }
 
 
@@ -69,6 +66,7 @@ void Interpreter::set_parse_tree(PTNode* ptree)
 
 void Interpreter::increaseLocation(unsigned int loc) {
   location_ += loc;
+  std::cout<<"increaseLocation("<<loc<<") .. now "<<location_<<std::endl;
 }
 
 unsigned int Interpreter::location() const {

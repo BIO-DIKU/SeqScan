@@ -61,36 +61,36 @@
 
 %%
 
+\                              { return SeqScan::Parser::make_SPACE(SeqScan::location()); }
+\$                             { return SeqScan::Parser::make_DOLLAR(SeqScan::location()); } 
+\(                             { return SeqScan::Parser::make_LPAR(SeqScan::location()); }
+\)                             { return SeqScan::Parser::make_RPAR(SeqScan::location()); }
+\*                             { return SeqScan::Parser::make_STAR(SeqScan::location()); } 
+\+                             { return SeqScan::Parser::make_PLUS(SeqScan::location()); }
+,                              { return SeqScan::Parser::make_COMMA(SeqScan::location()); }
+\.                             { return SeqScan::Parser::make_DOT(SeqScan::location()); }
+\/                             { return SeqScan::Parser::make_SLASH(SeqScan::location()); }
+[0-9]+                         { uint32_t number = strtoul(yytext); 
+                                 return SeqScan::Parser::make_INT(SeqScan::location()); }
+[\.]*[acgtACGT]+[acgtACGT\.]*  { return SeqScan::Parser::make_STRING(yytext,SeqScan::location());  }
+[a-zA-Z]+_?[0-9]+              { return SeqScan::Parser::make_LABEL(yytext, SeqScan::location()); }
+\<                             { return SeqScan::Parser::make_LESS(SeqScan::location()); }
+=                              { return SeqScan::Parser::make_EQUAL(SeqScan::location()); }
+\?                             { return SeqScan::Parser::make_QMARK(SeqScan::location()); }
+\[                             { return SeqScan::Parser::make_LBRACK(SeqScan::location()); }
+\]                             { return SeqScan::Parser::make_RBRACK(SeqScan::location()); }
+\^                             { return SeqScan::Parser::make_HAT(SeqScan::location()); }
+\{                             { return SeqScan::Parser::make_LCURLY(SeqScan::location()); }
+\|                             { return SeqScan::Parser::make_OR(SeqScan::location()); }
+\}                             { return SeqScan::Parser::make_RCURLY(SeqScan::location()); }
+\~                             { return SeqScan::Parser::make_TILDE(SeqScan::location()); }
 
-[a-zA-Z]+   { return SeqScan::Parser::make_STRING(yytext, SeqScan::location());     }
-p[0-9]+     { return SeqScan::Parser::make_LABEL(yytext, SeqScan::location());      }
-[0-9]+      { uint64_t number = strtoull(yytext, 0, 10);
-              return SeqScan::Parser::make_INT(number, SeqScan::location());        }
-\           { return SeqScan::Parser::make_SPACE(SeqScan::location());              }
-\(          { return SeqScan::Parser::make_LPAR(SeqScan::location());               }
-\)          { return SeqScan::Parser::make_RPAR(SeqScan::location());               }
-\/          { return SeqScan::Parser::make_SLASH(SeqScan::location());              }
-\=          { return SeqScan::Parser::make_EQUAL(SeqScan::location());              }
-\*          { return SeqScan::Parser::make_STAR(SeqScan::location());               }
-\+          { return SeqScan::Parser::make_PLUS(SeqScan::location());               }
-\,          { return SeqScan::Parser::make_COMMA(SeqScan::location());              }
-\.          { return SeqScan::Parser::make_DOT(SeqScan::location());                }
-\[          { return SeqScan::Parser::make_LBRACK(SeqScan::location());             }
-\]          { return SeqScan::Parser::make_RBRACK(SeqScan::location());             }
-\^          { return SeqScan::Parser::make_HAT(SeqScan::location());                }
-\{          { return SeqScan::Parser::make_LCURLY(SeqScan::location());             }
-\}          { return SeqScan::Parser::make_RCURLY(SeqScan::location());             }
-\|          { return SeqScan::Parser::make_OR(SeqScan::location());                 }
-\~          { return SeqScan::Parser::make_TILDE(SeqScan::location());              }
-\<          { return SeqScan::Parser::make_LESS(SeqScan::location());               }
 
-
-.           { std::cerr << "Scanner: Unknown character [" << yytext << "] ";
-              std::cerr << "at location" << SeqScan::location() << std::endl;
-              yyterminate();                                                                  }
-[\n\r]      { return SeqScan::Parser::make_END(SeqScan::location());                }
-<<EOF>>     { return SeqScan::Parser::make_END(SeqScan::location());                }
+[\n\r]                         { return SeqScan::Parser::make_END(SeqScan::location());    }
+<<EOF>>                        { return SeqScan::Parser::make_END(SeqScan::location());    }
+.                              { std::cerr << "Scanner: Unknown character [" << yytext << "] ";
+                                 std::cerr << "at location " << SeqScan::location() << std::endl;
+                                 yyterminate();                                                    }
 
 
 %%
-//<<EOF>>     { return yyterminate(); }
