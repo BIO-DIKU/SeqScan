@@ -274,7 +274,7 @@ Each line in the output contains one pattern match.
 
 ### Sample output
 
-    seq1   +   3,4,0,TGCG;8,4,0,TGAT   8
+    seq1   +   3,4,0,TGCG;8,4,0,TGAT     8
     seq1   +   51,4,1,TACG;56,4,0,TGAT   8
     seq1   -   20,4,0,TGCG;25,4,1,TGAA   8
 
