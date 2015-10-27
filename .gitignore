@@ -26,3 +26,22 @@
 *.exe
 *.out
 *.app
+
+# Ctags
+tags
+.tags*
+
+# Directories
+build
+debug
+bin
+
+# Emacs temporary files
+*~
+
+# Cmake stuff
+CMakeCache.txt
+CMakeFiles/
+CTestTestfile.cmake
+Makefile
+cmake_install.cmake
