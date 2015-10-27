@@ -248,7 +248,7 @@ TEST_CASE("TNFA unit staying at pos", "[tnfa,stay]") {
 }
 
 TEST_CASE("TNFA unit staying at pos; several matches", "[tnfa,stay]") {
-  // Set up test pattern "AAAA/1,0,0"
+  // Set up test pattern "AAAA/0,1,0"
   Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 1, 0);
   unique_ptr<PatternUnit> pu(new TNFAUnit(modifiers, "AAAA"));
 
