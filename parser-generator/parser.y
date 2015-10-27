@@ -40,6 +40,7 @@
   #include <iostream>
   #include <string>
   #include <vector>
+  #include <tuple>
   #include <stdint.h>
 
   #include "parse_tree_unit.h"
@@ -58,6 +59,7 @@
 %code top
 {
   #include <iostream>
+  #include <tuple>
 
   #include "scanner.h"
   #include "parser.hh"
@@ -118,9 +120,9 @@
 %type< ParseTreeUnit* > unit_list;
 %type< ParseTreeUnit* > pattern_unit;
 %type< ParseTreeUnit* > or_list;
-%type< PTSufModifier* > front_modifiers;
-%type< PTPreModifier* > back_modifiers;
-%type< std::pair<std::pair<int,int>,bool> > repeats;
+%type< PTPreModifier* > front_modifiers;
+%type< PTSufModifier* > back_modifiers;
+%type< std::tuple<int,int,bool> > repeats;
 %type< ParseTreeUnit* > composite;
 
 %start pattern
@@ -156,22 +158,12 @@ unit_list:
 
 
 pattern_unit:
-  LBRACK HAT STRING RBRACK repeats       { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
-                                           gr->pre_modifiers_.hat_ = true;
-                                           $$ = $5;
-                                           $$->children_.push_back(gr);
-                                         }
-| LBRACK STRING RBRACK repeats           { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
-                                           gr->pre_modifiers_.hat_ = false;
-                                           $$ = $4;
-                                           $$->children_.push_back(gr);
-                                         }
 | LBRACK HAT STRING RBRACK               { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
-                                           gr->pre_modifiers_.hat_ = true;
+                                           gr->pre_modifier_.hat_ = true;
                                            $$ = gr;
                                          }
 | LBRACK STRING RBRACK                   { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
-                                           gr->pre_modifiers_.hat_ = false;
+                                           gr->pre_modifier_.hat_ = false;
                                            $$ = gr;
                                          }
 
@@ -226,15 +218,15 @@ pattern_unit:
 /* Repeat units */
 | pattern_unit repeats                   { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Repeat);
                                            $$->children_.push_back($1);
-                                           $$->min_repeats_ = $2.first.first;
-                                           $$->max_repeats_ = $2.first.second;
-                                           $$->open_repeats_ = $2.second;
+                                           $$->min_repeats_ = std::get<0>($2);
+                                           $$->max_repeats_ = std::get<1>($2);
+                                           $$->open_repeats_ = std::get<2>($2);
                                          }
 | pattern_unit repeats back_modifiers    { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Repeat);
                                            $$->children_.push_back($1);
-                                           $$->min_repeats_ = $2.first.first;
-                                           $$->max_repeats_ = $2.first.second;
-                                           $$->open_repeats_ = $2.second;
+                                           $$->min_repeats_ = std::get<0>($2);
+                                           $$->min_repeats_ = std::get<1>($2);
+                                           $$->open_repeats_ = std::get<2>($2);
                                            $$->add_modifier($3);
                                          }
 ;
@@ -250,11 +242,15 @@ or_list :
 ;
 
 repeats:
-  LCURLY INT COMMA INT RCURLY            { $$ = std::make_pair(std::make_pair($2, $4), false); }
+  LCURLY INT COMMA INT RCURLY            { $$ = std::make_tuple($2, $4, false); }
 
-| LCURLY INT COMMA RCURLY                { $$ = std::make_pair(std::make_pair($2, 0), true); }
+| LCURLY INT COMMA RCURLY                { $$ = std::make_tuple($2, -1, true); }
 
-| LCURLY INT RCURLY                      { $$ = std::make_pair(std::make_pair($2, 0), false); }
+| LCURLY INT RCURLY                      { $$ = std::make_tuple($2, $2, false); }
+
+| PLUS                                   { $$ = std::make_tuple(1, -1, true); }
+
+| STAR                                   { $$ = std::make_tuple(0, -1, true); }
 ;
 
 
@@ -262,40 +258,44 @@ front_modifiers:
   LESS TILDE                             { PTPreModifier* pm = new PTPreModifier();
                                            pm->less_ = true;
                                            pm->tilde_ = true;
-                                           $$ = pm; }
+                                           $$ = pm; 
+                                         }
 
 | LESS                                   { PTPreModifier* pm = new PTPreModifier();
                                            pm->less_ = true;
-                                           $$ = pm  }
+                                           $$ = pm;
+                                         }
 
 | TILDE                                  { PTPreModifier* pm = new PTPreModifier();
                                            pm->tilde_ = true;
-                                           $$ = pm; } 
+                                           $$ = pm; 
+                                         } 
 ;
 
 back_modifiers:
-  SLASH INT COMMA INT COMMA INT          { PTSufModifiers* sm = new PTSufModifiers();
+  SLASH INT COMMA INT COMMA INT          { PTSufModifier* sm = new PTSufModifier();
                                            sm->mismatches_ = $2;
                                            sm->insertions_ = $4;
                                            sm->deletions_ = $6;
-                                           $$ = sm; }
+                                           $$ = sm; 
+                                         }
  
-| SLASH INT COMMA INT                    { PTSufModifiers* sm = new PTSufModifiers();
+| SLASH INT COMMA INT                    { PTSufModifier* sm = new PTSufModifier();
                                            sm->mismatches_ = $2;
                                            sm->indels_ = $4; }
 
-| SLASH INT                              { PTSufModifiers* sm = new PTSufModifiers();
+| SLASH INT                              { PTSufModifier* sm = new PTSufModifier();
                                            sm->errors_ = $2; }
 
-|                                        { $$ = new PTSufModifiers(); }
+|                                        { $$ = new PTSufModifier(); }
 ;
 
 composite:
-  composite SPACE pattern_unit           { $1->children.push_back($3);
+  composite SPACE pattern_unit           { $1->children_.push_back($3);
                                            $$ = $1; }
 
 | pattern_unit                           { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Composite);
-                                           $$->children.push_back($1); }
+                                           $$->children_.push_back($1); }
 ;
     
 %%

@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
     cout<<"Usage: "<<argv[0]<<" \"seqscan pattern\""<<endl;
   }
 
-  PTNode* parsetree = i.parse(argv[1]);
+  ParseTreeUnit* parsetree = i.parse(argv[1]);
   cout << "Parse complete. Parse tree:"<< endl;
   if(parsetree){
     cout << parsetree->str(0)<<endl;

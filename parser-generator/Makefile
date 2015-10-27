@@ -16,7 +16,7 @@ parser.cc: parser.y
 	mv -f *.hh include/
 
 %.o: %.cc
-	g++ -Wall -O3 -c -I ./include $< -o $@
+	g++ -std=c++11 -Wall -O3 -c -I ./include $< -o $@
 
 
 $(LIBFILE): $(OBJECTS)

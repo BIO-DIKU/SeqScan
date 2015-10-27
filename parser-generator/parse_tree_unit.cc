@@ -42,7 +42,7 @@ ParseTreeUnit::ParseTreeUnit(const UnitType type) :
 }
 
 ParseTreeUnit::ParseTreeUnit(const std::string &sequence):
-	node_type_(ParseTreeUnit::kSequence),
+	node_type_(UnitType::Sequence),
 	sequence_(sequence)
 {
 }
@@ -74,13 +74,13 @@ std::string ParseTreeUnit::str(size_t indent) const {
       }
       ts<<")";
     }
-    if(node_type_==ParseTreeUnit::kSequence){
+    if(node_type_==UnitType::Sequence){
       ts<<",seq="<<sequence_;
     }
-    if(node_type_==ParseTreeUnit::kRepeat){
+    if(node_type_==UnitType::Repeat){
       ts<<",rep={"<<min_repeats_<<","<<max_repeats_<<"}";
     }
-    if(node_type_==ParseTreeUnit::kReference){
+    if(node_type_==UnitType::Reference){
       ts<<",ref="<<referenced_label_;
     }
     
@@ -88,7 +88,7 @@ std::string ParseTreeUnit::str(size_t indent) const {
     if(!pre.empty())
       ts << ",pre_mod="<<pre;
 
-    std::string suf = modifier_.str();
+    std::string suf = suf_modifier_.str();
     if(!suf.empty())
       ts << ",suf_mod="<<suf;
 
@@ -98,37 +98,43 @@ std::string ParseTreeUnit::str(size_t indent) const {
 
 void ParseTreeUnit::add_modifier(PTSufModifier* m)
 {
-  modifier_.mismatches_  += m->mismatches_;
-  modifier_.insertions_  += m->insertions_;
-  modifier_.deletions_   += m->deletions_;
-  modifier_.indels_      += m->indels_;
-  modifier_.errors_      += m->errors_;
+  suf_modifier_.mismatches_  += m->mismatches_;
+  suf_modifier_.insertions_  += m->insertions_;
+  suf_modifier_.deletions_   += m->deletions_;
+  suf_modifier_.indels_      += m->indels_;
+  suf_modifier_.errors_      += m->errors_;
 }
 
 void ParseTreeUnit::add_modifier(PTPreModifier* m)
 {
-  pre_modifier_.reverse_    = m->reverse_;
-  pre_modifier_.complement_ = m->complement_;
+  pre_modifier_.tilde_        = m->tilde_;
+  pre_modifier_.hat_          = m->hat_;
+  pre_modifier_.less_         = m->less_;
+  pre_modifier_.start_anchor_ = m->start_anchor_;
 }
 
 
 // ---------------- class PTPreModifier ------------------ 
 
 PTPreModifier::PTPreModifier():
-  reverse_(false),
-  complement_(false) 
+  tilde_(false),
+  hat_(false),
+  less_(false),
+  start_anchor_(false)
 {}
 
 
 std::string PTPreModifier::str() const
 {
   std::stringstream ss;
-  if(reverse_ && complement_)
+  if(hat_)
+    ss<<"^";
+  if(tilde_)
     ss<<"~";
-  else if(reverse_)
+  if(less_)
     ss<<"<";
-  else if(complement_)
-    ss<<"<~";
+  if(hat_)
+    ss<<"^";
   return ss.str();
 }
 

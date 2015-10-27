@@ -29,6 +29,7 @@
 %{
 	#include <iostream>
 	#include <cstdlib>
+
 	#include "scanner.h"
 	#include "interpreter.h"
 	#include "parser.hh"
@@ -70,8 +71,8 @@
 ,                              { return SeqScan::Parser::make_COMMA(SeqScan::location()); }
 \.                             { return SeqScan::Parser::make_DOT(SeqScan::location()); }
 \/                             { return SeqScan::Parser::make_SLASH(SeqScan::location()); }
-[0-9]+                         { uint32_t number = strtoul(yytext); 
-                                 return SeqScan::Parser::make_INT(SeqScan::location()); }
+[0-9]+                         { uint32_t number = strtoul(yytext, NULL, 10); 
+                                 return SeqScan::Parser::make_INT(number, SeqScan::location()); }
 [\.]*[acgtACGT]+[acgtACGT\.]*  { return SeqScan::Parser::make_STRING(yytext,SeqScan::location());  }
 [a-zA-Z]+_?[0-9]+              { return SeqScan::Parser::make_LABEL(yytext, SeqScan::location()); }
 \<                             { return SeqScan::Parser::make_LESS(SeqScan::location()); }

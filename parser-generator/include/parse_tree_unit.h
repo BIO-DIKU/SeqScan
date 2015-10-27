@@ -66,6 +66,9 @@ namespace SeqScan {
   class ParseTreeUnit
   {
    public:
+    enum UnitType {
+      Composite, Sequence, Repeat, Reference, Range, Or, Group
+    };
 
     ParseTreeUnit(const UnitType type);
     ParseTreeUnit(const std::string &sequence);
@@ -83,9 +86,6 @@ namespace SeqScan {
 
     std::string referenced_label_;
 
-    enum UnitType {
-      Composite, Sequence, Repeat, Reference, Range, Or, Group
-    };
 
     int min_repeats_;
     int max_repeats_;
@@ -93,14 +93,6 @@ namespace SeqScan {
 
     int range_min_;
     int range_max_;
-
-    //static const int kComposite  = 0;
-    //static const int kSequence   = 1;
-    //static const int kRepeat     = 2;
-    //static const int kReference  = 3;
-    //static const int kRange      = 4;
-    //static const int kOr         = 5;
-    //static const int kGroup      = 6;
 
     void add_modifier(PTPreModifier* m);
     void add_modifier(PTSufModifier* m);
@@ -113,4 +105,4 @@ namespace SeqScan {
 
 } // namespace SeqScan
 
-#endif // COMMAND_H
+#endif // PARSE_TREE_UNIT_H

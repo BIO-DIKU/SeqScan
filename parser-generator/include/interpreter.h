@@ -48,8 +48,8 @@ public:
     Interpreter();
     
     /**
-     * Run parser on pattern. Returns a PTNode pointer on success, 
-	 * NULL on failure.
+     * Run parser on pattern. Returns a ParseTreeUnit pointer on success, 
+     * NULL on failure.
      */
     ParseTreeUnit* parse(const std::string& raw_pattern);
     
@@ -76,9 +76,9 @@ private:
      */
     void switchInputStream(std::istream *is);
 private:
-  Scanner scanner_;
-  Parser parser_;
-  ParseTreeUnit* parse_tree_;
+    Scanner scanner_;
+    Parser parser_;
+    ParseTreeUnit* parse_tree_;
     unsigned int location_;          // Used by scanner
 };
 

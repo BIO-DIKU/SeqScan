@@ -27,7 +27,7 @@
  */
 
 #include "interpreter.h"
-#include "ptnode.h"
+#include "parse_tree_unit.h"
 
 #include <iostream>
 #include <sstream>
@@ -43,7 +43,7 @@ Interpreter::Interpreter() :
 
 }
 
-PTNode* Interpreter::parse(const std::string& raw_pattern) {
+ParseTreeUnit* Interpreter::parse(const std::string& raw_pattern) {
   parse_tree_ = NULL;
   location_ = 0;
 
@@ -59,14 +59,14 @@ PTNode* Interpreter::parse(const std::string& raw_pattern) {
 }
 
 
-void Interpreter::set_parse_tree(PTNode* ptree)
+void Interpreter::set_parse_tree(ParseTreeUnit* ptree)
 {
   parse_tree_ = ptree;
 }
 
 void Interpreter::increaseLocation(unsigned int loc) {
   location_ += loc;
-  std::cout<<"increaseLocation("<<loc<<") .. now "<<location_<<std::endl;
+  //std::cout<<"increaseLocation("<<loc<<") .. now "<<location_<<std::endl;
 }
 
 unsigned int Interpreter::location() const {
