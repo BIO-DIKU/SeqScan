@@ -308,7 +308,7 @@ b +++++++++++++++ +++++++++++++++
 n++++++++++++++++++++++++++++++++
 )MATRIX";
 
-static const std::string kTemplate9_rc = R"MATRIX(
+static const std::string kTemplate8_rc = R"MATRIX(
 ~ACGTURYWSMKHDVBNacgturywsmkhdvbn
 A   ++ ++  +++ ++   ++ ++  +++ ++
 C  +  +  + + ++++  +  +  + + ++++
@@ -344,7 +344,7 @@ b+++  ++++++++++++++  +++++++++++
 n++++++++++++++++++++++++++++++++
 )MATRIX";
 
-static const std::string kTemplate10 = R"MATRIX(
+static const std::string kTemplate9 = R"MATRIX(
 FLSYCWPHQRIMTNKVADEGX
 F+                   +
 L +                  +
@@ -369,7 +369,7 @@ G                   ++
 X+++++++++++++++++++++
 )MATRIX";
 
-static const std::string kTemplate11 = R"MATRIX(
+static const std::string kTemplate10 = R"MATRIX(
 FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx
 F+                   ++                   +
 L +                  + +                  +
