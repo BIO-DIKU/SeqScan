@@ -21,4 +21,26 @@
 #ifndef SEQSCAN_MATRIX_IO_H_
 #define SEQSCAN_MATRIX_IO_H_
 
+/**
+* @brief Exception class for MatrixIO class.
+*
+* @example
+*   std::string msg = "Exception message";
+*   throw MatrixIOException(msg);
+*/
+class MatrixIOException : public std::exception {
+public:
+ MatrixIOException(std::string &msg) :
+   exceptionMsg(msg)
+ {}
+
+ MatrixIOException(const MatrixIOException &e) :
+   exceptionMsg(e.exceptionMsg)
+ {}
+
+ virtual const char* what() const throw() { return exceptionMsg.c_str(); }
+
+ const std::string exceptionMsg;
+};
+
 #endif  // SEQSCAN_MATRIX_IO_H_
