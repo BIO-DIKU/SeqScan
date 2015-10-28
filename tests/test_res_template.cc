@@ -38,7 +38,7 @@ TEST_CASE("ResTemplate::FileMatrixToTemplate", "[res_template]") {
 }
 
 TEST_CASE("ResTemplate::MatrixToTemplate", "[res_template]") {
-  ResTemplate res_template(1);
+  ResTemplate res_template(8);
 
   REQUIRE(res_template.is_set('A' << kSizeOfChar | 'N'));
   REQUIRE(res_template.is_set('N' << kSizeOfChar | 'A'));

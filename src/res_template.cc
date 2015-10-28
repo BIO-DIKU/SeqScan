@@ -61,6 +61,30 @@ void ResTemplate::MatrixToTemplate() {
     case 2:
       ParseMatrix(kTemplate2);
       break;
+    case 3:
+      ParseMatrix(kTemplate3);
+      break;
+    case 4:
+      ParseMatrix(kTemplate4);
+      break;
+    case 5:
+      ParseMatrix(kTemplate5);
+      break;
+    case 6:
+      ParseMatrix(kTemplate6);
+      break;
+    case 7:
+      ParseMatrix(kTemplate7);
+      break;
+    case 8:
+      ParseMatrix(kTemplate8);
+      break;
+    case 9:
+      ParseMatrix(kTemplate9);
+      break;
+    case 10:
+      ParseMatrix(kTemplate10);
+      break;
     default:
       cerr << "Unknown matrix" << endl;  // TODO(Martin): Proper error handling.
       break;
@@ -70,22 +94,24 @@ void ResTemplate::MatrixToTemplate() {
 void ResTemplate::ParseMatrix(const string matrix_str) {
   istringstream matrix(matrix_str);
   string        seq1;
-  bool          first = true;
 
   while (!matrix.eof()) {
     string line;
 
-    if (first) {
-      getline(matrix, seq1); // TODO(Someone): fix nasty hack to advance 1 line.
-      getline(matrix, seq1);
-      first = false;
-    } else {
-      getline(matrix, line);
+    getline(matrix, line);
 
-      for (size_t i = 1; i <= line.size(); ++i) {
-        if (line[i] == '+') {
-          res_template_.set(seq1[i] << kSizeOfChar | line[0], true);
-        }
+    if (line.empty()) {
+      continue;
+    }
+
+    if (seq1.empty()) {
+      seq1 = line;
+      continue;
+    }
+
+    for (size_t i = 1; i < line.size(); ++i) {
+      if (line[i] == '+') {
+        res_template_.set(seq1[i] << kSizeOfChar | line[0], true);
       }
     }
   }
