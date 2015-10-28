@@ -57,26 +57,50 @@ void ResTemplate::MatrixToTemplate() {
     case 1:
       ParseMatrix(kMatrix1);
       break;
+    case -1:
+      ParseMatrix(kMatrix1_comp);
+      break;
     case 2:
       ParseMatrix(kMatrix2);
+      break;
+    case -2:
+      ParseMatrix(kMatrix2_comp);
       break;
     case 3:
       ParseMatrix(kMatrix3);
       break;
+    case -3:
+      ParseMatrix(kMatrix3_comp);
+      break;
     case 4:
       ParseMatrix(kMatrix4);
+      break;
+    case -4:
+      ParseMatrix(kMatrix4_comp);
       break;
     case 5:
       ParseMatrix(kMatrix5);
       break;
+    case -5:
+      ParseMatrix(kMatrix5_comp);
+      break;
     case 6:
       ParseMatrix(kMatrix6);
+      break;
+    case -6:
+      ParseMatrix(kMatrix6_comp);
       break;
     case 7:
       ParseMatrix(kMatrix7);
       break;
+    case -7:
+      ParseMatrix(kMatrix7_comp);
+      break;
     case 8:
       ParseMatrix(kMatrix8);
+      break;
+    case -8:
+      ParseMatrix(kMatrix8_comp);
       break;
     case 9:
       ParseMatrix(kMatrix9);

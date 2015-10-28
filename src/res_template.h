@@ -465,7 +465,8 @@ class ResTemplate {
   std::string matrix_file_;
 
   /*
-   * Number of hardcoded template matrix to use.
+   * Number of hardcoded template matrix to use. Negative matrix_num_ is used
+   * to denote complementary matrix.
    */
   int matrix_num_;
 
