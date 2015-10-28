@@ -23,13 +23,13 @@
 
 #include <bitset>
 
-static const size_t      kSizeOfChar = 8; // FIXME(someone) size_of(char);
+static const size_t kSizeOfChar = 8; // FIXME(someone) size_of(char);
 
 // For Matrices below the first row is the sequence and the first column is the
 // pattern.
 
 static const std::string kTemplate1  = R"MATRIX(
-ACGTU
+ ACGTU
 A+
 C +
 G  +
@@ -47,7 +47,7 @@ U+
 )MATRIX";
 
 static const std::string kTemplate2 = R"MATRIX(
-ACGTUacgtu
+ ACGTUacgtu
 A+    +
 C +    +
 G  +    +
@@ -75,7 +75,7 @@ u+    +
 )MATRIX";
 
 static const std::string kTemplate3 = R"MATRIX(
-ACGTURYWSMKHDVBN
+ ACGTURYWSMKHDVBN
 A+    + + + +++ +
 C +    + ++ + +++
 G  +  +  + + ++++
@@ -93,7 +93,7 @@ U+    + + + +++ +
 )MATRIX";
 
 static const std::string kTemplate4 = R"MATRIX(
-ACGTURYWSMKHDVBNacgturywsmkhdvbn
+ ACGTURYWSMKHDVBNacgturywsmkhdvbn
 A+    + + + +++ ++    + + + +++ +
 C +    + ++ + +++ +    + ++ + +++
 G  +  +  + + ++++  +  +  + + ++++
@@ -121,7 +121,7 @@ u+    + + + +++ ++    + + + +++ +
 )MATRIX";
 
 static const std::string kTemplate5 = R"MATRIX(
-ACGTU
+ ACGTU
 A+
 C +
 G  +
@@ -161,7 +161,7 @@ N+++++
 )MATRIX";
 
 static const std::string kTemplate6 = R"MATRIX(
-ACGTUacgtu
+ ACGTUacgtu
 A+    +
 C +    +
 G  +    +
@@ -233,7 +233,7 @@ n++++++++++
 )MATRIX";
 
 static const std::string kTemplate7 = R"MATRIX(
-ACGTURYWSMKHDVBN
+ ACGTURYWSMKHDVBN
 A+    + + + +++ +
 C +    + ++ + +++
 G  +  +  + + ++++
@@ -273,7 +273,7 @@ N++++++++++++++++
 )MATRIX";
 
 static const std::string kTemplate8 = R"MATRIX(
-ACGTURYWSMKHDVBNacgturywsmkhdvbn
+ ACGTURYWSMKHDVBNacgturywsmkhdvbn
 A+    + + + +++ ++    + + + +++ +
 C +    + ++ + +++ +    + ++ + +++
 G  +  +  + + ++++  +  +  + + ++++
@@ -345,7 +345,7 @@ n++++++++++++++++++++++++++++++++
 )MATRIX";
 
 static const std::string kTemplate9 = R"MATRIX(
-FLSYCWPHQRIMTNKVADEGX
+ FLSYCWPHQRIMTNKVADEGX
 F+                   +
 L +                  +
 S  +                 +
@@ -370,7 +370,7 @@ X+++++++++++++++++++++
 )MATRIX";
 
 static const std::string kTemplate10 = R"MATRIX(
-FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx
+ FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx
 F+                   ++                   +
 L +                  + +                  +
 S  +                 +  +                 +
