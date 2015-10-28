@@ -50,7 +50,7 @@ a substring of the sequence that satisfies the criteria of all pattern units.
        -S --score_min <int>                    Minimum Phred score in matches.
        -a --ambiguate                          Ambiguate residues with score
                                                below the minimum Phred score.
-       -m --match_type <int>                   Match type used (default=4):
+       -m --match_type <int>                   Match type used (default=6):
 
           Features:
              N: Nucleotide.
@@ -62,11 +62,14 @@ a substring of the sequence that satisfies the criteria of all pattern units.
           ----------   --------   -------
           1            N          N
           2            NI         NI
-          3            NIA        NI
-          4            NI         NIA
-          5            NIA        NIA
-          6            P          P
-          7            PI         PI
+          3            NA         N
+          4            NIA        NI
+          5            N          NA
+          6            NI         NIA (default)
+          7            NA         NA
+          8            NIA        NIA
+          9            P          P
+          10           PI         PI
 
        -M --match_file <string>                File with custom match type
                                                matrices.
