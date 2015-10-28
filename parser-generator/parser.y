@@ -318,8 +318,7 @@ back_modifiers:
 // Bison expects us to provide implementation - otherwise linker complains
 void SeqScan::Parser::error(const location &loc , const std::string &message) {
   //std::cout << "Error: " << message << std::endl << "Error location: " << driver.location() << std::endl;
-  std::stringstream ss; ss<<"Parser: "<<message;
-  throw PatternParseException(ss.str(),driver.location());
+  throw PatternParseException(message,driver.location());
 }
 
 

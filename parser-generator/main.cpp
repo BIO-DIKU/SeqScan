@@ -43,9 +43,7 @@ int main(int argc, char **argv) {
 	  cout << parsetree->str(0)<<endl;
   }
   catch (PatternParseException& exc){
-	  string msg = exc.exceptionMsg;
-	  msg.replace(0, msg.find(":"), "SeqScan");
-	  cerr << msg << endl;
+	  cerr << "SeqScan: " << exc.exceptionMsg << endl;
 	  cerr << argv[1] << endl;
 	  for(int i=0;i<exc.position-1;i++)
 		  cerr<<" ";

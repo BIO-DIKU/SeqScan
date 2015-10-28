@@ -108,8 +108,7 @@
 
 [\n\r]                         { return SeqScan::Parser::make_END(SeqScan::location());    }
 <<EOF>>                        { return SeqScan::Parser::make_END(SeqScan::location());    }
-.                              { std::stringstream ss; ss<<"Scanner: Unrecognized expression at position "<<m_driver.location();
-                                 throw PatternParseException(ss.str(),m_driver.location()); }
+.                              { throw PatternParseException("Unrecognized expression",m_driver.location()); }
 
 
 %%
