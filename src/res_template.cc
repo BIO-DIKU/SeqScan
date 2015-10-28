@@ -56,34 +56,34 @@ void ResTemplate::FileMatrixToTemplate() {
 void ResTemplate::MatrixToTemplate() {
   switch (template_num_) {
     case 1:
-      ParseMatrix(kTemplate1);
+      ParseMatrix(kMatrix1);
       break;
     case 2:
-      ParseMatrix(kTemplate2);
+      ParseMatrix(kMatrix2);
       break;
     case 3:
-      ParseMatrix(kTemplate3);
+      ParseMatrix(kMatrix3);
       break;
     case 4:
-      ParseMatrix(kTemplate4);
+      ParseMatrix(kMatrix4);
       break;
     case 5:
-      ParseMatrix(kTemplate5);
+      ParseMatrix(kMatrix5);
       break;
     case 6:
-      ParseMatrix(kTemplate6);
+      ParseMatrix(kMatrix6);
       break;
     case 7:
-      ParseMatrix(kTemplate7);
+      ParseMatrix(kMatrix7);
       break;
     case 8:
-      ParseMatrix(kTemplate8);
+      ParseMatrix(kMatrix8);
       break;
     case 9:
-      ParseMatrix(kTemplate9);
+      ParseMatrix(kMatrix9);
       break;
     case 10:
-      ParseMatrix(kTemplate10);
+      ParseMatrix(kMatrix10);
       break;
     default:
       cerr << "Unknown matrix" << endl;  // TODO(Martin): Proper error handling.

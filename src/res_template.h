@@ -28,7 +28,7 @@ static const size_t kSizeOfChar = 8; // FIXME(someone) size_of(char);
 // For Matrices below the first row is the sequence and the first column is the
 // pattern.
 
-static const std::string kTemplate1  = R"MATRIX(
+static const std::string kMatrix1  = R"MATRIX(
  ACGTU
 A+
 C +
@@ -37,7 +37,7 @@ T   ++
 U   ++
 )MATRIX";
 
-static const std::string kTemplate1_rc = R"MATRIX(
+static const std::string kMatrix1_comp = R"MATRIX(
 ~ACGTU
 A   ++
 C  +
@@ -46,7 +46,7 @@ T+
 U+
 )MATRIX";
 
-static const std::string kTemplate2 = R"MATRIX(
+static const std::string kMatrix2 = R"MATRIX(
  ACGTUacgtu
 A+    +
 C +    +
@@ -60,7 +60,7 @@ t   ++   ++
 u   ++   ++
 )MATRIX";
 
-static const std::string kTemplate2_rc = R"MATRIX(
+static const std::string kMatrix2_comp = R"MATRIX(
 ~ACGTUacgtu
 A   ++   ++
 C  +    +
@@ -74,7 +74,7 @@ t+    +
 u+    +
 )MATRIX";
 
-static const std::string kTemplate3 = R"MATRIX(
+static const std::string kMatrix3 = R"MATRIX(
  ACGTURYWSMKHDVBN
 A+    + + + +++ +
 C +    + ++ + +++
@@ -83,7 +83,7 @@ T   ++ ++  +++ ++
 U   ++ ++  +++ ++
 )MATRIX";
 
-static const std::string kTemplate3_rc = R"MATRIX(
+static const std::string kMatrix3_comp = R"MATRIX(
 ~ACGTURYWSMKHDVBN
 A   ++ ++  +++ ++
 C  +  +  + + ++++
@@ -92,7 +92,7 @@ T+    + + + +++ +
 U+    + + + +++ +
 )MATRIX";
 
-static const std::string kTemplate4 = R"MATRIX(
+static const std::string kMatrix4 = R"MATRIX(
  ACGTURYWSMKHDVBNacgturywsmkhdvbn
 A+    + + + +++ ++    + + + +++ +
 C +    + ++ + +++ +    + ++ + +++
@@ -106,7 +106,7 @@ t   ++ ++  +++ ++   ++ ++  +++ ++
 u   ++ ++  +++ ++   ++ ++  +++ ++
 )MATRIX";
 
-static const std::string kTemplate4_rc = R"MATRIX(
+static const std::string kMatrix4_comp = R"MATRIX(
 ~ACGTURYWSMKHDVBNacgturywsmkhdvbn
 A   ++ ++  +++ ++   ++ ++  +++ ++
 C  +  +  + + ++++  +  +  + + ++++
@@ -120,7 +120,7 @@ t+    + + + +++ ++    + + + +++ +
 u+    + + + +++ ++    + + + +++ +
 )MATRIX";
 
-static const std::string kTemplate5 = R"MATRIX(
+static const std::string kMatrix5 = R"MATRIX(
  ACGTU
 A+
 C +
@@ -140,7 +140,7 @@ B ++++
 N+++++
 )MATRIX";
 
-static const std::string kTemplate5_rc = R"MATRIX(
+static const std::string kMatrix5_comp = R"MATRIX(
 ~ACGTU
 A   ++
 C  +
@@ -160,7 +160,7 @@ B+++
 N+++++
 )MATRIX";
 
-static const std::string kTemplate6 = R"MATRIX(
+static const std::string kMatrix6 = R"MATRIX(
  ACGTUacgtu
 A+    +
 C +    +
@@ -196,7 +196,7 @@ b ++++ ++++
 n++++++++++
 )MATRIX";
 
-static const std::string kTemplate6_rc = R"MATRIX(
+static const std::string kMatrix6_comp = R"MATRIX(
 ~ACGTUacgtu
 A   ++   ++
 C  +    +
@@ -232,7 +232,7 @@ b+++  +++
 n++++++++++
 )MATRIX";
 
-static const std::string kTemplate7 = R"MATRIX(
+static const std::string kMatrix7 = R"MATRIX(
  ACGTURYWSMKHDVBN
 A+    + + + +++ +
 C +    + ++ + +++
@@ -252,7 +252,7 @@ B +++++++++++++++
 N++++++++++++++++
 )MATRIX";
 
-static const std::string kTemplate7_rc = R"MATRIX(
+static const std::string kMatrix7_comp = R"MATRIX(
 ~ACGTURYWSMKHDVBN
 A   ++ ++  +++ ++
 C  +  +  + + ++++
@@ -272,7 +272,7 @@ B+++  +++++++++++
 N++++++++++++++++
 )MATRIX";
 
-static const std::string kTemplate8 = R"MATRIX(
+static const std::string kMatrix8 = R"MATRIX(
  ACGTURYWSMKHDVBNacgturywsmkhdvbn
 A+    + + + +++ ++    + + + +++ +
 C +    + ++ + +++ +    + ++ + +++
@@ -308,7 +308,7 @@ b +++++++++++++++ +++++++++++++++
 n++++++++++++++++++++++++++++++++
 )MATRIX";
 
-static const std::string kTemplate8_rc = R"MATRIX(
+static const std::string kMatrix8_comp = R"MATRIX(
 ~ACGTURYWSMKHDVBNacgturywsmkhdvbn
 A   ++ ++  +++ ++   ++ ++  +++ ++
 C  +  +  + + ++++  +  +  + + ++++
@@ -344,7 +344,7 @@ b+++  ++++++++++++++  +++++++++++
 n++++++++++++++++++++++++++++++++
 )MATRIX";
 
-static const std::string kTemplate9 = R"MATRIX(
+static const std::string kMatrix9 = R"MATRIX(
  FLSYCWPHQRIMTNKVADEGX
 F+                   +
 L +                  +
@@ -369,7 +369,7 @@ G                   ++
 X+++++++++++++++++++++
 )MATRIX";
 
-static const std::string kTemplate10 = R"MATRIX(
+static const std::string kMatrix10 = R"MATRIX(
  FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx
 F+                   ++                   +
 L +                  + +                  +
