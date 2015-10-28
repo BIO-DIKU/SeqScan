@@ -18,6 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+#include <vector>
+
 #include "catch.h"
 #include "../src/res_template.h"
 
@@ -37,7 +39,15 @@ TEST_CASE("ResTemplate::FileMatrixToTemplate", "[res_template]") {
   }
 }
 
-TEST_CASE("ResTemplate::MatrixToTemplate", "[res_template]") {
+TEST_CASE("ResTemplate::MatrixToTemplate all matrices can be loaded OK", "[res_template]") {
+  vector<int> matrices = {1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6, 7, -7, 8, -8, 9, 10};
+
+  for (int i : matrices) {
+    REQUIRE_NOTHROW(ResTemplate res_template(i));
+  }
+}
+
+TEST_CASE("ResTemplate::MatrixToTemplate is_set() works OK", "[res_template]") {
   ResTemplate res_template(8);
 
   REQUIRE(res_template.is_set('A' << kSizeOfChar | 'N'));
