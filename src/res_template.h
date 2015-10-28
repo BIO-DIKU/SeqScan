@@ -23,50 +23,397 @@
 
 #include <bitset>
 
-/* DNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
-/* RNA:      AGCUTRYWSMKHDVBNagcutrywsmkhdvbn */
-/* Protein:  FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx */
-
 static const size_t      kSizeOfChar = 8; // FIXME(someone) size_of(char);
-static const std::string kTemplate1  = R"TEMPLATE(
- ACGTUN
-A+    +
-C +   +
-G  +  +
-T   +++
-U   +++
-N++++++
-)TEMPLATE";
 
-static const std::string kTemplate2 = R"TEMPLATE(
-~ACGTUN
-A   +++
-C  +  +
-G +   +
+// For Matrices below the first row is the sequence and the first column is the
+// pattern.
+
+static const std::string kTemplate1  = R"MATRIX(
+ACGTU
+A+
+C +
+G  +
+T   ++
+U   ++
+)MATRIX";
+
+static const std::string kTemplate1_rc = R"MATRIX(
+~ACGTU
+A   ++
+C  +
+G +
+T+
+U+
+)MATRIX";
+
+static const std::string kTemplate2 = R"MATRIX(
+ACGTUacgtu
+A+    +
+C +    +
+G  +    +
+T   ++   ++
+U   ++   ++
+a+    +
+c +    +
+g  +    +
+t   ++   ++
+u   ++   ++
+)MATRIX";
+
+static const std::string kTemplate2_rc = R"MATRIX(
+~ACGTUacgtu
+A   ++   ++
+C  +    +
+G +    +
 T+    +
 U+    +
-N++++++
-)TEMPLATE";
+a   ++   ++
+c  +    +
+g +    +
+t+    +
+u+    +
+)MATRIX";
 
-static const std::string kTemplate3 = R"TEMPLATE(
- ACGTURYWSMKHDVBN
+static const std::string kTemplate3 = R"MATRIX(
+ACGTURYWSMKHDVBN
 A+    + + + +++ +
 C +    + ++ + +++
 G  +  +  + + ++++
 T   ++ ++  +++ ++
 U   ++ ++  +++ ++
-R+ +  +      ++ +
-Y + ++ +    +  ++
-W+  ++  +   ++  +
-S ++     +    +++
-M++       + + + +
-K  +++     + +  +
-H++ ++ ++ + +   +
-D+ ++++ +  + +  +
-V+++  +  ++   + +
-B ++++ + + +   ++
+)MATRIX";
+
+static const std::string kTemplate3_rc = R"MATRIX(
+~ACGTURYWSMKHDVBN
+A   ++ ++  +++ ++
+C  +  +  + + ++++
+G +    + ++ + +++
+T+    + + + +++ +
+U+    + + + +++ +
+)MATRIX";
+
+static const std::string kTemplate4 = R"MATRIX(
+ACGTURYWSMKHDVBNacgturywsmkhdvbn
+A+    + + + +++ ++    + + + +++ +
+C +    + ++ + +++ +    + ++ + +++
+G  +  +  + + ++++  +  +  + + ++++
+T   ++ ++  +++ ++   ++ ++  +++ ++
+U   ++ ++  +++ ++   ++ ++  +++ ++
+a+    + + + +++ ++    + + + +++ +
+c +    + ++ + +++ +    + ++ + +++
+g  +  +  + + ++++  +  +  + + ++++
+t   ++ ++  +++ ++   ++ ++  +++ ++
+u   ++ ++  +++ ++   ++ ++  +++ ++
+)MATRIX";
+
+static const std::string kTemplate4_rc = R"MATRIX(
+~ACGTURYWSMKHDVBNacgturywsmkhdvbn
+A   ++ ++  +++ ++   ++ ++  +++ ++
+C  +  +  + + ++++  +  +  + + ++++
+G +    + ++ + +++ +    + ++ + +++
+T+    + + + +++ ++    + + + +++ +
+U+    + + + +++ ++    + + + +++ +
+a   ++ ++  +++ ++   ++ ++  +++ ++
+c  +  +  + + ++++  +  +  + + ++++
+g +    + ++ + +++ +    + ++ + +++
+t+    + + + +++ ++    + + + +++ +
+u+    + + + +++ ++    + + + +++ +
+)MATRIX";
+
+static const std::string kTemplate5 = R"MATRIX(
+ACGTU
+A+
+C +
+G  +
+T   ++
+U   ++
+R+ +
+Y + ++
+W+  ++
+S ++
+M++
+K  +++
+H++ ++
+D+ +++
+V+++
+B ++++
+N+++++
+)MATRIX";
+
+static const std::string kTemplate5_rc = R"MATRIX(
+~ACGTU
+A   ++
+C  +
+G +
+T+
+U+
+R + ++
+Y+ +
+W+  ++
+S ++
+M  +++
+K++
+H+ +++
+D++ ++
+V ++++
+B+++
+N+++++
+)MATRIX";
+
+static const std::string kTemplate6 = R"MATRIX(
+ACGTUacgtu
+A+    +
+C +    +
+G  +    +
+T   ++   ++
+U   ++   ++
+R+ +  + +
+Y + ++ + ++
+W+  +++  ++
+S ++   ++
+M++   ++
+K  +++  +++
+H++ ++++ ++
+D+ ++++ +++
+V+++  +++
+B ++++ ++++
+N++++++++++
+a+    +
+c +    +
+g  +    +
+t   ++   ++
+u   ++   ++
+r+ +  + +
+y + ++ + ++
+w+  +++  ++
+s ++   ++
+m++   ++
+k  +++  +++
+h++ ++++ ++
+d+ ++++ +++
+v+++  +++
+b ++++ ++++
+n++++++++++
+)MATRIX";
+
+static const std::string kTemplate6_rc = R"MATRIX(
+~ACGTUacgtu
+A   ++   ++
+C  +    +
+G +    +
+T+    +
+U+    +
+R + ++ + ++
+Y+ +  + +
+W+  +++  ++
+S ++   ++
+M  +++  +++
+K++   ++
+H+ ++++ +++
+D++ ++++ ++
+V ++++ ++++
+B+++  +++
+N++++++++++
+a   ++   ++
+c  +    +
+g +    +
+t+    +
+u+    +
+r + ++ + ++
+y+ +  + +
+w+  +++  ++
+s ++   ++
+m  +++  +++
+k++   ++
+h+ ++++ +++
+d++ ++++ ++
+v ++++ ++++
+b+++  +++
+n++++++++++
+)MATRIX";
+
+static const std::string kTemplate7 = R"MATRIX(
+ACGTURYWSMKHDVBN
+A+    + + + +++ +
+C +    + ++ + +++
+G  +  +  + + ++++
+T   ++ ++  +++ ++
+U   ++ ++  +++ ++
+R+ +  + +++++++++
+Y + ++ ++++++++++
+W+  +++++ +++++++
+S ++  ++ ++++++++
+M++   +++++ +++++
+K  +++++++ ++++++
+H++ +++++++++++++
+D+ ++++++++++++++
+V+++  +++++++++++
+B +++++++++++++++
 N++++++++++++++++
-)TEMPLATE";
+)MATRIX";
+
+static const std::string kTemplate7_rc = R"MATRIX(
+~ACGTURYWSMKHDVBN
+A   ++ ++  +++ ++
+C  +  +  + + ++++
+G +    + ++ + +++
+T+    + + + +++ +
+U+    + + + +++ +
+R + ++ ++++++++++
+Y+ +  + +++++++++
+W+  +++++ +++++++
+S ++  ++ ++++++++
+M  +++++++ ++++++
+K++   +++++ +++++
+H+ ++++++++++++++
+D++ +++++++++++++
+V +++++++++++++++
+B+++  +++++++++++
+N++++++++++++++++
+)MATRIX";
+
+static const std::string kTemplate8 = R"MATRIX(
+ACGTURYWSMKHDVBNacgturywsmkhdvbn
+A+    + + + +++ ++    + + + +++ +
+C +    + ++ + +++ +    + ++ + +++
+G  +  +  + + ++++  +  +  + + ++++
+T   ++ ++  +++ ++   ++ ++  +++ ++
+U   ++ ++  +++ ++   ++ ++  +++ ++
+R+ +  + ++++++++++ +  + +++++++++
+Y + ++ ++++++++++ + ++ ++++++++++
+W+  +++++ ++++++++  +++++ +++++++
+S ++  ++ ++++++++ ++  ++ ++++++++
+M++   +++++ +++++++   +++++ +++++
+K  +++++++ ++++++  +++++++ ++++++
+H++ +++++++++++++++ +++++++++++++
+D+ +++++++++++++++ ++++++++++++++
+V+++  ++++++++++++++  +++++++++++
+B +++++++++++++++ +++++++++++++++
+N++++++++++++++++++++++++++++++++
+a+    + + + +++ ++    + + + +++ +
+c +    + ++ + +++ +    + ++ + +++
+g  +  +  + + ++++  +  +  + + ++++
+t   ++ ++  +++ ++   ++ ++  +++ ++
+u   ++ ++  +++ ++   ++ ++  +++ ++
+r+ +  + ++++++++++ +  + +++++++++
+y + ++ ++++++++++ + ++ ++++++++++
+w+  +++++ ++++++++  +++++ +++++++
+s ++  ++ ++++++++ ++  ++ ++++++++
+m++   +++++ +++++++   +++++ +++++
+k  +++++++ ++++++  +++++++ ++++++
+h++ +++++++++++++++ +++++++++++++
+d+ +++++++++++++++ ++++++++++++++
+v+++  ++++++++++++++  +++++++++++
+b +++++++++++++++ +++++++++++++++
+n++++++++++++++++++++++++++++++++
+)MATRIX";
+
+static const std::string kTemplate9_rc = R"MATRIX(
+~ACGTURYWSMKHDVBNacgturywsmkhdvbn
+A   ++ ++  +++ ++   ++ ++  +++ ++
+C  +  +  + + ++++  +  +  + + ++++
+G +    + ++ + +++ +    + ++ + +++
+T+    + + + +++ ++    + + + +++ +
+U+    + + + +++ ++    + + + +++ +
+R + ++ ++++++++++ + ++ ++++++++++
+Y+ +  + ++++++++++ +  + +++++++++
+W+  +++++ ++++++++  +++++ +++++++
+S ++  ++ ++++++++ ++  ++ ++++++++
+M  +++++++ ++++++  +++++++ ++++++
+K++   +++++ +++++++   +++++ +++++
+H+ +++++++++++++++ ++++++++++++++
+D++ +++++++++++++++ +++++++++++++
+V +++++++++++++++ +++++++++++++++
+B+++  ++++++++++++++  +++++++++++
+N++++++++++++++++++++++++++++++++
+a   ++ ++  +++ ++   ++ ++  +++ ++
+c  +  +  + + ++++  +  +  + + ++++
+g +    + ++ + +++ +    + ++ + +++
+t+    + + + +++ ++    + + + +++ +
+u+    + + + +++ ++    + + + +++ +
+r + ++ ++++++++++ + ++ ++++++++++
+y+ +  + ++++++++++ +  + +++++++++
+w+  +++++ ++++++++  +++++ +++++++
+s ++  ++ ++++++++ ++  ++ ++++++++
+m  +++++++ ++++++  +++++++ ++++++
+k++   +++++ +++++++   +++++ +++++
+h+ +++++++++++++++ ++++++++++++++
+d++ +++++++++++++++ +++++++++++++
+v +++++++++++++++ +++++++++++++++
+b+++  ++++++++++++++  +++++++++++
+n++++++++++++++++++++++++++++++++
+)MATRIX";
+
+static const std::string kTemplate10 = R"MATRIX(
+FLSYCWPHQRIMTNKVADEGX
+F+                   +
+L +                  +
+S  +                 +
+Y   +                +
+C    +               +
+W     +              +
+P      +             +
+H       +            +
+Q        +           +
+R         +          +
+I          +         +
+M           +        +
+T            +       +
+N             +      +
+K              +     +
+V               +    +
+A                +   +
+D                 +  +
+E                  + +
+G                   ++
+X+++++++++++++++++++++
+)MATRIX";
+
+static const std::string kTemplate11 = R"MATRIX(
+FLSYCWPHQRIMTNKVADEGXflsycwphqrimtnkvadegx
+F+                   ++                   +
+L +                  + +                  +
+S  +                 +  +                 +
+Y   +                +   +                +
+C    +               +    +               +
+W     +              +     +              +
+P      +             +      +             +
+H       +            +       +            +
+Q        +           +        +           +
+R         +          +         +          +
+I          +         +          +         +
+M           +        +           +        +
+T            +       +            +       +
+N             +      +             +      +
+K              +     +              +     +
+V               +    +               +    +
+A                +   +                +   +
+D                 +  +                 +  +
+E                  + +                  + +
+G                   ++                   ++
+X++++++++++++++++++++++++++++++++++++++++++
+f+                   ++                   +
+l +                  + +                  +
+s  +                 +  +                 +
+y   +                +   +                +
+c    +               +    +               +
+w     +              +     +              +
+p      +             +      +             +
+h       +            +       +            +
+q        +           +        +           +
+r         +          +         +          +
+i          +         +          +         +
+m           +        +           +        +
+t            +       +            +       +
+n             +      +             +      +
+k              +     +              +     +
+v               +    +               +    +
+a                +   +                +   +
+d                 +  +                 +  +
+e                  + +                  + +
+g                   ++                   ++
+x++++++++++++++++++++++++++++++++++++++++++
+)MATRIX";
 
 /**
  * @brief Class for creating a match template, which contians specification on
@@ -138,4 +485,4 @@ class ResTemplate {
   void ParseMatrix(const std::string matrix_str);
 };
 
-#endif  // SEQSCAN_RES_TEMPALTE_H_
+#endif  // SEQSCAN_RES_TEMPLATE_H_
