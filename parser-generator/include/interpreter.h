@@ -1,4 +1,24 @@
 /*
+ * Copyright (C) 2015 BIO-DIKU.
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
+ *
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+/*
  * The MIT License (MIT)
  * 
  * Copyright (c) 2014 Krzysztof Narkiewicz <krzysztof.narkiewicz@ezaquarii.com>
@@ -30,11 +50,41 @@
 #define INTERPRETER_H
 
 #include <vector>
+#include <string>
 
 #include "scanner.h"
 #include "parser.hh"
 
 namespace SeqScan {
+
+
+
+/**
+ * @brief PatternParseException class for Interpreter class.
+ */
+class PatternParseException : public std::exception {
+ public:
+
+  PatternParseException(const std::string &msg, const int pos) :
+    exceptionMsg(msg),
+    position(pos)
+  {}
+  PatternParseException(const std::string &&msg, const int pos) :
+    exceptionMsg(msg),
+    position(pos)
+  {}
+  PatternParseException(const PatternParseException &e) :
+    exceptionMsg(e.exceptionMsg),
+    position(e.position)
+  {}
+  virtual const char* what() const noexcept{ 
+    return exceptionMsg.c_str(); 
+  }
+
+  const std::string exceptionMsg;
+  const int position;
+};
+
 
 /**
  * This class is the interface for our scanner/lexer. The end user
@@ -70,6 +120,7 @@ private:
     
     // Used to get last Scanner location. Used in error messages.
     unsigned int location() const;
+
     
     /**
      * Switch scanner input stream. Default is standard input (std::cin).

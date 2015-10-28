@@ -23,7 +23,7 @@ $(LIBFILE): $(OBJECTS)
 	mkdir -p lib
 	ar rcs $@ $(OBJECTS)
 
-main: $(LIBFILE)
+main: $(LIBFILE) main.cpp
 	g++ -std=c++11 -Wall -I ./include -L ./lib -lseqscanparser main.cpp -o main
 
 clean:

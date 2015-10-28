@@ -1,4 +1,24 @@
 /*
+ * Copyright (C) 2015 BIO-DIKU.
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
+ *
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+/*
  * The MIT License (MIT)
  * 
  * Copyright (c) 2014 Krzysztof Narkiewicz <krzysztof.narkiewicz@ezaquarii.com>
@@ -92,25 +112,24 @@
 %token <std::string> LABEL "label";
 %token <uint64_t> INT "number";
 
-%token SLASH "slash";
-%token COMMA "comma";
-%token SPACE "space";
-%token LCURLY "lcurly";
-%token RCURLY "rcurly";
-%token LESS "less";
-%token TILDE "tilde";
-%token OR "or";
-%token QMARK "qmark";
-%token DOT "dot";
-%token LPAR "lpar";
-%token RPAR "rpar";
-%token EQUAL "equal";
-%token LBRACK "lbrack";
-%token RBRACK "rbrack";
-%token PLUS "plus";
-%token HAT "hat";
-%token DOLLAR "dollar";
-%token STAR "star";
+%token SLASH "slash (/)";
+%token COMMA "comma (,)";
+%token SPACE "space ( )";
+%token LCURLY "curly brace '{'";
+%token RCURLY "curly brace '}'";
+%token LESS "less than (<)";
+%token TILDE "tilde (~)";
+%token OR "pipe (|)";
+%token DOT "period (.)";
+%token LPAR "left parenthesis '('";
+%token RPAR "right parenthesis ')'";
+%token EQUAL "equality (=)";
+%token LBRACK "left bracket '['";
+%token RBRACK "right bracket ']'";
+%token PLUS "plus sign (+)";
+%token HAT "hat (^)";
+%token DOLLAR "dollar sign ($)";
+%token STAR "star (*)";
 
 %left EQUAL
 %left OR
@@ -135,36 +154,30 @@ pattern:
 ;
 
 unit_list:
-  unit_list SPACE pattern_unit           { 
-                                           $1->children_.push_back($3);
-                                           $$ = $1;
-                                         } 
  
-| HAT pattern_unit DOLLAR                { $2->pre_modifier_.start_anchor_ = true;
+  HAT composite DOLLAR                   { $2->pre_modifier_.start_anchor_ = true;
                                            $2->suf_modifier_.end_anchor_   = true;
                                            $$ = $2; 
                                          }
 
-| HAT pattern_unit                       { $2->pre_modifier_.start_anchor_ = true;
+| HAT composite                          { $2->pre_modifier_.start_anchor_ = true;
                                            $$ = $2; 
                                          }
-| pattern_unit DOLLAR                    { $1->suf_modifier_.end_anchor_ = true;
+| composite DOLLAR                       { $1->suf_modifier_.end_anchor_ = true;
                                            $$ = $1; 
                                          }
-| pattern_unit                           { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Composite);
-                                           $$->children_.push_back($1); 
+| composite                              { $$ = $1;
                                          }
 ;
 
 
 pattern_unit:
-| LBRACK HAT STRING RBRACK               { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
-                                           gr->pre_modifier_.hat_ = true;
-                                           $$ = gr;
+/* Group units */
+  LBRACK HAT STRING RBRACK               { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
+                                           $$->pre_modifier_.hat_ = true;
                                          }
-| LBRACK STRING RBRACK                   { ParseTreeUnit* gr = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
-                                           gr->pre_modifier_.hat_ = false;
-                                           $$ = gr;
+| LBRACK STRING RBRACK                   { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
+                                           $$->pre_modifier_.hat_ = false;
                                          }
 
 
@@ -231,6 +244,7 @@ pattern_unit:
                                          }
 ;
 
+/* Or units must be non-empty */
 or_list :
   or_list OR pattern_unit                { $1->children_.push_back($3);
                                            $$ = $1;
@@ -241,6 +255,17 @@ or_list :
                                          }
 ;
 
+/* Composite units */
+composite:
+  composite SPACE pattern_unit           { $1->children_.push_back($3);
+                                           $$ = $1; }
+
+| pattern_unit                           { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Composite);
+                                           $$->children_.push_back($1); }
+;
+    
+
+/* Repeat units */
 repeats:
   LCURLY INT COMMA INT RCURLY            { $$ = std::make_tuple($2, $4, false); }
 
@@ -254,53 +279,47 @@ repeats:
 ;
 
 
+/* Front modifiers */
 front_modifiers:
-  LESS TILDE                             { PTPreModifier* pm = new PTPreModifier();
-                                           pm->less_ = true;
-                                           pm->tilde_ = true;
-                                           $$ = pm; 
+  LESS TILDE                             { $$ = new PTPreModifier();
+                                           $$->less_ = true;
+                                           $$->tilde_ = true;
                                          }
 
-| LESS                                   { PTPreModifier* pm = new PTPreModifier();
-                                           pm->less_ = true;
-                                           $$ = pm;
+| LESS                                   { $$ = new PTPreModifier();
+                                           $$->less_ = true;
                                          }
 
-| TILDE                                  { PTPreModifier* pm = new PTPreModifier();
-                                           pm->tilde_ = true;
-                                           $$ = pm; 
+| TILDE                                  { $$ = new PTPreModifier();
+                                           $$->tilde_ = true;
                                          } 
 ;
 
+/* Back modifiers */
 back_modifiers:
-  SLASH INT COMMA INT COMMA INT          { PTSufModifier* sm = new PTSufModifier();
-                                           sm->mismatches_ = $2;
-                                           sm->insertions_ = $4;
-                                           sm->deletions_ = $6;
-                                           $$ = sm; 
+  SLASH INT COMMA INT COMMA INT          { $$ = new PTSufModifier();
+                                           $$->mismatches_ = $2;
+                                           $$->insertions_ = $4;
+                                           $$->deletions_ = $6;
                                          }
  
-| SLASH INT COMMA INT                    { PTSufModifier* sm = new PTSufModifier();
-                                           sm->mismatches_ = $2;
-                                           sm->indels_ = $4; }
+| SLASH INT COMMA INT                    { $$ = new PTSufModifier();
+                                           $$->mismatches_ = $2;
+                                           $$->indels_ = $4; }
 
-| SLASH INT                              { PTSufModifier* sm = new PTSufModifier();
-                                           sm->errors_ = $2; }
+| SLASH INT                              { $$ = new PTSufModifier();
+                                           $$->errors_ = $2; }
 
 |                                        { $$ = new PTSufModifier(); }
 ;
 
-composite:
-  composite SPACE pattern_unit           { $1->children_.push_back($3);
-                                           $$ = $1; }
-
-| pattern_unit                           { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Composite);
-                                           $$->children_.push_back($1); }
-;
-    
 %%
 
 // Bison expects us to provide implementation - otherwise linker complains
 void SeqScan::Parser::error(const location &loc , const std::string &message) {
-  std::cout << "Error: " << message << std::endl << "Error location: " << driver.location() << std::endl;
+  //std::cout << "Error: " << message << std::endl << "Error location: " << driver.location() << std::endl;
+  std::stringstream ss; ss<<"Parser: "<<message;
+  throw PatternParseException(ss.str(),driver.location());
 }
+
+

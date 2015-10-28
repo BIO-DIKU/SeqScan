@@ -1,4 +1,24 @@
 /*
+ * Copyright (C) 2015 BIO-DIKU.
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
+ *
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+/*
  * The MIT License (MIT)
  * 
  * Copyright (c) 2014 Krzysztof Narkiewicz <krzysztof.narkiewicz@ezaquarii.com>
@@ -77,7 +97,6 @@
 [a-zA-Z]+_?[0-9]+              { return SeqScan::Parser::make_LABEL(yytext, SeqScan::location()); }
 \<                             { return SeqScan::Parser::make_LESS(SeqScan::location()); }
 =                              { return SeqScan::Parser::make_EQUAL(SeqScan::location()); }
-\?                             { return SeqScan::Parser::make_QMARK(SeqScan::location()); }
 \[                             { return SeqScan::Parser::make_LBRACK(SeqScan::location()); }
 \]                             { return SeqScan::Parser::make_RBRACK(SeqScan::location()); }
 \^                             { return SeqScan::Parser::make_HAT(SeqScan::location()); }
@@ -89,9 +108,13 @@
 
 [\n\r]                         { return SeqScan::Parser::make_END(SeqScan::location());    }
 <<EOF>>                        { return SeqScan::Parser::make_END(SeqScan::location());    }
-.                              { std::cerr << "Scanner: Unknown character [" << yytext << "] ";
-                                 std::cerr << "at location " << SeqScan::location() << std::endl;
-                                 yyterminate();                                                    }
+.                              { std::stringstream ss; ss<<"Scanner: Unrecognized expression at position "<<m_driver.location();
+                                 throw PatternParseException(ss.str(),m_driver.location()); }
 
 
 %%
+/*
+.                              { std::cerr << "Scanner: Unknown character [" << yytext << "] ";
+                                 std::cerr << "at location " << SeqScan::location() << std::endl;
+                                 yyterminate();                                                    }
+*/
