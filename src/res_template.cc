@@ -25,14 +25,14 @@
 
 using namespace std;
 
-ResTemplate::ResTemplate(string template_file) :
-  template_file_(template_file)
+ResTemplate::ResTemplate(string matrix_file) :
+  matrix_file_(matrix_file)
 {
   FileMatrixToTemplate();
 };
 
-ResTemplate::ResTemplate(int template_num) :
-  template_num_(template_num)
+ResTemplate::ResTemplate(int matrix_num) :
+  matrix_num_(matrix_num)
 {
   MatrixToTemplate();
 };
@@ -52,9 +52,8 @@ void ResTemplate::FileMatrixToTemplate() {
   // TODO(Martin): implement this.
 }
 
-// TODO(Martin): Allow chosing of matrix.
 void ResTemplate::MatrixToTemplate() {
-  switch (template_num_) {
+  switch (matrix_num_) {
     case 1:
       ParseMatrix(kMatrix1);
       break;

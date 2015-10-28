@@ -433,12 +433,12 @@ class ResTemplate {
   /*
    * Predifined templates.
    */
-  ResTemplate(int template_num);
+  ResTemplate(int matrix_num);
 
   /*
-   * Custom templates from file.
+   * Custom matrix from file.
    */
-  ResTemplate(std::string template_file);
+  ResTemplate(std::string matrix_file);
 
   ~ResTemplate();
 
@@ -462,12 +462,12 @@ class ResTemplate {
   /*
    * Path to file with custom template matrix.
    */
-  std::string template_file_;
+  std::string matrix_file_;
 
   /*
    * Number of hardcoded template matrix to use.
    */
-  int template_num_;
+  int matrix_num_;
 
   /*
    * Parse a custom matrix from file.
