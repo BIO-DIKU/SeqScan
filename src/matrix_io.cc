@@ -45,7 +45,7 @@ string MatrixIO::ToString() {
   string str;
 
   for (auto it : matrix_) {
-    str += it + "\n";
+    str += it + "\n";  // TODO(Martin): replace with platform independant var.
   }
 
   return str;
