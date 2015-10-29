@@ -88,6 +88,38 @@ std::string ParseTreeUnit::str(size_t indent) const {
     return ts.str();
 }
 
+std::string ParseTreeUnit::repr() const {
+  std::stringstream ss;
+  switch(node_type_){
+    case UnitType::Sequence:  return "SEQ";
+    case UnitType::Reference: return "REF";
+    case UnitType::Range:     return "RANGE";
+    case UnitType::Group:     return "GROUP";
+    case UnitType::Composite: 
+      ss<<"(";
+      for(size_t i=0;i<children_.size();++i){
+        if(i>0) ss<<",";
+        ss<<children_[i]->repr();
+      }
+      ss<<")";
+      return ss.str();
+    case UnitType::Or: 
+      ss<<"OR(";
+      for(size_t i=0;i<children_.size();++i){
+        if(i>0) ss<<",";
+        ss<<children_[i]->repr();
+      }
+      ss<<")";
+      return ss.str();
+    case UnitType::Repeat:
+      ss<<"REP(";
+      ss<<children_[0]->repr();
+      ss<<")";
+      return ss.str();
+  }
+  return "";
+}
+
 void ParseTreeUnit::add_modifier(PTSufModifier* m)
 {
   suf_modifier_.mismatches_  += m->mismatches_;

@@ -69,6 +69,15 @@ namespace SeqScan {
 
     std::string str(size_t indent=0) const;
 
+    /** 
+     * Returns a compact string representation of the tree structure and overall types 
+     * used for debugging. For example, the pattern:
+     * AA p1=~CC (N{2,4}|2..4) 
+     * will have the compact parsed representation
+     * (SEQ,SEQ,OR(REP(SEQ),RANGE))
+     */
+    std::string repr() const;
+
     const UnitType node_type_;
 
     std::vector<ParseTreeUnit*> children_;
