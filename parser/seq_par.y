@@ -46,7 +46,7 @@ map<string, ParseTreeUnit*>::iterator vtab_it;
 
 %left EQUAL
 %left OR
-
+%left LCURLY
 /* Double '%' initiates parser grammar section */ 
 %%
 pattern:

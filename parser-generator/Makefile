@@ -16,15 +16,15 @@ parser.cc: parser.y
 	mv -f *.hh include/
 
 %.o: %.cc
-	g++ -Wall -O3 -c -I ./include $< -o $@
+	g++ -std=c++11 -Wall -O3 -c -I ./include $< -o $@
 
 
 $(LIBFILE): $(OBJECTS)
 	mkdir -p lib
 	ar rcs $@ $(OBJECTS)
 
-main: $(LIBFILE)
-	g++ -Wall -I ./include -L ./lib -lseqscanparser main.cpp -o main
+main: $(LIBFILE) main.cpp
+	g++ -std=c++11 -Wall -I ./include -L ./lib -lseqscanparser main.cpp -o main
 
 clean:
 	rm -rf $(LEXYAC_SOURCES) $(LEXYAC_HEADERS) $(OBJECTS)
