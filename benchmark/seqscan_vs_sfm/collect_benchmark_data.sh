@@ -53,6 +53,14 @@ parse_hits_seqscan() {
     echo $hits
 }
 
+# Function to parse number of hits from a python regex result file.
+parse_hits_pyregex() {
+    local file=$1
+    local hits=`grep -e "^.*\t.*\t.*" $file | wc -l`
+
+    echo $hits
+}
+
 [ $# -eq 0 ] &&
 {
     echo "Usage: `basename $0` <dir(s)> > <output file>"
@@ -62,20 +70,23 @@ parse_hits_seqscan() {
 
 DIRS=$@
 
-echo -e "Pattern\tSeqScan\tSeqScan\tSFM\tSFM"
+echo -e "Pattern\tSeqScan\tSeqScan\tSFM\tSFM\tPyRegex\tPyRegex"
 
 for dir in $DIRS; do
-    seqscan_file="$dir/seqscan.txt"
+    sqs_file="$dir/seqscan.txt"
     sfm_file="$dir/sfm.txt"
+    pyx_file="$dir/pyRegex.txt"
 
-    if [[ -f "$seqscan_file" && -f "$sfm_file" ]]; then
+    if [[ -f "$sqs_file" && -f "$sfm_file" && -f "$pyx_file" ]]; then
         name=$(pattern_name "$dir")
-        time_seqscan=$(parse_time "$seqscan_file")
+        time_sqs=$(parse_time "$sqs_file")
         time_sfm=$(parse_time "$sfm_file")
-        hits_seqscan=$(parse_hits_seqscan "$seqscan_file")
+        time_pyx=$(parse_time "$pyx_file")
+        hits_sqs=$(parse_hits_seqscan "$sqs_file")
         hits_sfm=$(parse_hits_sfm "$sfm_file")
+        hits_pyx=$(parse_hits_pyregex "$pyx_file")
 
-        echo -e "$name\t$hits_seqscan\t$time_seqscan\t$hits_sfm\t$time_sfm"
+        echo -e "$name\t$hits_sqs\t$time_sqs\t$hits_sfm\t$time_sfm\t$hits_pyx\t$time_pyx"
     fi
 done;
 

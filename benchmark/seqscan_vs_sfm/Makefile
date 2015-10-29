@@ -5,10 +5,12 @@ SEQFILE      = $(DATADIR)/chr22.fa
 # Assumes that you put scan_for_matches and seqscan in your path
 SFM_BIN      = scan_for_matches
 SQS_BIN      = seqscan
+PYX_BIN      = python pyRegexMatch.py
 
 SFM_PATS     = $(wildcard pat_*/sfm.pat)
 SQS_PATS     = $(wildcard pat_*/seqscan.pat)
-ALL_PATS     = $(SFM_PATS) $(SQS_PATS)
+PYX_PATS     = $(wildcard pat_*/pyRegex.pat)
+ALL_PATS     = $(SFM_PATS) $(SQS_PATS) $(PYX_PATS)
 
 OUTPUT_FILES = $(subst .pat,.txt,$(ALL_PATS))
 OUTPUT_DIRS  = $(sort $(subst /,,$(dir $(OUTPUT_FILES)))) #sort removes duplicates (and sorts)
@@ -29,6 +31,9 @@ all: $(OUTPUT_FILES) benchmark.png
 
 %/sfm.txt: %/sfm.pat $(SEQFILE)
 	(time -p $(SFM_BIN) $< < $(SEQFILE)) &> $@
+
+%/pyRegex.txt: %/pyRegex.pat $(SEQFILE)
+	(time -p $(PYX_BIN) `cat $<` $(SEQFILE)) &> $@
 
 
 # Summary file
