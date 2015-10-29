@@ -6,7 +6,7 @@ BIN_FILE    = seqscan
 CPP_FLAGS   = -std=c++11
 
 all: parser lexer
-	$(CPP) $(CPP_FLAGS) $(SRC_DIR)/modifiers.cc $(SRC_DIR)/match.cc $(SRC_DIR)/pu/backtrack_unit.cc $(SRC_DIR)/pu/pattern_unit.cc parse_tree_unit.cpp parse_tree_list.cpp seq_par.tab.c lex.yy.c main.cpp -o $(BIN_FILE)
+	$(CPP) $(CPP_FLAGS) parse_tree_unit.cpp parse_tree_list.cpp seq_par.tab.c lex.yy.c main.cpp -lfl -o $(BIN_FILE)
 	
 
 parser:

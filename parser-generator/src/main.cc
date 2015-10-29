@@ -18,21 +18,35 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "res_matcher.h"
 
+#include <iostream>
+#include <sstream>
+#include <string>
+
+#include "scanner.h"
+#include "parser.hh"
+#include "interpreter.h"
+
+using namespace SeqScan;
 using namespace std;
 
-ResMatcher::ResMatcher(ResTemplate res_template) :
-  res_template_(res_template)
-{}
+int main(int argc, char **argv) {
+  Interpreter i;
 
-ResMatcher::~ResMatcher()
-{}
-
-bool ResMatcher::Match(const char a, const char b) {
-  if (a == b) {
-    return true;
+  if(argc==0){
+    cout<<"Usage: "<<argv[0]<<" \"seqscan pattern\""<<endl;
   }
 
-  return res_template_.is_set(a << kSizeOfChar | b);
+  try{
+	  ParseTreeUnit* parsetree = i.parse(argv[1]);
+	  cout << "Parse complete. Parse tree:"<< endl;
+	  cout << parsetree->str(0)<<endl;
+  }
+  catch (PatternParseException& exc){
+	  cerr << "SeqScan: " << exc.exceptionMsg << endl;
+	  cerr << argv[1] << endl;
+	  for(int i=0;i<exc.position-1;i++)
+		  cerr<<" ";
+	  cerr << "^"<<endl;
+  }
 }

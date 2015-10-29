@@ -1,4 +1,24 @@
 /*
+ * Copyright (C) 2015 BIO-DIKU.
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
+ *
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+/*
  * The MIT License (MIT)
  * 
  * Copyright (c) 2014 Krzysztof Narkiewicz <krzysztof.narkiewicz@ezaquarii.com>
@@ -30,11 +50,41 @@
 #define INTERPRETER_H
 
 #include <vector>
+#include <string>
 
 #include "scanner.h"
 #include "parser.hh"
 
 namespace SeqScan {
+
+
+
+/**
+ * @brief PatternParseException class for Interpreter class.
+ */
+class PatternParseException : public std::exception {
+ public:
+
+  PatternParseException(const std::string &msg, const int pos) :
+    exceptionMsg(msg),
+    position(pos)
+  {}
+  PatternParseException(const std::string &&msg, const int pos) :
+    exceptionMsg(msg),
+    position(pos)
+  {}
+  PatternParseException(const PatternParseException &e) :
+    exceptionMsg(e.exceptionMsg),
+    position(e.position)
+  {}
+  virtual const char* what() const noexcept{ 
+    return exceptionMsg.c_str(); 
+  }
+
+  const std::string exceptionMsg;
+  const int position;
+};
+
 
 /**
  * This class is the interface for our scanner/lexer. The end user
@@ -48,10 +98,10 @@ public:
     Interpreter();
     
     /**
-     * Run parser on pattern. Returns a PTNode pointer on success, 
-	 * NULL on failure.
+     * Run parser on pattern. Returns a ParseTreeUnit pointer on success, 
+     * NULL on failure.
      */
-    PTNode* parse(const std::string& raw_pattern);
+    ParseTreeUnit* parse(const std::string& raw_pattern);
     
     
     /**
@@ -63,13 +113,14 @@ public:
     
 private:
     // Used internally by Parser to set the main parse tree.
-    void set_parse_tree(PTNode* ptree);
+    void set_parse_tree(ParseTreeUnit* ptree);
     
     // Used internally by Scanner YY_USER_ACTION to update location indicator
     void increaseLocation(unsigned int loc);
     
     // Used to get last Scanner location. Used in error messages.
     unsigned int location() const;
+
     
     /**
      * Switch scanner input stream. Default is standard input (std::cin).
@@ -78,7 +129,7 @@ private:
 private:
     Scanner scanner_;
     Parser parser_;
-	PTNode* parse_tree_;
+    ParseTreeUnit* parse_tree_;
     unsigned int location_;          // Used by scanner
 };
 

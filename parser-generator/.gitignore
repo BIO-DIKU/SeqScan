@@ -1,6 +1,10 @@
 scanner.cc
+scanner.cpp
+scanner.cc
 parser.cc 
 parser.hh 
+parser.h 
+parser.cpp 
 location.hh 
 position.hh 
 stack.hh

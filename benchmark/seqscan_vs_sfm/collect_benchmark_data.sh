@@ -47,7 +47,8 @@ parse_hits_sfm() {
 # TODO: possibly we need a grep -v '^LOG' as well.
 parse_hits_seqscan() {
     local file=$1
-    local hits=`cat "$file" | sed '$d' | sed '$d' | sed '$d' | sed '$d' | wc -l`
+    #local hits=`cat "$file" | sed '$d' | sed '$d' | sed '$d' | sed '$d' | wc -l`
+    local hits=`grep -e "^.*\t[+-]\t.*\t" $file | wc -l`
 
     echo $hits
 }
@@ -74,7 +75,7 @@ for dir in $DIRS; do
         hits_seqscan=$(parse_hits_seqscan "$seqscan_file")
         hits_sfm=$(parse_hits_sfm "$sfm_file")
 
-        echo -e "$name\t$time_seqscan\t$time_sfm\t$hits_seqscan\t$hits_sfm"
+        echo -e "$name\t$hits_seqscan\t$time_seqscan\t$hits_sfm\t$time_sfm"
     fi
 done;
 

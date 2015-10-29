@@ -21,8 +21,8 @@
 #include <iostream>
 #include <memory>
 
-#include <interpreter.h>
-#include <ptnode.h>
+#include <parser/interpreter.h>
+#include <parser/parse_tree_unit.h>
 
 #include "pu_factory/sanity_checker.h"
 #include "pu_factory/pattern_unit_creator.h"
@@ -214,7 +214,7 @@ int main(int argc, char** argv) {
 
   //Parse pattern
   SeqScan::Interpreter i;
-  SeqScan::PTNode* ptree = i.parse(argv[1]);
+  SeqScan::ParseTreeUnit* ptree = i.parse(argv[1]);
 
   //Sanity check parse tree
   SeqScan::SanityChecker s;

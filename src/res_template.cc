@@ -29,16 +29,16 @@ ResTemplate::ResTemplate(string template_file) :
   template_file_(template_file)
 {
   FileMatrixToTemplate();
-};
+}
 
 ResTemplate::ResTemplate(int template_num) :
   template_num_(template_num)
 {
   MatrixToTemplate();
-};
+}
 
 ResTemplate::~ResTemplate()
-{};
+{}
 
 void ResTemplate::set(size_t index) {
   res_template_.set(index, true);

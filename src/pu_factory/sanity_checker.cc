@@ -11,7 +11,7 @@ namespace SeqScan {
   using ::std::cerr;
   using ::std::endl;
 
-  bool SanityChecker::is_sane(const PTNode *parse_tree)
+  bool SanityChecker::is_sane(const ParseTreeUnit *parse_tree)
   {
     std::set<std::string> visited_labels;
     return is_sane(parse_tree, visited_labels);
@@ -19,19 +19,19 @@ namespace SeqScan {
 
   //Performs a post-order traversal and sanity-checks. Collects labels on the way to check that backreferences are not
   //forwardreferences (or upreferences).
-  bool SanityChecker::is_sane(const PTNode *node, std::set<std::string>& visited_labels)
+  bool SanityChecker::is_sane(const ParseTreeUnit *node, std::set<std::string>& visited_labels)
   {
     switch(node->node_type_){
-      case PTNode::kReference:
+      case ParseTreeUnit::UnitType::Reference:
         if(!check_reference(node, visited_labels)) return false;
         break;
-      case PTNode::kComposite:
+      case ParseTreeUnit::UnitType::Composite:
         if(!check_composite(node, visited_labels)) return false;
         break;
-      case PTNode::kSequence:
+      case ParseTreeUnit::UnitType::Sequence:
         if(!check_sequence(node)) return false;
         break;
-      case PTNode::kRepeat:
+      case ParseTreeUnit::UnitType::Repeat:
         if(!check_repeat(node, visited_labels)) return false;
         break;
     }
@@ -43,7 +43,7 @@ namespace SeqScan {
 
   }
 
-  bool SanityChecker::check_reference(const PTNode *node, std::set<std::string>& visited_labels)
+  bool SanityChecker::check_reference(const ParseTreeUnit *node, std::set<std::string>& visited_labels)
   {
     if( ! node->children_.empty() )
     { cerr<<"Sanity: Reference units can't have children"<<endl; return false; }
@@ -63,7 +63,7 @@ namespace SeqScan {
     return true;
   }
 
-  bool SanityChecker::check_sequence(const PTNode *node)
+  bool SanityChecker::check_sequence(const ParseTreeUnit *node)
   {
     if( ! node->children_.empty() )
     { cerr<<"Sanity: Sequence units can't have children"<<endl; return false; }
@@ -80,7 +80,7 @@ namespace SeqScan {
     return true;
   }
 
-  bool SanityChecker::check_composite(const PTNode *node, std::set<std::string>& visited_labels)
+  bool SanityChecker::check_composite(const ParseTreeUnit *node, std::set<std::string>& visited_labels)
   {
     if( node->children_.empty() )
     { cerr<<"Sanity: Composite units must have children"<<endl; return false; }
@@ -102,7 +102,7 @@ namespace SeqScan {
     return true;
   }
 
-  bool SanityChecker::check_repeat(const PTNode *node, std::set<std::string>& visited_labels)
+  bool SanityChecker::check_repeat(const ParseTreeUnit *node, std::set<std::string>& visited_labels)
   {
     if( node->children_.size()!=1 )
     { cerr<<"Sanity: Repeat units must have something to repeat"<<endl; return false; }
