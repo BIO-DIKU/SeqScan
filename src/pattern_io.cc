@@ -39,15 +39,15 @@ PatternIO::~PatternIO()
 {}
 
 void PatternIO::Parse() {
-  std::ifstream input(pat_file_);
-  std::string   line;
+  ifstream input(pat_file_);
+  string   line;
 
   if (!input.good()) {
-    std::string msg = "Error: File not found or readable: " + pat_file_;
+    string msg = "Error: File not found or readable: " + pat_file_;
     throw PatternIOException(msg);
   }
 
-  while (std::getline(input, line)) {
+  while (getline(input, line)) {
     if (line.empty()) {
       continue;
     }
@@ -63,6 +63,6 @@ void PatternIO::CheckPatterns() {
     return;
   }
 
-  std::string msg = "Error: No patterns in file: " + pat_file_;
+  string msg = "Error: No patterns in file: " + pat_file_;
   throw PatternIOException(msg);
 }
