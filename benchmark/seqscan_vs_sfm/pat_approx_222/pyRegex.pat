@@ -1,0 +1,1 @@
+(CGTGTTGTCTTAGA){s<=2,i<=2,d<=2}

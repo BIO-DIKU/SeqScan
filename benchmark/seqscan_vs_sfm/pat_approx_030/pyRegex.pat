@@ -1,0 +1,1 @@
+(CGTGTTGTCTTAGA){i<=3}
