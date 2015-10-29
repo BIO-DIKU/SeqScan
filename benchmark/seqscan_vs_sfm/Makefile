@@ -11,7 +11,7 @@ SQS_PATS     = $(wildcard pat_*/seqscan.pat)
 ALL_PATS     = $(SFM_PATS) $(SQS_PATS)
 
 OUTPUT_FILES = $(subst .pat,.txt,$(ALL_PATS))
-OUTPUT_DIRS  = $(sort $(dir $(OUTPUT_FILES))) #sort removes duplicates (and sorts)
+OUTPUT_DIRS  = $(sort $(subst /,,$(dir $(OUTPUT_FILES)))) #sort removes duplicates (and sorts)
 
 # Ensures that intermediate files dont get deleted after each target creation
 .SECONDARY:
