@@ -5,6 +5,23 @@ cmake_minimum_required (VERSION 2.8)
 # Project name
 project(SeqScan)
 
+include(ExternalProject)
+
+# Set up pattern parser so it compiles automatically
+# ------------------------
+set(parser_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/parser")
+set(parser_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/parser")
+set(parser_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${parser_INSTALL_DIR})
+message(${CMAKE_CURRENT_SOURCE_DIR}/parser-generator)
+ExternalProject_Add(
+	parser
+	PREFIX ${parser_PREFIX}
+	URL ${CMAKE_CURRENT_SOURCE_DIR}/parser-generator
+	INSTALL_DIR ${parser_INSTALL_DIR}
+	CMAKE_ARGS ${parser_CMAKE_ARGS}
+)
+
+
 
 # Options
 # ------------------------
@@ -54,8 +71,9 @@ FILE(GLOB HEADER_FILES src/*.h src/pu/*.h src/pu/tnfa/*.h src/pu_factory/*.h )
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 #The parser is compiled in parser-generator. Add include and lib dirs
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/parser-generator/include)
-link_libraries(${CMAKE_CURRENT_SOURCE_DIR}/parser-generator/lib/libseqscanparser.a)
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/parser-generator/include)
+#link_libraries(${CMAKE_CURRENT_SOURCE_DIR}/parser-generator/lib/libseqscanparser.a)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 
 # http://stackoverflow.com/questions/16449676/remove-specific-file-from-cmake-build
@@ -69,6 +87,9 @@ list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_tests.cc)
 add_executable(seqscan ${SOURCE_FILES} ${HEADER_FILES})
 
 
+#Link parser
+include_directories(${parser_INSTALL_DIR}/include)
+link_libraries(${parser_INSTALL_DIR}/lib/libSeqScanParser.a)
 
 
 
