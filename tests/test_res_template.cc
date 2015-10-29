@@ -42,9 +42,9 @@ TEST_CASE("ResTemplate::FileMatrixToTemplate", "[res_template]") {
   output << "A+ " << endl;
   output << "C +" << endl;
   output << endl;
-  output << "~AC" << endl;
+  output << "~AT" << endl;
   output << "A +" << endl;
-  output << "C+ " << endl;
+  output << "T+ " << endl;
   output.close();
 
   ResTemplate res_template(file);
@@ -56,8 +56,8 @@ TEST_CASE("ResTemplate::FileMatrixToTemplate", "[res_template]") {
   }
 
   SECTION("Parse of complement matrix OK") {
-    REQUIRE(res_template_comp.is_set('A' << kSizeOfChar | 'C'));
-    REQUIRE(res_template_comp.is_set('C' << kSizeOfChar | 'A'));
+    REQUIRE(res_template_comp.is_set('T' << kSizeOfChar | 'A'));
+    REQUIRE(res_template_comp.is_set('A' << kSizeOfChar | 'T'));
   }
 
   remove(file.c_str());
