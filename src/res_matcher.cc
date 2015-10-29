@@ -24,10 +24,10 @@ using namespace std;
 
 ResMatcher::ResMatcher(ResTemplate res_template) :
   res_template_(res_template)
-{};
+{}
 
 ResMatcher::~ResMatcher()
-{};
+{}
 
 bool ResMatcher::Match(const char a, const char b) {
   if (a == b) {
