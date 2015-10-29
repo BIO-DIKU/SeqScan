@@ -492,14 +492,14 @@ https://en.wikipedia.org/wiki/FASTQ_format
 
 Use the `-M/--match_file` to read a given match matrix. The file must contain
 one or two matrices, where the first describes how sequences match, and the
-second optional matrix describes how reverse-complemented sequences match. The
-latter is only relevant for nucleotide sequences.
+second optional matrix describes how complemented sequences match. The latter is
+only relevant for nucleotide sequences.
 
 The first row denotes sequence residues and the first column denotes pattern
 residues. Below is an example of a match file with matrices for matching only
-uppercase DNA/RNA and reverse-complement matching of the same (if the `~`
-operator is used a reverse-complement matrix must also be defined). Matching
-residues are indicated by `+` in the row and column intersection.
+uppercase DNA/RNA and complement matching of the same (if the `~` operator is
+used a complement matrix must also be defined). Matching residues are indicated
+by `+` in the row and column intersection.
 
      ACGTU
     A+
