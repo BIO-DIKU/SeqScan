@@ -19,6 +19,7 @@
  */
 
 #include "res_matcher.h"
+#include "res_template.h"
 
 using namespace std;
 
@@ -34,5 +35,5 @@ bool ResMatcher::Match(const char a, const char b) {
     return true;
   }
 
-  return res_template_.is_set(a << kSizeOfChar | b);
+  return res_template_.is_set(HashResidues(a, b));
 }

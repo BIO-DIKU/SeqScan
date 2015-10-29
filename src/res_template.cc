@@ -121,7 +121,8 @@ void ResTemplate::MatrixToTemplate() {
       ParseMatrix(kMatrix10);
       break;
     default:
-      cerr << "Unknown matrix" << endl;  // TODO(Martin): Proper error handling.
+      string msg = "Error: Unknown matrix: " + to_string(matrix_num_);
+      throw ResTemplateException(msg);
       break;
   }
 }
@@ -146,7 +147,7 @@ void ResTemplate::ParseMatrix(const string matrix_str) {
 
     for (size_t i = 1; i < line.size(); ++i) {
       if (line[i] == '+') {
-        res_template_.set(seq1[i] << kSizeOfChar | line[0], true);
+        res_template_.set(HashResidues(seq1[i], line[0]), true);
       }
     }
   }

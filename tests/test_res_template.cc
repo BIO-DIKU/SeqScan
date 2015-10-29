@@ -51,13 +51,13 @@ TEST_CASE("ResTemplate::FileMatrixToTemplate", "[res_template]") {
   ResTemplate res_template_comp(file, true);
 
   SECTION("Parse of forward matrix OK") {
-    REQUIRE(res_template.is_set('A' << kSizeOfChar | 'A'));
-    REQUIRE(res_template.is_set('C' << kSizeOfChar | 'C'));
+    REQUIRE(res_template.is_set(HashResidues('A', 'A')));
+    REQUIRE(res_template.is_set(HashResidues('C', 'C')));
   }
 
   SECTION("Parse of complement matrix OK") {
-    REQUIRE(res_template_comp.is_set('T' << kSizeOfChar | 'A'));
-    REQUIRE(res_template_comp.is_set('A' << kSizeOfChar | 'T'));
+    REQUIRE(res_template_comp.is_set(HashResidues('T', 'A')));
+    REQUIRE(res_template_comp.is_set(HashResidues('A', 'T')));
   }
 
   remove(file.c_str());
@@ -74,6 +74,6 @@ TEST_CASE("ResTemplate::MatrixToTemplate all matrices can be loaded OK", "[res_t
 TEST_CASE("ResTemplate::MatrixToTemplate is_set() works OK", "[res_template]") {
   ResTemplate res_template(8);
 
-  REQUIRE(res_template.is_set('A' << kSizeOfChar | 'N'));
-  REQUIRE(res_template.is_set('N' << kSizeOfChar | 'A'));
+  REQUIRE(res_template.is_set(HashResidues('A', 'N')));
+  REQUIRE(res_template.is_set(HashResidues('N', 'A')));
 }

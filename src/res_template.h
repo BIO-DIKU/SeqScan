@@ -23,7 +23,23 @@
 
 #include <bitset>
 
-static const size_t kSizeOfChar = 8; // FIXME(someone) size_of(char);
+static const size_t kSizeOfChar = 8;
+static const size_t kMaxHash    = 1 << (2 * kSizeOfChar);
+
+/*
+ * Inline method to hash two chars for lookup in a match structure. Hashing is
+ * done by shifting the ASCII value of one char and performing a bitwise or (|)
+ * operation. E.g, for the residue pair T-U the binary representations are:
+ *
+ * T:          0000000001010100 = 84
+ * U:          0000000001010101 = 85
+ * T << 8 | U: 0101010001010101 = 21589
+ *
+ * Thus the resulting hash value 21589 can be used in a lookup structure.
+ */
+inline size_t HashResidues(const char a, const char b) {
+  return a << kSizeOfChar | b;
+}
 
 // For Matrices below the first row is the sequence and the first column is the
 // pattern.
@@ -415,18 +431,33 @@ g                   ++                   ++
 x++++++++++++++++++++++++++++++++++++++++++
 )MATRIX";
 
+ /**
+ * @brief Exception class for ResTemplate class.
+ *
+ * @example
+ *   std::string msg = "Exception message";
+ *   throw ResTemplateException(msg);
+ */
+class ResTemplateException : public std::exception {
+ public:
+  ResTemplateException(std::string &msg) :
+    exceptionMsg(msg)
+  {}
+
+  ResTemplateException(const ResTemplateException &e) :
+    exceptionMsg(e.exceptionMsg)
+  {}
+
+  virtual const char* what() const throw() { return exceptionMsg.c_str(); }
+
+  const std::string exceptionMsg;
+};
+
 /**
- * @brief Class for creating a match template, which contians specification on
- * matching residue pairs. The match template consists of a bitset and the index
- * of matching residues pairs are set by concatenating the char bits. So for the
- * matching residue pair T-U the binary representations are:
- *
- * T:          0000000001010100 = 84
- * U:          0000000001010101 = 85
- * T << 8 | U: 0101010001010101 = 21589
- *
- * We use the index position 21589 to indicate that T-U is a matching residue
- * pair.
+ * @brief Class for creating a match template, which contians a lookup structure
+ * on matching residue pairs. The match template consists of a bitset and the index
+ * of matching residues pairs are set by hashing the chars and use the resulting
+ * hash value as an index in the loopup structure.
  */
 class ResTemplate {
  public:
@@ -462,7 +493,7 @@ class ResTemplate {
   /*
    * Residue template.
    */
-  std::bitset<65536> res_template_;  //TODO(Martin): Get rid of magic number.
+  std::bitset<kMaxHash> res_template_;
 
   /*
    * Path to file with custom template matrix.
