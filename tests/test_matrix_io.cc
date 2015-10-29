@@ -29,9 +29,92 @@
 
 using namespace std;
 
-// TEST_CASE("PatternIO w non-exiting file raises", "[pattern_io]") {
-//   string file = "pat_file";
-//   vector<string> patterns;
-//
-//   REQUIRE_THROWS_AS(PatternIO pat_parse(file, patterns), PatternIOException);
-// }
+TEST_CASE("MatrixIO w non-exiting file raises", "[matrix_io]") {
+  string file = "matrix_file";
+  vector<string> matrix;
+  vector<string> matrix_comp;
+
+  remove(file.c_str());
+
+  REQUIRE_THROWS_AS(MatrixIO matrix_parse(file, matrix, matrix_comp), MatrixIOException);
+}
+
+TEST_CASE("MatrixIO w empty file raises", "[matrix_io]") {
+  string file = "matrix_file";
+  vector<string> matrix;
+  vector<string> matrix_comp;
+
+  ofstream output;
+  output.open(file);
+  output.close();
+
+  REQUIRE_THROWS_AS(MatrixIO matrix_parse(file, matrix, matrix_comp), MatrixIOException);
+
+  remove(file.c_str());
+}
+
+TEST_CASE("MatrixIO w one matrix in a file parses OK", "[matrix_io]") {
+  string file = "matrix_file";
+  vector<string> matrix;
+  vector<string> matrix_comp;
+
+  ofstream output;
+  output.open(file);
+  output << " AC" << endl;
+  output << "A+ " << endl;
+  output << "C +" << endl;
+  output.close();
+
+  MatrixIO matrix_parse(file, matrix, matrix_comp);
+
+  string m1;
+  string m2;
+
+  for (auto it : matrix) {
+    m1 += it;
+  }
+
+  for (auto it : matrix_comp) {
+    m2 += it;
+  }
+
+  REQUIRE(m1 == " ACA+ C +");
+  REQUIRE(m2 == "");
+
+  remove(file.c_str());
+}
+
+TEST_CASE("MatrixIO w two matrices in a file parses OK", "[matrix_io]") {
+  string file = "matrix_file";
+  vector<string> matrix;
+  vector<string> matrix_comp;
+
+  ofstream output;
+  output.open(file);
+  output << " AC" << endl;
+  output << "A+ " << endl;
+  output << "C +" << endl;
+  output << endl;
+  output << "~AC" << endl;
+  output << "A +" << endl;
+  output << "C+ " << endl;
+  output.close();
+
+  MatrixIO matrix_parse(file, matrix, matrix_comp);
+
+  string m1;
+  string m2;
+
+  for (auto it : matrix) {
+    m1 += it;
+  }
+
+  for (auto it : matrix_comp) {
+    m2 += it;
+  }
+
+  REQUIRE(m1 == " ACA+ C +");
+  REQUIRE(m2 == "~ACA +C+ ");
+
+  remove(file.c_str());
+}

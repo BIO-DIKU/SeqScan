@@ -27,12 +27,54 @@
 
 using namespace std;
 
-MatrixIO::MatrixIO(string matrix_file, vector<string> &lines) :
+MatrixIO::MatrixIO(string         matrix_file,
+                   vector<string> &matrix,
+                   vector<string> &matrix_comp) :
   matrix_file_(matrix_file),
-  lines_(lines)
+  matrix_(matrix),
+  matrix_comp_(matrix_comp)
 {
   Parse();
+  CheckMatrices();
 }
 
 MatrixIO::~MatrixIO()
 {}
+
+void MatrixIO::Parse() {
+  std::ifstream input(matrix_file_);
+  std::string   line;
+  bool          comp = false;
+
+  if (!input.good()) {
+    std::string msg = "Error: File not found or readable: " + matrix_file_;
+    throw MatrixIOException(msg);
+  }
+
+  while (std::getline(input, line)) {
+    if (line.empty()) {
+      continue;
+    }
+
+    if (line[0] == '~') {
+      comp = true;
+    }
+
+    if (comp) {
+      matrix_comp_.push_back(line);
+    } else {
+      matrix_.push_back(line);
+    }
+  }
+
+  input.close();
+}
+
+void MatrixIO::CheckMatrices() {
+  if (!matrix_.empty()) {
+    return;
+  }
+
+  std::string msg = "Error: No data in matrix: " + matrix_file_;
+  throw MatrixIOException(msg);
+}
