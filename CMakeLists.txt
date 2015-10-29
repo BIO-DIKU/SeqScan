@@ -5,6 +5,36 @@ cmake_minimum_required (VERSION 2.8)
 # Project name
 project(SeqScan)
 
+include(ExternalProject)
+
+# Set up pattern parser so it compiles automatically
+# ------------------------
+set(parser_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/parser")
+set(parser_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/parser")
+set(parser_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${parser_INSTALL_DIR})
+ExternalProject_Add(
+	parser
+	PREFIX ${parser_PREFIX}
+	URL ${CMAKE_CURRENT_SOURCE_DIR}/parser-generator
+	INSTALL_DIR ${parser_INSTALL_DIR}
+	CMAKE_ARGS ${parser_CMAKE_ARGS}
+)
+
+
+
+# Set up BioIO so it downloads and compiles automatically
+# ------------------------
+set(bioio_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/bioio")
+set(bioio_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/bioio")
+set(bioio_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${bioio_INSTALL_DIR})
+ExternalProject_Add(
+	bioio
+	PREFIX ${bioio_PREFIX}
+	GIT_REPOSITORY https://github.com/BIO-DIKU/BioIO.git
+	GIT_TAG develop
+	INSTALL_DIR ${bioio_INSTALL_DIR}
+	CMAKE_ARGS ${bioio_CMAKE_ARGS}
+)
 
 # Options
 # ------------------------
@@ -42,43 +72,44 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 endif()
 
 
-# Executable
-# ------------------------
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 FILE(GLOB SOURCE_FILES src/*.cc src/pu/*.cc src/pu/tnfa/*.cc src/pu_factory/*.cc )
 FILE(GLOB HEADER_FILES src/*.h src/pu/*.h src/pu/tnfa/*.h src/pu_factory/*.h )
 
-#https://cmake.org/cmake/help/v3.0/command/include_directories.html
-#Enables us to #include "pu/backtrack_unit.h" from files that are in "pu"
+# https://cmake.org/cmake/help/v3.0/command/include_directories.html
+# Enables us to #include "pu/backtrack_unit.h" from files that are in "pu"
+# ------------------------
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-#The parser is compiled in parser-generator. Add include and lib dirs
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/parser-generator/include)
-link_libraries(${CMAKE_CURRENT_SOURCE_DIR}/parser-generator/lib/libseqscanparser.a)
+#Link BioIO
+include_directories(${bioio_INSTALL_DIR}/include)
+link_libraries(${bioio_INSTALL_DIR}/lib/libBioIO.a)
+
+#Link parser
+include_directories(${parser_INSTALL_DIR}/include)
+link_libraries(${parser_INSTALL_DIR}/lib/libSeqScanParser.a)
 
 
 # http://stackoverflow.com/questions/16449676/remove-specific-file-from-cmake-build
-set(TEST_SOURCE_FILES ${SOURCE_FILES})
-list(REMOVE_ITEM TEST_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc)
-list(REMOVE_ITEM TEST_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/run_seqscan.cc)
-#list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/run_seqscan.cc)
+# Remove files with main
+# ------------------------
+list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/run_seqscan.cc)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_tests.cc)
-
-add_executable(seqscan ${SOURCE_FILES} ${HEADER_FILES})
-
+set(TEST_SOURCE_FILES ${SOURCE_FILES})
 
 
+# Executable
+# ------------------------
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+add_executable(seqscan ${SOURCE_FILES} ${HEADER_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc)
 
 
-#Necessary for flex parser
-#target_link_libraries(seqscan /usr/local/opt/flex/lib/libfl.a)
 
 # Build tests if CMAKE_BUILD_TYPE=Debug is set
 # ------------------------
 if (CMAKE_BUILD_TYPE MATCHES DEBUG OR CMAKE_BUILD_TYPE MATCHES "Debug")
-    FILE(GLOB TEST_FILES tests/*.cc tests/parser/*.cc tests/pu/*.cc tests/pu/tnfa/*.cc)
-    add_executable("seqscan_test" ${TEST_FILES} ${TEST_SOURCE_FILES} ${HEADER_FILES})
+    FILE(GLOB TEST_FILES tests/*.cc tests/pu/*.cc tests/pu/tnfa/*.cc)
+    add_executable(seqscan_test ${TEST_FILES} ${TEST_SOURCE_FILES} ${HEADER_FILES})
 	#target_link_libraries(seqscan_test /usr/local/opt/flex/lib/libfl.a)
 endif()
+

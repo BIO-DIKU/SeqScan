@@ -496,21 +496,21 @@ The first row denotes sequence residues and the first column denotes pattern
 residues. Below is an example of a match file with matrices for matching only
 uppercase DNA/RNA and reverse-complement matching of the same (if the `~`
 operator is used a reverse-complement matrix must also be defined). Matching
-residues are indicated by x in the row and column intersection.
+residues are indicated by `+` in the row and column intersection.
 
      ACGTU
-    Ax
-    C x
-    G  x
-    T   xx
-    U   xx
+    A+
+    C +
+    G  +
+    T   ++
+    U   ++
 
     ~ACGTU
-    A   xx
-    C  x
-    G x
-    Tx
-    Ux
+    A   ++
+    C  +
+    G +
+    T+
+    U+
 
 ## Filter
 

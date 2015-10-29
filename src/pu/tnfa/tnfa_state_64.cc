@@ -89,7 +89,7 @@ void TNFAState64::addOutStates(bool listNo, std::string::const_iterator pos,
 }
 
 void TNFAState64::display(bool listNo) {
-  printf("TNFAState64 %p on %c points to %p with errorcode %llu\n", (void *) this,
+  printf("TNFAState64 %p on %c points to %p with errorcode %lu\n", (void *) this,
          c, (void *) out_, errorCode_[!listNo]);
 }
 

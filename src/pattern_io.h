@@ -18,6 +18,9 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+ #ifndef SEQSCAN_PATTERN_IO_H_
+ #define SEQSCAN_PATTERN_IO_H_
+
  #include <iostream>
  #include <string>
  #include <vector>
@@ -42,8 +45,8 @@ class PatternIOException : public std::exception {
   virtual const char* what() const throw() { return exceptionMsg.c_str(); }
 
   const std::string exceptionMsg;
-
 };
+
 /**
 * @brief Class for parsing patterns from a given ASCII text file with one pattern
 * per line.
@@ -78,3 +81,5 @@ class PatternIO {
    */
   void CheckPatterns();
 };
+
+#endif  // SEQSCAN_PATTERN_IO_H_
