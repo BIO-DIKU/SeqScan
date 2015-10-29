@@ -89,7 +89,7 @@ add_executable(seqscan ${SOURCE_FILES} ${HEADER_FILES})
 
 #Link parser
 include_directories(${parser_INSTALL_DIR}/include)
-link_libraries(${parser_INSTALL_DIR}/lib/libSeqScanParser.a)
+target_link_libraries(seqscan ${parser_INSTALL_DIR}/lib/libSeqScanParser.a)
 
 
 

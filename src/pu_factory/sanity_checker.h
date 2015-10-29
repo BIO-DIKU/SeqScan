@@ -8,7 +8,7 @@
 #include <set>
 #include <string>
 
-#include <ptnode.h>
+#include <parser/parse_tree_unit.h>
 
 namespace SeqScan {
 
@@ -20,15 +20,15 @@ namespace SeqScan {
      * Performs sanity checks on the specified parse tree. Prints errors to cerr and returns false if anything appears
      * that will make the search with PatternUnit break down.
      */
-    bool is_sane(const PTNode *parse_tree);
+    bool is_sane(const ParseTreeUnit *parse_tree);
 
    private:
-    bool is_sane(const PTNode *parse_tree, std::set<std::string>& visited_labels);
+    bool is_sane(const ParseTreeUnit *parse_tree, std::set<std::string>& visited_labels);
 
-    bool check_reference(const PTNode *node, std::set<std::string>& visited_labels);
-    bool check_sequence(const PTNode *node);
-    bool check_composite(const PTNode *node, std::set<std::string>& visited_labels);
-    bool check_repeat(const PTNode *node);
+    bool check_reference(const ParseTreeUnit *node, std::set<std::string>& visited_labels);
+    bool check_sequence(const ParseTreeUnit *node);
+    bool check_composite(const ParseTreeUnit *node, std::set<std::string>& visited_labels);
+    bool check_repeat(const ParseTreeUnit *node);
 
   };
 

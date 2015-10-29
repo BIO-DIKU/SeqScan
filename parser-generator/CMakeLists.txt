@@ -60,10 +60,17 @@ BISON_TARGET(MyParser ${CMAKE_CURRENT_SOURCE_DIR}/src/parser.y ${CMAKE_CURRENT_B
 FLEX_TARGET(MyScanner ${CMAKE_CURRENT_SOURCE_DIR}/src/scanner.l  ${CMAKE_CURRENT_BINARY_DIR}/scanner.cc)
 ADD_FLEX_BISON_DEPENDENCY(MyScanner MyParser)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-list(APPEND SOURCE_FILES ${BISON_MyParser_OUTPUT_SOURCE})
+set (BISON_EXTRA_HEADERS
+  ${CMAKE_CURRENT_BINARY_DIR}/position.hh
+  ${CMAKE_CURRENT_BINARY_DIR}/location.hh
+  ${CMAKE_CURRENT_BINARY_DIR}/stack.hh
+)
+set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES "${BISON_EXTRA_HEADERS}")
+
 list(APPEND SOURCE_FILES ${FLEX_MyScanner_OUTPUT_SOURCE})
-list(APPEND HEADER_FILES ${BISON_MyParser_OUTPUT_HEADER})
 list(APPEND HEADER_FILES ${FLEX_MyScanner_OUTPUT_HEADER})
+list(APPEND SOURCE_FILES ${BISON_MyParser_OUTPUT_SOURCE})
+list(APPEND HEADER_FILES ${BISON_MyParser_OUTPUT_HEADER})
 
 
 set(LIB_NAME ${PROJECT_NAME})
@@ -82,6 +89,8 @@ target_link_libraries(runparser ${LIB_NAME})
 # Install instructions
 # ------------------------
 #install(FILES src/parse_tree_unit.h src/interpreter.h DESTINATION include/parser)
-install(DIRECTORY src/ DESTINATION include/parser FILES_MATCHING PATTERN "*.h")
+#install(DIRECTORY src/ DESTINATION include/parser FILES_MATCHING PATTERN "*.h")
+message("PARSER HEADERS: ${HEADER_FILES}")
+install(FILES ${HEADER_FILES} ${BISON_EXTRA_HEADERS} DESTINATION include/parser)
 install(TARGETS ${LIB_NAME} DESTINATION lib)
 
