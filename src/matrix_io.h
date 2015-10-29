@@ -80,9 +80,14 @@ class MatrixIO {
  public:
   MatrixIO(std::string              matrix_file,
            std::vector<std::string> &matrix,
-           std::vector<std::string> &matrix_comp);
+           bool                     matrix_comp);
 
   ~MatrixIO();
+
+  /*
+   * Return matrix as a string.
+   */
+  std::string ToString();
 
  private:
 
@@ -97,9 +102,9 @@ class MatrixIO {
   std::vector<std::string>& matrix_;
 
   /*
-   * Vector of strings with complement matrix lines.
+   * Flag indicating the complement matrix should be parsed.
    */
-  std::vector<std::string>& matrix_comp_;
+  bool matrix_comp_;
 
   /*
    * Parse matrix file.

@@ -29,7 +29,7 @@ using namespace std;
 
 MatrixIO::MatrixIO(string         matrix_file,
                    vector<string> &matrix,
-                   vector<string> &matrix_comp) :
+                   bool           matrix_comp) :
   matrix_file_(matrix_file),
   matrix_(matrix),
   matrix_comp_(matrix_comp)
@@ -41,28 +41,43 @@ MatrixIO::MatrixIO(string         matrix_file,
 MatrixIO::~MatrixIO()
 {}
 
+string MatrixIO::ToString() {
+  string str;
+
+  for (auto it : matrix_) {
+    str += it + "\n";
+  }
+
+  return str;
+}
+
 void MatrixIO::Parse() {
-  std::ifstream input(matrix_file_);
-  std::string   line;
+  ifstream input(matrix_file_);
+  string   line;
   bool          comp = false;
 
   if (!input.good()) {
-    std::string msg = "Error: File not found or readable: " + matrix_file_;
+    string msg = "Error: File not found or readable: " + matrix_file_;
     throw MatrixIOException(msg);
   }
 
-  while (std::getline(input, line)) {
+  while (getline(input, line)) {
     if (line.empty()) {
       continue;
     }
 
     if (line[0] == '~') {
+      if (!matrix_comp_) {
+        break;
+      }
       comp = true;
     }
 
-    if (comp) {
-      matrix_comp_.push_back(line);
-    } else {
+    if (matrix_comp_ && comp) {
+      matrix_.push_back(line);
+    }
+
+    if (!matrix_comp_ && !comp) {
       matrix_.push_back(line);
     }
   }
@@ -75,6 +90,6 @@ void MatrixIO::CheckMatrices() {
     return;
   }
 
-  std::string msg = "Error: No data in matrix: " + matrix_file_;
+  string msg = "Error: No data in matrix: " + matrix_file_;
   throw MatrixIOException(msg);
 }

@@ -30,33 +30,36 @@
 using namespace std;
 
 TEST_CASE("MatrixIO w non-exiting file raises", "[matrix_io]") {
-  string file = "matrix_file";
+  string         file = "matrix_file";
   vector<string> matrix;
-  vector<string> matrix_comp;
+  bool           comp = false;
 
   remove(file.c_str());
 
-  REQUIRE_THROWS_AS(MatrixIO matrix_parse(file, matrix, matrix_comp), MatrixIOException);
+  REQUIRE_THROWS_AS(MatrixIO matrix_parse(file, matrix, comp), MatrixIOException);
 }
 
 TEST_CASE("MatrixIO w empty file raises", "[matrix_io]") {
-  string file = "matrix_file";
+  string         file = "matrix_file";
   vector<string> matrix;
-  vector<string> matrix_comp;
+  bool           comp = false;
+
+  remove(file.c_str());
 
   ofstream output;
   output.open(file);
   output.close();
 
-  REQUIRE_THROWS_AS(MatrixIO matrix_parse(file, matrix, matrix_comp), MatrixIOException);
+  REQUIRE_THROWS_AS(MatrixIO matrix_parse(file, matrix, comp), MatrixIOException);
 
   remove(file.c_str());
 }
 
-TEST_CASE("MatrixIO w one matrix in a file parses OK", "[matrix_io]") {
-  string file = "matrix_file";
+TEST_CASE("MatrixIO w one matrix in a file", "[matrix_io]") {
+  string         file = "matrix_file";
   vector<string> matrix;
-  vector<string> matrix_comp;
+
+  remove(file.c_str());
 
   ofstream output;
   output.open(file);
@@ -65,29 +68,27 @@ TEST_CASE("MatrixIO w one matrix in a file parses OK", "[matrix_io]") {
   output << "C +" << endl;
   output.close();
 
-  MatrixIO matrix_parse(file, matrix, matrix_comp);
+  SECTION("forward matrix parses OK") {
+    bool comp = false;
+    MatrixIO matrix_parse(file, matrix, comp);
 
-  string m1;
-  string m2;
-
-  for (auto it : matrix) {
-    m1 += it;
+    REQUIRE(matrix_parse.ToString() == " AC\nA+ \nC +\n");
   }
 
-  for (auto it : matrix_comp) {
-    m2 += it;
-  }
+  SECTION("comp matrix parsing throws exception") {
+    bool comp = true;
 
-  REQUIRE(m1 == " ACA+ C +");
-  REQUIRE(m2 == "");
+    REQUIRE_THROWS_AS(MatrixIO matrix_parse(file, matrix, comp), MatrixIOException);
+  }
 
   remove(file.c_str());
 }
 
 TEST_CASE("MatrixIO w two matrices in a file parses OK", "[matrix_io]") {
-  string file = "matrix_file";
+  string         file = "matrix_file";
   vector<string> matrix;
-  vector<string> matrix_comp;
+
+  remove(file.c_str());
 
   ofstream output;
   output.open(file);
@@ -100,21 +101,19 @@ TEST_CASE("MatrixIO w two matrices in a file parses OK", "[matrix_io]") {
   output << "C+ " << endl;
   output.close();
 
-  MatrixIO matrix_parse(file, matrix, matrix_comp);
+  SECTION("forward matrix parses OK") {
+    bool comp = false;
+    MatrixIO matrix_parse(file, matrix, comp);
 
-  string m1;
-  string m2;
-
-  for (auto it : matrix) {
-    m1 += it;
+    REQUIRE(matrix_parse.ToString() == " AC\nA+ \nC +\n");
   }
 
-  for (auto it : matrix_comp) {
-    m2 += it;
-  }
+  SECTION("complement matrix parses OK") {
+    bool comp = true;
+    MatrixIO matrix_parse(file, matrix, comp);
 
-  REQUIRE(m1 == " ACA+ C +");
-  REQUIRE(m2 == "~ACA +C+ ");
+    REQUIRE(matrix_parse.ToString() == "~AC\nA +\nC+ \n");
+  }
 
   remove(file.c_str());
 }

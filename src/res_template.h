@@ -440,6 +440,11 @@ class ResTemplate {
    */
   ResTemplate(std::string matrix_file);
 
+  /*
+   * Custom complement matrix from file.
+   */
+  ResTemplate(std::string matrix_file, bool comp);
+
   ~ResTemplate();
 
   /*
@@ -472,8 +477,10 @@ class ResTemplate {
 
   /*
    * Parse a custom matrix from file.
+   *
+   * @param comp get the complemnt matrix from the file.
    */
-  void MatrixFileToTemplate();
+  void MatrixFileToTemplate(bool comp);
 
   /*
    * Create a match template from a hard coded matrix.

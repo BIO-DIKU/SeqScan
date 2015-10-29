@@ -19,6 +19,10 @@
  */
 
 #include <vector>
+#include <cstdio>
+#include <string>
+#include <iostream>
+#include <fstream>
 
 #include "catch.h"
 #include "../src/res_template.h"
@@ -26,17 +30,37 @@
 using namespace std;
 
 TEST_CASE("ResTemplate::FileMatrixToTemplate", "[res_template]") {
-  SECTION("Unreadable file") {
-    // REQUIRE_THROWS_AS();
+  string file = "matrix_file";
+  vector<string> matrix;
+  vector<string> matrix_comp;
+
+  remove(file.c_str());
+
+  ofstream output;
+  output.open(file);
+  output << " AC" << endl;
+  output << "A+ " << endl;
+  output << "C +" << endl;
+  output << endl;
+  output << "~AC" << endl;
+  output << "A +" << endl;
+  output << "C+ " << endl;
+  output.close();
+
+  ResTemplate res_template(file);
+  ResTemplate res_template_comp(file, true);
+
+  SECTION("Parse of forward matrix OK") {
+    REQUIRE(res_template.is_set('A' << kSizeOfChar | 'A'));
+    REQUIRE(res_template.is_set('C' << kSizeOfChar | 'C'));
   }
 
-  SECTION("Bad format") {
-    // REQUIRE_THROWS_AS();
+  SECTION("Parse of complement matrix OK") {
+    REQUIRE(res_template_comp.is_set('A' << kSizeOfChar | 'C'));
+    REQUIRE(res_template_comp.is_set('C' << kSizeOfChar | 'A'));
   }
 
-  SECTION("OK MatrixBad format") {
-    // REQUIRE();
-  }
+  remove(file.c_str());
 }
 
 TEST_CASE("ResTemplate::MatrixToTemplate all matrices can be loaded OK", "[res_template]") {

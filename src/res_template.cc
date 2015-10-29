@@ -18,17 +18,25 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "res_template.h"
 #include <string>
 #include <iostream>
 #include <sstream>
+#include "res_template.h"
+#include "matrix_io.h"
 
 using namespace std;
 
 ResTemplate::ResTemplate(string matrix_file) :
   matrix_file_(matrix_file)
 {
-  MatrixFileToTemplate();
+  bool comp = false;
+  MatrixFileToTemplate(comp);
+};
+
+ResTemplate::ResTemplate(string matrix_file, bool comp) :
+  matrix_file_(matrix_file)
+{
+  MatrixFileToTemplate(comp);
 };
 
 ResTemplate::ResTemplate(int matrix_num) :
@@ -48,8 +56,12 @@ bool ResTemplate::is_set(size_t index) {
   return res_template_.test(index);
 }
 
-void ResTemplate::MatrixFileToTemplate() {
-  // TODO(Martin): implement this.
+void ResTemplate::MatrixFileToTemplate(bool comp) {
+  vector<string> matrix;
+
+  MatrixIO matrix_parse(matrix_file_, matrix, comp);
+
+  ParseMatrix(matrix_parse.ToString());
 }
 
 void ResTemplate::MatrixToTemplate() {
