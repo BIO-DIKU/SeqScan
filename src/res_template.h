@@ -457,7 +457,7 @@ class ResTemplate {
   /*
    * Residue template.
    */
-  std::bitset<65536> res_template_;
+  std::bitset<65536> res_template_;  //TODO(Martin): Get rid of magic number.
 
   /*
    * Path to file with custom template matrix.
@@ -473,7 +473,7 @@ class ResTemplate {
   /*
    * Parse a custom matrix from file.
    */
-  void FileMatrixToTemplate();
+  void MatrixFileToTemplate();
 
   /*
    * Create a match template from a hard coded matrix.

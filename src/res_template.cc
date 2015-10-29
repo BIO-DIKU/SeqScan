@@ -28,7 +28,7 @@ using namespace std;
 ResTemplate::ResTemplate(string matrix_file) :
   matrix_file_(matrix_file)
 {
-  FileMatrixToTemplate();
+  MatrixFileToTemplate();
 };
 
 ResTemplate::ResTemplate(int matrix_num) :
@@ -48,7 +48,7 @@ bool ResTemplate::is_set(size_t index) {
   return res_template_.test(index);
 }
 
-void ResTemplate::FileMatrixToTemplate() {
+void ResTemplate::MatrixFileToTemplate() {
   // TODO(Martin): implement this.
 }
 
