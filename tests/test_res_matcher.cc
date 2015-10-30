@@ -25,7 +25,7 @@
 using namespace std;
 
 TEST_CASE("ResMatcher returns correctly", "[res_matcher]") {
-  ResTemplate res_template(1);
+  ResTemplate res_template(8);
   ResMatcher  res_matcher(res_template);
 
   SECTION("w identical residues is OK") {

@@ -30,7 +30,7 @@
  * Magic numbers for default options.
  */
 const int kDefaultThreads   = 1;
-const int kDefaultMatchType = 1;
+const int kDefaultMatchType = 6;
 const int kDefaultScoreMin  = 25;
 
 /**
