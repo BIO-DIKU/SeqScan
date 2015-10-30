@@ -18,28 +18,62 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+#include <vector>
+#include <cstdio>
+#include <string>
+#include <iostream>
+#include <fstream>
+
 #include "catch.h"
 #include "../src/res_template.h"
 
 using namespace std;
 
 TEST_CASE("ResTemplate::FileMatrixToTemplate", "[res_template]") {
-  SECTION("Unreadable file") {
-    // REQUIRE_THROWS_AS();
+  string file = "matrix_file";
+  vector<string> matrix;
+  vector<string> matrix_comp;
+
+  remove(file.c_str());
+
+  ofstream output;
+  output.open(file);
+  output << " AC" << endl;
+  output << "A+ " << endl;
+  output << "C +" << endl;
+  output << endl;
+  output << "~AT" << endl;
+  output << "A +" << endl;
+  output << "T+ " << endl;
+  output.close();
+
+  ResTemplate res_template(file);
+  ResTemplate res_template_comp(file, true);
+
+  SECTION("Parse of forward matrix OK") {
+    REQUIRE(res_template.is_set(HashResidues('A', 'A')));
+    REQUIRE(res_template.is_set(HashResidues('C', 'C')));
   }
 
-  SECTION("Bad format") {
-    // REQUIRE_THROWS_AS();
+  SECTION("Parse of complement matrix OK") {
+    REQUIRE(res_template_comp.is_set(HashResidues('T', 'A')));
+    REQUIRE(res_template_comp.is_set(HashResidues('A', 'T')));
   }
 
-  SECTION("OK MatrixBad format") {
-    // REQUIRE();
+  remove(file.c_str());
+}
+
+TEST_CASE("ResTemplate::MatrixToTemplate all matrices can be loaded OK", "[res_template]") {
+  vector<int> matrices = {1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6, 7, -7, 8, -8, 9, 10};
+
+  for (int i : matrices) {
+    REQUIRE_NOTHROW(ResTemplate res_template(i));
   }
 }
 
-TEST_CASE("ResTemplate::MatrixToTemplate", "[res_template]") {
-  ResTemplate res_template(1);
+TEST_CASE("ResTemplate::MatrixToTemplate is_set() works OK", "[res_template]") {
+  ResTemplate res_template(8);
 
-  REQUIRE(res_template.is_set('A' << kSizeOfChar | 'N'));
-  REQUIRE(res_template.is_set('N' << kSizeOfChar | 'A'));
+  REQUIRE(res_template.is_set(HashResidues('A', 'N')));
+  REQUIRE(res_template.is_set(HashResidues('N', 'A')));
 }

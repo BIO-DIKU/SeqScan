@@ -48,11 +48,12 @@ class PatternIOException : public std::exception {
 };
 
 /**
-* @brief Class for parsing patterns from a given ASCII text file with one pattern
-* per line.
-*
-* @param path Path to pattern file.
-*/
+ * @brief Class for parsing patterns from a given ASCII text file with one pattern
+ * per line.
+ *
+ * @param Path to pattern file.
+ * @param Vector for holding patterns.
+ */
 class PatternIO {
  public:
   PatternIO(std::string pat_file, std::vector<std::string> &patterns);
