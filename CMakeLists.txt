@@ -27,14 +27,24 @@ ExternalProject_Add(
 set(bioio_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/bioio")
 set(bioio_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/bioio")
 set(bioio_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${bioio_INSTALL_DIR})
-ExternalProject_Add(
-	bioio
-	PREFIX ${bioio_PREFIX}
-	GIT_REPOSITORY https://github.com/BIO-DIKU/BioIO.git
-	GIT_TAG develop
-	INSTALL_DIR ${bioio_INSTALL_DIR}
-	CMAKE_ARGS ${bioio_CMAKE_ARGS}
-)
+if (CMAKE_BIOIO_PATH)
+	ExternalProject_Add(
+		bioio
+		PREFIX ${bioio_PREFIX}
+		URL ${CMAKE_BIOIO_PATH}
+		INSTALL_DIR ${bioio_INSTALL_DIR}
+		CMAKE_ARGS ${bioio_CMAKE_ARGS}
+	)
+else()
+	ExternalProject_Add(
+		bioio
+		PREFIX ${bioio_PREFIX}
+		GIT_REPOSITORY https://github.com/BIO-DIKU/BioIO.git
+		GIT_TAG develop
+		INSTALL_DIR ${bioio_INSTALL_DIR}
+		CMAKE_ARGS ${bioio_CMAKE_ARGS}
+	)
+endif()
 
 # Options
 # ------------------------

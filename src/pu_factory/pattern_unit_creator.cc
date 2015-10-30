@@ -9,6 +9,7 @@
 #include "pu/composite_unit.h"
 #include "pu/repeat_unit.h"
 #include "pu/range_unit.h"
+#include "pu/kmp_unit.h"
 
 namespace SeqScan{
 
@@ -28,6 +29,14 @@ namespace SeqScan{
     PatternUnit* ref;
     switch (node->node_type_) {
       case ParseTreeUnit::UnitType::Sequence:
+        if ( node->suf_modifier_.mismatches_==0 &&
+             node->suf_modifier_.insertions_==0 &&
+             node->suf_modifier_.deletions_ ==0 &&
+             node->suf_modifier_.indels_    ==0 &&
+             node->suf_modifier_.errors_    ==0 ) {
+          return std::unique_ptr<PatternUnit>(new KMPUnit(create_modifiers(node), node->sequence_));
+        }
+
         return std::unique_ptr<PatternUnit>(new BacktrackUnit(create_modifiers(node), node->sequence_));
       case ParseTreeUnit::UnitType::Reference:
         ref = ref_map[node->referenced_label_];
