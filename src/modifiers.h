@@ -25,6 +25,8 @@
 #include <string>
 #include <iostream>
 
+#include "res_matcher.h"
+
 class Modifiers {
  public:
   Modifiers(
@@ -34,8 +36,7 @@ class Modifiers {
       const int deletions,
       const int indels,
       const bool reverse,
-      const bool complement,
-      const bool greedy,
+      const ResMatcher res_matcher,
       const std::string label
   );
 
@@ -45,8 +46,7 @@ class Modifiers {
   const int deletions_;
   const int indels_;
   const bool reverse_;
-  const bool complement_;
-  const bool greedy_;
+  const ResMatcher res_matcher_;
   const std::string label_;
 
   /** Outputs the modifiers that goes before the pattern-unit */

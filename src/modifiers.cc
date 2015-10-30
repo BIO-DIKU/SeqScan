@@ -19,6 +19,7 @@
  */
 
 #include "modifiers.h"
+#include "res_matcher.h"
 
 Modifiers::Modifiers(
     const int max_edits,
@@ -27,8 +28,7 @@ Modifiers::Modifiers(
     const int deletions,
     const int indels,
     const bool reverse,
-    const bool complement,
-    const bool greedy,
+    const ResMatcher res_matcher,
     const std::string label
 ):
     max_edits_(max_edits),
@@ -37,18 +37,18 @@ Modifiers::Modifiers(
     deletions_(deletions),
     indels_(indels),
     reverse_(reverse),
-    complement_(complement),
-    greedy_(greedy),
+    res_matcher_(res_matcher),
     label_(label)
-{}
+{
+}
 
 std::ostream& Modifiers::PrintPUPrefix(std::ostream &os) const {
-  if (!label_.empty())
-    os << label_ << "=";
-
-  if (reverse_ && complement_) os << "~";
-  else if (reverse_) os << "<";
-  else if (complement_) os << "<~";
+//  if (!label_.empty())
+//    os << label_ << "=";
+//
+//  if (reverse_ && complement_) os << "~";
+//  else if (reverse_) os << "<";
+//  else if (complement_) os << "<~";
 
   return os;
 }
@@ -65,14 +65,17 @@ std::ostream& Modifiers::PrintPUSuffix(std::ostream &os) const {
 }
 
 Modifiers Modifiers::CreateStdModifiers() {
-  Modifiers ret(0, 0, 0, 0, 0, false, false, false, "");
+  ResMatcher rm(kMatrix6);
+  Modifiers ret(0, 0, 0, 0, 0, false, rm , "");
   return std::move(ret);
 }
 
 Modifiers Modifiers::CreateMIDModifiers(
     const int mismatches,
     const int insertions,
-    const int deletions) {
-  Modifiers ret(0, mismatches, insertions, deletions, 0, false, false, false, "");
+    const int deletions)
+{
+  ResMatcher rm(kMatrix6);
+  Modifiers ret(0, mismatches, insertions, deletions, 0, false, rm, "");
   return std::move(ret);
 }
