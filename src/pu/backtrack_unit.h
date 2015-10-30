@@ -45,13 +45,13 @@ class BacktrackUnit: public PatternUnit{
       std::string::const_iterator max_pos,
       bool stay_at_pos = false) override;
 
-  bool FindMatch() override;
+  virtual bool FindMatch() override;
 
   const Match& GetMatch() const override;
 
   std::ostream& Print(std::ostream &os) const override;
 
- private:
+ protected:
   /** The pattern-string to search for. */
   const std::string           pattern_;
 
@@ -83,7 +83,7 @@ class BacktrackUnit: public PatternUnit{
                       const int M_used, const int I_used, const int D_used);
 
 protected:
-  std::unique_ptr<PatternUnit> Clone() const override;
+  virtual std::unique_ptr<PatternUnit> Clone() const override;
 };
 
 std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj);
