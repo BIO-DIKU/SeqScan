@@ -18,7 +18,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "pattern_io.h"
+#include "matrix_io.h"
 
 #include <string>
 #include <vector>
@@ -27,24 +27,38 @@
 
 using namespace std;
 
-PatternIO::PatternIO(string pat_file, vector<string> &patterns) :
-  pat_file_(pat_file),
-  patterns_(patterns)
+MatrixIO::MatrixIO(string         matrix_file,
+                   vector<string> &matrix,
+                   bool           matrix_comp) :
+  matrix_file_(matrix_file),
+  matrix_(matrix),
+  matrix_comp_(matrix_comp)
 {
   Parse();
-  CheckPatterns();
+  CheckMatrices();
 }
 
-PatternIO::~PatternIO()
+MatrixIO::~MatrixIO()
 {}
 
-void PatternIO::Parse() {
-  ifstream input(pat_file_);
+string MatrixIO::ToString() {
+  string str;
+
+  for (auto it : matrix_) {
+    str += it + "\n";  // TODO(Martin): replace with platform independant var.
+  }
+
+  return str;
+}
+
+void MatrixIO::Parse() {
+  ifstream input(matrix_file_);
   string   line;
+  bool          comp = false;
 
   if (!input.good()) {
-    string msg = "Error: File not found or readable: " + pat_file_;
-    throw PatternIOException(msg);
+    string msg = "Error: File not found or readable: " + matrix_file_;
+    throw MatrixIOException(msg);
   }
 
   while (getline(input, line)) {
@@ -52,17 +66,30 @@ void PatternIO::Parse() {
       continue;
     }
 
-    patterns_.push_back(line);
+    if (line[0] == '~') {
+      if (!matrix_comp_) {
+        break;
+      }
+      comp = true;
+    }
+
+    if (matrix_comp_ && comp) {
+      matrix_.push_back(line);
+    }
+
+    if (!matrix_comp_ && !comp) {
+      matrix_.push_back(line);
+    }
   }
 
   input.close();
 }
 
-void PatternIO::CheckPatterns() {
-  if (!patterns_.empty()) {
+void MatrixIO::CheckMatrices() {
+  if (!matrix_.empty()) {
     return;
   }
 
-  string msg = "Error: No patterns in file: " + pat_file_;
-  throw PatternIOException(msg);
+  string msg = "Error: No data in matrix: " + matrix_file_;
+  throw MatrixIOException(msg);
 }
