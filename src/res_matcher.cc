@@ -43,7 +43,7 @@ ResMatcher::ResMatcher(int matrix_num) :
 ResMatcher::~ResMatcher()
 {}
 
-bool ResMatcher::Match(const char a, const char b) {
+bool ResMatcher::Match(const char a, const char b) const {
   return is_set(HashResidues(a, b));
 }
 
@@ -51,7 +51,7 @@ void ResMatcher::set(size_t index) {
   res_matcher_.set(index, true);
 }
 
-bool ResMatcher::is_set(size_t index) {
+bool ResMatcher::is_set(size_t index) const{
   return res_matcher_.test(index);
 }
 

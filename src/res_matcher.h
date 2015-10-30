@@ -480,7 +480,7 @@ class ResMatcher {
    * @param a First residue
    * @parem b Second residue
    */
-  bool Match(const char a, const char b);
+  bool Match(const char a, const char b) const;
 
  private:
 
@@ -492,7 +492,7 @@ class ResMatcher {
   /*
    * Test if the value at index is set.
    */
-  bool is_set(size_t index);
+  bool is_set(size_t index) const;
 
   /*
    * Residue matcher.
