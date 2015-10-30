@@ -19,6 +19,7 @@
 # exact	248	3469	32	3423
 # snoRNA	671	36637	245	2255
 
+
 set termopt noenhanced
 set multiplot layout 2,1
 set title "Benchmark"
@@ -31,9 +32,16 @@ set xtics scale 0 rotate by -45
 set lmargin 15
 set ylabel "Seconds"
 set logscale y
-plot 'benchmark.dat' using 2:xtic(1) lt 1 lc rgb "#2BCE48", '' using 4 lt 2 lc rgb "#0075DC"
+unset xtics
+plot 'benchmark.dat' using 3:xtic(1) lt 1 lc rgb "#2BCE48", '' using 5 lt 2 lc rgb "#0075DC", '' using 7 lt 3 lc rgb "#FFCC33"
 
 unset title
+set tmargin 0
 set ylabel "Hits"
 set xlabel "Patterns"
-plot 'benchmark.dat' using 3:xtic(1) lt 1 lc rgb "#2BCE48", '' using 5 lt 2 lc rgb "#0075DC"
+set yrange [*:*] reverse
+set xtics scale 0 rotate by -30 font "Arial,9"
+unset key
+plot 'benchmark.dat' using 2:xtic(1) lt 1 lc rgb "#2BCE48", '' using 4 lt 2 lc rgb "#0075DC", '' using 6 lt 3 lc rgb "#FFCC33"
+unset multiplot
+
