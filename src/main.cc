@@ -20,8 +20,8 @@
 
 #include <stdio.h>
 
-#include <ptnode.h>
-#include <interpreter.h>
+#include <parser/parse_tree_unit.h>
+#include <parser/interpreter.h>
 #include <BioIO/seq_entry.h>
 #include <BioIO/fasta_reader.h>
 
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
     for (auto& raw_pat : patterns){
 
       //Parse and check string-pattern
-      std::unique_ptr<SeqScan::PTNode> parse_tree( parse_tree_generator.parse(raw_pat) );
+      std::unique_ptr<SeqScan::ParseTreeUnit> parse_tree( parse_tree_generator.parse(raw_pat) );
 
       if (parse_tree==NULL){
         std::cerr<<"Error parsing pattern: "<<raw_pat<<std::endl;

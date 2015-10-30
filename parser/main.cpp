@@ -7,7 +7,7 @@ using namespace std;
 extern ParseTreeList* parse(string s);
 
 int main() {
-  string s = "ATT/2,3,4 GGGGG{4,6}";
+  string s = "A1GT=AGT";
   ParseTreeList* par_list = parse(s);
   for (int i = 0; i < par_list->get_size(); i++) {
     ParseTreeUnit* x = par_list->get_parse_unit(i);

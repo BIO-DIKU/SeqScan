@@ -31,7 +31,7 @@ ResTemplate::ResTemplate(string matrix_file) :
 {
   bool comp = false;
   MatrixFileToTemplate(comp);
-};
+}
 
 ResTemplate::ResTemplate(string matrix_file, bool comp) :
   matrix_file_(matrix_file)
@@ -43,10 +43,10 @@ ResTemplate::ResTemplate(int matrix_num) :
   matrix_num_(matrix_num)
 {
   MatrixToTemplate();
-};
+}
 
 ResTemplate::~ResTemplate()
-{};
+{}
 
 void ResTemplate::set(size_t index) {
   res_template_.set(index, true);

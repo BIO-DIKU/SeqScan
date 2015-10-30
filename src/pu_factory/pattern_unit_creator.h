@@ -8,7 +8,7 @@
 #include <map>
 #include <string>
 
-#include <ptnode.h>
+#include <parser/parse_tree_unit.h>
 
 #include "pu/pattern_unit.h"
 #include "modifiers.h"
@@ -20,12 +20,12 @@ namespace SeqScan {
 
   class PatternUnitCreator {
    public:
-    std::unique_ptr<PatternUnit> create_from_parse_tree(const PTNode *ptree);
+    std::unique_ptr<PatternUnit> create_from_parse_tree(const ParseTreeUnit *ptree);
 
    private:
-    std::unique_ptr<PatternUnit> create_from_node(const PTNode *node, map<string,PatternUnit*> &ref_map);
+    std::unique_ptr<PatternUnit> create_from_node(const ParseTreeUnit *node, map<string,PatternUnit*> &ref_map);
 
-    Modifiers create_modifiers(const PTNode* node);
+    Modifiers create_modifiers(const ParseTreeUnit* node);
 
   };
 

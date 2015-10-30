@@ -18,22 +18,14 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "res_matcher.h"
-#include "res_template.h"
+/*
+ * The catch framework requires that CATCH_CONFIG_MAIN is defined in exactly one source file
+ * and recommends (https://github.com/philsquared/Catch/blob/master/docs/tutorial.md#scaling-up)
+ * that it be done in a source file separate from all other files. This is that file -- dont 
+ * add anything else to it.
+ */
 
-using namespace std;
+#define CATCH_CONFIG_COLOUR_NONE
+#define CATCH_CONFIG_MAIN
+#include "catch.h"
 
-ResMatcher::ResMatcher(ResTemplate res_template) :
-  res_template_(res_template)
-{}
-
-ResMatcher::~ResMatcher()
-{}
-
-bool ResMatcher::Match(const char a, const char b) {
-  if (a == b) {
-    return true;
-  }
-
-  return res_template_.is_set(HashResidues(a, b));
-}

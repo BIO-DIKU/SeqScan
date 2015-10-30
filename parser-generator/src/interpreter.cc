@@ -1,4 +1,24 @@
 /*
+ * Copyright (C) 2015 BIO-DIKU.
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
+ *
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+/*
  * The MIT License (MIT)
  * 
  * Copyright (c) 2014 Krzysztof Narkiewicz <krzysztof.narkiewicz@ezaquarii.com>
@@ -27,8 +47,9 @@
  */
 
 #include "interpreter.h"
-#include "ptnode.h"
+#include "parse_tree_unit.h"
 
+#include <iostream>
 #include <sstream>
 
 namespace SeqScan {
@@ -42,13 +63,13 @@ Interpreter::Interpreter() :
 
 }
 
-PTNode* Interpreter::parse(const std::string& raw_pattern) {
+ParseTreeUnit* Interpreter::parse(const std::string& raw_pattern) {
   parse_tree_ = NULL;
   location_ = 0;
 
   //Set the input stream to read from raw_pattern
   std::istringstream string_stream(raw_pattern);
-  switchInputStream(&string_stream);
+  scanner_.switch_streams(&string_stream, NULL);
 
   int status = parser_.parse();
   if(status==0)
@@ -57,18 +78,15 @@ PTNode* Interpreter::parse(const std::string& raw_pattern) {
     return NULL;
 }
 
-void Interpreter::switchInputStream(std::istream *is) {
-  scanner_.switch_streams(is, NULL);
-}
 
-
-void Interpreter::set_parse_tree(PTNode* ptree)
+void Interpreter::set_parse_tree(ParseTreeUnit* ptree)
 {
   parse_tree_ = ptree;
 }
 
 void Interpreter::increaseLocation(unsigned int loc) {
   location_ += loc;
+  //std::cout<<"increaseLocation("<<loc<<") .. now "<<location_<<std::endl;
 }
 
 unsigned int Interpreter::location() const {
