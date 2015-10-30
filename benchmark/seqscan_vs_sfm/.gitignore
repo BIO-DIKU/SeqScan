@@ -1,3 +1,2 @@
 benchmark.???
-*/sfm.txt
-*/seqscan.txt
+pat_*/*.txt
