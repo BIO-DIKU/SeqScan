@@ -70,7 +70,7 @@ namespace SeqScan{
 
   Modifiers PatternUnitCreator::create_modifiers(const ParseTreeUnit* node)
   {
-    const ResMatcher& rm = node->pre_modifier_.tilde_?res_matcher_:res_matcher_comp_;
+    const ResMatcher& rm = node->pre_modifier_.tilde_?res_matcher_comp_:res_matcher_;
 
     return std::move(Modifiers(
         node->suf_modifier_.errors_,
