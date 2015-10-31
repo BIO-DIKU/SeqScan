@@ -132,7 +132,8 @@ void BacktrackUnit::CollectMatches(
 
   if (D_left > 0) CollectMatches(seq_it, pat_it + 1, M_left, I_left, D_left - 1, M_used, I_used, D_used + 1);
 
-  if (*seq_it == *pat_it) {
+  //if (*seq_it == *pat_it) {
+  if (modifiers_.res_matcher_.Match(*seq_it,*pat_it)) {
     CollectMatches(seq_it + 1, pat_it + 1, M_left, I_left, D_left, M_used, I_used, D_used);
     return;
   }

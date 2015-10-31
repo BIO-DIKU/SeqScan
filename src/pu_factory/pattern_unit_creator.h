@@ -2,8 +2,8 @@
 // Created by Rasmus Fonseca on 25/10/15.
 //
 
-#ifndef SEQSCAN_PATTERN_UNIT_CREATOR_H
-#define SEQSCAN_PATTERN_UNIT_CREATOR_H
+#ifndef SEQSCAN_PATTERN_UNIT_CREATOR_H_
+#define SEQSCAN_PATTERN_UNIT_CREATOR_H_
 
 #include <map>
 #include <string>
@@ -12,6 +12,7 @@
 
 #include "pu/pattern_unit.h"
 #include "modifiers.h"
+#include "res_matcher.h"
 
 namespace SeqScan {
 
@@ -20,6 +21,8 @@ namespace SeqScan {
 
   class PatternUnitCreator {
    public:
+    PatternUnitCreator(const ResMatcher& res_matcher, const ResMatcher& res_matcher_comp);
+
     std::unique_ptr<PatternUnit> create_from_parse_tree(const ParseTreeUnit *ptree);
 
    private:
@@ -27,8 +30,11 @@ namespace SeqScan {
 
     Modifiers create_modifiers(const ParseTreeUnit* node);
 
+    const ResMatcher& res_matcher_;
+    const ResMatcher& res_matcher_comp_;
+
   };
 
 } // namespace SeqScan
 
-#endif //SEQSCAN_PATTERN_UNIT_CREATOR_H
+#endif  // SEQSCAN_PATTERN_UNIT_CREATOR_H_
