@@ -10,7 +10,7 @@ def read_fasta(fname):
     entry_pat = regex.compile(">(.*)\n([^>]*)")
     with open(fname) as fasta_file:
         for m in entry_pat.finditer(fasta_file.read()):
-            ret[m.group(1)] = m.group(2)
+            ret[m.group(1)] = m.group(2).replace("\n","")
     return ret
 
 pat = regex.compile(sys.argv[1], regex.IGNORECASE)
