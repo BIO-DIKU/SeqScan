@@ -30,7 +30,7 @@ all: $(OUTPUT_FILES) benchmark.png
 	(time -p $(SQS_BIN) -P $< -V $(SEQFILE)) &> $@
 
 %/sfm.txt: %/sfm.pat $(SEQFILE)
-	(time -p $(SFM_BIN) $< < $(SEQFILE)) &> $@
+	(time -p $(SFM_BIN) -o 1 $< < $(SEQFILE)) &> $@
 
 %/pyRegex.txt: %/pyRegex.pat $(SEQFILE)
 	(time -p $(PYX_BIN) `cat $<` $(SEQFILE)) &> $@
