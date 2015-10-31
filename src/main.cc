@@ -42,6 +42,17 @@ int main(int argc, char *argv[]) {
     patterns.push_back(opt_parse.options_.pattern);
   }
 
+  //Create res-matchers
+  std::unique_ptr<ResMatcher> rm;
+  std::unique_ptr<ResMatcher> rm_comp;
+  if (opt_parse.options_.match_file.empty()){
+    rm      = std::unique_ptr<ResMatcher>(new ResMatcher(opt_parse.options_.match_type));
+    rm_comp = std::unique_ptr<ResMatcher>(new ResMatcher(-opt_parse.options_.match_type));
+  }else{
+    rm      = std::unique_ptr<ResMatcher>(new ResMatcher(opt_parse.options_.match_file, false));
+    rm_comp = std::unique_ptr<ResMatcher>(new ResMatcher(opt_parse.options_.match_file, true));
+  }
+
   //Verbose output
   if (opt_parse.options_.verbose) {
     opt_parse.PrintVersion();
@@ -60,7 +71,7 @@ int main(int argc, char *argv[]) {
   //Pattern parser classes
   SeqScan::Interpreter parse_tree_generator;
   SeqScan::SanityChecker parse_tree_checker;
-  SeqScan::PatternUnitCreator pattern_unit_factory;
+  SeqScan::PatternUnitCreator pattern_unit_factory(*rm.get(), *rm_comp.get());
 
   for (auto& file_path : opt_parse.files_){
 
