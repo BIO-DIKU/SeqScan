@@ -1,6 +1,22 @@
-//
-// Created by Rasmus Fonseca on 30/10/15.
-//
+/*
+ * Copyright (C) 2015 BIO-DIKU.
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
+ *
+ * http://www.gnu.org/copyleft/gpl.html
+ */
 
 #ifndef SEQSCAN_KMP_UNIT_H
 #define SEQSCAN_KMP_UNIT_H
@@ -9,11 +25,15 @@
 
 #include "backtrack_unit.h"
 
+/**
+ * Pattern unit that matches exact string patterns using the Knuth-Morris-Pratt algorithm.
+ * Extends the BacktrackUnit and reuses most of its members, but overrides FindMatch.
+ */
 class KMPUnit : public BacktrackUnit{
  public:
   KMPUnit(const Modifiers &modifiers, const std::string& pattern);
 
-  bool FindMatch();
+  bool FindMatch() override;
 
  private:
   void BuildTransitions();

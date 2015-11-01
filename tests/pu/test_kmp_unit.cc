@@ -129,42 +129,4 @@ TEST_CASE("Test kmp sequence unit matching without fuzziness", "[kmp]") {
 }
 
 
-//TEST_CASE("KMP unit staying at pos", "[kmp]") {
-//  // Set up test pattern "AAAA/1,0,0"
-//  Modifiers modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
-//  unique_ptr<PatternUnit> pu(new KMPUnit(modifiers, "AAAA"));
-//
-//  SECTION("Stay-pos inside sequence; with match") {
-//    string sequence = "TTTAATATTT";
-//    pu->Initialize(sequence.cbegin() + 3, sequence.cend(), true);
-//    REQUIRE(pu->FindMatch());
-//
-//    const Match &m1 = pu->GetMatch();
-//    REQUIRE(m1.pos - sequence.cbegin() == 3);
-//    REQUIRE(m1.len == 4);
-//    REQUIRE(m1.edits == 1);
-//
-//    REQUIRE(!pu->FindMatch());
-//  }
-//
-//  SECTION("Stay-pos inside sequence; no match") {
-//    string sequence = "TTTAATATTT";
-//    pu->Initialize(sequence.cbegin() + 2, sequence.cend(), true);
-//    REQUIRE(!pu->FindMatch());
-//  }
-//
-//
-//  SECTION("Stay-pos at start of sequence; with match") {
-//    string sequence = "AAAATTT";
-//    pu->Initialize(sequence.cbegin(), sequence.cend(), true);
-//    REQUIRE(pu->FindMatch());
-//
-//    const Match &m1 = pu->GetMatch();
-//    REQUIRE(m1.pos - sequence.cbegin() == 0);
-//    REQUIRE(m1.len == 4);
-//    REQUIRE(m1.edits == 0);
-//
-//    REQUIRE(!pu->FindMatch());
-//  }
-//}
 
