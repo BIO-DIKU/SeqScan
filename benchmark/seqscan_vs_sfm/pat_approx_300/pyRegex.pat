@@ -1,1 +1,0 @@
-(CGTGTTGTCTTAGA){s<=3}
