@@ -462,14 +462,19 @@ class ResMatcherException : public std::exception {
 class ResMatcher {
  public:
   /*
-   * Predifined matchers.
+   * Predifined matrix number.
    */
   ResMatcher(int matrix_num);
 
   /*
+   * Predifiend matrix string.
+   */
+  ResMatcher(std::string matrix_str);
+
+  /*
    * Custom complement matrix from file.
    */
-  ResMatcher(std::string matrix_file, bool comp=false);
+  ResMatcher(std::string matrix_file, bool comp);
 
   ~ResMatcher();
 

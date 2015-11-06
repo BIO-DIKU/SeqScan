@@ -68,7 +68,7 @@ TEST_CASE("ResMatcher::FileMatrixToMatcher", "[res_matcher]") {
   output << "T+ " << endl;
   output.close();
 
-  ResMatcher res_matcher(file);
+  ResMatcher res_matcher(file, false);
   ResMatcher res_matcher_comp(file, true);
 
   SECTION("Parse of forward matrix OK") {
@@ -91,4 +91,3 @@ TEST_CASE("ResMatcher::MatrixToMatcher all matrices can be loaded OK", "[res_mat
     REQUIRE_NOTHROW(ResMatcher res_matcher(i));
   }
 }
-
