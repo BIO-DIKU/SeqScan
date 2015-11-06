@@ -65,7 +65,7 @@ std::ostream& Modifiers::PrintPUSuffix(std::ostream &os) const {
 }
 
 Modifiers Modifiers::CreateStdModifiers() {
-  ResMatcher rm(kMatrix6);
+  ResMatcher rm(6);
   Modifiers ret(0, 0, 0, 0, 0, false, rm , "");
   return std::move(ret);
 }
@@ -75,7 +75,7 @@ Modifiers Modifiers::CreateMIDModifiers(
     const int insertions,
     const int deletions)
 {
-  ResMatcher rm(kMatrix6);
+  ResMatcher rm(6);
   Modifiers ret(0, mismatches, insertions, deletions, 0, false, rm, "");
   return std::move(ret);
 }
