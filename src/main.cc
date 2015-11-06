@@ -31,10 +31,10 @@
 #include "pu_factory/pattern_unit_creator.h"
 
 int main(int argc, char *argv[]) {
-  //Parse cmd-line options
+  // Parse cmd-line options
   OptParse opt_parse(argc, (char**)argv);
 
-  //Extract string-patterns
+  // Extract string-patterns
   std::vector<std::string> patterns;
   if (!opt_parse.options_.pattern_file.empty()) {
     PatternIO pat_parse(opt_parse.options_.pattern_file, patterns);
@@ -42,18 +42,18 @@ int main(int argc, char *argv[]) {
     patterns.push_back(opt_parse.options_.pattern);
   }
 
-  //Create res-matchers
+  // Create res-matchers
   std::unique_ptr<ResMatcher> rm;
   std::unique_ptr<ResMatcher> rm_comp;
-  if (opt_parse.options_.match_file.empty()){
+  if (opt_parse.options_.match_file.empty()) {
     rm      = std::unique_ptr<ResMatcher>(new ResMatcher(opt_parse.options_.match_type));
-    rm_comp = std::unique_ptr<ResMatcher>(new ResMatcher(-opt_parse.options_.match_type));
-  }else{
+    rm_comp = std::unique_ptr<ResMatcher>(new ResMatcher(-1 * opt_parse.options_.match_type));
+  } else {
     rm      = std::unique_ptr<ResMatcher>(new ResMatcher(opt_parse.options_.match_file, false));
     rm_comp = std::unique_ptr<ResMatcher>(new ResMatcher(opt_parse.options_.match_file, true));
   }
 
-  //Verbose output
+  // Verbose output
   if (opt_parse.options_.verbose) {
     opt_parse.PrintVersion();
     std::cerr << std::endl;
@@ -68,29 +68,27 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  //Pattern parser classes
+  // Pattern parser classes
   SeqScan::Interpreter parse_tree_generator;
   SeqScan::SanityChecker parse_tree_checker;
   SeqScan::PatternUnitCreator pattern_unit_factory(*rm.get(), *rm_comp.get());
 
-  for (auto& file_path : opt_parse.files_){
-
-    //Set up fasta reader
+  for (auto& file_path : opt_parse.files_) {
+    // Set up fasta reader
     FastaReader fasta_reader(file_path);
 
-    for (auto& raw_pat : patterns){
+    for (auto& raw_pat : patterns) {
+      // Parse and check string-pattern
+      std::unique_ptr<SeqScan::ParseTreeUnit> parse_tree(parse_tree_generator.parse(raw_pat));
 
-      //Parse and check string-pattern
-      std::unique_ptr<SeqScan::ParseTreeUnit> parse_tree( parse_tree_generator.parse(raw_pat) );
-
-      if (parse_tree==NULL){
-        std::cerr<<"Error parsing pattern: "<<raw_pat<<std::endl;
+      if (parse_tree == NULL) {
+        std::cerr << "Error parsing pattern: " << raw_pat << std::endl;
         continue;
       }
 
-      if (!parse_tree_checker.is_sane( parse_tree.get() )){
-        std::cerr<<"Insane pattern: "<<raw_pat<<std::endl;
-        std::cerr<<parse_tree->str(0)<<std::endl;
+      if (!parse_tree_checker.is_sane(parse_tree.get())) {
+        std::cerr << "Insane pattern: " << raw_pat << std::endl;
+        std::cerr << parse_tree->str(0) << std::endl;
         continue;
       }
 
@@ -98,26 +96,23 @@ int main(int argc, char *argv[]) {
           pattern_unit_factory.create_from_parse_tree(parse_tree.get());
 
 
-      //For each SeqEntry: attempt to match pattern
-      while (fasta_reader.hasNextEntry()){
+      // For each SeqEntry: attempt to match pattern
+      while (fasta_reader.hasNextEntry()) {
         std::unique_ptr<SeqEntry> entry = fasta_reader.nextEntry();
         const std::string& seq = entry->seq();
 
-        //Perform matching of pattern against seq
+        // Perform matching of pattern against seq
         pattern->Initialize(seq.cbegin(), seq.cend());
         while (pattern->FindMatch()) {
           const Match& match = pattern->GetMatch();
 
-          std::cout<<entry->name()<<"\t+\t";
+          std::cout << entry->name() << "\t+\t";
           match.Print(std::cout, seq.cbegin());
-          std::cout<<"\t"<<match.len<<std::endl;
+          std::cout << "\t" << match.len << std::endl;
         }
-
-      } // end while (fasta_reader.hasNextEntry())
-
-    } // end for (auto& raw_pat : patterns)
-
-  } // end for (auto& file_path : opt_parse.files_)
+      }  // end while (fasta_reader.hasNextEntry())
+    }  // end for (auto& raw_pat : patterns)
+  }  // end for (auto& file_path : opt_parse.files_)
 
   return EXIT_SUCCESS;
 }
