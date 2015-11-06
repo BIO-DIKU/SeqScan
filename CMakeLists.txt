@@ -7,19 +7,6 @@ project(SeqScan)
 
 include(ExternalProject)
 
-# Set up pattern parser so it compiles automatically
-# ------------------------
-set(parser_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/parser")
-set(parser_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/parser")
-set(parser_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${parser_INSTALL_DIR})
-ExternalProject_Add(
-	parser
-	PREFIX ${parser_PREFIX}
-	URL ${CMAKE_CURRENT_SOURCE_DIR}/parser-generator
-	INSTALL_DIR ${parser_INSTALL_DIR}
-	CMAKE_ARGS ${parser_CMAKE_ARGS}
-)
-
 
 
 # Set up BioIO so it downloads and compiles automatically
@@ -82,8 +69,8 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 endif()
 
 
-FILE(GLOB SOURCE_FILES src/*.cc src/pu/*.cc src/pu/tnfa/*.cc src/pu_factory/*.cc )
-FILE(GLOB HEADER_FILES src/*.h src/pu/*.h src/pu/tnfa/*.h src/pu_factory/*.h )
+FILE(GLOB SOURCE_FILES src/*.cc src/pu/*.cc src/pu/tnfa/*.cc src/pu_factory/*.cc src/parser/*.cc )
+FILE(GLOB HEADER_FILES src/*.h src/pu/*.h src/pu/tnfa/*.h src/pu_factory/*.h src/parser/*.h )
 
 # https://cmake.org/cmake/help/v3.0/command/include_directories.html
 # Enables us to #include "pu/backtrack_unit.h" from files that are in "pu"
@@ -93,10 +80,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 #Link BioIO
 include_directories(${bioio_INSTALL_DIR}/include)
 link_libraries(${bioio_INSTALL_DIR}/lib/libBioIO.a)
-
-#Link parser
-include_directories(${parser_INSTALL_DIR}/include)
-link_libraries(${parser_INSTALL_DIR}/lib/libSeqScanParser.a)
 
 
 # http://stackoverflow.com/questions/16449676/remove-specific-file-from-cmake-build
