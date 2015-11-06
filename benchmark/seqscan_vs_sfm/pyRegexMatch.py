@@ -19,3 +19,4 @@ for header in fasta_file:
     for m in pat.finditer(fasta_file[header]):
         print header+"\t"+str(m.start(0))+"\t"+m.group(0)
 
+

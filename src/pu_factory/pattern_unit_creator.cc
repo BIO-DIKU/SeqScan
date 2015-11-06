@@ -1,6 +1,22 @@
-//
-// Created by Rasmus Fonseca on 25/10/15.
-//
+/*
+ * Copyright (C) 2015 BIO-DIKU.
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
+ *
+ * http://www.gnu.org/copyleft/gpl.html
+ */
 
 #include "pattern_unit_creator.h"
 
@@ -9,6 +25,7 @@
 #include "pu/composite_unit.h"
 #include "pu/repeat_unit.h"
 #include "pu/range_unit.h"
+#include "pu/kmp_unit.h"
 
 namespace SeqScan{
 
@@ -34,6 +51,14 @@ namespace SeqScan{
     PatternUnit* ref;
     switch (node->node_type_) {
       case ParseTreeUnit::UnitType::Sequence:
+        if ( node->suf_modifier_.mismatches_==0 &&
+             node->suf_modifier_.insertions_==0 &&
+             node->suf_modifier_.deletions_ ==0 &&
+             node->suf_modifier_.indels_    ==0 &&
+             node->suf_modifier_.errors_    ==0 ) {
+          return std::unique_ptr<PatternUnit>(new KMPUnit(create_modifiers(node), node->sequence_));
+        }
+
         return std::unique_ptr<PatternUnit>(new BacktrackUnit(create_modifiers(node), node->sequence_));
       case ParseTreeUnit::UnitType::Reference:
         ref = ref_map[node->referenced_label_];
