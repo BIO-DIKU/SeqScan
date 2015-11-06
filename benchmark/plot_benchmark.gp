@@ -10,15 +10,13 @@
 
 # Example data below (benchmark.dat):
 
-# Pattern	SeqScan	SeqScan	SFM	SFM
-# PCR		23	18128	273	23423
-# approx_003	668	808511	23	2323
-# approx_030	4536	442693	1	34355
-# approx_222	32	30680	3522	1232
-# approx_300	35	7861	232	34235
-# exact	248	3469	32	3423
-# snoRNA	671	36637	245	2255
-
+# Pattern	SeqScan	SeqScan	SFM	SFM	PyRegex	PyRegex
+# PCR	53	154.21	22	7.84	0	0.01
+# approx_003	1317	18.44	1226	3.07	1141	5.61
+# approx_030	29	17.62	19	2.95	12	5.52
+# approx_222	1039267	1870.37	377191	29.04	317380	311.29
+# approx_300	822	13.30	822	2.78	822	5.83
+# exact	9	3.42	9	2.28	9	0.15
 
 set termopt noenhanced
 set multiplot layout 2,1
