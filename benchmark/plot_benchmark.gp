@@ -23,7 +23,7 @@ set multiplot layout 2,1
 set title "Benchmark"
 set key autotitle column box samplen 1
 set style data histogram
-set style fill solid 0.5 border
+set style fill solid 0.5 border 0.5
 set grid ytics
 set ytics scale 0
 set xtics scale 0 rotate by -45
