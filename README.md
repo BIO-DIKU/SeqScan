@@ -84,6 +84,8 @@ a substring of the sequence that satisfies the criteria of all pattern units.
 
 ## Download
 
+Below links are currently not functional - do ignore.
+
 * [Linux x86_64](http://github.com/BIO-DIKU/SeqScan/download/SeqScan-linux-latest-x86_64.tar.gz)
 * [MacOSX x86_64](http://github.com/BIO-DIKU/SeqScan/download/SeqScan-macosx-latest-x86_64.tar.gz)
 * [Source code](http://github.com/BIO-DIKU/SeqScan/download/SeqScan-latest-src.tar.gz)
@@ -126,9 +128,10 @@ matched sequence substring.
 ### Exact
 
 An exact pattern unit is the simplest form of pattern, and will match a
-sequence if the pattern is a subsequence:
+sequence (to the left of `=~`) if the pattern (to the right of `=~`) is a
+subsequence:
 
-    ATC =~ GAGATCGAG => 4,3,0,ATC
+    GAGATCGAG =~ ATC => 4,3,0,ATC
 
 ### Approximate
 
@@ -137,25 +140,25 @@ composites.
 
 **Mismatches:** allow a number of non-matching residues:
 
-    TAC/1,0,0 =~ ATGCA => 2,3,1,TGC
+    ATGCA =~ TAC/1,0,0 => 2,3,1,TGC
 
 **Insertions:** allow a number of extra pattern residues:
 
-    TAC/0,1,0 =~ GTAACG => 2,4,1,TAAC
+    GTAACG =~ TAC/0,1,0 => 2,4,1,TAAC
 
 **Deletions:** allow a number of missing pattern residues:
 
-    TAC/0,0,1 =~ GTCG => 2,2,1,TC
+    GTCG =~ TAC/0,0,1 => 2,2,1,TC
 
 **Edits:** allow a number of mismatches, insertions and deletions:
 
-    TAC/1 =~ TAACGTCGTGC => 1,2,1,TA and 1,3,1,TAA and 2,3,1,AAC and 1,4,1,TAAC
+    TAACGTCGTGC =~ TAC/1 => 1,2,1,TA and 1,3,1,TAA and 2,3,1,AAC and 1,4,1,TAAC
     and 6,2,1,TC and 9,3,1,TGC
 
 **Mismatches, indels:** allow a number of mismatches and a number of insertions
 and deletions (indels):
 
-    TAC/0,1 =~ TAACGTCGTGC => 1,2,1,TA and 3,1,1,AC and 1,4,1,TAAC and 6,2,1,TC
+    TAACGTCGTGC =~ TAC/0,1 => 1,2,1,TA and 3,1,1,AC and 1,4,1,TAAC and 6,2,1,TC
 
 ### Reverse/Complement
 
@@ -165,31 +168,31 @@ approximate pattern units as well as composites and backreferences.
 The reverse operator `<` indicates that the pattern unit will match the reverse
 sequence:
 
-    <ATC =~ GAGCTAGAG => 4,3,0,CTA
+    GAGCTAGAG =~ <ATC => 4,3,0,CTA
 
 The reverse-complement operator `~` indicates that the pattern unit will match
 the reverse-complement sequence:
 
-    ~ATC =~ GAGGATGAG => 4,3,0,GAT
+    GAGGATGAG =~ ~ATC => 4,3,0,GAT
 
 It is possible to combine the reverse and reverse-complement operators (in any
 order) to match the complement sequence:
 
-    <~ATC =~ GAGTAGGAG => 4,3,0,TAG
+    GAGTAGGAG =~ <~ATC => 4,3,0,TAG
 
 ### Or
 
 The or operator `|` can be used to evaluate multiple pattern units, composites,
 and backreferences such that if any match, then the pattern matches:
 
-    TAC|TAG =~ TAGATAC => 1,3,0,TAG and 4,3,0,TAC
+    TAGATAC =~ TAC|TAG => 1,3,0,TAG and 4,3,0,TAC
 
 ### Composite
 
 Multiple pattern units can be collected in composite pattern units using
 parentheses:
 
-    (T ~AC)|ACT =~ ACTGTGT => 1,3,0,ACT and 5,1,0,T;6,2,0,GT
+    ACTGTGT =~ (T ~AC)|ACT => 1,3,0,ACT and 5,1,0,T;6,2,0,GT
 
 ### Repetitions
 
@@ -198,17 +201,17 @@ submatches must occur.
 
 **Repetitions:** allows a number of repetitions:
 
-    TAC{2} =~ GTACTACG => 2,3,0,TAC;5,3,0TAC
+    GTACTACG =~ TAC{2} => 2,3,0,TAC;5,3,0TAC
 
 **Closed repetitions:** allows a minimum and a maximum of repetitions:
 
-    TAC{2,3} =~ GTACTACTACTACG => 2,3,0,TAC;5,3,0,TAC;8,3,0,TAC
+    GTACTACTACTACG =~ TAC{2,3} => 2,3,0,TAC;5,3,0,TAC;8,3,0,TAC
 
-NB. SeqScan have greedy behaviour so it will match as much as possible.
+NB. SeqScan have greedy behavior so it will match as much as possible.
 
 **Open repetitions:** allow a minimum of repetitions:
 
-    TAC{2,} =~ GTACTACTACTACG => 2,3,0,TAC;5,3,0,TAC;8,3,0,TAC;11,3,0,TAC
+    GTACTACTACTACG =~ TAC{2,} => 2,3,0,TAC;5,3,0,TAC;8,3,0,TAC;11,3,0,TAC
 
 This allows for shorthands using the Kleene `*` and `+` modifiers indicating
 zero or more matches, and one or more matches, respectively. E.g. `TAC*` is
@@ -218,19 +221,19 @@ It is also possible to add edit modifiers to repetitions:
 
 **Exact repetitions:**
 
-    TAC/1,0,0{2} =~ ATGCTGCA => 2,3,1,TGC;5,3,1,TGC
+    ATGCTGCA =~ TAC/1,0,0{2} => 2,3,1,TGC;5,3,1,TGC
     (but it will not match the sequence ATGCTACA)
 
 **Approximate repetitions:**
 
-    TAC{2}/1,0,0 =~ ATGCTACA => 2,3,1,TGC;5,3,0,TAC
+    ATGCTACA =~ TAC{2}/1,0,0 => 2,3,1,TGC;5,3,0,TAC
 
 ### Wildcard
 
 The `.` character can be used as a wildcard in exact and approximate pattern
 units:
 
-    A.T.C =~ GAGTGCG => 2,5,0,AGTGC
+    GAGTGCG =~ A.T.C => 2,5,0,AGTGC
 
 ### Range
 
@@ -239,7 +242,7 @@ indicate a range of matching sequence. A range unit is basically a wildcard
 with a closed repetition e.g. `.{20,30}` which can be replaced by the shorthand
 `20..30` or the synonym `20...30`.
 
-    AG 2..4 TG =~ CAGCCCTGC => 2,2,0,AG;4,3,0,CCC;7,2,0,TG
+    CAGCCCTGC =~ AG 2..4 TG => 2,2,0,AG;4,3,0,CCC;7,2,0,TG
 
 ### Backreferences
 
@@ -248,19 +251,19 @@ backreferences.
 
 **Named pattern:**
 
-    p1=.A p1 =~ GATATG => 2,2,0,AT;4,2,0,AT
+    GATATG =~ p1=.A p1 => 2,2,0,AT;4,2,0,AT
 
 **Named composite:**
 
-    p1=(T ~AC) p1 =~ ATGTTGTA => 2,3,0,TGT;5,3,0,TGT
+    ATGTTGTA =~ p1=(T ~AC) p1 => 2,3,0,TGT;5,3,0,TGT
 
 **Nested named pattern:**
 
-    p2=(p1=AC ~p1) p2 =~ GACGTACGTG => 2,2,0,AC;4,2,0,GT;6,2,0,AC;8,2,0,GT
+    GACGTACGTG =~ p2=(p1=AC ~p1) p2 => 2,2,0,AC;4,2,0,GT;6,2,0,AC;8,2,0,GT
 
 **Nested named composite:**
 
-    p2=(p1=(T ~AC) p1) p2 =~ ATGTTGTTGTTGTA =>
+    ATGTTGTTGTTGTA =~ p2=(p1=(T ~AC) p1) p2 =>
     2,1,0,T;3,2,0,GT;5,1,0,T;6,2,0,GT;8,1,0,T;9,2,0,GT;11,1,0,T;12,2,0,GT
 
 ### Match groups
@@ -270,27 +273,27 @@ possible to use the non-match operator `^` as the first character to indicate
 that no residues in the match group will be matched (do not confuse with the
 match anchor `^`):
 
-    [AT]   =~ ACTT      => 1,1,0,A and 3,1,0,T and 4,1,0,T
+    ACTT =~ [AT]        => 1,1,0,A and 3,1,0,T and 4,1,0,T
 
-    [AT]+  =~ GCAGTTAAG => 3,1,0,A and 5,4,0,TTAA
+    GCAGTTAAG =~ [AT]+  => 3,1,0,A and 5,4,0,TTAA
 
-    [^AT]+ =~ GCAGTTAAG => 1,2,0,GC and 4,1,0,G and 9,1,0,G
+    GCAGTTAAG =~ [^AT]+ => 1,2,0,GC and 4,1,0,G and 9,1,0,G
 
 ### Anchors
 
 Anchors can be applied to any pattern unit. The start anchor `^` only accept
 pattern unit matches at the start of the sequence:
 
-    ^ATC =~ ATCATC => 1,3,0,ATC
+    ATCATC =~ ^ATC => 1,3,0,ATC
 
 The end anchor `$` only accept pattern unit matches at the end of the
 sequences:
 
-    ATC$ =~ ATCATC => 4,3,0,ATC
+    ATCATC =~ ATC$ => 4,3,0,ATC
 
 Using both anchors will only accept patterns units matching the full sequence:
 
-    ^ATC$ =~ ATC => 1,3,0,ATC
+    ATC =~ ^ATC$ => 1,3,0,ATC
 
 ### Ambiguity codes and case
 
