@@ -28,17 +28,22 @@
 
 using namespace std;
 
-ResMatcher::ResMatcher(string matrix_file, bool comp) :
-  matrix_file_(matrix_file)
-{
-  MatrixFileToMatcher(comp);
-};
-
 ResMatcher::ResMatcher(int matrix_num) :
   matrix_num_(matrix_num)
 {
   MatrixToMatcher();
 }
+
+ResMatcher::ResMatcher(string matrix_str)
+{
+  ParseMatrix(matrix_str);
+}
+
+ResMatcher::ResMatcher(string matrix_file, bool comp) :
+  matrix_file_(matrix_file)
+{
+  MatrixFileToMatcher(comp);
+};
 
 ResMatcher::~ResMatcher()
 {}
