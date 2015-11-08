@@ -30,7 +30,8 @@ using namespace std;
 
 TEST_CASE("Test TNFA sequence unit matching without fuzziness", "[tnfa,exact]") {
   // Set up test pattern "AAAA/0,0,0"
-  Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+  ResMatcher rm(kMatrix6);
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(rm, 0, 0, 0);
   unique_ptr<PatternUnit> pu(new TNFAUnit(modifiers, "AAAA"));
 
   SECTION("0 matches") {
@@ -128,11 +129,12 @@ TEST_CASE("Test TNFA sequence unit matching without fuzziness", "[tnfa,exact]") 
 
 TEST_CASE("Test TNFA sequence unit matching with mismatches", "[tnfa,mismatches]") {
   // Set up test pattern "AAAA/1,0,0"
-  Modifiers modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
+  ResMatcher rm(kMatrix6);
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(rm, 1, 0, 0);
   unique_ptr<PatternUnit> pu(new TNFAUnit(modifiers, "AAAA"));
 
   // Set up test pattern "AAAA/1,0,0"
-  Modifiers modifiers_2 = Modifiers::CreateMIDModifiers(2, 0, 0);
+  Modifiers modifiers_2 = Modifiers::CreateMIDModifiers(rm, 2, 0, 0);
   unique_ptr<PatternUnit> pu_2(new TNFAUnit(modifiers, "AAAA"));
 
   SECTION("0 matches") {
@@ -211,7 +213,8 @@ TEST_CASE("Test TNFA sequence unit matching with mismatches", "[tnfa,mismatches]
 
 TEST_CASE("TNFA unit staying at pos", "[tnfa,stay]") {
   // Set up test pattern "AAAA/1,0,0"
-  Modifiers modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
+  ResMatcher rm(kMatrix6);
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(rm, 1, 0, 0);
   unique_ptr<PatternUnit> pu(new TNFAUnit(modifiers, "AAAA"));
 
   SECTION("Stay-pos inside sequence; with match") {
@@ -249,7 +252,8 @@ TEST_CASE("TNFA unit staying at pos", "[tnfa,stay]") {
 
 TEST_CASE("TNFA unit staying at pos; several matches", "[tnfa,stay]") {
   // Set up test pattern "AAAA/0,1,0"
-  Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 1, 0);
+  ResMatcher rm(kMatrix6);
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(rm, 0, 1, 0);
   unique_ptr<PatternUnit> pu(new TNFAUnit(modifiers, "AAAA"));
 
   SECTION("Stay-pos inside sequence; several matches") {

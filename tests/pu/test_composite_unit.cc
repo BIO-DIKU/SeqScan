@@ -32,12 +32,13 @@ using namespace std;
 
 TEST_CASE("Composite unit with two children. No fuzziness.", "[composite]") {
   // Set up test pattern "AAA/0,0,0 CCC/0,0,0"
-  Modifiers m0 = Modifiers::CreateMIDModifiers(0, 0, 0);
+  ResMatcher rm(kMatrix6);
+  Modifiers m0 = Modifiers::CreateMIDModifiers(rm, 0, 0, 0);
   unique_ptr<PatternUnit> pu0(new BacktrackUnit(m0, "AAA"));
-  Modifiers m1 = Modifiers::CreateMIDModifiers(0, 0, 0);
+  Modifiers m1 = Modifiers::CreateMIDModifiers(rm, 0, 0, 0);
   unique_ptr<PatternUnit> pu1(new BacktrackUnit(m1, "CCC"));
 
-  Modifiers m = Modifiers::CreateStdModifiers();
+  Modifiers m = Modifiers::CreateStdModifiers(rm);
   unique_ptr<CompositeUnit> pu(new CompositeUnit(m));
   pu->AddUnit(pu0);
   pu->AddUnit(pu1);
@@ -60,12 +61,13 @@ TEST_CASE("Composite unit with two children. No fuzziness.", "[composite]") {
 
 TEST_CASE("Composite unit with two children. With fuzziness.", "[composite]") {
   // Set up test pattern "AAA/0,1,0 CCC/0,0,0"
-  Modifiers m0 = Modifiers::CreateMIDModifiers(0, 1, 0);
+  ResMatcher rm(kMatrix6);
+  Modifiers m0 = Modifiers::CreateMIDModifiers(rm, 0, 1, 0);
   unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AAA"));
-  Modifiers m1 = Modifiers::CreateMIDModifiers(0, 0, 0);
+  Modifiers m1 = Modifiers::CreateMIDModifiers(rm, 0, 0, 0);
   unique_ptr <PatternUnit> pu1(new BacktrackUnit(m1, "CCC"));
 
-  Modifiers m = Modifiers::CreateStdModifiers();
+  Modifiers m = Modifiers::CreateStdModifiers(rm);
   unique_ptr<CompositeUnit> pu(new CompositeUnit(m));
   pu->AddUnit(pu0);
   pu->AddUnit(pu1);

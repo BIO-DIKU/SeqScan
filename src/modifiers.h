@@ -55,13 +55,14 @@ class Modifiers {
   /** Outputs the modifiers that goes after the pattern-unit */
   std::ostream& PrintPUSuffix(std::ostream &os) const;
 
-  static Modifiers CreateMIDModifiers(
-      const int mismatches,
-      const int insertions,
-      const int deletions
-  );
+  static Modifiers CreateStdModifiers(const ResMatcher res_matcher);
 
-  static Modifiers CreateStdModifiers();
+  static Modifiers CreateMIDModifiers(
+      const ResMatcher res_matcher,
+      const int        mismatches,
+      const int        insertions,
+      const int        deletions
+  );
 };
 
 #endif  // SEQSCAN_MODIFIERS_H_

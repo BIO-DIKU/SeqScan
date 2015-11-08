@@ -95,7 +95,6 @@ int main(int argc, char *argv[]) {
       std::unique_ptr<PatternUnit> pattern =
           pattern_unit_factory.create_from_parse_tree(parse_tree.get());
 
-
       // For each SeqEntry: attempt to match pattern
       while (fasta_reader.hasNextEntry()) {
         std::unique_ptr<SeqEntry> entry = fasta_reader.nextEntry();

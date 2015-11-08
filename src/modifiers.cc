@@ -64,18 +64,18 @@ std::ostream& Modifiers::PrintPUSuffix(std::ostream &os) const {
   return os;
 }
 
-Modifiers Modifiers::CreateStdModifiers() {
-  ResMatcher rm(kMatrix6);
-  Modifiers ret(0, 0, 0, 0, 0, false, rm , "");
+Modifiers Modifiers::CreateStdModifiers(const ResMatcher res_matcher)
+{
+  Modifiers ret(0, 0, 0, 0, 0, false, res_matcher , "");
   return std::move(ret);
 }
 
 Modifiers Modifiers::CreateMIDModifiers(
-    const int mismatches,
-    const int insertions,
-    const int deletions)
+    const ResMatcher res_matcher,
+    const int        mismatches,
+    const int        insertions,
+    const int        deletions)
 {
-  ResMatcher rm(kMatrix6);
-  Modifiers ret(0, mismatches, insertions, deletions, 0, false, rm, "");
+  Modifiers ret(0, mismatches, insertions, deletions, 0, false, res_matcher, "");
   return std::move(ret);
 }
