@@ -29,7 +29,8 @@ using namespace std;
 TEST_CASE("Test sequence with fuzzy matching", "[sequence,fuzzy matching]") {
 
   // Set up test pattern "AATCA/1,0,0"
-  Modifiers first_modifiers = Modifiers::CreateMIDModifiers(1, 0, 0);
+  ResMatcher rm(kMatrix6);
+  Modifiers first_modifiers = Modifiers::CreateMIDModifiers(rm, 1, 0, 0);
   unique_ptr<PatternUnit> first_unit(new BacktrackUnit(first_modifiers, "AATCA"));
 
   // Define sequence

@@ -32,7 +32,8 @@ using namespace std;
 
 TEST_CASE("Test kmp sequence unit matching without fuzziness", "[kmp]") {
   // Set up test pattern "AAAA/0,0,0"
-  Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+  ResMatcher rm(kMatrix6);
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(rm, 0, 0, 0);
   unique_ptr<PatternUnit> pu(new KMPUnit(modifiers, "AAAA"));
 
   SECTION("0 matches") {
@@ -127,6 +128,3 @@ TEST_CASE("Test kmp sequence unit matching without fuzziness", "[kmp]") {
     REQUIRE(!pu->FindMatch());
   }
 }
-
-
-
