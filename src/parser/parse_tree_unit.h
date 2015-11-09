@@ -19,8 +19,8 @@
  */
 
 
-#ifndef PARSE_TREE_UNIT_H
-#define PARSE_TREE_UNIT_H
+#ifndef PARSE_TREE_UNIT_H_
+#define PARSE_TREE_UNIT_H_
 
 #include <string>
 #include <vector>
@@ -28,8 +28,6 @@
 #include <sstream>
 
 namespace SeqScan {
-
-
   class PTPreModifier{
    public:
     PTPreModifier();
@@ -67,12 +65,12 @@ namespace SeqScan {
     ParseTreeUnit(const std::string &sequence);
     ~ParseTreeUnit();
 
-    std::string str(size_t indent=0) const;
+    std::string str(size_t indent = 0) const;
 
-    /** 
-     * Returns a compact string representation of the tree structure and overall types 
+    /**
+     * Returns a compact string representation of the tree structure and overall types
      * used for debugging. For example, the pattern:
-     * AA p1=~CC (N{2,4}|2..4) 
+     * AA p1=~CC (N{2,4}|2..4)
      * will have the compact parsed representation
      * (SEQ,SEQ,OR(REP(SEQ),RANGE))
      */
@@ -83,28 +81,20 @@ namespace SeqScan {
     std::vector<ParseTreeUnit*> children_;
 
     std::string sequence_;
-
     std::string label_;
-
     std::string referenced_label_;
 
-
-    int min_repeats_;
-    int max_repeats_;
+    int  min_repeats_;
+    int  max_repeats_;
     bool open_repeats_;
-
-    int range_min_;
-    int range_max_;
-
+    int  range_min_;
+    int  range_max_;
     void add_modifier(PTPreModifier* m);
     void add_modifier(PTSufModifier* m);
 
     PTPreModifier pre_modifier_;
     PTSufModifier suf_modifier_;
-
   };
+}  // namespace SeqScan
 
-
-} // namespace SeqScan
-
-#endif // PARSE_TREE_UNIT_H
+#endif  // PARSE_TREE_UNIT_H
