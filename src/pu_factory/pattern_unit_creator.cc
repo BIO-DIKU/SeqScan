@@ -26,6 +26,7 @@
 #include "pu/repeat_unit.h"
 #include "pu/range_unit.h"
 #include "pu/kmp_unit.h"
+#include "pu/group_unit.h"
 
 namespace SeqScan {
   PatternUnitCreator::PatternUnitCreator(const ResMatcher& res_matcher, const ResMatcher& res_matcher_comp):
@@ -38,7 +39,6 @@ namespace SeqScan {
     map<string, PatternUnit*> ref_map;
     return create_from_node(ptree, ref_map);
   }
-
 
   std::unique_ptr<PatternUnit> PatternUnitCreator::create_from_node(
       const ParseTreeUnit *node,
@@ -80,10 +80,9 @@ namespace SeqScan {
                                                          node->range_max_));
         break;
       case ParseTreeUnit::UnitType::Group:
-        tmp = std::unique_ptr<PatternUnit>(new GroupUnit(create_modifiers(node),
-                                                         node->sequence_,
-                                                         node->pre_modifier_.hat_));
-        break;
+        return std::unique_ptr<PatternUnit>(new GroupUnit(create_modifiers(node),
+                                                          node->sequence_,
+                                                          node->pre_modifier_.hat_));
       default:
         throw "PatternUnitCreator: Unknown ParseTreeUnit type";
     }
