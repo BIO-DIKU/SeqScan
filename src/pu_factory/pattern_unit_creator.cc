@@ -27,9 +27,7 @@
 #include "pu/range_unit.h"
 #include "pu/kmp_unit.h"
 
-namespace SeqScan{
-
-
+namespace SeqScan {
   PatternUnitCreator::PatternUnitCreator(const ResMatcher& res_matcher, const ResMatcher& res_matcher_comp):
       res_matcher_(res_matcher),
       res_matcher_comp_(res_matcher_comp)
@@ -37,25 +35,24 @@ namespace SeqScan{
 
   std::unique_ptr<PatternUnit> PatternUnitCreator::create_from_parse_tree(const ParseTreeUnit *ptree)
   {
-    map<string,PatternUnit*> ref_map;
+    map<string, PatternUnit*> ref_map;
     return create_from_node(ptree, ref_map);
   }
 
 
   std::unique_ptr<PatternUnit> PatternUnitCreator::create_from_node(
-      const ParseTreeUnit *node, 
-      map<string,PatternUnit*> &ref_map) 
+      const ParseTreeUnit *node,
+      map<string, PatternUnit*> &ref_map)
   {
-
     std::unique_ptr<PatternUnit> tmp;
     PatternUnit* ref;
     switch (node->node_type_) {
       case ParseTreeUnit::UnitType::Sequence:
-        if ( node->suf_modifier_.mismatches_==0 &&
-             node->suf_modifier_.insertions_==0 &&
-             node->suf_modifier_.deletions_ ==0 &&
-             node->suf_modifier_.indels_    ==0 &&
-             node->suf_modifier_.errors_    ==0 ) {
+        if (node->suf_modifier_.mismatches_ == 0 &&
+            node->suf_modifier_.insertions_ == 0 &&
+            node->suf_modifier_.deletions_  == 0 &&
+            node->suf_modifier_.indels_     == 0 &&
+            node->suf_modifier_.errors_     == 0 ) {
           return std::unique_ptr<PatternUnit>(new KMPUnit(create_modifiers(node), node->sequence_));
         }
 
@@ -79,8 +76,13 @@ namespace SeqScan{
         break;
       case ParseTreeUnit::UnitType::Range:
         tmp = std::unique_ptr<PatternUnit>(new RangeUnit(create_modifiers(node),
-                                                          node->range_min_,
-                                                          node->range_max_));
+                                                         node->range_min_,
+                                                         node->range_max_));
+        break;
+      case ParseTreeUnit::UnitType::Group:
+        tmp = std::unique_ptr<PatternUnit>(new GroupUnit(create_modifiers(node),
+                                                         node->sequence_,
+                                                         node->pre_modifier_.hat_));
         break;
       default:
         throw "PatternUnitCreator: Unknown ParseTreeUnit type";
@@ -90,12 +92,10 @@ namespace SeqScan{
       ref_map[node->label_] = tmp.get();
 
     return tmp;
-
   }
 
-  Modifiers PatternUnitCreator::create_modifiers(const ParseTreeUnit* node)
-  {
-    const ResMatcher& rm = node->pre_modifier_.tilde_?res_matcher_comp_:res_matcher_;
+  Modifiers PatternUnitCreator::create_modifiers(const ParseTreeUnit* node) {
+    const ResMatcher& rm = node->pre_modifier_.tilde_ ? res_matcher_comp_ : res_matcher_;
 
     return std::move(Modifiers(
         node->suf_modifier_.errors_,
@@ -103,10 +103,9 @@ namespace SeqScan{
         node->suf_modifier_.insertions_,
         node->suf_modifier_.deletions_,
         node->suf_modifier_.indels_,
-        node->pre_modifier_.less_ ^ node->pre_modifier_.tilde_, //reverse
+        node->pre_modifier_.less_ ^ node->pre_modifier_.tilde_,  // reverse
         rm,
-        node->label_
-    ));
+        node->label_));
   }
 
-} // namespace SeqScan
+}  // namespace SeqScan
