@@ -20,7 +20,7 @@
 
 #include "group_unit.h"
 
-GroupUnit::GroupUnit(const Modifiers &modifiers, const std::string& pattern, const bool& negator):
+GroupUnit::GroupUnit(const Modifiers &modifiers, const std::string &pattern, const bool &negator):
     PatternUnit(modifiers),
     pattern_(pattern),
     negator_(negator)
@@ -39,18 +39,24 @@ void GroupUnit::Initialize(
   stay_at_pos_           = stay_at_pos;
 }
 
-void GroupUnit::ResMatcherCoerce() {
-  modifiers_.res_matcher_;
-}
-
 bool GroupUnit::FindMatch() {
-  while (sequence_iterator_ != sequence_iterator_end_) {
-    for (auto p : pattern_) {
-      if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return true;
+  if (negator_) {
+    while (sequence_iterator_ != sequence_iterator_end_) {
+      for (auto p : pattern_) {
+        if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return false;
+      }
     }
-  }
 
-  return false;
+    return true;
+  } else {
+    while (sequence_iterator_ != sequence_iterator_end_) {
+      for (auto p : pattern_) {
+        if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return true;
+      }
+    }
+
+    return false;
+  }
 }
 
 const Match& GroupUnit::GetMatch() const {
