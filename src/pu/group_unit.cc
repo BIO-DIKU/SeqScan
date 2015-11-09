@@ -28,3 +28,33 @@ GroupUnit::GroupUnit(const Modifiers &modifiers, const std::string& pattern, con
     std::cerr << "pattern: " << pattern << std::endl;
     std::cerr << "negator: " << negator << std::endl;
 }
+
+void GroupUnit::Initialize(
+    std::string::const_iterator pos,
+    std::string::const_iterator max_pos,
+    bool stay_at_pos
+) {
+  sequence_iterator_     = pos;
+  sequence_iterator_end_ = max_pos;
+  stay_at_pos_           = stay_at_pos;
+}
+
+void GroupUnit::ResMatcherCoerce() {
+  modifiers_.res_matcher_;
+}
+
+bool GroupUnit::FindMatch() {
+  while (sequence_iterator_ != sequence_iterator_end_) {
+    for (auto p : pattern_) {
+      if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return true;
+    }
+  }
+
+  return false;
+}
+
+const Match& GroupUnit::GetMatch() const {
+  // std::set<Match >::iterator it = last_found_matches_.begin();
+  // std::advance(it, last_found_index_);
+  // return *it;
+}

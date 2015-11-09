@@ -22,6 +22,7 @@
 #define SEQSCAN_GROUP_UNIT_H_
 
 #include "pattern_unit.h"
+#include "res_matcher.h"
 
 /**
  * Pattern unit for matching a group of specified residues e.g. [ATC] with the
@@ -31,9 +32,32 @@ class GroupUnit : public PatternUnit {
  public:
   GroupUnit(const Modifiers &modifiers, const std::string &pattern, const bool &negator);
 
+  void Initialize(
+      std::string::const_iterator pos,
+      std::string::const_iterator max_pos,
+      bool stay_at_pos = false) override;
+
+  bool FindMatch() override;
+
+  const Match& GetMatch() const override;
+
  protected:
   const std::string pattern_;
   const bool        negator_;
+//  ResMatcher        res_matcher_;
+
+  /** The start sequence iterator. */
+  std::string::const_iterator sequence_iterator_;
+
+  /** The end sequence iterator. */
+  std::string::const_iterator sequence_iterator_end_;
+  
+  /** Indicates whether FindMatch should search for matches starting at other positions than the
+   * one indicated in Initialize */
+  bool stay_at_pos_;
+
+ private:
+  void ResMatcherCoerce();
 };
 
 #endif  // SEQSCAN_GROUP_UNIT_H_
