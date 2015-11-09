@@ -43,7 +43,7 @@ ResMatcher::ResMatcher(string matrix_file, bool comp) :
   matrix_file_(matrix_file)
 {
   MatrixFileToMatcher(comp);
-};
+}
 
 ResMatcher::~ResMatcher()
 {}
