@@ -26,8 +26,6 @@ GroupUnit::GroupUnit(const Modifiers &modifiers, const std::string &char_group, 
     char_group_(char_group),
     negator_(negator)
 {
-    std::cerr << "char_group: " << char_group << std::endl;
-    std::cerr << "negator: " << negator << std::endl;
 }
 
 void GroupUnit::Initialize(
@@ -42,22 +40,34 @@ void GroupUnit::Initialize(
 
 bool GroupUnit::FindMatch() {
   if (negator_) {
-    while (sequence_iterator_ != sequence_iterator_end_) {
+    if (stay_at_pos_) {
       for (auto p : char_group_) {
         if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return false;
       }
+    } else {
+      while (sequence_iterator_ != sequence_iterator_end_) {
+        for (auto p : char_group_) {
+          if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return false;
+        }
 
-      ++sequence_iterator_;
+        ++sequence_iterator_;
+      }
     }
 
     return true;
   } else {
-    while (sequence_iterator_ != sequence_iterator_end_) {
+    if (stay_at_pos_) {
       for (auto p : char_group_) {
         if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return true;
       }
+    } else {
+      while (sequence_iterator_ != sequence_iterator_end_) {
+        for (auto p : char_group_) {
+          if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return true;
+        }
 
-      ++sequence_iterator_;
+        ++sequence_iterator_;
+      }
     }
 
     return false;
