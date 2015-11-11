@@ -36,26 +36,99 @@ TEST_CASE("Matching Group Unit", "[group]") {
   unique_ptr<PatternUnit> pu(new GroupUnit(modifiers, "GC", false));
 
   SECTION("with 0 matches results in no hits") {
-    string sequence = "TT";
+    string sequence = "TTTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
     REQUIRE(!pu->FindMatch());
   }
 
-  // SECTION("with 1 match is OK") {
-  //   string sequence = "TTTGGGTTT";
-  //   pu->Initialize(sequence.cbegin(), sequence.cend());
-  //   REQUIRE(!pu->FindMatch());
-  // }
-  //
-  // SECTION("with 2 matches is OK") {
-  //   string sequence = "GGGAAAGGG";
-  //   pu->Initialize(sequence.cbegin(), sequence.cend());
-  //   REQUIRE(!pu->FindMatch());
-  // }
-  //
-  // SECTION("with full length match is OK") {
-  //   string sequence = "GGGCCCGGG";
-  //   pu->Initialize(sequence.cbegin(), sequence.cend());
-  //   REQUIRE(!pu->FindMatch());
-  // }
+  SECTION("with 1 match is OK") {
+    string sequence = "TTGTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+    REQUIRE(pu->FindMatch());
+
+    const Match& m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 1);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
+
+  SECTION("with 1 alternate match is OK") {
+    string sequence = "TTCTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+    REQUIRE(pu->FindMatch());
+
+    const Match& m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 1);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
+
+  SECTION("with 2 matches is OK") {
+    string sequence = "TTCTTGTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+    REQUIRE(pu->FindMatch());
+
+    const Match& m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 1);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(pu->FindMatch());
+
+    const Match& m2 = pu->GetMatch();
+    REQUIRE(m2.pos - sequence.cbegin() == 5);
+    REQUIRE(m2.len == 1);
+    REQUIRE(m2.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
+}
+
+TEST_CASE("Non-matching Group Unit", "[group]") {
+  // Set up test pattern "AAAA/0,0,0"
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+  unique_ptr<PatternUnit> pu(new GroupUnit(modifiers, "GC", true));
+
+  SECTION("with 0 matches results in no hits") {
+    string sequence = "GGCC";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+    REQUIRE(!pu->FindMatch());
+  }
+
+  SECTION("with 1 match is OK") {
+    string sequence = "GGTCC";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+    REQUIRE(pu->FindMatch());
+
+    const Match& m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 1);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
+
+  SECTION("with 2 matches is OK") {
+    string sequence = "GGTCCAGG";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+    REQUIRE(pu->FindMatch());
+
+    const Match& m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 1);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(pu->FindMatch());
+
+    const Match& m2 = pu->GetMatch();
+    REQUIRE(m2.pos - sequence.cbegin() == 5);
+    REQUIRE(m2.len == 1);
+    REQUIRE(m2.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
 }
