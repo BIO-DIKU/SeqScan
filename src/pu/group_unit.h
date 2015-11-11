@@ -22,7 +22,6 @@
 #define SEQSCAN_GROUP_UNIT_H_
 
 #include "pattern_unit.h"
-#include "res_matcher.h"
 
 /**
  * Pattern unit for matching a group of specified residues e.g. [ATC] with the
