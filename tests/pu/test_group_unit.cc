@@ -54,19 +54,6 @@ TEST_CASE("Matching Group Unit", "[group]") {
     REQUIRE(!pu->FindMatch());
   }
 
-  SECTION("with 1 alternate match is OK") {
-    string sequence = "TTCTT";
-    pu->Initialize(sequence.cbegin(), sequence.cend());
-    REQUIRE(pu->FindMatch());
-
-    const Match& m1 = pu->GetMatch();
-    REQUIRE(m1.pos - sequence.cbegin() == 2);
-    REQUIRE(m1.len == 1);
-    REQUIRE(m1.edits == 0);
-
-    REQUIRE(!pu->FindMatch());
-  }
-
   SECTION("with 2 matches is OK") {
     string sequence = "TTCTTGTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
