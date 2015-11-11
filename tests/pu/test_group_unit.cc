@@ -32,9 +32,8 @@ using namespace std;
 
 TEST_CASE("Matching Group Unit", "[group]") {
   // Set up test pattern "AAAA/0,0,0"
-  ResMatcher rm(kMatrix6);
-  Modifiers modifiers = Modifiers::CreateMIDModifiers(rm, 0, 0, 0);
-  unique_ptr<PatternUnit> pu(new GroupUnit(modifiers, "[GC]", false));
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+  unique_ptr<PatternUnit> pu(new GroupUnit(modifiers, "GC", false));
 
   SECTION("with 0 matches results in no hits") {
     string sequence = "TT";

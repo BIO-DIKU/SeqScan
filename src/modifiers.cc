@@ -28,6 +28,9 @@ Modifiers::Modifiers(
     const int deletions,
     const int indels,
     const bool reverse,
+    // const bool anchor_start,
+    // const bool anchor_end,
+    // const bool negator,
     const ResMatcher res_matcher,
     const std::string label
 ):

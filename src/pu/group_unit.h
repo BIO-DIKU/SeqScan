@@ -30,7 +30,7 @@
  */
 class GroupUnit : public PatternUnit {
  public:
-  GroupUnit(const Modifiers &modifiers, const std::string &pattern, const bool &negator);
+  GroupUnit(const Modifiers &modifiers, const std::string &char_group, const bool &negator);
 
   void Initialize(
     std::string::const_iterator pos,
@@ -42,7 +42,7 @@ class GroupUnit : public PatternUnit {
   const Match& GetMatch() const override;
 
  protected:
-  const std::string pattern_;
+  const std::string char_group_;
   const bool        negator_;
 
   /** The start sequence iterator. */

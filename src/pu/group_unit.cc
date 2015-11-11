@@ -19,13 +19,14 @@
  */
 
 #include "group_unit.h"
+#include <string>
 
-GroupUnit::GroupUnit(const Modifiers &modifiers, const std::string &pattern, const bool &negator):
+GroupUnit::GroupUnit(const Modifiers &modifiers, const std::string &char_group, const bool &negator):
     PatternUnit(modifiers),
-    pattern_(pattern),
+    char_group_(char_group),
     negator_(negator)
 {
-    std::cerr << "pattern: " << pattern << std::endl;
+    std::cerr << "char_group: " << char_group << std::endl;
     std::cerr << "negator: " << negator << std::endl;
 }
 
@@ -42,17 +43,21 @@ void GroupUnit::Initialize(
 bool GroupUnit::FindMatch() {
   if (negator_) {
     while (sequence_iterator_ != sequence_iterator_end_) {
-      for (auto p : pattern_) {
+      for (auto p : char_group_) {
         if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return false;
       }
+
+      ++sequence_iterator_;
     }
 
     return true;
   } else {
     while (sequence_iterator_ != sequence_iterator_end_) {
-      for (auto p : pattern_) {
+      for (auto p : char_group_) {
         if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return true;
       }
+
+      ++sequence_iterator_;
     }
 
     return false;
@@ -60,7 +65,5 @@ bool GroupUnit::FindMatch() {
 }
 
 const Match& GroupUnit::GetMatch() const {
-  // std::set<Match >::iterator it = last_found_matches_.begin();
-  // std::advance(it, last_found_index_);
-  // return *it;
+  return std::move(Match(sequence_iterator_, 1, 0));
 }
