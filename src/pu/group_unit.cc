@@ -39,39 +39,23 @@ void GroupUnit::Initialize(
 }
 
 bool GroupUnit::FindMatch() {
-  if (negator_) {
-    if (stay_at_pos_) {
-      for (auto p : char_group_) {
-        if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return false;
-      }
-    } else {
-      while (sequence_iterator_ != sequence_iterator_end_) {
-        for (auto p : char_group_) {
-          if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return false;
-        }
-
-        ++sequence_iterator_;
-      }
+  if (stay_at_pos_) {
+    for (auto p : char_group_) {
+      if (modifiers_.res_matcher_.Match(*sequence_iterator_, p))
+        return negator_ ? false : true;
     }
-
-    return true;
   } else {
-    if (stay_at_pos_) {
+    while (sequence_iterator_ != sequence_iterator_end_) {
       for (auto p : char_group_) {
-        if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return true;
+        if (modifiers_.res_matcher_.Match(*sequence_iterator_, p))
+          return negator_ ? false : true;
       }
-    } else {
-      while (sequence_iterator_ != sequence_iterator_end_) {
-        for (auto p : char_group_) {
-          if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) return true;
-        }
 
-        ++sequence_iterator_;
-      }
+      ++sequence_iterator_;
     }
-
-    return false;
   }
+
+  return negator_ ? true : false;
 }
 
 const Match& GroupUnit::GetMatch() const {
