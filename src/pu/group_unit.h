@@ -22,6 +22,9 @@
 #define SEQSCAN_GROUP_UNIT_H_
 
 #include "pattern_unit.h"
+#include "match.h"
+#include <set>
+#include <string>
 
 /**
  * Pattern unit for matching a group of specified residues e.g. [ATC] with the
@@ -53,6 +56,25 @@ class GroupUnit : public PatternUnit {
   /** Indicates whether FindMatch should search for matches starting at other positions than the
    * one indicated in Initialize */
   bool stay_at_pos_;
+
+  /*
+   * Found match.
+   */
+   const Match *match_;
+
+ private:
+  bool FindNoMatchAtPos();
+  bool FindMatchAtPos();
+  bool FindNoMatchIter();
+  bool FindMatchIter();
+
+  /*
+   * Inline method to update match.
+   */
+  inline void UpdateMatch() {
+    if (match_ != NULL) delete match_;
+    match_ = new Match(sequence_iterator_, 1, 0);
+  }
 };
 
 #endif  // SEQSCAN_GROUP_UNIT_H_

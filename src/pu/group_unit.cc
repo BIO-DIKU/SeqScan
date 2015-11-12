@@ -22,16 +22,17 @@
 #include <string>
 
 GroupUnit::GroupUnit(const Modifiers &modifiers, const std::string &char_group, const bool &negator):
-    PatternUnit(modifiers),
-    char_group_(char_group),
-    negator_(negator)
+  PatternUnit(modifiers),
+  char_group_(char_group),
+  negator_(negator),
+  match_(NULL)
 {
 }
 
 void GroupUnit::Initialize(
-    std::string::const_iterator pos,
-    std::string::const_iterator max_pos,
-    bool stay_at_pos
+  std::string::const_iterator pos,
+  std::string::const_iterator max_pos,
+  bool stay_at_pos
 ) {
   sequence_iterator_     = pos;
   sequence_iterator_end_ = max_pos;
@@ -40,24 +41,86 @@ void GroupUnit::Initialize(
 
 bool GroupUnit::FindMatch() {
   if (stay_at_pos_) {
-    for (auto p : char_group_) {
-      if (modifiers_.res_matcher_.Match(*sequence_iterator_, p))
-        return negator_ ? false : true;
+    if (negator_) {
+      return FindNoMatchAtPos();
+    } else {
+      return FindMatchAtPos();
     }
   } else {
-    while (sequence_iterator_ != sequence_iterator_end_) {
-      for (auto p : char_group_) {
-        if (modifiers_.res_matcher_.Match(*sequence_iterator_, p))
-          return negator_ ? false : true;
-      }
+    if (negator_) {
+      return FindNoMatchIter();
+    } else {
+      return FindMatchIter();
+    }
+  }
+}
 
-      ++sequence_iterator_;
+bool GroupUnit::FindNoMatchAtPos() {
+  bool match = false;
+
+  for (auto p : char_group_) {
+    if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) {
+      match = true;
+      break;
     }
   }
 
-  return negator_ ? true : false;
+  if (!match) {
+    UpdateMatch();
+    return true;
+  }
+
+  return false;
+}
+
+bool GroupUnit::FindMatchAtPos() {
+  for (auto p : char_group_) {
+    if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) {
+      UpdateMatch();
+      return true;
+    }
+  }
+
+  return false;
+}
+
+bool GroupUnit::FindNoMatchIter() {
+  while (sequence_iterator_ != sequence_iterator_end_) {
+    bool match = false;
+
+    for (auto p : char_group_) {
+      if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) {
+        match = true;
+        break;
+      }
+    }
+
+    if (!match) {
+      UpdateMatch();
+      return true;
+    }
+
+    ++sequence_iterator_;
+  }
+
+  return false;
+}
+
+bool GroupUnit::FindMatchIter() {
+  while (sequence_iterator_ != sequence_iterator_end_) {
+    for (auto p : char_group_) {
+      if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) {
+        UpdateMatch();
+        return true;
+      }
+    }
+
+    ++sequence_iterator_;
+  }
+
+  return false;
 }
 
 const Match& GroupUnit::GetMatch() const {
-  return std::move(Match(sequence_iterator_, 1, 0));
+  return *match_;
 }
