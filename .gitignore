@@ -43,7 +43,7 @@ bin
 CMakeCache.txt
 CMakeFiles/
 CTestTestfile.cmake
-Makefile
+/Makefile
 cmake_install.cmake
 
 # Mac stuff
