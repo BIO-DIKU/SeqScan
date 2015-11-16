@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_PATTERN_UNIT_CREATOR_H_
-#define SEQSCAN_PATTERN_UNIT_CREATOR_H_
+#ifndef SEQSCAN_PU_FACTORY_PATTERN_UNIT_CREATOR_H_
+#define SEQSCAN_PU_FACTORY_PATTERN_UNIT_CREATOR_H_
 
 #include <map>
 #include <string>
@@ -50,4 +50,4 @@ class PatternUnitCreator {
 };
 }  // namespace SeqScan
 
-#endif  // SEQSCAN_PATTERN_UNIT_CREATOR_H_
+#endif  // SEQSCAN_PU_FACTORY_PATTERN_UNIT_CREATOR_H_
