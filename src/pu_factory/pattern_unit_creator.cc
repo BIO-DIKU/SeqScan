@@ -28,32 +28,30 @@
 #include "pu/kmp_unit.h"
 
 namespace SeqScan{
-PatternUnitCreator::PatternUnitCreator(const ResMatcher& res_matcher, const ResMatcher& res_matcher_comp):
-    res_matcher_(res_matcher),
-    res_matcher_comp_(res_matcher_comp)
+PatternUnitCreator::PatternUnitCreator(const ResMatcher &res_matcher, const ResMatcher &res_matcher_comp):
+  res_matcher_(res_matcher),
+  res_matcher_comp_(res_matcher_comp)
 {}
 
-std::unique_ptr<PatternUnit> PatternUnitCreator::create_from_parse_tree(const ParseTreeUnit *ptree)
-{
-  map<string,PatternUnit*> ref_map;
+std::unique_ptr<PatternUnit> PatternUnitCreator::create_from_parse_tree(const ParseTreeUnit *ptree) {
+  map<string, PatternUnit*> ref_map;
   return create_from_node(ptree, ref_map);
 }
 
-
 std::unique_ptr<PatternUnit> PatternUnitCreator::create_from_node(
     const ParseTreeUnit *node,
-    map<string,PatternUnit*> &ref_map)
+    map<string, PatternUnit*> &ref_map)
 {
-
   std::unique_ptr<PatternUnit> tmp;
   PatternUnit* ref;
+
   switch (node->node_type_) {
     case ParseTreeUnit::UnitType::Sequence:
-      if ( node->suf_modifier_.mismatches_==0 &&
-           node->suf_modifier_.insertions_==0 &&
-           node->suf_modifier_.deletions_ ==0 &&
-           node->suf_modifier_.indels_    ==0 &&
-           node->suf_modifier_.errors_    ==0 ) {
+      if (node->suf_modifier_.mismatches_ == 0 &&
+          node->suf_modifier_.insertions_ == 0 &&
+          node->suf_modifier_.deletions_  == 0 &&
+          node->suf_modifier_.indels_     == 0 &&
+          node->suf_modifier_.errors_     == 0 ) {
         return std::unique_ptr<PatternUnit>(new KMPUnit(create_modifiers(node), node->sequence_));
       }
 
@@ -88,12 +86,10 @@ std::unique_ptr<PatternUnit> PatternUnitCreator::create_from_node(
     ref_map[node->label_] = tmp.get();
 
   return tmp;
-
 }
 
-Modifiers PatternUnitCreator::create_modifiers(const ParseTreeUnit* node)
-{
-  const ResMatcher& rm = node->pre_modifier_.tilde_?res_matcher_comp_:res_matcher_;
+Modifiers PatternUnitCreator::create_modifiers(const ParseTreeUnit* node) {
+  const ResMatcher &rm = node->pre_modifier_.tilde_ ? res_matcher_comp_ : res_matcher_;
 
   return std::move(Modifiers(
       node->suf_modifier_.errors_,
@@ -101,9 +97,8 @@ Modifiers PatternUnitCreator::create_modifiers(const ParseTreeUnit* node)
       node->suf_modifier_.insertions_,
       node->suf_modifier_.deletions_,
       node->suf_modifier_.indels_,
-      node->pre_modifier_.less_ ^ node->pre_modifier_.tilde_, //reverse
+      node->pre_modifier_.less_ ^ node->pre_modifier_.tilde_, // reverse
       rm,
-      node->label_
-  ));
+      node->label_));
 }
-} // namespace SeqScan
+}  // namespace SeqScan
