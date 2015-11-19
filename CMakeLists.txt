@@ -85,7 +85,6 @@ link_libraries(${bioio_INSTALL_DIR}/lib/libBioIO.a)
 # http://stackoverflow.com/questions/16449676/remove-specific-file-from-cmake-build
 # Remove files with main
 # ------------------------
-list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/run_seqscan.cc)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_tests.cc)
 set(TEST_SOURCE_FILES ${SOURCE_FILES})
