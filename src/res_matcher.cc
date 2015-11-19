@@ -122,8 +122,14 @@ void ResMatcher::MatrixToMatcher() {
     case 9:
       ParseMatrix(kMatrix9);
       break;
+    case -9:
+      // ParseMatrix(kMatrix9);
+      break;
     case 10:
       ParseMatrix(kMatrix10);
+      break;
+    case -10:
+      // ParseMatrix(kMatrix10);
       break;
     default:
       string msg = "Error: Unknown matrix: " + to_string(matrix_num_);
