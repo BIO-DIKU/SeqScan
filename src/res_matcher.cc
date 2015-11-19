@@ -22,6 +22,7 @@
 #include <iostream>
 #include <sstream>
 #include <bitset>
+#include <vector>
 
 #include "res_matcher.h"
 #include "matrix_io.h"
@@ -43,7 +44,7 @@ ResMatcher::ResMatcher(string matrix_file, bool comp) :
   matrix_file_(matrix_file)
 {
   MatrixFileToMatcher(comp);
-};
+}
 
 ResMatcher::~ResMatcher()
 {}
@@ -56,7 +57,7 @@ void ResMatcher::set(size_t index) {
   res_matcher_.set(index, true);
 }
 
-bool ResMatcher::is_set(size_t index) const{
+bool ResMatcher::is_set(size_t index) const {
   return res_matcher_.test(index);
 }
 
