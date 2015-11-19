@@ -31,7 +31,7 @@
 // version 2.2 of Bison.
 
 /**
- ** \file /Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/location.h
+ ** \file /Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/Location.h
  ** Define the  SeqScan ::location class.
  */
 
@@ -43,26 +43,26 @@
 #line 57 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // location.cc:337
 namespace  SeqScan  {
 #line 46 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/location.h" // location.cc:337
-  /// Abstract a location.
+  /// Abstract a Location.
   class location
   {
   public:
 
-    /// Construct a location from \a b to \a e.
+    /// Construct a Location from \a b to \a e.
     location (const position& b, const position& e)
       : begin (b)
       , end (e)
     {
     }
 
-    /// Construct a 0-width location in \a p.
+    /// Construct a 0-width Location in \a p.
     explicit location (const position& p = position ())
       : begin (p)
       , end (p)
     {
     }
 
-    /// Construct a 0-width location in \a f, \a l, \a c.
+    /// Construct a 0-width Location in \a f, \a l, \a c.
     explicit location (std::string* f,
                        unsigned int l = 1u,
                        unsigned int c = 1u)
@@ -84,19 +84,19 @@ namespace  SeqScan  {
     /** \name Line and Column related manipulators
      ** \{ */
   public:
-    /// Reset initial location to final location.
+    /// Reset initial Location to final location.
     void step ()
     {
       begin = end;
     }
 
-    /// Extend the current location to the COUNT next columns.
+    /// Extend the current Location to the COUNT next columns.
     void columns (int count = 1)
     {
       end += count;
     }
 
-    /// Extend the current location to the COUNT next lines.
+    /// Extend the current Location to the COUNT next lines.
     void lines (int count = 1)
     {
       end.lines (count);
@@ -149,14 +149,14 @@ namespace  SeqScan  {
     return res -= width;
   }
 
-  /// Compare two location objects.
+  /// Compare two Location objects.
   inline bool
   operator== (const location& loc1, const location& loc2)
   {
     return loc1.begin == loc2.begin && loc1.end == loc2.end;
   }
 
-  /// Compare two location objects.
+  /// Compare two Location objects.
   inline bool
   operator!= (const location& loc1, const location& loc2)
   {
@@ -165,7 +165,7 @@ namespace  SeqScan  {
 
   /** \brief Intercept output stream redirection.
    ** \param ostr the destination output stream
-   ** \param loc a reference to the location to redirect
+   ** \param loc a reference to the Location to redirect
    **
    ** Avoid duplicate information.
    */

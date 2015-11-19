@@ -18,7 +18,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "optparse.h"
+#include "opt_parse.h"
 
 #include <getopt.h>
 #include <string>

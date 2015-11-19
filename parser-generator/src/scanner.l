@@ -61,7 +61,7 @@
 
 	// This will track current scanner location.
 	// Action is called when length of the token is known.
-	#define YY_USER_ACTION m_driver.increaseLocation(yyleng);
+	#define YY_USER_ACTION m_driver.IncreaseLocation(yyleng);
 	
 	// !!!WARNING!!!
 	// Location API is used, but the location is not initialized, 'cause I'm lazy. When making
@@ -114,6 +114,6 @@
 %%
 /*
 .                              { std::cerr << "Scanner: Unknown character [" << yytext << "] ";
-                                 std::cerr << "at location " << SeqScan::location() << std::endl;
+                                 std::cerr << "at location " << SeqScan::Location() << std::endl;
                                  yyterminate();                                                    }
 */

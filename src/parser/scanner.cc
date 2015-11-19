@@ -493,18 +493,18 @@ static yyconst flex_int16_t yy_chk[65] =
 	// as tokens, we must redefine it to change type from `int` to `Parser::semantic_type`
 	#define yyterminate() SeqScan::Parser::make_END(SeqScan::location());
 
-	// This will track current scanner location.
+	// This will track current scanner Location.
 	// Action is called when length of the token is known.
-	#define YY_USER_ACTION m_driver.increaseLocation(yyleng);
+	#define YY_USER_ACTION m_driver.IncreaseLocation(yyleng);
 	
 	// !!!WARNING!!!
-	// Location API is used, but the location is not initialized, 'cause I'm lazy. When making
-	// a token with make_{something} method you can pass detailed token location. Current location
-	// is accessible with m_driver.location() method. All puzzle elements are there - just
-	// pass location value in every action code block below. I'm going to waste more time writing
+	// Location API is used, but the Location is not initialized, 'cause I'm lazy. When making
+	// a token with make_{something} method you can pass detailed token location. Current Location
+	// is accessible with m_driver.Location() method. All puzzle elements are there - just
+	// pass Location value in every action code block below. I'm going to waste more time writing
 	// this excuse than putting this boilerplate below...
 	//
-	// Location class can be found in location.h and position.h files. It's just a bit too much
+	// Location class can be found in Location.h and position.h files. It's just a bit too much
 	// boilerplate for this small example. Bummer.
 #line 510 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/scanner.cc"
 
@@ -811,7 +811,7 @@ case YY_STATE_EOF(INITIAL):
 case 23:
 YY_RULE_SETUP
 #line 111 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/scanner.l"
-{ throw PatternParseException("Unrecognized expression",m_driver.location()); }
+{ throw PatternParseException("Unrecognized expression", m_driver.Location()); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
@@ -1721,7 +1721,7 @@ void SeqScan_free (void * ptr )
 
 /*
 .                              { std::cerr << "Scanner: Unknown character [" << yytext << "] ";
-                                 std::cerr << "at location " << SeqScan::location() << std::endl;
+                                 std::cerr << "at location " << SeqScan::Location() << std::endl;
                                  yyterminate();                                                    }
 */
 

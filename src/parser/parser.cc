@@ -86,7 +86,7 @@
 
 #define YYRHSLOC(Rhs, K) ((Rhs)[K].location)
 /* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
-   If N is 0, then set CURRENT to the empty location which ends
+   If N is 0, then set CURRENT to the empty Location which ends
    the previous symbol: RHS[0] (always defined).  */
 
 # ifndef YYLLOC_DEFAULT
@@ -469,19 +469,19 @@ namespace  SeqScan  {
     /// The locations where the error started and ended.
     stack_symbol_type yyerror_range[3];
 
-    /// The return value of parse ().
+    /// The return value of Parse ().
     int yyresult;
 
     // FIXME: This shoud be completely indented.  It is not yet to
     // avoid gratuitous conflicts when merging into the master branch.
     try
       {
-    YYCDEBUG << "Starting parse" << std::endl;
+    YYCDEBUG << "Starting Parse" << std::endl;
 
 
     /* Initialize the stack.  The initial state will be set in
        yynewstate, since the latter expects the semantical and the
-       location values to have been already stored, initialize these
+       Location values to have been already stored, initialize these
        stacks with a primary value.  */
     yystack_.clear ();
     yypush_ (YY_NULLPTR, 0, yyla);
@@ -614,7 +614,8 @@ namespace  SeqScan  {
             {
   case 2:
 #line 153 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
-    { driver.set_parse_tree(yystack_[0].value.as<  ParseTreeUnit*  > ()); }
+    {
+      driver.SetParseTree(yystack_[0].value.as<ParseTreeUnit *>()); }
 #line 619 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
@@ -1298,8 +1299,8 @@ namespace  SeqScan  {
 
 // Bison expects us to provide implementation - otherwise linker complains
 void SeqScan::Parser::error(const location &loc , const std::string &message) {
-  //std::cout << "Error: " << message << std::endl << "Error location: " << driver.location() << std::endl;
-  throw PatternParseException(message,driver.location());
+  //std::cout << "Error: " << message << std::endl << "Error location: " << driver.Location() << std::endl;
+  throw PatternParseException(message, driver.Location());
 }
 
 

@@ -21,7 +21,7 @@
 #include <string>
 
 #include "catch.h"
-#include "../src/optparse.h"
+#include "opt_parse.h"
 
 using namespace std;
 

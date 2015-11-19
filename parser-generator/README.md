@@ -26,4 +26,4 @@ SeqScan::PTNode::kRepeat    = 2;
 SeqScan::PTNode::kReference = 3;
 ```
 
-The generated parser does not perform any sanity checks (such as checking whether mismatches exceeds the length of a specified sequence or whether `PTNode::min_repeats_` is larger than `PTNode::max_repeats_`). It also doesnt convert parse-trees into `PatternUnit`s.
+The generated parser does not perform any sanity checks (such as checking whether mismatches exceeds the length of a specified sequence or whether `PTNode::min_repeats_` is larger than `PTNode::max_repeats_`). It also doesnt convert Parse-trees into `PatternUnit`s.

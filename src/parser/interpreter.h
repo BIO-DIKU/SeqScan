@@ -46,8 +46,8 @@
  * 
  */
 
-#ifndef INTERPRETER_H
-#define INTERPRETER_H
+#ifndef SEQSCAN_PARSER_INTERPRETER_H_
+#define SEQSCAN_PARSER_INTERPRETER_H_
 
 #include <vector>
 #include <string>
@@ -57,8 +57,6 @@
 
 namespace SeqScan {
 
-
-
 /**
  * @brief PatternParseException class for Interpreter class.
  */
@@ -66,19 +64,19 @@ class PatternParseException : public std::exception {
  public:
 
   PatternParseException(const std::string &msg, const int pos) :
-    exceptionMsg(msg),
-    position(pos)
+      exceptionMsg(msg),
+      position(pos)
   {}
   PatternParseException(const std::string &&msg, const int pos) :
-    exceptionMsg(msg),
-    position(pos)
+      exceptionMsg(msg),
+      position(pos)
   {}
   PatternParseException(const PatternParseException &e) :
-    exceptionMsg(e.exceptionMsg),
-    position(e.position)
+      exceptionMsg(e.exceptionMsg),
+      position(e.position)
   {}
-  virtual const char* what() const noexcept{ 
-    return exceptionMsg.c_str(); 
+  virtual const char* what() const noexcept{
+    return exceptionMsg.c_str();
   }
 
   const std::string exceptionMsg;
@@ -89,50 +87,52 @@ class PatternParseException : public std::exception {
 /**
  * This class is the interface for our scanner/lexer. The end user
  * is expected to use this. It drives scanner/lexer, and returns a 
- * parse tree. Both parser and lexer have access to it via internal 
+ * Parse tree. Both parser and lexer have access to it via internal
  * references.
  */
 class Interpreter
 {
-public:
-    Interpreter();
-    
-    /**
-     * Run parser on pattern. Returns a ParseTreeUnit pointer on success, 
-     * NULL on failure.
-     */
-    ParseTreeUnit* parse(const std::string& raw_pattern);
-    
-    
-    /**
-     * This is needed so that Scanner and Parser can call some
-     * methods that we want to keep hidden from the end user.
-     */
-    friend class Parser;
-    friend class Scanner;
-    
-private:
-    // Used internally by Parser to set the main parse tree.
-    void set_parse_tree(ParseTreeUnit* ptree);
-    
-    // Used internally by Scanner YY_USER_ACTION to update location indicator
-    void increaseLocation(unsigned int loc);
-    
-    // Used to get last Scanner location. Used in error messages.
-    unsigned int location() const;
+ public:
+  Interpreter();
 
-    
-    /**
-     * Switch scanner input stream. Default is standard input (std::cin).
-     */
-    void switchInputStream(std::istream *is);
-private:
-    Scanner scanner_;
-    Parser parser_;
-    ParseTreeUnit* parse_tree_;
-    unsigned int location_;          // Used by scanner
+  /**
+   * Run parser on pattern. Returns a ParseTreeUnit pointer on success,
+   * NULL on failure.
+   */
+  ParseTreeUnit* Parse(const std::string &raw_pattern);
+
+
+  /**
+   * This is needed so that Scanner and Parser can call some
+   * methods that we want to keep hidden from the end user.
+   */
+  friend class Parser;
+  friend class Scanner;
+
+ private:
+  // Used internally by Parser to set the main Parse tree.
+  void SetParseTree(ParseTreeUnit *ptree);
+
+  // Used internally by Scanner YY_USER_ACTION to update Location indicator
+  void IncreaseLocation(unsigned int loc);
+
+  // Used to get last Scanner Location. Used in error messages.
+  unsigned int Location() const;
+
+
+  /**
+   * Switch scanner input stream. Default is standard input (std::cin).
+   */
+  void SwitchInputStream(std::istream *is);
+
+ private:
+
+  Scanner scanner_;
+  Parser parser_;
+  ParseTreeUnit* parse_tree_;
+  unsigned int location_;          // Used by scanner
 };
 
 }
 
-#endif // INTERPRETER_H
+#endif // SEQSCAN_PARSER_INTERPRETER_H_

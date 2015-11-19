@@ -5,7 +5,7 @@ parser.cc
 parser.hh 
 parser.h 
 parser.cpp 
-location.hh 
+Location.hh
 position.hh 
 stack.hh
 main

@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_OPTPARSE_H_
-#define SEQSCAN_OPTPARSE_H_
+#ifndef SEQSCAN_OPT_PARSE_H_
+#define SEQSCAN_OPT_PARSE_H_
 
 #include <getopt.h>
 #include <iostream>
@@ -253,4 +253,4 @@ class OptParse {
   const char* ScoreEncodingToString(OptScoreEncoding opt);
 };
 
-#endif  // SEQSCAN_OPTPARSE_H_
+#endif  // SEQSCAN_OPT_PARSE_H_

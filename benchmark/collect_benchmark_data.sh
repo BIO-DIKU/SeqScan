@@ -25,7 +25,7 @@ pattern_name() {
     echo $name
 }
 
-# Function to parse the run time from a file. The time is a time -p timestamp
+# Function to Parse the run time from a file. The time is a time -p timestamp
 # at the end of the file.
 parse_time() {
     local file=$1

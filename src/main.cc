@@ -25,10 +25,10 @@
 #include <BioIO/seq_entry.h>
 #include <BioIO/fasta_reader.h>
 
-#include "optparse.h"
+#include "opt_parse.h"
 #include "pattern_io.h"
 #include "pu_factory/sanity_checker.h"
-#include "pu_factory/pattern_unit_creator.h"
+#include "pu_factory/pattern_unit_factory.h"
 
 int main(int argc, char *argv[]) {
   // Parse cmd-line options
@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
   // Pattern parser classes
   SeqScan::Interpreter parse_tree_generator;
   SeqScan::SanityChecker parse_tree_checker;
-  SeqScan::PatternUnitCreator pattern_unit_factory(*rm.get(), *rm_comp.get());
+  SeqScan::PatternUnitFactory pattern_unit_factory(*rm.get(), *rm_comp.get());
 
   for (auto& file_path : opt_parse.files_) {
     // Set up fasta reader
@@ -79,21 +79,21 @@ int main(int argc, char *argv[]) {
 
     for (auto& raw_pat : patterns) {
       // Parse and check string-pattern
-      std::unique_ptr<SeqScan::ParseTreeUnit> parse_tree(parse_tree_generator.parse(raw_pat));
+      std::unique_ptr<SeqScan::ParseTreeUnit> parse_tree(parse_tree_generator.Parse(raw_pat));
 
       if (parse_tree == NULL) {
         std::cerr << "Error parsing pattern: " << raw_pat << std::endl;
         continue;
       }
 
-      if (!parse_tree_checker.is_sane(parse_tree.get())) {
+      if (!parse_tree_checker.IsSane(parse_tree.get())) {
         std::cerr << "Insane pattern: " << raw_pat << std::endl;
         std::cerr << parse_tree->str(0) << std::endl;
         continue;
       }
 
       std::unique_ptr<PatternUnit> pattern =
-          pattern_unit_factory.create_from_parse_tree(parse_tree.get());
+          pattern_unit_factory.CreateFromParseTree(parse_tree.get());
 
 
       // For each SeqEntry: attempt to match pattern

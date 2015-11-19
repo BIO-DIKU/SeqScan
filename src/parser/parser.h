@@ -384,7 +384,7 @@ namespace  SeqScan  {
     /// Expects its Base type to provide access to the symbol type
     /// via type_get().
     ///
-    /// Provide access to semantic value and location.
+    /// Provide access to semantic value and Location.
     template <typename Base>
     struct basic_symbol : Base
     {
@@ -434,7 +434,7 @@ namespace  SeqScan  {
       /// The semantic value.
       semantic_type value;
 
-      /// The location.
+      /// The Location.
       location_type location;
 
     private:
@@ -684,7 +684,7 @@ namespace  SeqScan  {
     int yydebug_;
     std::ostream* yycdebug_;
 
-    /// \brief Display a symbol type, value and location.
+    /// \brief Display a symbol type, value and Location.
     /// \param yyo    The output stream.
     /// \param yysym  The symbol.
     template <typename Base>
@@ -762,7 +762,7 @@ namespace  SeqScan  {
     /// \param m    a debug message to display
     ///             if null, no trace is output.
     /// \param s    the state
-    /// \param sym  the symbol (for its value and location).
+    /// \param sym  the symbol (for its value and Location).
     /// \warning the contents of \a s.value is stolen.
     void yypush_ (const char* m, state_type s, symbol_type& sym);
 

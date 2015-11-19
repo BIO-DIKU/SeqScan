@@ -18,8 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_PATTERN_UNIT_CREATOR_H_
-#define SEQSCAN_PATTERN_UNIT_CREATOR_H_
+#ifndef SEQSCAN_PU_FACTORY_PATTERN_UNIT_FACTORY_H_
+#define SEQSCAN_PU_FACTORY_PATTERN_UNIT_FACTORY_H_
 
 #include <map>
 #include <string>
@@ -34,16 +34,16 @@ namespace SeqScan {
 using ::std::string;
 using ::std::map;
 
-class PatternUnitCreator {
+class PatternUnitFactory {
  public:
-  PatternUnitCreator(const ResMatcher& res_matcher, const ResMatcher& res_matcher_comp);
+  PatternUnitFactory(const ResMatcher& res_matcher, const ResMatcher& res_matcher_comp);
 
-  std::unique_ptr<PatternUnit> create_from_parse_tree(const ParseTreeUnit *ptree);
+  std::unique_ptr<PatternUnit> CreateFromParseTree(const ParseTreeUnit *ptree);
 
  private:
-  std::unique_ptr<PatternUnit> create_from_node(const ParseTreeUnit *node, map<string, PatternUnit*> &ref_map);
+  std::unique_ptr<PatternUnit> CreateFromNode(const ParseTreeUnit *node, map<string, PatternUnit *> &ref_map);
 
-  Modifiers create_modifiers(const ParseTreeUnit* node);
+  Modifiers CreateModifiers(const ParseTreeUnit *node);
 
   const ResMatcher& res_matcher_;
   const ResMatcher& res_matcher_comp_;
@@ -51,4 +51,4 @@ class PatternUnitCreator {
 };
 }  // namespace SeqScan
 
-#endif  // SEQSCAN_PATTERN_UNIT_CREATOR_H_
+#endif  // SEQSCAN_PU_FACTORY_PATTERN_UNIT_FACTORY_H_
