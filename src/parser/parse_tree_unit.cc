@@ -47,7 +47,7 @@ ParseTreeUnit::~ParseTreeUnit()
 	}
 }
 
-std::string ParseTreeUnit::str(size_t indent) const {
+std::string ParseTreeUnit::Str(size_t indent) const {
     std::stringstream ts;
 
     for (size_t i = 0; i < indent; ++i) ts << " ";
@@ -62,7 +62,7 @@ std::string ParseTreeUnit::str(size_t indent) const {
       for (size_t i = 0; i < children_.size(); i++) {
         ts << std::endl;
 
-        ts << children_[i]->str(indent + 2);
+        ts << children_[i]->Str(indent + 2);
       }
 
       ts << ")";
@@ -97,7 +97,7 @@ std::string ParseTreeUnit::str(size_t indent) const {
     return ts.str();
 }
 
-std::string ParseTreeUnit::repr() const {
+std::string ParseTreeUnit::Repr() const {
   std::stringstream ss;
   switch(node_type_){
     case UnitType::Sequence:  return "SEQ";
@@ -109,7 +109,7 @@ std::string ParseTreeUnit::repr() const {
 
       for (size_t i = 0; i < children_.size(); ++i) {
         if (i > 0) ss << ",";
-        ss << children_[i]->repr();
+        ss << children_[i]->Repr();
       }
 
       ss << ")";
@@ -120,7 +120,7 @@ std::string ParseTreeUnit::repr() const {
 
       for (size_t i = 0; i < children_.size(); ++i) {
         if (i > 0) ss << ",";
-        ss << children_[i]->repr();
+        ss << children_[i]->Repr();
       }
 
       ss << ")";
@@ -128,14 +128,14 @@ std::string ParseTreeUnit::repr() const {
       return ss.str();
     case UnitType::Repeat:
       ss << "REP(";
-      ss << children_[0]->repr();
+      ss << children_[0]->Repr();
       ss << ")";
       return ss.str();
   }
   return "";
 }
 
-void ParseTreeUnit::add_modifier(PTSufModifier* m)
+void ParseTreeUnit::AddModifier(PTSufModifier *m)
 {
   suf_modifier_.mismatches_  += m->mismatches_;
   suf_modifier_.insertions_  += m->insertions_;
@@ -144,7 +144,7 @@ void ParseTreeUnit::add_modifier(PTSufModifier* m)
   suf_modifier_.errors_      += m->errors_;
 }
 
-void ParseTreeUnit::add_modifier(PTPreModifier* m)
+void ParseTreeUnit::AddModifier(PTPreModifier *m)
 {
   pre_modifier_.tilde_        = m->tilde_;
   pre_modifier_.hat_          = m->hat_;

@@ -19,8 +19,8 @@
  */
 
 
-#ifndef PARSE_TREE_UNIT_H_
-#define PARSE_TREE_UNIT_H_
+#ifndef SEQSCAN_PARSER_PARSE_TREE_UNIT_H_
+#define SEQSCAN_PARSER_PARSE_TREE_UNIT_H_
 
 #include <string>
 #include <vector>
@@ -28,73 +28,73 @@
 #include <sstream>
 
 namespace SeqScan {
-  class PTPreModifier{
-   public:
-    PTPreModifier();
+class PTPreModifier{
+ public:
+  PTPreModifier();
 
-    bool tilde_;
-    bool hat_;
-    bool less_;
-    bool start_anchor_;
+  bool tilde_;
+  bool hat_;
+  bool less_;
+  bool start_anchor_;
 
-    std::string str() const;
+  std::string str() const;
+};
+
+class PTSufModifier{
+ public:
+  PTSufModifier();
+
+  int mismatches_;
+  int insertions_;
+  int deletions_;
+  int indels_;
+  int errors_;
+  bool end_anchor_;
+
+  std::string str() const;
+};
+
+class ParseTreeUnit
+{
+ public:
+  enum UnitType {
+    Composite, Sequence, Repeat, Reference, Range, Or, Group
   };
 
-  class PTSufModifier{
-   public:
-    PTSufModifier();
+  ParseTreeUnit(const UnitType type);
+  ParseTreeUnit(const std::string &sequence);
+  ~ParseTreeUnit();
 
-    int mismatches_;
-    int insertions_;
-    int deletions_;
-    int indels_;
-    int errors_;
-    bool end_anchor_;
+  std::string Str(size_t indent = 0) const;
 
-    std::string str() const;
-  };
+  /**
+   * Returns a compact string representation of the tree structure and overall types
+   * used for debugging. For example, the pattern:
+   * AA p1=~CC (N{2,4}|2..4)
+   * will have the compact parsed representation
+   * (SEQ,SEQ,OR(REP(SEQ),RANGE))
+   */
+  std::string Repr() const;
 
-  class ParseTreeUnit
-  {
-   public:
-    enum UnitType {
-      Composite, Sequence, Repeat, Reference, Range, Or, Group
-    };
+  const UnitType node_type_;
 
-    ParseTreeUnit(const UnitType type);
-    ParseTreeUnit(const std::string &sequence);
-    ~ParseTreeUnit();
+  std::vector<ParseTreeUnit*> children_;
 
-    std::string str(size_t indent = 0) const;
+  std::string sequence_;
+  std::string label_;
+  std::string referenced_label_;
 
-    /**
-     * Returns a compact string representation of the tree structure and overall types
-     * used for debugging. For example, the pattern:
-     * AA p1=~CC (N{2,4}|2..4)
-     * will have the compact parsed representation
-     * (SEQ,SEQ,OR(REP(SEQ),RANGE))
-     */
-    std::string repr() const;
+  int  min_repeats_;
+  int  max_repeats_;
+  bool open_repeats_;
+  int  range_min_;
+  int  range_max_;
+  void AddModifier(PTPreModifier *m);
+  void AddModifier(PTSufModifier *m);
 
-    const UnitType node_type_;
-
-    std::vector<ParseTreeUnit*> children_;
-
-    std::string sequence_;
-    std::string label_;
-    std::string referenced_label_;
-
-    int  min_repeats_;
-    int  max_repeats_;
-    bool open_repeats_;
-    int  range_min_;
-    int  range_max_;
-    void add_modifier(PTPreModifier* m);
-    void add_modifier(PTSufModifier* m);
-
-    PTPreModifier pre_modifier_;
-    PTSufModifier suf_modifier_;
-  };
+  PTPreModifier pre_modifier_;
+  PTSufModifier suf_modifier_;
+};
 }  // namespace SeqScan
 
-#endif  // PARSE_TREE_UNIT_H
+#endif  // SEQSCAN_PARSER_PARSE_TREE_UNIT_H

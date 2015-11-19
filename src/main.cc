@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
 
       if (!parse_tree_checker.IsSane(parse_tree.get())) {
         std::cerr << "Insane pattern: " << raw_pat << std::endl;
-        std::cerr << parse_tree->str(0) << std::endl;
+        std::cerr << parse_tree->Str(0) << std::endl;
         continue;
       }
 

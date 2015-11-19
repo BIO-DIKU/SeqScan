@@ -685,8 +685,8 @@ namespace  SeqScan  {
 #line 194 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Reference);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->referenced_label_ = yystack_[1].value.as< std::string > ();
-                                           yylhs.value.as<  ParseTreeUnit*  > ()->add_modifier(yystack_[2].value.as<  PTPreModifier*  > ());
-                                           yylhs.value.as<  ParseTreeUnit*  > ()->add_modifier(yystack_[0].value.as<  PTSufModifier*  > ());
+      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[2].value.as<PTPreModifier *>());
+      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[0].value.as<PTSufModifier *>());
                                          }
 #line 691 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
@@ -695,7 +695,7 @@ namespace  SeqScan  {
 #line 200 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Reference);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->referenced_label_ = yystack_[1].value.as< std::string > ();
-                                           yylhs.value.as<  ParseTreeUnit*  > ()->add_modifier(yystack_[0].value.as<  PTSufModifier*  > ());
+      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[0].value.as<PTSufModifier *>());
                                          }
 #line 700 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
@@ -710,8 +710,8 @@ namespace  SeqScan  {
 #line 209 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Sequence);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->sequence_ = yystack_[1].value.as< std::string > ();
-                                           yylhs.value.as<  ParseTreeUnit*  > ()->add_modifier(yystack_[2].value.as<  PTPreModifier*  > ());
-                                           yylhs.value.as<  ParseTreeUnit*  > ()->add_modifier(yystack_[0].value.as<  PTSufModifier*  > ());
+      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[2].value.as<PTPreModifier *>());
+      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[0].value.as<PTSufModifier *>());
                                          }
 #line 716 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
@@ -720,7 +720,7 @@ namespace  SeqScan  {
 #line 215 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Sequence);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->sequence_ = yystack_[1].value.as< std::string > ();
-                                           yylhs.value.as<  ParseTreeUnit*  > ()->add_modifier(yystack_[0].value.as<  PTSufModifier*  > ());
+      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[0].value.as<PTSufModifier *>());
                                          }
 #line 725 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
@@ -761,7 +761,7 @@ namespace  SeqScan  {
                                            yylhs.value.as<  ParseTreeUnit*  > ()->min_repeats_ = std::get<0>(yystack_[1].value.as<  std::tuple<int,int,bool>  > ());
                                            yylhs.value.as<  ParseTreeUnit*  > ()->min_repeats_ = std::get<1>(yystack_[1].value.as<  std::tuple<int,int,bool>  > ());
                                            yylhs.value.as<  ParseTreeUnit*  > ()->open_repeats_ = std::get<2>(yystack_[1].value.as<  std::tuple<int,int,bool>  > ());
-                                           yylhs.value.as<  ParseTreeUnit*  > ()->add_modifier(yystack_[0].value.as<  PTSufModifier*  > ());
+      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[0].value.as<PTSufModifier *>());
                                          }
 #line 766 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
