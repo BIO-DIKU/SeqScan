@@ -30,6 +30,7 @@ KMPUnit::KMPUnit(const Modifiers &modifiers, const std::string& pattern):
 bool KMPUnit::FindMatch() {
   //Inspired by http://www.sanfoundry.com/cpp-program-implement-kruth-morris-patt-algorithm-kmp/
 
+
   last_found_matches_.clear();
   last_found_index_ = 0;
 

@@ -57,6 +57,9 @@ class GroupUnit : public PatternUnit {
    * one indicated in Initialize */
   bool stay_at_pos_;
 
+  /** Is true if Initialize was called with stay_at_pos==true and FindMatch has been called. */
+  bool pos_was_checked_;
+
   /*
    * Found match.
    */
@@ -71,10 +74,7 @@ class GroupUnit : public PatternUnit {
   /*
    * Inline method to update match.
    */
-  inline void UpdateMatch() {
-    if (match_ != NULL) delete match_;
-    match_ = new Match(sequence_iterator_, 1, 0);
-  }
+  inline void UpdateMatch();
 };
 
 #endif  // SEQSCAN_GROUP_UNIT_H_

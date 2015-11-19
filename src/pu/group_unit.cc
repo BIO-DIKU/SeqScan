@@ -37,6 +37,7 @@ void GroupUnit::Initialize(
   sequence_iterator_     = pos;
   sequence_iterator_end_ = max_pos;
   stay_at_pos_           = stay_at_pos;
+  pos_was_checked_       = false;
 }
 
 bool GroupUnit::FindMatch() {
@@ -56,6 +57,8 @@ bool GroupUnit::FindMatch() {
 }
 
 bool GroupUnit::FindNoMatchAtPos() {
+  if(pos_was_checked_) return false;
+
   bool match = false;
 
   for (auto p : char_group_) {
@@ -64,6 +67,8 @@ bool GroupUnit::FindNoMatchAtPos() {
       break;
     }
   }
+
+  pos_was_checked_ = true;
 
   if (!match) {
     UpdateMatch();
@@ -74,13 +79,17 @@ bool GroupUnit::FindNoMatchAtPos() {
 }
 
 bool GroupUnit::FindMatchAtPos() {
+  if(pos_was_checked_) return false;
+
   for (auto p : char_group_) {
     if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) {
       UpdateMatch();
+      pos_was_checked_ = true;
       return true;
     }
   }
 
+  pos_was_checked_ = true;
   return false;
 }
 
@@ -124,3 +133,12 @@ bool GroupUnit::FindMatchIter() {
 const Match& GroupUnit::GetMatch() const {
   return *match_;
 }
+
+
+inline void GroupUnit::UpdateMatch() {
+  if (match_ != NULL) delete match_;
+  match_ = new Match(sequence_iterator_, 1, 0);
+  ++sequence_iterator_;
+}
+
+
