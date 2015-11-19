@@ -1,6 +1,7 @@
 
-DATADIR      = ../data
+DATADIR      = data
 SEQFILE      = $(DATADIR)/chr22.fa
+PEPFILE      = $(DATADIR)/Aurpu2p4.faa
 
 # Assumes that you put scan_for_matches and seqscan in your path
 SFM_BIN      = scan_for_matches
@@ -23,6 +24,11 @@ all: $(OUTPUT_FILES) benchmark.png
 
 # General wild-card rules
 %.fa: %.fa.gz
+	gunzip -k $<
+	chmod a-w $<
+
+# More general wild-card rules
+%.faa: %.faa.gz
 	gunzip -k $<
 	chmod a-w $<
 

@@ -42,49 +42,58 @@ ParseTreeUnit::ParseTreeUnit(const std::string &sequence):
 
 ParseTreeUnit::~ParseTreeUnit()
 {
-	for(size_t i=0;i<children_.size();++i){
+	for (size_t i = 0; i < children_.size(); ++i) {
 		delete children_[i];
 	}
 }
-    
+
 std::string ParseTreeUnit::str(size_t indent) const {
     std::stringstream ts;
 
-    for(size_t i=0;i<indent;++i) ts<<" ";
+    for (size_t i = 0; i < indent; ++i) ts << " ";
     ts << "ParseTreeUnit[" << node_type_;
-    
-    if(!label_.empty())
+
+    if (!label_.empty())
       ts << ",lbl=" << label_;
 
-    if(!children_.empty()){
-      ts<<",children=(";
+    if (!children_.empty()) {
+      ts << ",children=(";
 
-      for(size_t i = 0; i < children_.size(); i++) {
-        ts<<std::endl;
+      for (size_t i = 0; i < children_.size(); i++) {
+        ts << std::endl;
 
-        ts<<children_[i]->str(indent+2);
+        ts << children_[i]->str(indent + 2);
       }
-      ts<<")";
+
+      ts << ")";
     }
-    if(node_type_==UnitType::Sequence){
-      ts<<",seq="<<sequence_;
+
+    if (node_type_ == UnitType::Sequence) {
+      ts << ",seq=" << sequence_;
     }
-    if(node_type_==UnitType::Repeat){
-      ts<<",rep={"<<min_repeats_<<","<<max_repeats_<<"}";
+
+    if (node_type_ == UnitType::Repeat) {
+      ts << ",rep={" << min_repeats_ << "," << max_repeats_ << "}";
     }
-    if(node_type_==UnitType::Reference){
-      ts<<",ref="<<referenced_label_;
+
+    if (node_type_ == UnitType::Reference) {
+      ts << ",ref=" << referenced_label_;
     }
-    
+
     std::string pre = pre_modifier_.str();
-    if(!pre.empty())
-      ts << ",pre_mod="<<pre;
+
+    if (!pre.empty()) {
+      ts << ",pre_mod=" << pre;
+		}
 
     std::string suf = suf_modifier_.str();
-    if(!suf.empty())
-      ts << ",suf_mod="<<suf;
 
-    ts<<"]";
+    if (!suf.empty()) {
+      ts << ",suf_mod=" << suf;
+		}
+
+    ts << "]";
+
     return ts.str();
 }
 
@@ -95,26 +104,32 @@ std::string ParseTreeUnit::repr() const {
     case UnitType::Reference: return "REF";
     case UnitType::Range:     return "RANGE";
     case UnitType::Group:     return "GROUP";
-    case UnitType::Composite: 
-      ss<<"(";
-      for(size_t i=0;i<children_.size();++i){
-        if(i>0) ss<<",";
-        ss<<children_[i]->repr();
+    case UnitType::Composite:
+      ss << "(";
+
+      for (size_t i = 0; i < children_.size(); ++i) {
+        if (i > 0) ss << ",";
+        ss << children_[i]->repr();
       }
-      ss<<")";
+
+      ss << ")";
+
       return ss.str();
-    case UnitType::Or: 
-      ss<<"OR(";
-      for(size_t i=0;i<children_.size();++i){
-        if(i>0) ss<<",";
-        ss<<children_[i]->repr();
+    case UnitType::Or:
+      ss << "OR(";
+
+      for (size_t i = 0; i < children_.size(); ++i) {
+        if (i > 0) ss << ",";
+        ss << children_[i]->repr();
       }
-      ss<<")";
+
+      ss << ")";
+
       return ss.str();
     case UnitType::Repeat:
-      ss<<"REP(";
-      ss<<children_[0]->repr();
-      ss<<")";
+      ss << "REP(";
+      ss << children_[0]->repr();
+      ss << ")";
       return ss.str();
   }
   return "";
@@ -137,8 +152,7 @@ void ParseTreeUnit::add_modifier(PTPreModifier* m)
   pre_modifier_.start_anchor_ = m->start_anchor_;
 }
 
-
-// ---------------- class PTPreModifier ------------------ 
+// ---------------- class PTPreModifier ------------------
 
 PTPreModifier::PTPreModifier():
   tilde_(false),
@@ -147,21 +161,20 @@ PTPreModifier::PTPreModifier():
   start_anchor_(false)
 {}
 
-
 std::string PTPreModifier::str() const
 {
   std::stringstream ss;
-  if(hat_)
-    ss<<"^";
-  if(tilde_)
-    ss<<"~";
-  if(less_)
-    ss<<"<";
-  if(hat_)
-    ss<<"^";
+
+  if (hat_)
+    ss << "^";
+  if (tilde_)
+    ss << "~";
+  if (less_)
+    ss << "<";
+  if (hat_)
+    ss << "^";
   return ss.str();
 }
-
 
 // ---------------- class PTSufModifier ------------------
 
@@ -170,27 +183,20 @@ PTSufModifier::PTSufModifier():
   insertions_(0),
   deletions_(0),
   indels_(0),
-  errors_(0) 
+  errors_(0)
 {}
 
 std::string PTSufModifier::str() const
 {
   std::stringstream ss;
-  if(insertions_>0 || deletions_>0)
-    ss<<"/"<<mismatches_<<","<<insertions_<<","<<deletions_;
-  else if(indels_>0)
-    ss<<"/"<<mismatches_<<","<<indels_;
-  else if(errors_>0)
-    ss<<"/"<<errors_;
-  else if(mismatches_>0)
-    ss<<"/"<<mismatches_<<",0";
+  if (insertions_ > 0 || deletions_ > 0)
+    ss << "/" << mismatches_ << "," << insertions_ << "," << deletions_;
+  else if (indels_ > 0)
+    ss << "/" << mismatches_ << "," << indels_;
+  else if (errors_ > 0)
+    ss << "/" << errors_;
+  else if (mismatches_ > 0)
+    ss << "/" << mismatches_ << ",0";
   return ss.str();
 }
-
-
-
-
-
-
-
 } // namespace seqscan

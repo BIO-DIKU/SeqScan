@@ -28,6 +28,9 @@ Modifiers::Modifiers(
     const int deletions,
     const int indels,
     const bool reverse,
+    // const bool anchor_start,
+    // const bool anchor_end,
+    // const bool negator,
     const ResMatcher res_matcher,
     const std::string label
 ):
@@ -65,7 +68,7 @@ std::ostream& Modifiers::PrintPUSuffix(std::ostream &os) const {
 }
 
 Modifiers Modifiers::CreateStdModifiers() {
-  ResMatcher rm(6);
+  ResMatcher rm(kMatrix6);
   Modifiers ret(0, 0, 0, 0, 0, false, rm , "");
   return std::move(ret);
 }
@@ -75,7 +78,7 @@ Modifiers Modifiers::CreateMIDModifiers(
     const int insertions,
     const int deletions)
 {
-  ResMatcher rm(6);
+  ResMatcher rm(kMatrix6);
   Modifiers ret(0, mismatches, insertions, deletions, 0, false, rm, "");
   return std::move(ret);
 }
