@@ -121,6 +121,9 @@ void OptParse::Parse() {
       case 'V':
         options_.verbose = true;
         break;
+      case 'X':
+        options_.magic = string(optarg);
+        break;
       default:
         string msg = "Unexpected argument: ->" + string(1,(char)opt) + "<-";
         throw OptParseException(msg);

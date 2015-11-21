@@ -25,7 +25,14 @@
 
 using namespace std;
 
-TEST_CASE("OptParse with bad option raises", "[optparse]") {
+TEST_CASE("OptParse w. bad option raises", "[optparse]") {
+  int        argc    = 4;
+  const char *argv[] = {"seqscan", "-p", "ATC", "-Z"};
+
+  REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv, true), OptParseException);
+}
+
+TEST_CASE("OptParse w. missing option argument raises", "[optparse]") {
   int        argc    = 4;
   const char *argv[] = {"seqscan", "-p", "ATC", "-X"};
 
@@ -426,6 +433,26 @@ TEST_CASE("OptParse verbose", "[optparse]") {
     OptParse opt_parse(argc, (char**)argv, true);
 
     REQUIRE(opt_parse.options_.verbose);
+  }
+}
+
+TEST_CASE("OptParse magic", "[optparse]") {
+  int argc = 6;
+
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-p", "ATC", "-X", "foobar", "file1"};
+
+    OptParse opt_parse(argc, (char**)argv, true);
+
+    REQUIRE(opt_parse.options_.magic == "foobar");
+  }
+
+  SECTION("long option can be set OK") {
+    const char* argv[] = {"seqscan", "-p", "ATC", "--magic", "foobar", "file1"};
+
+    OptParse opt_parse(argc, (char**)argv, true);
+
+    REQUIRE(opt_parse.options_.magic == "foobar");
   }
 }
 
