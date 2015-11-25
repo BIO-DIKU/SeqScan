@@ -24,7 +24,7 @@
 #include <string>
 
 #include "scanner.h"
-#include "parser.hh"
+#include "parser.h"
 #include "interpreter.h"
 
 using namespace SeqScan;

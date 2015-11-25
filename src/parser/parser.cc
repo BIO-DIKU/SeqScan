@@ -30,7 +30,7 @@
 // This special exception was added by the Free Software Foundation in
 // version 2.2 of Bison.
 // //                    "%code top" blocks.
-#line 80 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:397
+#line 81 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:397
 
   #include <iostream>
   #include <tuple>
@@ -39,16 +39,16 @@
   #include "parser.h"
   #include "interpreter.h"
   #include "location.h"
- 
+
   // yylex() arguments are defined in parser.y
   static SeqScan::Parser::symbol_type yylex(SeqScan::Scanner &scanner, SeqScan::Interpreter &driver) {
       return scanner.get_next_token();
   }
-  
+
   // you can accomplish the same thing by inlining the code using preprocessor
   // x and y are same as in above static function
   // #define yylex(x, y) scanner.get_next_token()
-  
+
 
 #line 54 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:397
 
@@ -86,7 +86,7 @@
 
 #define YYRHSLOC(Rhs, K) ((Rhs)[K].location)
 /* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
-   If N is 0, then set CURRENT to the empty Location which ends
+   If N is 0, then set CURRENT to the empty location which ends
    the previous symbol: RHS[0] (always defined).  */
 
 # ifndef YYLLOC_DEFAULT
@@ -469,19 +469,19 @@ namespace  SeqScan  {
     /// The locations where the error started and ended.
     stack_symbol_type yyerror_range[3];
 
-    /// The return value of Parse ().
+    /// The return value of parse ().
     int yyresult;
 
     // FIXME: This shoud be completely indented.  It is not yet to
     // avoid gratuitous conflicts when merging into the master branch.
     try
       {
-    YYCDEBUG << "Starting Parse" << std::endl;
+    YYCDEBUG << "Starting parse" << std::endl;
 
 
     /* Initialize the stack.  The initial state will be set in
        yynewstate, since the latter expects the semantical and the
-       Location values to have been already stored, initialize these
+       location values to have been already stored, initialize these
        stacks with a primary value.  */
     yystack_.clear ();
     yypush_ (YY_NULLPTR, 0, yyla);
@@ -613,278 +613,279 @@ namespace  SeqScan  {
           switch (yyn)
             {
   case 2:
-#line 153 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
-    {
-      driver.SetParseTree(yystack_[0].value.as<ParseTreeUnit *>()); }
+#line 154 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+    { driver.SetParseTree(yystack_[0].value.as<  ParseTreeUnit*  > ()); }
 #line 619 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 3:
-#line 158 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 159 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yystack_[1].value.as<  ParseTreeUnit*  > ()->pre_modifier_.start_anchor_ = true;
                                            yystack_[1].value.as<  ParseTreeUnit*  > ()->suf_modifier_.end_anchor_   = true;
-                                           yylhs.value.as<  ParseTreeUnit*  > () = yystack_[1].value.as<  ParseTreeUnit*  > (); 
+                                           yylhs.value.as<  ParseTreeUnit*  > () = yystack_[1].value.as<  ParseTreeUnit*  > ();
                                          }
 #line 628 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 4:
-#line 163 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 164 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yystack_[0].value.as<  ParseTreeUnit*  > ()->pre_modifier_.start_anchor_ = true;
-                                           yylhs.value.as<  ParseTreeUnit*  > () = yystack_[0].value.as<  ParseTreeUnit*  > (); 
+                                           yylhs.value.as<  ParseTreeUnit*  > () = yystack_[0].value.as<  ParseTreeUnit*  > ();
                                          }
 #line 636 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 5:
-#line 166 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 167 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yystack_[1].value.as<  ParseTreeUnit*  > ()->suf_modifier_.end_anchor_ = true;
-                                           yylhs.value.as<  ParseTreeUnit*  > () = yystack_[1].value.as<  ParseTreeUnit*  > (); 
+                                           yylhs.value.as<  ParseTreeUnit*  > () = yystack_[1].value.as<  ParseTreeUnit*  > ();
                                          }
 #line 644 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 6:
-#line 169 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 170 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = yystack_[0].value.as<  ParseTreeUnit*  > ();
                                          }
 #line 651 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 7:
-#line 176 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 177 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->pre_modifier_.hat_ = true;
+                                           yylhs.value.as<  ParseTreeUnit*  > ()->sequence_          = yystack_[1].value.as< std::string > ();
                                          }
-#line 659 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 660 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 8:
-#line 179 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 181 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->pre_modifier_.hat_ = false;
+                                           yylhs.value.as<  ParseTreeUnit*  > ()->sequence_          = yystack_[1].value.as< std::string > ();
                                          }
-#line 667 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 669 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 9:
-#line 185 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 188 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = yystack_[1].value.as<  ParseTreeUnit*  > (); }
-#line 673 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 675 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 10:
-#line 189 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 192 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yystack_[0].value.as<  ParseTreeUnit*  > ()->label_ = yystack_[2].value.as< std::string > ();
                                            yylhs.value.as<  ParseTreeUnit*  > () = yystack_[0].value.as<  ParseTreeUnit*  > ();
                                          }
-#line 681 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 683 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 11:
-#line 194 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 197 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Reference);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->referenced_label_ = yystack_[1].value.as< std::string > ();
-      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[2].value.as<PTPreModifier *>());
-      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[0].value.as<PTSufModifier *>());
+                                           yylhs.value.as<  ParseTreeUnit*  > ()->AddModifier(yystack_[2].value.as<  PTPreModifier*  > ());
+                                           yylhs.value.as<  ParseTreeUnit*  > ()->AddModifier(yystack_[0].value.as<  PTSufModifier*  > ());
                                          }
-#line 691 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 693 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 12:
-#line 200 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 203 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Reference);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->referenced_label_ = yystack_[1].value.as< std::string > ();
-      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[0].value.as<PTSufModifier *>());
+                                           yylhs.value.as<  ParseTreeUnit*  > ()->AddModifier(yystack_[0].value.as<  PTSufModifier*  > ());
                                          }
-#line 700 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 702 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 13:
-#line 206 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 209 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = yystack_[0].value.as<  ParseTreeUnit*  > (); }
-#line 706 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 708 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 14:
-#line 209 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 212 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Sequence);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->sequence_ = yystack_[1].value.as< std::string > ();
-      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[2].value.as<PTPreModifier *>());
-      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[0].value.as<PTSufModifier *>());
+                                           yylhs.value.as<  ParseTreeUnit*  > ()->AddModifier(yystack_[2].value.as<  PTPreModifier*  > ());
+                                           yylhs.value.as<  ParseTreeUnit*  > ()->AddModifier(yystack_[0].value.as<  PTSufModifier*  > ());
                                          }
-#line 716 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 718 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 15:
-#line 215 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 218 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Sequence);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->sequence_ = yystack_[1].value.as< std::string > ();
-      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[0].value.as<PTSufModifier *>());
+                                           yylhs.value.as<  ParseTreeUnit*  > ()->AddModifier(yystack_[0].value.as<  PTSufModifier*  > ());
                                          }
-#line 725 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 727 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 16:
-#line 222 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 225 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Range);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->range_min_ = yystack_[4].value.as< uint64_t > ();
                                            yylhs.value.as<  ParseTreeUnit*  > ()->range_max_ = yystack_[0].value.as< uint64_t > ();
                                          }
-#line 734 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 736 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 17:
-#line 226 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 229 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Range);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->range_min_ = yystack_[3].value.as< uint64_t > ();
                                            yylhs.value.as<  ParseTreeUnit*  > ()->range_max_ = yystack_[0].value.as< uint64_t > ();
                                          }
-#line 743 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 745 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 18:
-#line 232 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 235 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Repeat);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->children_.push_back(yystack_[1].value.as<  ParseTreeUnit*  > ());
                                            yylhs.value.as<  ParseTreeUnit*  > ()->min_repeats_ = std::get<0>(yystack_[0].value.as<  std::tuple<int,int,bool>  > ());
                                            yylhs.value.as<  ParseTreeUnit*  > ()->max_repeats_ = std::get<1>(yystack_[0].value.as<  std::tuple<int,int,bool>  > ());
                                            yylhs.value.as<  ParseTreeUnit*  > ()->open_repeats_ = std::get<2>(yystack_[0].value.as<  std::tuple<int,int,bool>  > ());
                                          }
-#line 754 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 756 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 19:
-#line 238 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 241 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Repeat);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->children_.push_back(yystack_[2].value.as<  ParseTreeUnit*  > ());
                                            yylhs.value.as<  ParseTreeUnit*  > ()->min_repeats_ = std::get<0>(yystack_[1].value.as<  std::tuple<int,int,bool>  > ());
                                            yylhs.value.as<  ParseTreeUnit*  > ()->min_repeats_ = std::get<1>(yystack_[1].value.as<  std::tuple<int,int,bool>  > ());
                                            yylhs.value.as<  ParseTreeUnit*  > ()->open_repeats_ = std::get<2>(yystack_[1].value.as<  std::tuple<int,int,bool>  > ());
-      yylhs.value.as<ParseTreeUnit *>()->AddModifier(yystack_[0].value.as<PTSufModifier *>());
+                                           yylhs.value.as<  ParseTreeUnit*  > ()->AddModifier(yystack_[0].value.as<  PTSufModifier*  > ());
                                          }
-#line 766 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 768 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 20:
-#line 249 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 252 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yystack_[2].value.as<  ParseTreeUnit*  > ()->children_.push_back(yystack_[0].value.as<  ParseTreeUnit*  > ());
                                            yylhs.value.as<  ParseTreeUnit*  > () = yystack_[2].value.as<  ParseTreeUnit*  > ();
                                          }
-#line 774 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 776 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 21:
-#line 252 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 255 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Or);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->children_.push_back(yystack_[2].value.as<  ParseTreeUnit*  > ());
                                            yylhs.value.as<  ParseTreeUnit*  > ()->children_.push_back(yystack_[0].value.as<  ParseTreeUnit*  > ());
                                          }
-#line 783 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 785 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 22:
-#line 260 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 263 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yystack_[2].value.as<  ParseTreeUnit*  > ()->children_.push_back(yystack_[0].value.as<  ParseTreeUnit*  > ());
                                            yylhs.value.as<  ParseTreeUnit*  > () = yystack_[2].value.as<  ParseTreeUnit*  > (); }
-#line 790 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 792 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 23:
-#line 263 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 266 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  ParseTreeUnit*  > () = new ParseTreeUnit(ParseTreeUnit::UnitType::Composite);
                                            yylhs.value.as<  ParseTreeUnit*  > ()->children_.push_back(yystack_[0].value.as<  ParseTreeUnit*  > ()); }
-#line 797 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 799 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 24:
-#line 270 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 273 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  std::tuple<int,int,bool>  > () = std::make_tuple(yystack_[3].value.as< uint64_t > (), yystack_[1].value.as< uint64_t > (), false); }
-#line 803 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 805 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 25:
-#line 272 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 275 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  std::tuple<int,int,bool>  > () = std::make_tuple(yystack_[2].value.as< uint64_t > (), -1, true); }
-#line 809 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 811 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 26:
-#line 274 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 277 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  std::tuple<int,int,bool>  > () = std::make_tuple(yystack_[1].value.as< uint64_t > (), yystack_[1].value.as< uint64_t > (), false); }
-#line 815 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 817 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 27:
-#line 276 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 279 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  std::tuple<int,int,bool>  > () = std::make_tuple(1, -1, true); }
-#line 821 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 823 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 28:
-#line 278 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 281 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  std::tuple<int,int,bool>  > () = std::make_tuple(0, -1, true); }
-#line 827 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 829 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 29:
-#line 284 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 287 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  PTPreModifier*  > () = new PTPreModifier();
                                            yylhs.value.as<  PTPreModifier*  > ()->less_ = true;
                                            yylhs.value.as<  PTPreModifier*  > ()->tilde_ = true;
                                          }
-#line 836 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 838 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 30:
-#line 289 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 292 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  PTPreModifier*  > () = new PTPreModifier();
                                            yylhs.value.as<  PTPreModifier*  > ()->less_ = true;
                                          }
-#line 844 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 846 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 31:
-#line 293 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 296 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  PTPreModifier*  > () = new PTPreModifier();
                                            yylhs.value.as<  PTPreModifier*  > ()->tilde_ = true;
                                          }
-#line 852 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 854 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 32:
-#line 300 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 303 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  PTSufModifier*  > () = new PTSufModifier();
                                            yylhs.value.as<  PTSufModifier*  > ()->mismatches_ = yystack_[4].value.as< uint64_t > ();
                                            yylhs.value.as<  PTSufModifier*  > ()->insertions_ = yystack_[2].value.as< uint64_t > ();
                                            yylhs.value.as<  PTSufModifier*  > ()->deletions_ = yystack_[0].value.as< uint64_t > ();
                                          }
-#line 862 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 864 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 33:
-#line 306 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 309 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  PTSufModifier*  > () = new PTSufModifier();
                                            yylhs.value.as<  PTSufModifier*  > ()->mismatches_ = yystack_[2].value.as< uint64_t > ();
                                            yylhs.value.as<  PTSufModifier*  > ()->indels_ = yystack_[0].value.as< uint64_t > (); }
-#line 870 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 872 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 34:
-#line 310 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 313 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  PTSufModifier*  > () = new PTSufModifier();
-                                           yylhs.value.as<  PTSufModifier*  > ()->errors_ = yystack_[0].value.as< uint64_t > (); }
-#line 877 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+                                           yylhs.value.as<  PTSufModifier*  > ()->edits_ = yystack_[0].value.as< uint64_t > (); }
+#line 879 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
   case 35:
-#line 313 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
+#line 316 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:859
     { yylhs.value.as<  PTSufModifier*  > () = new PTSufModifier(); }
-#line 883 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 885 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
     break;
 
 
-#line 887 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
+#line 889 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:859
             default:
               break;
             }
@@ -1255,10 +1256,10 @@ namespace  SeqScan  {
   const unsigned short int
    Parser ::yyrline_[] =
   {
-       0,   153,   153,   158,   163,   166,   169,   176,   179,   185,
-     189,   194,   200,   206,   209,   215,   222,   226,   232,   238,
-     249,   252,   260,   263,   270,   272,   274,   276,   278,   284,
-     289,   293,   300,   306,   310,   313
+       0,   154,   154,   159,   164,   167,   170,   177,   181,   188,
+     192,   197,   203,   209,   212,   218,   225,   229,   235,   241,
+     252,   255,   263,   266,   273,   275,   277,   279,   281,   287,
+     292,   296,   303,   309,   313,   316
   };
 
   // Print the state stack on the debug stream.
@@ -1293,14 +1294,12 @@ namespace  SeqScan  {
 
 #line 57 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:1167
 } //  SeqScan 
-#line 1296 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:1167
-#line 316 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:1168
+#line 1298 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/build/parser.cc" // lalr1.cc:1167
+#line 319 "/Users/rfonseca/Documents/workspace-CPP/SeqScan/parser-generator/src/parser.y" // lalr1.cc:1168
 
 
 // Bison expects us to provide implementation - otherwise linker complains
 void SeqScan::Parser::error(const location &loc , const std::string &message) {
   //std::cout << "Error: " << message << std::endl << "Error location: " << driver.Location() << std::endl;
-  throw PatternParseException(message, driver.Location());
+  throw PatternParseException(message,driver.Location());
 }
-
-

@@ -32,6 +32,8 @@
 const int kDefaultThreads   = 1;
 const int kDefaultMatchType = 6;
 const int kDefaultScoreMin  = 25;
+const int kDefaultStart     = 0;
+const int kDefaultEnd       = 0;
 
 /**
  * @brief Exception class for OptParse class.
@@ -182,7 +184,7 @@ class OptParse {
   bool OptCheck();
 
   /*
-   * Throw exception if both or neither pattern or pattern_file option is set.
+   * Throws exception if both or neither pattern or pattern_file option is set.
    */
   void OptCheckPatternGiven();
 
@@ -190,6 +192,11 @@ class OptParse {
    * Throws exception when no files given and help option is not set.
    */
   void OptCheckFilesGiven();
+
+  /*
+   * Throws exception if start > end.
+   */
+  void OptCheckStartEnd();
 
   /*
    * Array for holding option templates.
