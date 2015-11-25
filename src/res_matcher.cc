@@ -122,7 +122,13 @@ void ResMatcher::MatrixToMatcher() {
     case 9:
       ParseMatrix(kMatrix9);
       break;
+    case -9:
+      ParseMatrix(kMatrix9);
+      break;
     case 10:
+      ParseMatrix(kMatrix10);
+      break;
+    case -10:
       ParseMatrix(kMatrix10);
       break;
     default:

@@ -27,13 +27,16 @@
 using namespace std;
 
 OptParse::OptParse(int argc, char *argv[]) :
-  OptParse(argc,argv,false)
+  OptParse(argc, argv, false)
 {
 }
 
 OptParse::OptParse(int argc, char *argv[], bool test) :
   options_(),
+  patterns_(),
   files_(),
+  res_matcher_(),
+  res_matcher_comp_(),
   test_(test),
   argc_(argc),
   argv_(argv)
@@ -41,6 +44,9 @@ OptParse::OptParse(int argc, char *argv[], bool test) :
   SetOptDefaults();
   Parse();
   OptCheck();
+  CompilePatterns();
+  CompileResMatchers();
+  PrintVerbose();
 }
 
 OptParse::~OptParse()
@@ -127,7 +133,7 @@ void OptParse::Parse() {
         options_.magic = string(optarg);
         break;
       default:
-        string msg = "Error: Unexpected argument: ->" + string(1,(char)opt) + "<-";
+        string msg = "Error: Unexpected argument: ->" + string(1, (char) opt) + "<-";
         throw OptParseException(msg);
     }
   }
@@ -178,6 +184,40 @@ void OptParse::OptCheckStartEnd() {
   if (options_.end > 0 && options_.start > options_.end) {
     string msg = "Error: start > end: " + to_string(options_.start) + " > " + to_string(options_.end);
     throw OptParseException(msg);
+  }
+}
+
+void OptParse::CompilePatterns() {
+  if (!options_.pattern_file.empty()) {
+    PatternIO pat_parse(options_.pattern_file, patterns_);
+  } else {
+    patterns_.push_back(options_.pattern);
+  }
+}
+
+void OptParse::CompileResMatchers() {
+  if (options_.match_file.empty()) {
+    res_matcher_      = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_type));
+    res_matcher_comp_ = std::unique_ptr<ResMatcher>(new ResMatcher(-1 * options_.match_type));
+  } else {
+    res_matcher_      = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_file, false));
+    res_matcher_comp_ = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_file, true));
+  }
+}
+
+void OptParse::PrintVerbose() {
+  if (!options_.verbose || test_) return;
+
+  PrintVersion();
+  cerr << endl;
+  PrintCommandLine();
+  cerr << endl << endl;
+  PrintOptions();
+
+  cerr << endl << "Patterns:" << endl;
+
+  for (auto pattern : patterns_) {
+    cerr << "  " << pattern << endl;
   }
 }
 
