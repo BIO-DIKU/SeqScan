@@ -26,6 +26,7 @@
 #include <string>
 #include <vector>
 #include "pattern_io.h"
+#include "res_matcher.h"
 
 /*
  * Magic numbers for default options.
@@ -144,6 +145,16 @@ class OptParse {
   std::vector<std::string> files_;
 
   /*
+   * ResMatcher for forward matching.
+   */
+  std::unique_ptr<ResMatcher> res_matcher_;
+
+  /*
+   * ResMatcher for complement matching.
+   */
+  std::unique_ptr<ResMatcher> res_matcher_comp_;
+
+  /*
    * Flag indicating that instance is invoced from unit tests.
    */
   bool test_;
@@ -208,6 +219,11 @@ class OptParse {
    * Compile list of patterns either from command line options or from file.
    */
   void CompilePatterns();
+
+  /*
+   * Compile ResMatches for forward and reverse matching.
+   */
+  void CompileResMatchers();
 
   /*
    * Array for holding option templates.

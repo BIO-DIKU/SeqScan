@@ -335,23 +335,35 @@ TEST_CASE("OptParse match_type", "[optparse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
-    const char* argv[] = {"seqscan", "-p", "ATC", "-m", "12", "file1"};
+    const char* argv[] = {"seqscan", "-p", "ATC", "-m", "10", "file1"};
 
     OptParse opt_parse(argc, (char**)argv, true);
 
-    REQUIRE(opt_parse.options_.match_type == 12);
+    REQUIRE(opt_parse.options_.match_type == 10);
   }
 
   SECTION("long option can be set OK") {
-    const char* argv[] = {"seqscan", "-p", "ATC", "--match_type", "12", "file1"};
+    const char* argv[] = {"seqscan", "-p", "ATC", "--match_type", "10", "file1"};
 
     OptParse opt_parse(argc, (char**)argv, true);
 
-    REQUIRE(opt_parse.options_.match_type == 12);
+    REQUIRE(opt_parse.options_.match_type == 10);
   }
 }
 
 TEST_CASE("OptParse match_file", "[optparse]") {
+  string file = "mfile";
+  ofstream output;
+  output.open(file);
+  output << " AT" << endl;
+  output << "A+ " << endl;
+  output << "T +" << endl;
+  output << "   " << endl;
+  output << "~AT" << endl;
+  output << "A +" << endl;
+  output << "T+ " << endl;
+  output.close();
+
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -369,6 +381,8 @@ TEST_CASE("OptParse match_file", "[optparse]") {
 
     REQUIRE(opt_parse.options_.match_file == "mfile");
   }
+
+  remove(file.c_str());
 }
 
 TEST_CASE("OptParse output", "[optparse]") {

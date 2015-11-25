@@ -35,6 +35,8 @@ OptParse::OptParse(int argc, char *argv[], bool test) :
   options_(),
   patterns_(),
   files_(),
+  res_matcher_(),
+  res_matcher_comp_(),
   test_(test),
   argc_(argc),
   argv_(argv)
@@ -43,6 +45,7 @@ OptParse::OptParse(int argc, char *argv[], bool test) :
   Parse();
   OptCheck();
   CompilePatterns();
+  CompileResMatchers();
 }
 
 OptParse::~OptParse()
@@ -188,6 +191,16 @@ void OptParse::CompilePatterns() {
     PatternIO pat_parse(options_.pattern_file, patterns_);
   } else {
     patterns_.push_back(options_.pattern);
+  }
+}
+
+void OptParse::CompileResMatchers() {
+  if (options_.match_file.empty()) {
+    res_matcher_      = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_type));
+    res_matcher_comp_ = std::unique_ptr<ResMatcher>(new ResMatcher(-1 * options_.match_type));
+  } else {
+    res_matcher_      = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_file, false));
+    res_matcher_comp_ = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_file, true));
   }
 }
 

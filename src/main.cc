@@ -33,17 +33,6 @@ int main(int argc, char *argv[]) {
   // Parse cmd-line options
   OptParse opt_parse(argc, (char**)argv);
 
-  // Create res-matchers
-  std::unique_ptr<ResMatcher> rm;
-  std::unique_ptr<ResMatcher> rm_comp;
-  if (opt_parse.options_.match_file.empty()) {
-    rm      = std::unique_ptr<ResMatcher>(new ResMatcher(opt_parse.options_.match_type));
-    rm_comp = std::unique_ptr<ResMatcher>(new ResMatcher(-1 * opt_parse.options_.match_type));
-  } else {
-    rm      = std::unique_ptr<ResMatcher>(new ResMatcher(opt_parse.options_.match_file, false));
-    rm_comp = std::unique_ptr<ResMatcher>(new ResMatcher(opt_parse.options_.match_file, true));
-  }
-
   // Verbose output
   if (opt_parse.options_.verbose) {
     opt_parse.PrintVersion();
@@ -62,7 +51,9 @@ int main(int argc, char *argv[]) {
   // Pattern parser classes
   SeqScan::Interpreter parse_tree_generator;
   SeqScan::SanityChecker parse_tree_checker;
-  SeqScan::PatternUnitFactory pattern_unit_factory(*rm.get(), *rm_comp.get());
+  // SeqScan::PatternUnitFactory pattern_unit_factory(*rm.get(), *rm_comp.get()); // DELETEME
+  SeqScan::PatternUnitFactory pattern_unit_factory(*opt_parse.res_matcher_.get(),
+                                                   *opt_parse.res_matcher_comp_.get());
 
   std::vector<std::unique_ptr<PatternUnit>> patterns;
 
