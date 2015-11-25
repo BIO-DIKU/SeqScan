@@ -123,8 +123,8 @@ void BacktrackIndelUnit::CollectMatches(
     return;
 
   if (ID_left > 0) {
-    CollectMatches(seq_it  , pat_it+1, M_left, ID_left-1, M_used, I_used+1 , D_used);
-    CollectMatches(seq_it+1, pat_it  , M_left, ID_left-1, M_used, I_used   , D_used+1);
+    CollectMatches(seq_it  , pat_it+1, M_left, ID_left-1, M_used, I_used   , D_used+1);
+    CollectMatches(seq_it+1, pat_it  , M_left, ID_left-1, M_used, I_used+1 , D_used  );
   }
 
   if (modifiers_.res_matcher_.Match(*seq_it,*pat_it)) {
