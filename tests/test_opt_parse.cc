@@ -20,16 +20,32 @@
 
 #include <string>
 
+#include <iostream>
+#include <fstream>
 #include "catch.h"
 #include "opt_parse.h"
 
 using namespace std;
 
-TEST_CASE("OptParse with bad option raises", "[optparse]") {
+TEST_CASE("OptParse w. bad option raises", "[optparse]") {
+  int        argc    = 4;
+  const char *argv[] = {"seqscan", "-p", "ATC", "-Z"};
+
+  REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv, true), OptParseException);
+}
+
+TEST_CASE("OptParse w. missing option argument raises", "[optparse]") {
   int        argc    = 4;
   const char *argv[] = {"seqscan", "-p", "ATC", "-X"};
 
-  REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv, true), OptParseException);
+  try {
+    OptParse opt_parse(argc, (char**)argv, true);
+    FAIL("opt_parse() did not throw expected exception");
+  }
+
+  catch (OptParseException& e) {
+    REQUIRE(e.exceptionMsg == "Error: Unexpected argument: ->?<-");
+  }
 }
 
 TEST_CASE("OptParse have correct default option values", "[optparse]") {
@@ -41,6 +57,8 @@ TEST_CASE("OptParse have correct default option values", "[optparse]") {
   REQUIRE(opt_parse.options_.help           == false);
   REQUIRE(opt_parse.options_.complement     == OptParse::OptComplement::Forward);
   REQUIRE(opt_parse.options_.direction      == OptParse::OptDirection::Forward);
+  REQUIRE(opt_parse.options_.start          == kDefaultStart);
+  REQUIRE(opt_parse.options_.end            == kDefaultEnd);
   REQUIRE(opt_parse.options_.threads        == kDefaultThreads);
   REQUIRE(opt_parse.options_.score_encoding == OptParse::OptScoreEncoding::Phred33);
   REQUIRE(opt_parse.options_.score_min      == kDefaultScoreMin);
@@ -92,6 +110,14 @@ TEST_CASE("OptParse pattern", "[optparse]") {
 }
 
 TEST_CASE("OptParse pattern_file", "[optparse]") {
+  string file = "pfile";
+  ofstream output;
+  output.open(file);
+  output << "p1=ATC" << endl;
+  output << "" << endl;
+  output << "ATG ... TGA" << endl;
+  output.close();
+
   int argc = 4;
 
   SECTION("short option can be set OK") {
@@ -109,6 +135,8 @@ TEST_CASE("OptParse pattern_file", "[optparse]") {
 
     REQUIRE(opt_parse.options_.pattern_file == "pfile");
   }
+
+  remove(file.c_str());
 }
 
 TEST_CASE("OptParse complement", "[optparse]") {
@@ -159,7 +187,14 @@ TEST_CASE("OptParse direction", "[optparse]") {
   SECTION("bad value raises") {
     const char* argv[] = {"seqscan", "-p", "ATC", "--direction", "foo", "file1"};
 
-    REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv, true), OptParseException);
+    try {
+      OptParse opt_parse(argc, (char**)argv, true);
+      FAIL("opt_parse() did not throw expected exception");
+    }
+
+    catch (OptParseException& e) {
+      REQUIRE(e.exceptionMsg == "Error: Bad argument for direction option: foo");
+    }
   }
 }
 
@@ -245,7 +280,14 @@ TEST_CASE("OptParse score_encoding", "[optparse]") {
   SECTION("bad value raises") {
     const char* argv[] = {"seqscan", "-p", "ATC", "--score_encoding", "foo", "file1"};
 
-    REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv, true), OptParseException);
+    try {
+      OptParse opt_parse(argc, (char**)argv, true);
+      FAIL("opt_parse() did not throw expected exception");
+    }
+
+    catch (OptParseException& e) {
+      REQUIRE(e.exceptionMsg == "Error: Bad argument for score_encoding option: foo");
+    }
   }
 }
 
@@ -293,23 +335,35 @@ TEST_CASE("OptParse match_type", "[optparse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
-    const char* argv[] = {"seqscan", "-p", "ATC", "-m", "12", "file1"};
+    const char* argv[] = {"seqscan", "-p", "ATC", "-m", "10", "file1"};
 
     OptParse opt_parse(argc, (char**)argv, true);
 
-    REQUIRE(opt_parse.options_.match_type == 12);
+    REQUIRE(opt_parse.options_.match_type == 10);
   }
 
   SECTION("long option can be set OK") {
-    const char* argv[] = {"seqscan", "-p", "ATC", "--match_type", "12", "file1"};
+    const char* argv[] = {"seqscan", "-p", "ATC", "--match_type", "10", "file1"};
 
     OptParse opt_parse(argc, (char**)argv, true);
 
-    REQUIRE(opt_parse.options_.match_type == 12);
+    REQUIRE(opt_parse.options_.match_type == 10);
   }
 }
 
 TEST_CASE("OptParse match_file", "[optparse]") {
+  string file = "mfile";
+  ofstream output;
+  output.open(file);
+  output << " AT" << endl;
+  output << "A+ " << endl;
+  output << "T +" << endl;
+  output << "   " << endl;
+  output << "~AT" << endl;
+  output << "A +" << endl;
+  output << "T+ " << endl;
+  output.close();
+
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -327,6 +381,8 @@ TEST_CASE("OptParse match_file", "[optparse]") {
 
     REQUIRE(opt_parse.options_.match_file == "mfile");
   }
+
+  remove(file.c_str());
 }
 
 TEST_CASE("OptParse output", "[optparse]") {
@@ -429,18 +485,52 @@ TEST_CASE("OptParse verbose", "[optparse]") {
   }
 }
 
+TEST_CASE("OptParse magic", "[optparse]") {
+  int argc = 6;
+
+  SECTION("short option can be set OK") {
+    const char* argv[] = {"seqscan", "-p", "ATC", "-X", "foobar", "file1"};
+
+    OptParse opt_parse(argc, (char**)argv, true);
+
+    REQUIRE(opt_parse.options_.magic == "foobar");
+  }
+
+  SECTION("long option can be set OK") {
+    const char* argv[] = {"seqscan", "-p", "ATC", "--magic", "foobar", "file1"};
+
+    OptParse opt_parse(argc, (char**)argv, true);
+
+    REQUIRE(opt_parse.options_.magic == "foobar");
+  }
+}
+
 TEST_CASE("OptParse w/o pattern or pattern_file raises", "[optparse]") {
   int        argc    = 2;
   const char *argv[] = {"seqscan", "file1"};
 
-  REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv, true), OptParseException);
+  try {
+    OptParse opt_parse(argc, (char**)argv, true);
+    FAIL("opt_parse() did not throw expected exception");
+  }
+
+  catch (OptParseException& e) {
+    REQUIRE(e.exceptionMsg == "Error: missing pattern or pattern_file");
+  }
 }
 
 TEST_CASE("OptParse w pattern and pattern_file raises", "[optparse]") {
   int        argc    = 6;
   const char *argv[] = {"seqscan", "-p", "ATC", "-P", "file", "file1"};
 
-  REQUIRE_THROWS_AS(new OptParse(argc, (char**)argv, true), OptParseException);
+  try {
+    OptParse opt_parse(argc, (char**)argv, true);
+    FAIL("opt_parse() did not throw expected exception");
+  }
+
+  catch (OptParseException& e) {
+    REQUIRE(e.exceptionMsg == "Error: both pattern and pattern_file given");
+  }
 }
 
 TEST_CASE("OptParse w grouped short options can be set OK", "[optparse]") {
@@ -451,7 +541,6 @@ TEST_CASE("OptParse w grouped short options can be set OK", "[optparse]") {
 
   REQUIRE(opt_parse.options_.verbose);
   REQUIRE(opt_parse.options_.pattern == "ATC");
-
 }
 
 TEST_CASE("OptParse w non-optional arguments", "[optparse]") {
@@ -465,7 +554,6 @@ TEST_CASE("OptParse w non-optional arguments", "[optparse]") {
 }
 
 TEST_CASE("OptParse w/o non-optional arguments", "[optparse]") {
-
   SECTION("dont raise if -h given") {
     int        argc    = 2;
     const char *argv[] = {"seqscan", "-h"};
@@ -477,6 +565,40 @@ TEST_CASE("OptParse w/o non-optional arguments", "[optparse]") {
     int        argc    = 3;
     const char *argv[] = {"seqscan", "-p", "ATC"};
 
-    REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv, true), OptParseException);
+    try {
+      OptParse opt_parse(argc, (char**)argv, true);
+      FAIL("opt_parse() did not throw expected exception");
+    }
+
+    catch (OptParseException& e) {
+      REQUIRE(e.exceptionMsg == "Error: no sequence files given");
+    }
+  }
+}
+
+TEST_CASE("OptParse w. start and end", "[optparse]") {
+  int argc = 8;
+
+  SECTION("w. start < end don't raise") {
+    const char *argv[] = {"seqscan", "-p", "ATC", "-s", "1", "-e", "2", "file"};
+    REQUIRE_NOTHROW(OptParse opt_parse(argc, (char**)argv, true));
+  }
+
+  SECTION("w. start == end don't raise") {
+    const char *argv[] = {"seqscan", "-p", "ATC", "-s", "1", "-e", "1", "file"};
+    REQUIRE_NOTHROW(OptParse opt_parse(argc, (char**)argv, true));
+  }
+
+  SECTION("w. start > end raise") {
+    const char *argv[] = {"seqscan", "-p", "ATC", "-s", "2", "-e", "1", "file"};
+
+    try {
+      OptParse opt_parse(argc, (char**)argv, true);
+      FAIL("opt_parse() did not throw expected exception");
+    }
+
+    catch (OptParseException& e) {
+      REQUIRE(e.exceptionMsg == "Error: start > end: 2 > 1");
+    }
   }
 }

@@ -48,3 +48,6 @@ cmake_install.cmake
 
 # Mac stuff
 .DS_Store
+
+# IDE specific stuff
+.idea

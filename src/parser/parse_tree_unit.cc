@@ -141,7 +141,7 @@ void ParseTreeUnit::AddModifier(PTSufModifier *m)
   suf_modifier_.insertions_  += m->insertions_;
   suf_modifier_.deletions_   += m->deletions_;
   suf_modifier_.indels_      += m->indels_;
-  suf_modifier_.errors_      += m->errors_;
+  suf_modifier_.edits_ += m->edits_;
 }
 
 void ParseTreeUnit::AddModifier(PTPreModifier *m)
@@ -183,7 +183,7 @@ PTSufModifier::PTSufModifier():
   insertions_(0),
   deletions_(0),
   indels_(0),
-  errors_(0)
+  edits_(0)
 {}
 
 std::string PTSufModifier::str() const
@@ -193,8 +193,8 @@ std::string PTSufModifier::str() const
     ss << "/" << mismatches_ << "," << insertions_ << "," << deletions_;
   else if (indels_ > 0)
     ss << "/" << mismatches_ << "," << indels_;
-  else if (errors_ > 0)
-    ss << "/" << errors_;
+  else if (edits_ > 0)
+    ss << "/" << edits_;
   else if (mismatches_ > 0)
     ss << "/" << mismatches_ << ",0";
   return ss.str();

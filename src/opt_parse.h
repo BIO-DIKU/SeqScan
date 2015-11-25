@@ -25,6 +25,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "pattern_io.h"
+#include "res_matcher.h"
 
 /*
  * Magic numbers for default options.
@@ -32,6 +34,8 @@
 const int kDefaultThreads   = 1;
 const int kDefaultMatchType = 6;
 const int kDefaultScoreMin  = 25;
+const int kDefaultStart     = 0;
+const int kDefaultEnd       = 0;
 
 /**
  * @brief Exception class for OptParse class.
@@ -125,14 +129,30 @@ class OptParse {
     std::string      filter;
     bool             version;
     bool             verbose;
+    std::string      magic;
   };
 
   Options options_;
 
   /*
+   * Vector for holding patterns from the command line or read from a file.
+   */
+  std::vector<std::string> patterns_;
+
+  /*
    * Vector for holding non-option command line arguments i.e. sequence files.
    */
   std::vector<std::string> files_;
+
+  /*
+   * ResMatcher for forward matching.
+   */
+  std::unique_ptr<ResMatcher> res_matcher_;
+
+  /*
+   * ResMatcher for complement matching.
+   */
+  std::unique_ptr<ResMatcher> res_matcher_comp_;
 
   /*
    * Flag indicating that instance is invoced from unit tests.
@@ -143,6 +163,10 @@ class OptParse {
    * Print options for debugging.
    */
   void PrintOptions();
+
+ private:
+  int  argc_;
+  char **argv_;
 
   /*
    * Print usage to stderr.
@@ -158,10 +182,6 @@ class OptParse {
    * Print command line to stderr.
    */
   void PrintCommandLine();
-
- private:
-  int  argc_;
-  char **argv_;
 
   /*
    * Set options default to sane values
@@ -181,7 +201,7 @@ class OptParse {
   bool OptCheck();
 
   /*
-   * Throw exception if both or neither pattern or pattern_file option is set.
+   * Throws exception if both or neither pattern or pattern_file option is set.
    */
   void OptCheckPatternGiven();
 
@@ -191,9 +211,29 @@ class OptParse {
   void OptCheckFilesGiven();
 
   /*
+   * Throws exception if start > end.
+   */
+  void OptCheckStartEnd();
+
+  /*
+   * Compile list of patterns either from command line options or from file.
+   */
+  void CompilePatterns();
+
+  /*
+   * Compile ResMatches for forward and reverse matching.
+   */
+  void CompileResMatchers();
+
+  /*
+   * Print verbose output.
+   */
+  void PrintVerbose();
+
+  /*
    * Array for holding option templates.
    */
-  const option opt_templates_[19] = {
+  const option opt_templates_[20] = {
     {"help",           no_argument,       0, 'h'},
     {"pattern",        required_argument, 0, 'p'},
     {"pattern_file",   required_argument, 0, 'P'},
@@ -212,6 +252,7 @@ class OptParse {
     {"filter" ,        required_argument, 0, 'f'},
     {"version",        no_argument,       0, 'v'},
     {"verbose",        no_argument,       0, 'V'},
+    {"magic",          required_argument, 0, 'X'},
     {0,                 0,                0,  0 }
   };
 
@@ -219,7 +260,7 @@ class OptParse {
    * String with one char options followed by : iif the option requies an
    * argument.
    */
-  const std::string opt_string_ = "hp:P:c:d:s:e:t:E:S:am:M:o:Of:vV";
+  const std::string opt_string_ = "hp:P:c:d:s:e:t:E:S:am:M:o:Of:vVX:";
 
   /*
    * Function for parsing complement option into enum OptComplement.
