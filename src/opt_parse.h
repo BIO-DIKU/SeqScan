@@ -127,6 +127,7 @@ class OptParse {
     std::string      filter;
     bool             version;
     bool             verbose;
+    std::string      magic;
   };
 
   Options options_;
@@ -200,7 +201,7 @@ class OptParse {
   /*
    * Array for holding option templates.
    */
-  const option opt_templates_[19] = {
+  const option opt_templates_[20] = {
     {"help",           no_argument,       0, 'h'},
     {"pattern",        required_argument, 0, 'p'},
     {"pattern_file",   required_argument, 0, 'P'},
@@ -219,6 +220,7 @@ class OptParse {
     {"filter" ,        required_argument, 0, 'f'},
     {"version",        no_argument,       0, 'v'},
     {"verbose",        no_argument,       0, 'V'},
+    {"magic",          required_argument, 0, 'X'},
     {0,                 0,                0,  0 }
   };
 
@@ -226,7 +228,7 @@ class OptParse {
    * String with one char options followed by : iif the option requies an
    * argument.
    */
-  const std::string opt_string_ = "hp:P:c:d:s:e:t:E:S:am:M:o:Of:vV";
+  const std::string opt_string_ = "hp:P:c:d:s:e:t:E:S:am:M:o:Of:vVX:";
 
   /*
    * Function for parsing complement option into enum OptComplement.
