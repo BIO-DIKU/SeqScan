@@ -21,6 +21,7 @@
 #include "pattern_unit_factory.h"
 
 #include "pu/backtrack_unit.h"
+#include "pu/backtrack_edits_unit.h"
 #include "pu/reference_unit.h"
 #include "pu/composite_unit.h"
 #include "pu/repeat_unit.h"
@@ -54,6 +55,10 @@ std::unique_ptr<PatternUnit> PatternUnitFactory::CreateFromNode(
           node->suf_modifier_.indels_     == 0 &&
           node->suf_modifier_.edits_ == 0 ) {
         return std::unique_ptr<PatternUnit>(new KMPUnit(CreateModifiers(node), node->sequence_));
+      }
+
+      if (node->suf_modifier_.edits_ > 0 ) {
+        return std::unique_ptr<PatternUnit>(new BacktrackEditsUnit(CreateModifiers(node), node->sequence_));
       }
 
       return std::unique_ptr<PatternUnit>(new BacktrackUnit(CreateModifiers(node), node->sequence_));
