@@ -50,6 +50,8 @@ void OptParse::SetOptDefaults() {
   options_.help           = false;
   options_.complement     = OptComplement::Forward;
   options_.direction      = OptDirection::Forward;
+  options_.start          = kDefaultStart;
+  options_.end            = kDefaultEnd;
   options_.threads        = kDefaultThreads;
   options_.score_encoding = OptScoreEncoding::Phred33;
   options_.score_min      = kDefaultScoreMin;
@@ -145,6 +147,7 @@ bool OptParse::OptCheck() {
 
   OptCheckPatternGiven();
   OptCheckFilesGiven();
+  OptCheckStartEnd();
 
   return true;
 }
@@ -164,6 +167,13 @@ void OptParse::OptCheckPatternGiven() {
 void OptParse::OptCheckFilesGiven() {
   if (files_.empty()) {
     string msg = "Error: no sequence files given";
+    throw OptParseException(msg);
+  }
+}
+
+void OptParse::OptCheckStartEnd() {
+  if (options_.end > 0 && options_.start > options_.end) {
+    string msg = "Error: start > end: " + to_string(options_.start) + " > " + to_string(options_.end);
     throw OptParseException(msg);
   }
 }
