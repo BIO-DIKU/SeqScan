@@ -122,7 +122,7 @@ void OptParse::Parse() {
         options_.verbose = true;
         break;
       default:
-        string msg = "Unexpected argument: ->" + string(1,(char)opt) + "<-";
+        string msg = "Error: Unexpected argument: ->" + string(1,(char)opt) + "<-";
         throw OptParseException(msg);
     }
   }
@@ -223,7 +223,7 @@ OptParse::OptComplement OptParse::ParseComplement(string optarg) const {
   } else if (optarg == "both") {
     return OptComplement::Both;
   } else {
-    string msg = "Bad argument for complement option: " + optarg;
+    string msg = "Error: Bad argument for complement option: " + optarg;
     throw OptParseException(msg);
   }
 }
@@ -234,7 +234,7 @@ OptParse::OptDirection OptParse::ParseDirection(string optarg) const {
   } else if (optarg == "reverse") {
     return OptDirection::Reverse;
   } else {
-    string msg = "Bad argument for direction option: " + optarg;
+    string msg = "Error: Bad argument for direction option: " + optarg;
     throw OptParseException(msg);
   }
 }
@@ -245,7 +245,7 @@ OptParse::OptScoreEncoding OptParse::ParseScoreEncoding(string optarg) const {
   } else if (optarg == "Phred64") {
     return OptScoreEncoding::Phred64;
   } else {
-    string msg = "Bad argument for score_encoding option: " + optarg;
+    string msg = "Error: Bad argument for score_encoding option: " + optarg;
     throw OptParseException(msg);
   }
 }
