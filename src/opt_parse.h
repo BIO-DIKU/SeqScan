@@ -164,6 +164,10 @@ class OptParse {
    */
   void PrintOptions();
 
+ private:
+  int  argc_;
+  char **argv_;
+
   /*
    * Print usage to stderr.
    */
@@ -178,10 +182,6 @@ class OptParse {
    * Print command line to stderr.
    */
   void PrintCommandLine();
-
- private:
-  int  argc_;
-  char **argv_;
 
   /*
    * Set options default to sane values
@@ -224,6 +224,11 @@ class OptParse {
    * Compile ResMatches for forward and reverse matching.
    */
   void CompileResMatchers();
+
+  /*
+   * Print verbose output.
+   */
+  void PrintVerbose();
 
   /*
    * Array for holding option templates.

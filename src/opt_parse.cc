@@ -46,6 +46,7 @@ OptParse::OptParse(int argc, char *argv[], bool test) :
   OptCheck();
   CompilePatterns();
   CompileResMatchers();
+  PrintVerbose();
 }
 
 OptParse::~OptParse()
@@ -201,6 +202,22 @@ void OptParse::CompileResMatchers() {
   } else {
     res_matcher_      = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_file, false));
     res_matcher_comp_ = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_file, true));
+  }
+}
+
+void OptParse::PrintVerbose() {
+  if (!options_.verbose || test_) return;
+
+  PrintVersion();
+  cerr << endl;
+  PrintCommandLine();
+  cerr << endl << endl;
+  PrintOptions();
+
+  cerr << endl << "Patterns:" << endl;
+
+  for (auto pattern : patterns_) {
+    cerr << "  " << pattern << endl;
   }
 }
 

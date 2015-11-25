@@ -33,21 +33,6 @@ int main(int argc, char *argv[]) {
   // Parse cmd-line options
   OptParse opt_parse(argc, (char**)argv);
 
-  // Verbose output
-  if (opt_parse.options_.verbose) {
-    opt_parse.PrintVersion();
-    std::cerr << std::endl;
-    opt_parse.PrintCommandLine();
-    std::cerr << std::endl << std::endl;
-    opt_parse.PrintOptions();
-
-    std::cerr << std::endl << "Patterns:" << std::endl;
-
-    for (auto pattern : opt_parse.patterns_) {
-      std::cerr << "  " << pattern << std::endl;
-    }
-  }
-
   // Pattern parser classes
   SeqScan::Interpreter parse_tree_generator;
   SeqScan::SanityChecker parse_tree_checker;
