@@ -59,7 +59,7 @@ bool BacktrackEditsUnit::FindMatch() {
     if (last_found_matches_.empty()) {
       int E = modifiers_.max_edits_;
 
-      CollectMatches(sequence_iterator_, pattern_.cbegin(), E, 0);
+      CollectMatches(sequence_iterator_, pattern_.cbegin(), E, 0,0,0);
       if (last_found_matches_.empty()) {
         last_found_index_++;
         return false;
@@ -81,7 +81,7 @@ bool BacktrackEditsUnit::FindMatch() {
     int E = modifiers_.max_edits_;
 
     while (sequence_iterator_ != sequence_iterator_end_) {
-      CollectMatches(sequence_iterator_, pattern_.cbegin(), E, 0);
+      CollectMatches(sequence_iterator_, pattern_.cbegin(), E, 0,0,0);
 
       ++sequence_iterator_;
 
@@ -107,18 +107,12 @@ void BacktrackEditsUnit::CollectMatches(
     std::string::const_iterator seq_it,
     std::string::const_iterator pat_it,
     const int E_left,
-    const int E_used
+    const int M_used, const int I_used, const int D_used
 ) {
-  // std::cout<<"CollectMatches("<<(seq_it-sequence_iterator_)<<", "<<
-  //    (pat_it-pattern_.cbegin())<<", Mleft:"<<M_left<<", Ileft:"<<I_left<<", "
-  //    "Dleft:"<<D_left<<", Mused:"<<M_used<<", Iused:"<<I_used<<", "
-  //    "Dused:"<<D_used<<" )"<<std::endl;
-
-  //if (E_left > 0) CollectMatches(seq_it + 1, pat_it, E_left - 1, E_used + 1);
 
   if (pat_it == pattern_.cend()) {
     last_found_matches_.insert(
-        Match(sequence_iterator_, pattern_.length()+0, E_used)); //TODO: Calc correct length
+        Match(sequence_iterator_, pattern_.length()+I_used-D_used, M_used+I_used+D_used));
     return;
   }
 
@@ -126,14 +120,14 @@ void BacktrackEditsUnit::CollectMatches(
     return;
 
   if (modifiers_.res_matcher_.Match(*seq_it,*pat_it)) {
-    CollectMatches(seq_it + 1, pat_it + 1, E_left, E_used);
+    CollectMatches(seq_it + 1, pat_it + 1, E_left, M_used, I_used, D_used);
     return;
   }
 
   if (E_left > 0) {
-    CollectMatches(seq_it + 1, pat_it + 1, E_left - 1, E_used + 1); // Check if mismatch
-    CollectMatches(seq_it    , pat_it + 1, E_left - 1, E_used + 1); // Check if insertion
-    CollectMatches(seq_it + 1, pat_it    , E_left - 1, E_used + 1); // Check if deletion
+    CollectMatches(seq_it + 1, pat_it + 1, E_left - 1, M_used+1, I_used  , D_used  ); // Check if mismatch
+    CollectMatches(seq_it    , pat_it + 1, E_left - 1, M_used  , I_used  , D_used+1); // Check if deletion
+    CollectMatches(seq_it + 1, pat_it    , E_left - 1, M_used  , I_used+1, D_used  ); // Check if insertion
   }
 
 

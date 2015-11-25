@@ -79,7 +79,8 @@ class BacktrackEditsUnit: public PatternUnit{
    * backtracking algorithm. */
   void CollectMatches(std::string::const_iterator seq_it,
                       std::string::const_iterator pat_it,
-                      const int E_left, const int E_used);
+                      const int E_left,
+                      const int E_used, const int I_used, const int D_used);
 
  protected:
   virtual std::unique_ptr<PatternUnit> Clone() const override;
