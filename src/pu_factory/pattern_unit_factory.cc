@@ -52,7 +52,7 @@ std::unique_ptr<PatternUnit> PatternUnitFactory::CreateFromNode(
           node->suf_modifier_.insertions_ == 0 &&
           node->suf_modifier_.deletions_  == 0 &&
           node->suf_modifier_.indels_     == 0 &&
-          node->suf_modifier_.errors_     == 0 ) {
+          node->suf_modifier_.edits_ == 0 ) {
         return std::unique_ptr<PatternUnit>(new KMPUnit(CreateModifiers(node), node->sequence_));
       }
 
@@ -97,7 +97,7 @@ Modifiers PatternUnitFactory::CreateModifiers(const ParseTreeUnit *node) {
   const ResMatcher& rm = node->pre_modifier_.tilde_ ? res_matcher_comp_ : res_matcher_;
 
   return std::move(Modifiers(
-      node->suf_modifier_.errors_,
+      node->suf_modifier_.edits_,
       node->suf_modifier_.mismatches_,
       node->suf_modifier_.insertions_,
       node->suf_modifier_.deletions_,

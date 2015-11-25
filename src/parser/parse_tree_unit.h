@@ -28,6 +28,11 @@
 #include <sstream>
 
 namespace SeqScan {
+
+/**
+ * Prefix modifiers for a ParseTreeNode.
+ * Stores all modifiers that can appear before a pattern unit.
+ */
 class PTPreModifier{
  public:
   PTPreModifier();
@@ -40,6 +45,10 @@ class PTPreModifier{
   std::string str() const;
 };
 
+/**
+ * Suffix modifiers for a ParseTreeNode.
+ * Stores all modifiers that can appear after a pattern unit.
+ */
 class PTSufModifier{
  public:
   PTSufModifier();
@@ -48,12 +57,23 @@ class PTSufModifier{
   int insertions_;
   int deletions_;
   int indels_;
-  int errors_;
+  int edits_;
   bool end_anchor_;
 
   std::string str() const;
 };
 
+
+/**
+ * Container class for pattern units that have been parsed.
+ * Anything properties that are necessary to define the pattern unit are stored in this class. This means:
+ *   - For sequence units: A sequence (sequence_)
+ *   - For reference units: A string representation of the referenced label (referenced_label_
+ *
+ *
+ * Any optional modifiers
+ * are stored in pre_modifier_ or suf_modifier_ (depending on where they belong according to the pattern syntax).
+ */
 class ParseTreeUnit
 {
  public:

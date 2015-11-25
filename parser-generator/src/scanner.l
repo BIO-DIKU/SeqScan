@@ -20,9 +20,9 @@
 
 /*
  * The MIT License (MIT)
- *
+ * 
  * Copyright (c) 2014 Krzysztof Narkiewicz <krzysztof.narkiewicz@ezaquarii.com>
- *
+ * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -31,10 +31,10 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -43,7 +43,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- *
+ * 
  */
 
 %{
@@ -52,8 +52,8 @@
 
 	#include "scanner.h"
 	#include "interpreter.h"
-	#include "parser.hh"
-	#include "location.hh"
+	#include "parser.h"
+	#include "location.h"
 
 	// Original yyterminate() macro returns int. Since we're using Bison 3 variants
 	// as tokens, we must redefine it to change type from `int` to `Parser::semantic_type`
@@ -61,8 +61,8 @@
 
 	// This will track current scanner location.
 	// Action is called when length of the token is known.
-	#define YY_USER_ACTION m_driver.IncreaseLocation(yyleng);
-
+	#define YY_USER_ACTION m_driver.increaseLocation(yyleng);
+	
 	// !!!WARNING!!!
 	// Location API is used, but the location is not initialized, 'cause I'm lazy. When making
 	// a token with make_{something} method you can pass detailed token location. Current location
@@ -70,7 +70,7 @@
 	// pass location value in every action code block below. I'm going to waste more time writing
 	// this excuse than putting this boilerplate below...
 	//
-	// Location class can be found in location.hh and position.hh files. It's just a bit too much
+	// Location class can be found in location.h and position.h files. It's just a bit too much
 	// boilerplate for this small example. Bummer.
 %}
 
@@ -83,17 +83,17 @@
 %%
 
 \                              { return SeqScan::Parser::make_SPACE(SeqScan::location()); }
-\$                             { return SeqScan::Parser::make_DOLLAR(SeqScan::location()); }
+\$                             { return SeqScan::Parser::make_DOLLAR(SeqScan::location()); } 
 \(                             { return SeqScan::Parser::make_LPAR(SeqScan::location()); }
 \)                             { return SeqScan::Parser::make_RPAR(SeqScan::location()); }
-\*                             { return SeqScan::Parser::make_STAR(SeqScan::location()); }
+\*                             { return SeqScan::Parser::make_STAR(SeqScan::location()); } 
 \+                             { return SeqScan::Parser::make_PLUS(SeqScan::location()); }
 ,                              { return SeqScan::Parser::make_COMMA(SeqScan::location()); }
 \.                             { return SeqScan::Parser::make_DOT(SeqScan::location()); }
 \/                             { return SeqScan::Parser::make_SLASH(SeqScan::location()); }
-[0-9]+                         { uint32_t number = strtoul(yytext, NULL, 10);
+[0-9]+                         { uint32_t number = strtoul(yytext, NULL, 10); 
                                  return SeqScan::Parser::make_INT(number, SeqScan::location()); }
-[a-zA-Z]+                      { return SeqScan::Parser::make_STRING(yytext,SeqScan::location());  }
+[actungACTUNG]+                { return SeqScan::Parser::make_STRING(yytext,SeqScan::location());  }
 [a-zA-Z]+_?[0-9]+              { return SeqScan::Parser::make_LABEL(yytext, SeqScan::location()); }
 \<                             { return SeqScan::Parser::make_LESS(SeqScan::location()); }
 \=                             { return SeqScan::Parser::make_EQUAL(SeqScan::location()); }
@@ -114,6 +114,6 @@
 %%
 /*
 .                              { std::cerr << "Scanner: Unknown character [" << yytext << "] ";
-                                 std::cerr << "at location " << SeqScan::Location() << std::endl;
+                                 std::cerr << "at location " << SeqScan::location() << std::endl;
                                  yyterminate();                                                    }
 */

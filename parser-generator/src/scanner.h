@@ -49,7 +49,7 @@
 #undef YY_DECL
 #define YY_DECL SeqScan::Parser::symbol_type SeqScan::Scanner::get_next_token()
 
-#include "parser.hh" // this is needed for symbol_type
+#include "parser.h" // this is needed for symbol_type
 
 namespace SeqScan {
 
