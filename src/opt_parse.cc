@@ -50,6 +50,8 @@ void OptParse::SetOptDefaults() {
   options_.help           = false;
   options_.complement     = OptComplement::Forward;
   options_.direction      = OptDirection::Forward;
+  options_.start          = kDefaultStart;
+  options_.end            = kDefaultEnd;
   options_.threads        = kDefaultThreads;
   options_.score_encoding = OptScoreEncoding::Phred33;
   options_.score_min      = kDefaultScoreMin;
@@ -122,7 +124,7 @@ void OptParse::Parse() {
         options_.verbose = true;
         break;
       default:
-        string msg = "Unexpected argument: ->" + string(1,(char)opt) + "<-";
+        string msg = "Error: Unexpected argument: ->" + string(1,(char)opt) + "<-";
         throw OptParseException(msg);
     }
   }
@@ -145,6 +147,7 @@ bool OptParse::OptCheck() {
 
   OptCheckPatternGiven();
   OptCheckFilesGiven();
+  OptCheckStartEnd();
 
   return true;
 }
@@ -164,6 +167,13 @@ void OptParse::OptCheckPatternGiven() {
 void OptParse::OptCheckFilesGiven() {
   if (files_.empty()) {
     string msg = "Error: no sequence files given";
+    throw OptParseException(msg);
+  }
+}
+
+void OptParse::OptCheckStartEnd() {
+  if (options_.end > 0 && options_.start > options_.end) {
+    string msg = "Error: start > end: " + to_string(options_.start) + " > " + to_string(options_.end);
     throw OptParseException(msg);
   }
 }
@@ -223,7 +233,7 @@ OptParse::OptComplement OptParse::ParseComplement(string optarg) const {
   } else if (optarg == "both") {
     return OptComplement::Both;
   } else {
-    string msg = "Bad argument for complement option: " + optarg;
+    string msg = "Error: Bad argument for complement option: " + optarg;
     throw OptParseException(msg);
   }
 }
@@ -234,7 +244,7 @@ OptParse::OptDirection OptParse::ParseDirection(string optarg) const {
   } else if (optarg == "reverse") {
     return OptDirection::Reverse;
   } else {
-    string msg = "Bad argument for direction option: " + optarg;
+    string msg = "Error: Bad argument for direction option: " + optarg;
     throw OptParseException(msg);
   }
 }
@@ -245,7 +255,7 @@ OptParse::OptScoreEncoding OptParse::ParseScoreEncoding(string optarg) const {
   } else if (optarg == "Phred64") {
     return OptScoreEncoding::Phred64;
   } else {
-    string msg = "Bad argument for score_encoding option: " + optarg;
+    string msg = "Error: Bad argument for score_encoding option: " + optarg;
     throw OptParseException(msg);
   }
 }
