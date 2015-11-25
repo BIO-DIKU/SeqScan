@@ -19,7 +19,7 @@
  */
 
 #include <stdio.h>
-
+#include <vector>
 #include <parser/parse_tree_unit.h>
 #include <parser/interpreter.h>
 #include <BioIO/seq_entry.h>
@@ -35,11 +35,11 @@ int main(int argc, char *argv[]) {
   OptParse opt_parse(argc, (char**)argv);
 
   // Extract string-patterns
-  std::vector<std::string> patterns;
+  std::vector<std::string> raw_patterns;
   if (!opt_parse.options_.pattern_file.empty()) {
-    PatternIO pat_parse(opt_parse.options_.pattern_file, patterns);
+    PatternIO pat_parse(opt_parse.options_.pattern_file, raw_patterns);
   } else {
-    patterns.push_back(opt_parse.options_.pattern);
+    raw_patterns.push_back(opt_parse.options_.pattern);
   }
 
   // Create res-matchers
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
 
     std::cerr << std::endl << "Patterns:" << std::endl;
 
-    for (auto it : patterns) {
+    for (auto it : raw_patterns) {
       std::cerr << "  " << it << std::endl;
     }
   }
@@ -73,34 +73,38 @@ int main(int argc, char *argv[]) {
   SeqScan::SanityChecker parse_tree_checker;
   SeqScan::PatternUnitFactory pattern_unit_factory(*rm.get(), *rm_comp.get());
 
+  std::vector<std::unique_ptr<PatternUnit>> patterns;
+
+  for (auto& raw_pat : raw_patterns) {
+    // Parse and check string-pattern
+    std::unique_ptr<SeqScan::ParseTreeUnit> parse_tree(parse_tree_generator.Parse(raw_pat));
+
+    if (parse_tree == NULL) {
+      std::cerr << "Error parsing pattern: " << raw_pat << std::endl;
+      continue;
+    }
+
+    if (!parse_tree_checker.IsSane(parse_tree.get())) {
+      std::cerr << "Insane pattern: " << raw_pat << std::endl;
+      std::cerr << parse_tree->Str(0) << std::endl;
+      continue;
+    }
+
+    std::unique_ptr<PatternUnit> pattern = pattern_unit_factory.CreateFromParseTree(parse_tree.get());
+
+    patterns.push_back(std::move(pattern));
+  }
+
   for (auto& file_path : opt_parse.files_) {
     // Set up fasta reader
     FastaReader fasta_reader(file_path);
 
-    for (auto& raw_pat : patterns) {
-      // Parse and check string-pattern
-      std::unique_ptr<SeqScan::ParseTreeUnit> parse_tree(parse_tree_generator.Parse(raw_pat));
+    // For each SeqEntry: attempt to match pattern
+    while (fasta_reader.hasNextEntry()) {
+      std::unique_ptr<SeqEntry> entry = fasta_reader.nextEntry();
+      const std::string& seq = entry->seq();
 
-      if (parse_tree == NULL) {
-        std::cerr << "Error parsing pattern: " << raw_pat << std::endl;
-        continue;
-      }
-
-      if (!parse_tree_checker.IsSane(parse_tree.get())) {
-        std::cerr << "Insane pattern: " << raw_pat << std::endl;
-        std::cerr << parse_tree->Str(0) << std::endl;
-        continue;
-      }
-
-      std::unique_ptr<PatternUnit> pattern =
-          pattern_unit_factory.CreateFromParseTree(parse_tree.get());
-
-
-      // For each SeqEntry: attempt to match pattern
-      while (fasta_reader.hasNextEntry()) {
-        std::unique_ptr<SeqEntry> entry = fasta_reader.nextEntry();
-        const std::string& seq = entry->seq();
-
+      for (auto &pattern : patterns) {
         // Perform matching of pattern against seq
         pattern->Initialize(seq.cbegin(), seq.cend());
         while (pattern->FindMatch()) {
@@ -110,9 +114,9 @@ int main(int argc, char *argv[]) {
           match.Print(std::cout, seq.cbegin());
           std::cout << "\t" << match.len << std::endl;
         }
-      }  // end while (fasta_reader.hasNextEntry())
-    }  // end for (auto& raw_pat : patterns)
-  }  // end for (auto& file_path : opt_parse.files_)
+      }
+    }
+  }
 
   return EXIT_SUCCESS;
 }
