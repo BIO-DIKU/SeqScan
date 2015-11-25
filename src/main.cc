@@ -51,7 +51,6 @@ int main(int argc, char *argv[]) {
   // Pattern parser classes
   SeqScan::Interpreter parse_tree_generator;
   SeqScan::SanityChecker parse_tree_checker;
-  // SeqScan::PatternUnitFactory pattern_unit_factory(*rm.get(), *rm_comp.get()); // DELETEME
   SeqScan::PatternUnitFactory pattern_unit_factory(*opt_parse.res_matcher_.get(),
                                                    *opt_parse.res_matcher_comp_.get());
 
