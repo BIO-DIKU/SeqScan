@@ -34,18 +34,34 @@ namespace SeqScan {
 using ::std::string;
 using ::std::map;
 
+/**
+ * Converts a ParseTreeUnit (created by the parser) into a PatternUnit (that can be used to search sequences).
+ * This class does not attempt to do e.g. pattern order optimization, but subclasses might choose to.
+ */
 class PatternUnitFactory {
  public:
+  /** Construct factory and store residue matchers. */
   PatternUnitFactory(const ResMatcher& res_matcher, const ResMatcher& res_matcher_comp);
 
+  /** Create PatternUnit from ParseTreeUnit. */
   std::unique_ptr<PatternUnit> CreateFromParseTree(const ParseTreeUnit *ptree);
 
- private:
-  std::unique_ptr<PatternUnit> CreateFromNode(const ParseTreeUnit *node, map<string, PatternUnit *> &ref_map);
+ protected:
+  /**
+   * Recursively determines the type of the ParseTreeNode and create a corresponding PatternUnit. The ref_map is used
+   * to associate reference-labels with PatternUnits. It is assumed that the SanityChecker excluded ParseTreeUnits
+   * where a reference is not a back-reference.
+   */
+  virtual std::unique_ptr<PatternUnit> CreateFromNode(const ParseTreeUnit *node, map<string, PatternUnit *> &ref_map);
 
+  /**
+   * Create a Modifier object from node->pre_modifiers and node->suf_modifiers.
+   */
   Modifiers CreateModifiers(const ParseTreeUnit *node);
 
+  /** Residue matcher from OptParser */
   const ResMatcher& res_matcher_;
+  /** Complement residue matcher from OptParser */
   const ResMatcher& res_matcher_comp_;
 
 };

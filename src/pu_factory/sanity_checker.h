@@ -28,8 +28,20 @@
 
 namespace SeqScan {
 
+/**
+ * Checks that a ParseTreeUnit from the parser is sane.
+ * A ParseTreeUnit is considered sane if the PatternUnit it produces can produce meaningful matches. This class does
+ * not check that the 'raw' pattern (the string specified in the optparser) has a meaningful syntax - thats the job of
+ * the Interpreter.
+ *
+ * Examples of non-sane elements could be:
+ *   - Range units with min-range > max-range
+ *   - Repeat units with min-repeats > max-repeats
+ *   - Sequence units with unrecognized characters for the specified sequence type (e.g. an x in a DNA sequence).
+ *   - Approximate sequence with more allowed mismatches/edits/deletions than characters.
+ *   - Backreferences to labels that dont exist or forward-references
+ */
 class SanityChecker {
-
  public:
 
   /**
@@ -39,13 +51,23 @@ class SanityChecker {
   bool IsSane(const ParseTreeUnit *parse_tree);
 
  private:
+  /** Helper to IsSane */
   bool IsSane(const ParseTreeUnit *parse_tree, std::set<std::string> &visited_labels);
 
+  /** Helper to IsSane which is only called if node represents a reference unit. */
   bool CheckReferences(const ParseTreeUnit *node, std::set<std::string> &visited_labels);
+
+  /** Helper to IsSane which is only called if node represents a sequence unit. */
   bool CheckSequence(const ParseTreeUnit *node);
+
+  /** Helper to IsSane which is only called if node represents a composite unit. */
   bool CheckComposite(const ParseTreeUnit *node, std::set<std::string> &visited_labels);
+
+  /** Helper to IsSane which is only called if node represents a repeat unit. */
   bool CheckRepeat(const ParseTreeUnit *node, std::set<std::string> &visited_labels);
 
+  //TODO: Add CheckGroup
+  //TODO: Add CheckRange
 };
 
 } // namespace SeqScan
