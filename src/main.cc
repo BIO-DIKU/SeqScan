@@ -29,6 +29,7 @@
 #include "pattern_io.h"
 #include "pu_factory/sanity_checker.h"
 #include "pu_factory/pattern_unit_factory.h"
+#include "pu_factory/pure_tnfa_factory.h"
 
 int main(int argc, char *argv[]) {
   // Parse cmd-line options
@@ -71,7 +72,18 @@ int main(int argc, char *argv[]) {
   // Pattern parser classes
   SeqScan::Interpreter parse_tree_generator;
   SeqScan::SanityChecker parse_tree_checker;
-  SeqScan::PatternUnitFactory pattern_unit_factory(*rm.get(), *rm_comp.get());
+
+  // Choose pattern unit factory based on magic keyword
+  std::unique_ptr<SeqScan::PatternUnitFactory> pattern_unit_factory;
+  if(opt_parse.options_.magic=="PureTNFAFactory") {
+    pattern_unit_factory = std::unique_ptr<SeqScan::PatternUnitFactory>(
+        new SeqScan::PureTNFAFactory(*rm.get(), *rm_comp.get()));
+  }
+  else {
+    pattern_unit_factory = std::unique_ptr<SeqScan::PatternUnitFactory>(
+        new SeqScan::PatternUnitFactory(*rm.get(), *rm_comp.get()));
+  }
+
 
   for (auto& file_path : opt_parse.files_) {
     // Set up fasta reader
@@ -93,7 +105,7 @@ int main(int argc, char *argv[]) {
       }
 
       std::unique_ptr<PatternUnit> pattern =
-          pattern_unit_factory.CreateFromParseTree(parse_tree.get());
+          pattern_unit_factory->CreateFromParseTree(parse_tree.get());
 
 
       // For each SeqEntry: attempt to match pattern

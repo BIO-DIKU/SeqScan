@@ -22,17 +22,18 @@
 
 #include "pu/tnfa/tnfa_unit.h"
 
-#include "pu/reference_unit.h"
-#include "pu/composite_unit.h"
-#include "pu/repeat_unit.h"
-#include "pu/range_unit.h"
-#include "pu/kmp_unit.h"
-#include "pu/group_unit.h"
-
 namespace SeqScan {
 
 PureTNFAFactory::PureTNFAFactory(const ResMatcher &res_matcher, const ResMatcher &res_matcher_comp) :
     PatternUnitFactory(res_matcher, res_matcher_comp)
 { }
+
+std::unique_ptr<PatternUnit> PureTNFAFactory::CreateFromSequenceNode(
+    const ParseTreeUnit *node,
+    map<string, PatternUnit *> &ref_map)
+{
+  return std::unique_ptr<PatternUnit>(new TNFAUnit(CreateModifiers(node), node->sequence_));
+}
+
 
 }

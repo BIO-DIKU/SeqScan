@@ -39,6 +39,11 @@ using ::std::map;
 class PureTNFAFactory : public PatternUnitFactory {
  public:
   PureTNFAFactory(const ResMatcher &res_matcher, const ResMatcher &res_matcher_comp);
+
+ protected:
+  virtual std::unique_ptr<PatternUnit> CreateFromSequenceNode(
+      const ParseTreeUnit *node,
+      map<string, PatternUnit *> &ref_map);
 };
 
 }
