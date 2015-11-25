@@ -20,6 +20,8 @@
 
 #include <string>
 
+#include <iostream>
+#include <fstream>
 #include "catch.h"
 #include "opt_parse.h"
 
@@ -108,6 +110,14 @@ TEST_CASE("OptParse pattern", "[optparse]") {
 }
 
 TEST_CASE("OptParse pattern_file", "[optparse]") {
+  string file = "pfile";
+  ofstream output;
+  output.open(file);
+  output << "p1=ATC" << endl;
+  output << "" << endl;
+  output << "ATG ... TGA" << endl;
+  output.close();
+
   int argc = 4;
 
   SECTION("short option can be set OK") {
@@ -125,6 +135,8 @@ TEST_CASE("OptParse pattern_file", "[optparse]") {
 
     REQUIRE(opt_parse.options_.pattern_file == "pfile");
   }
+
+  remove(file.c_str());
 }
 
 TEST_CASE("OptParse complement", "[optparse]") {

@@ -25,6 +25,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "pattern_io.h"
 
 /*
  * Magic numbers for default options.
@@ -133,6 +134,11 @@ class OptParse {
   Options options_;
 
   /*
+   * Vector for holding patterns from the command line or read from a file.
+   */
+  std::vector<std::string> patterns_;
+
+  /*
    * Vector for holding non-option command line arguments i.e. sequence files.
    */
   std::vector<std::string> files_;
@@ -197,6 +203,11 @@ class OptParse {
    * Throws exception if start > end.
    */
   void OptCheckStartEnd();
+
+  /*
+   * Compile list of patterns either from command line options or from file.
+   */
+  void CompilePatterns();
 
   /*
    * Array for holding option templates.

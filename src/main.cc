@@ -26,21 +26,12 @@
 #include <BioIO/fasta_reader.h>
 
 #include "opt_parse.h"
-#include "pattern_io.h"
 #include "pu_factory/sanity_checker.h"
 #include "pu_factory/pattern_unit_factory.h"
 
 int main(int argc, char *argv[]) {
   // Parse cmd-line options
   OptParse opt_parse(argc, (char**)argv);
-
-  // Extract string-patterns
-  std::vector<std::string> raw_patterns;
-  if (!opt_parse.options_.pattern_file.empty()) {
-    PatternIO pat_parse(opt_parse.options_.pattern_file, raw_patterns);
-  } else {
-    raw_patterns.push_back(opt_parse.options_.pattern);
-  }
 
   // Create res-matchers
   std::unique_ptr<ResMatcher> rm;
@@ -63,8 +54,8 @@ int main(int argc, char *argv[]) {
 
     std::cerr << std::endl << "Patterns:" << std::endl;
 
-    for (auto it : raw_patterns) {
-      std::cerr << "  " << it << std::endl;
+    for (auto pattern : opt_parse.patterns_) {
+      std::cerr << "  " << pattern << std::endl;
     }
   }
 
@@ -75,7 +66,7 @@ int main(int argc, char *argv[]) {
 
   std::vector<std::unique_ptr<PatternUnit>> patterns;
 
-  for (auto& raw_pat : raw_patterns) {
+  for (auto& raw_pat : opt_parse.patterns_) {
     // Parse and check string-pattern
     std::unique_ptr<SeqScan::ParseTreeUnit> parse_tree(parse_tree_generator.Parse(raw_pat));
 

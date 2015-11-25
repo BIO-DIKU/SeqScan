@@ -27,12 +27,13 @@
 using namespace std;
 
 OptParse::OptParse(int argc, char *argv[]) :
-  OptParse(argc,argv,false)
+  OptParse(argc, argv, false)
 {
 }
 
 OptParse::OptParse(int argc, char *argv[], bool test) :
   options_(),
+  patterns_(),
   files_(),
   test_(test),
   argc_(argc),
@@ -41,6 +42,7 @@ OptParse::OptParse(int argc, char *argv[], bool test) :
   SetOptDefaults();
   Parse();
   OptCheck();
+  CompilePatterns();
 }
 
 OptParse::~OptParse()
@@ -127,7 +129,7 @@ void OptParse::Parse() {
         options_.magic = string(optarg);
         break;
       default:
-        string msg = "Error: Unexpected argument: ->" + string(1,(char)opt) + "<-";
+        string msg = "Error: Unexpected argument: ->" + string(1, (char) opt) + "<-";
         throw OptParseException(msg);
     }
   }
@@ -178,6 +180,14 @@ void OptParse::OptCheckStartEnd() {
   if (options_.end > 0 && options_.start > options_.end) {
     string msg = "Error: start > end: " + to_string(options_.start) + " > " + to_string(options_.end);
     throw OptParseException(msg);
+  }
+}
+
+void OptParse::CompilePatterns() {
+  if (!options_.pattern_file.empty()) {
+    PatternIO pat_parse(options_.pattern_file, patterns_);
+  } else {
+    patterns_.push_back(options_.pattern);
   }
 }
 
