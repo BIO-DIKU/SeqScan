@@ -32,8 +32,8 @@ GroupUnit::GroupUnit(const Modifiers &modifiers, const std::string &char_group, 
 void GroupUnit::Initialize(
   std::string::const_iterator pos,
   std::string::const_iterator max_pos,
-  bool stay_at_pos
-) {
+  bool stay_at_pos)
+{
   sequence_iterator_     = pos;
   sequence_iterator_end_ = max_pos;
   stay_at_pos_           = stay_at_pos;
@@ -42,22 +42,14 @@ void GroupUnit::Initialize(
 
 bool GroupUnit::FindMatch() {
   if (stay_at_pos_) {
-    if (negator_) {
-      return FindNoMatchAtPos();
-    } else {
-      return FindMatchAtPos();
-    }
+    return negator_ ? FindNoMatchAtPos() : FindMatchAtPos();
   } else {
-    if (negator_) {
-      return FindNoMatchIter();
-    } else {
-      return FindMatchIter();
-    }
+    return negator_ ? FindNoMatchIter() : FindMatchIter();
   }
 }
 
 bool GroupUnit::FindNoMatchAtPos() {
-  if(pos_was_checked_) return false;
+  if (pos_was_checked_) return false;
 
   bool match = false;
 
@@ -79,7 +71,7 @@ bool GroupUnit::FindNoMatchAtPos() {
 }
 
 bool GroupUnit::FindMatchAtPos() {
-  if(pos_was_checked_) return false;
+  if (pos_was_checked_) return false;
 
   for (auto p : char_group_) {
     if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) {
@@ -134,11 +126,8 @@ const Match& GroupUnit::GetMatch() const {
   return *match_;
 }
 
-
 inline void GroupUnit::UpdateMatch() {
   if (match_ != NULL) delete match_;
   match_ = new Match(sequence_iterator_, 1, 0);
   ++sequence_iterator_;
 }
-
-
