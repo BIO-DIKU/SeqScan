@@ -27,14 +27,14 @@
 
 using namespace std;
 
-TEST_CASE("OptParse w. bad option raises", "[optparse]") {
+TEST_CASE("OptParse w. bad option raises", "[opt_parse]") {
   int        argc    = 4;
   const char *argv[] = {"seqscan", "-p", "ATC", "-Z"};
 
   REQUIRE_THROWS_AS(OptParse opt_parse(argc, (char**)argv, true), OptParseException);
 }
 
-TEST_CASE("OptParse w. missing option argument raises", "[optparse]") {
+TEST_CASE("OptParse w. missing option argument raises", "[opt_parse]") {
   int        argc    = 4;
   const char *argv[] = {"seqscan", "-p", "ATC", "-X"};
 
@@ -48,7 +48,7 @@ TEST_CASE("OptParse w. missing option argument raises", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse have correct default option values", "[optparse]") {
+TEST_CASE("OptParse have correct default option values", "[opt_parse]") {
   int   argc         = 4;
   const char* argv[] = {"seqscan", "-p", "ATC", "file1"};
 
@@ -69,7 +69,7 @@ TEST_CASE("OptParse have correct default option values", "[optparse]") {
   REQUIRE(opt_parse.options_.verbose        == false);
 }
 
-TEST_CASE("OptParse help", "[optparse]") {
+TEST_CASE("OptParse help", "[opt_parse]") {
   int argc = 4;
 
   SECTION("short option can be set OK") {
@@ -89,7 +89,7 @@ TEST_CASE("OptParse help", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse pattern", "[optparse]") {
+TEST_CASE("OptParse pattern", "[opt_parse]") {
   int argc = 4;
 
   SECTION("short option can be set OK") {
@@ -109,7 +109,7 @@ TEST_CASE("OptParse pattern", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse pattern_file", "[optparse]") {
+TEST_CASE("OptParse pattern_file", "[opt_parse]") {
   string file = "pfile";
   ofstream output;
   output.open(file);
@@ -139,7 +139,7 @@ TEST_CASE("OptParse pattern_file", "[optparse]") {
   remove(file.c_str());
 }
 
-TEST_CASE("OptParse complement", "[optparse]") {
+TEST_CASE("OptParse complement", "[opt_parse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -165,7 +165,7 @@ TEST_CASE("OptParse complement", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse direction", "[optparse]") {
+TEST_CASE("OptParse direction", "[opt_parse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -198,7 +198,7 @@ TEST_CASE("OptParse direction", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse start", "[optparse]") {
+TEST_CASE("OptParse start", "[opt_parse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -218,7 +218,7 @@ TEST_CASE("OptParse start", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse end", "[optparse]") {
+TEST_CASE("OptParse end", "[opt_parse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -238,7 +238,7 @@ TEST_CASE("OptParse end", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse threads", "[optparse]") {
+TEST_CASE("OptParse threads", "[opt_parse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -258,7 +258,7 @@ TEST_CASE("OptParse threads", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse score_encoding", "[optparse]") {
+TEST_CASE("OptParse score_encoding", "[opt_parse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -291,7 +291,7 @@ TEST_CASE("OptParse score_encoding", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse score_min", "[optparse]") {
+TEST_CASE("OptParse score_min", "[opt_parse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -311,7 +311,7 @@ TEST_CASE("OptParse score_min", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse ambiguate", "[optparse]") {
+TEST_CASE("OptParse ambiguate", "[opt_parse]") {
   int argc = 5;
 
   SECTION("short option can be set OK") {
@@ -331,7 +331,7 @@ TEST_CASE("OptParse ambiguate", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse match_type", "[optparse]") {
+TEST_CASE("OptParse match_type", "[opt_parse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -351,7 +351,7 @@ TEST_CASE("OptParse match_type", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse match_file", "[optparse]") {
+TEST_CASE("OptParse match_file", "[opt_parse]") {
   string file = "mfile";
   ofstream output;
   output.open(file);
@@ -385,7 +385,7 @@ TEST_CASE("OptParse match_file", "[optparse]") {
   remove(file.c_str());
 }
 
-TEST_CASE("OptParse output", "[optparse]") {
+TEST_CASE("OptParse output", "[opt_parse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -405,7 +405,7 @@ TEST_CASE("OptParse output", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse overlap", "[optparse]") {
+TEST_CASE("OptParse overlap", "[opt_parse]") {
   int argc = 5;
 
   SECTION("short option can be set OK") {
@@ -425,7 +425,7 @@ TEST_CASE("OptParse overlap", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse filter", "[optparse]") {
+TEST_CASE("OptParse filter", "[opt_parse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -445,7 +445,7 @@ TEST_CASE("OptParse filter", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse version", "[optparse]") {
+TEST_CASE("OptParse version", "[opt_parse]") {
   int argc = 4;
 
   SECTION("short option can be set OK") {
@@ -465,7 +465,7 @@ TEST_CASE("OptParse version", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse verbose", "[optparse]") {
+TEST_CASE("OptParse verbose", "[opt_parse]") {
   int argc = 5;
 
   SECTION("short option can be set OK") {
@@ -485,7 +485,7 @@ TEST_CASE("OptParse verbose", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse magic", "[optparse]") {
+TEST_CASE("OptParse magic", "[opt_parse]") {
   int argc = 6;
 
   SECTION("short option can be set OK") {
@@ -505,7 +505,7 @@ TEST_CASE("OptParse magic", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse w/o pattern or pattern_file raises", "[optparse]") {
+TEST_CASE("OptParse w/o pattern or pattern_file raises", "[opt_parse]") {
   int        argc    = 2;
   const char *argv[] = {"seqscan", "file1"};
 
@@ -519,7 +519,7 @@ TEST_CASE("OptParse w/o pattern or pattern_file raises", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse w pattern and pattern_file raises", "[optparse]") {
+TEST_CASE("OptParse w pattern and pattern_file raises", "[opt_parse]") {
   int        argc    = 6;
   const char *argv[] = {"seqscan", "-p", "ATC", "-P", "file", "file1"};
 
@@ -533,7 +533,7 @@ TEST_CASE("OptParse w pattern and pattern_file raises", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse w grouped short options can be set OK", "[optparse]") {
+TEST_CASE("OptParse w grouped short options can be set OK", "[opt_parse]") {
   int         argc   = 4;
   const char *argv[] = {"seqscan", "-Vp", "ATC", "file1"};
 
@@ -543,7 +543,7 @@ TEST_CASE("OptParse w grouped short options can be set OK", "[optparse]") {
   REQUIRE(opt_parse.options_.pattern == "ATC");
 }
 
-TEST_CASE("OptParse w non-optional arguments", "[optparse]") {
+TEST_CASE("OptParse w non-optional arguments", "[opt_parse]") {
   int        argc    = 5;
   const char *argv[] = {"seqscan", "-p", "ATC", "file1", "file2"};
 
@@ -553,7 +553,7 @@ TEST_CASE("OptParse w non-optional arguments", "[optparse]") {
   REQUIRE(opt_parse.files_.back()  == "file2");
 }
 
-TEST_CASE("OptParse w/o non-optional arguments", "[optparse]") {
+TEST_CASE("OptParse w/o non-optional arguments", "[opt_parse]") {
   SECTION("dont raise if -h given") {
     int        argc    = 2;
     const char *argv[] = {"seqscan", "-h"};
@@ -576,7 +576,7 @@ TEST_CASE("OptParse w/o non-optional arguments", "[optparse]") {
   }
 }
 
-TEST_CASE("OptParse w. start and end", "[optparse]") {
+TEST_CASE("OptParse w. start and end", "[opt_parse]") {
   int argc = 8;
 
   SECTION("w. start < end don't raise") {
@@ -599,6 +599,41 @@ TEST_CASE("OptParse w. start and end", "[optparse]") {
 
     catch (OptParseException& e) {
       REQUIRE(e.exceptionMsg == "Error: start > end: 2 > 1");
+    }
+  }
+}
+
+TEST_CASE("OptParse w. complement and matrix w/o complement", "[opt_parse]") {
+  int argc = 8;
+
+  SECTION("complement forward") {
+    const char *argv[] = {"seqscan", "-p", "ATC", "-c", "forward", "-m", "10", "file"};
+    REQUIRE_NOTHROW(OptParse opt_parse(argc, (char**)argv, true));
+  }
+
+  SECTION("complement reverse") {
+    const char *argv[] = {"seqscan", "-p", "ATC", "-c", "reverse", "-m", "10", "file"};
+
+    try {
+      OptParse opt_parse(argc, (char**)argv, true);
+      FAIL("opt_parse() did not throw expected exception");
+    }
+
+    catch (OptParseException& e) {
+      REQUIRE(e.exceptionMsg == "Error: no complement match matrix");
+    }
+  }
+
+  SECTION("complement both") {
+    const char *argv[] = {"seqscan", "-p", "ATC", "-c", "both", "-m", "10", "file"};
+
+    try {
+      OptParse opt_parse(argc, (char**)argv, true);
+      FAIL("opt_parse() did not throw expected exception");
+    }
+
+    catch (OptParseException& e) {
+      REQUIRE(e.exceptionMsg == "Error: no complement match matrix");
     }
   }
 }
