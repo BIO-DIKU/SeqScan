@@ -637,3 +637,48 @@ TEST_CASE("OptParse w. complement and matrix w/o complement", "[opt_parse]") {
     }
   }
 }
+
+TEST_CASE("OptParse w. complement and matrix file w/o complement", "[opt_parse]") {
+  string file = "mfile";
+  ofstream output;
+  output.open(file);
+  output << " AT" << endl;
+  output << "A+ " << endl;
+  output << "T +" << endl;
+  output.close();
+
+  int argc = 8;
+
+  SECTION("complement forward") {
+    const char *argv[] = {"seqscan", "-p", "ATC", "-c", "forward", "-M", "mfile", "file"};
+    REQUIRE_NOTHROW(OptParse opt_parse(argc, (char**)argv, true));
+  }
+
+  SECTION("complement reverse") {
+    const char *argv[] = {"seqscan", "-p", "ATC", "-c", "reverse", "-M", "mfile", "file"};
+
+    try {
+      OptParse opt_parse(argc, (char**)argv, true);
+      FAIL("opt_parse() did not throw expected exception");
+    }
+
+    catch (OptParseException& e) {
+      REQUIRE(e.exceptionMsg == "Error: no complement match matrix");
+    }
+  }
+
+  SECTION("complement both") {
+    const char *argv[] = {"seqscan", "-p", "ATC", "-c", "both", "-M", "mfile", "file"};
+
+    try {
+      OptParse opt_parse(argc, (char**)argv, true);
+      FAIL("opt_parse() did not throw expected exception");
+    }
+
+    catch (OptParseException& e) {
+      REQUIRE(e.exceptionMsg == "Error: no complement match matrix");
+    }
+
+    remove(file.c_str());
+  }
+}
