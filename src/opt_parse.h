@@ -25,6 +25,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "pattern_io.h"
+#include "res_matcher.h"
 
 /*
  * Magic numbers for default options.
@@ -133,9 +135,24 @@ class OptParse {
   Options options_;
 
   /*
+   * Vector for holding patterns from the command line or read from a file.
+   */
+  std::vector<std::string> patterns_;
+
+  /*
    * Vector for holding non-option command line arguments i.e. sequence files.
    */
   std::vector<std::string> files_;
+
+  /*
+   * ResMatcher for forward matching.
+   */
+  std::unique_ptr<ResMatcher> res_matcher_;
+
+  /*
+   * ResMatcher for complement matching.
+   */
+  std::unique_ptr<ResMatcher> res_matcher_comp_;
 
   /*
    * Flag indicating that instance is invoced from unit tests.
@@ -146,6 +163,10 @@ class OptParse {
    * Print options for debugging.
    */
   void PrintOptions();
+
+ private:
+  int  argc_;
+  char **argv_;
 
   /*
    * Print usage to stderr.
@@ -161,10 +182,6 @@ class OptParse {
    * Print command line to stderr.
    */
   void PrintCommandLine();
-
- private:
-  int  argc_;
-  char **argv_;
 
   /*
    * Set options default to sane values
@@ -197,6 +214,21 @@ class OptParse {
    * Throws exception if start > end.
    */
   void OptCheckStartEnd();
+
+  /*
+   * Compile list of patterns either from command line options or from file.
+   */
+  void CompilePatterns();
+
+  /*
+   * Compile ResMatches for forward and reverse matching.
+   */
+  void CompileResMatchers();
+
+  /*
+   * Print verbose output.
+   */
+  void PrintVerbose();
 
   /*
    * Array for holding option templates.
