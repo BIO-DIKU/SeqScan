@@ -61,7 +61,7 @@
 
 	// This will track current scanner location.
 	// Action is called when length of the token is known.
-	#define YY_USER_ACTION m_driver.increaseLocation(yyleng);
+	#define YY_USER_ACTION m_driver.IncreaseLocation(yyleng);
 	
 	// !!!WARNING!!!
 	// Location API is used, but the location is not initialized, 'cause I'm lazy. When making
@@ -93,8 +93,8 @@
 \/                             { return SeqScan::Parser::make_SLASH(SeqScan::location()); }
 [0-9]+                         { uint32_t number = strtoul(yytext, NULL, 10); 
                                  return SeqScan::Parser::make_INT(number, SeqScan::location()); }
-[actungACTUNG]+                { return SeqScan::Parser::make_STRING(yytext,SeqScan::location());  }
 [a-zA-Z]+_?[0-9]+              { return SeqScan::Parser::make_LABEL(yytext, SeqScan::location()); }
+[a-zA-Z]+                      { return SeqScan::Parser::make_STRING(yytext,SeqScan::location());  }
 \<                             { return SeqScan::Parser::make_LESS(SeqScan::location()); }
 \=                             { return SeqScan::Parser::make_EQUAL(SeqScan::location()); }
 \[                             { return SeqScan::Parser::make_LBRACK(SeqScan::location()); }
@@ -108,7 +108,7 @@
 
 [\n\r]                         { return SeqScan::Parser::make_END(SeqScan::location());    }
 <<EOF>>                        { return SeqScan::Parser::make_END(SeqScan::location());    }
-.                              { throw PatternParseException("Unrecognized expression",m_driver.location()); }
+.                              { throw PatternParseException("Unrecognized expression",m_driver.Location()); }
 
 
 %%
