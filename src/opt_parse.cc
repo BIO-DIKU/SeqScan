@@ -196,12 +196,25 @@ void OptParse::CompilePatterns() {
 }
 
 void OptParse::CompileResMatchers() {
+  bool has_comp_matrix = true;
+
   if (options_.match_file.empty()) {
     res_matcher_      = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_type));
     res_matcher_comp_ = std::unique_ptr<ResMatcher>(new ResMatcher(-1 * options_.match_type));
+
+    if (options_.match_type == 9 || options_.match_type == 10) {
+      has_comp_matrix = false;
+    }
   } else {
     res_matcher_      = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_file, false));
     res_matcher_comp_ = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_file, true));
+  }
+
+  string comp = ComplementToString(options_.complement);
+
+  if ((comp == "reverse" || comp == "both") && !has_comp_matrix) {
+    string msg = "Error: no complement match matrix";
+    throw OptParseException(msg);
   }
 }
 
