@@ -38,8 +38,6 @@ class BacktrackMIDUnit: public BacktrackUnit{
 
   virtual bool FindMatch() override;
 
-  std::ostream& Print(std::ostream &os) const override;
-
  protected:
 
   /** A recursive function that fills up last_found_matches_. This is the core of the

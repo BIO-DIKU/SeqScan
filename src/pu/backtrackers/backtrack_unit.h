@@ -49,7 +49,7 @@ class BacktrackUnit: public PatternUnit{
 
   const Match& GetMatch() const override;
 
-  virtual std::ostream& Print(std::ostream &os) const override = 0;
+  virtual std::ostream& Print(std::ostream &os) const override;
 
  protected:
   /** The pattern-string to search for. */

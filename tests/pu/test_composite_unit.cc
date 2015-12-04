@@ -25,7 +25,7 @@
 
 #include "../../src/modifiers.h"
 #include "../../src/match.h"
-#include "../../src/pu/backtrack_unit.h"
+#include "../../src/pu/backtrackers/backtrack_mid_unit.h"
 #include "../../src/pu/composite_unit.h"
 
 using namespace std;
@@ -33,9 +33,9 @@ using namespace std;
 TEST_CASE("Composite unit with two children. No fuzziness.", "[composite]") {
   // Set up test pattern "AAA/0,0,0 CCC/0,0,0"
   Modifiers m0 = Modifiers::CreateMIDModifiers(0, 0, 0);
-  unique_ptr<PatternUnit> pu0(new BacktrackUnit(m0, "AAA"));
+  unique_ptr<PatternUnit> pu0(new BacktrackMIDUnit(m0, "AAA"));
   Modifiers m1 = Modifiers::CreateMIDModifiers(0, 0, 0);
-  unique_ptr<PatternUnit> pu1(new BacktrackUnit(m1, "CCC"));
+  unique_ptr<PatternUnit> pu1(new BacktrackMIDUnit(m1, "CCC"));
 
   Modifiers m = Modifiers::CreateStdModifiers();
   unique_ptr<CompositeUnit> pu(new CompositeUnit(m));
@@ -61,9 +61,9 @@ TEST_CASE("Composite unit with two children. No fuzziness.", "[composite]") {
 TEST_CASE("Composite unit with two children. With fuzziness.", "[composite]") {
   // Set up test pattern "AAA/0,1,0 CCC/0,0,0"
   Modifiers m0 = Modifiers::CreateMIDModifiers(0, 1, 0);
-  unique_ptr <PatternUnit> pu0(new BacktrackUnit(m0, "AAA"));
+  unique_ptr <PatternUnit> pu0(new BacktrackMIDUnit(m0, "AAA"));
   Modifiers m1 = Modifiers::CreateMIDModifiers(0, 0, 0);
-  unique_ptr <PatternUnit> pu1(new BacktrackUnit(m1, "CCC"));
+  unique_ptr <PatternUnit> pu1(new BacktrackMIDUnit(m1, "CCC"));
 
   Modifiers m = Modifiers::CreateStdModifiers();
   unique_ptr<CompositeUnit> pu(new CompositeUnit(m));

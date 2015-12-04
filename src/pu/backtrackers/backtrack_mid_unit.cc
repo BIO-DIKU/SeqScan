@@ -21,7 +21,7 @@
 #include "backtrack_mid_unit.h"
 
 BacktrackMIDUnit::BacktrackMIDUnit( const Modifiers &modifiers, const std::string& pattern) :
-    BacktrackMIDUnit(modifiers, pattern)
+    BacktrackUnit(modifiers, pattern)
 { }
 
 bool BacktrackMIDUnit::FindMatch() {
@@ -109,13 +109,6 @@ void BacktrackMIDUnit::CollectMatches(
 
 std::ostream& operator<<(std::ostream& os, const BacktrackMIDUnit& obj) {
   return obj.Print(os);
-}
-
-std::ostream& BacktrackMIDUnit::Print(std::ostream &os) const {
-  modifiers_.PrintPUPrefix(os);
-  os << pattern_;
-  modifiers_.PrintPUSuffix(os);
-  return os;
 }
 
 std::unique_ptr<PatternUnit> BacktrackMIDUnit::Clone() const {

@@ -69,8 +69,8 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 endif()
 
 
-FILE(GLOB SOURCE_FILES src/*.cc src/pu/*.cc src/pu/tnfa/*.cc src/pu_factory/*.cc src/parser/*.cc )
-FILE(GLOB HEADER_FILES src/*.h src/pu/*.h src/pu/tnfa/*.h src/pu_factory/*.h src/parser/*.h )
+FILE(GLOB SOURCE_FILES src/*.cc src/pu/*.cc src/pu/tnfa/*.cc src/pu/backtrackers/*.cc src/pu_factory/*.cc src/parser/*.cc )
+FILE(GLOB HEADER_FILES src/*.h src/pu/*.h src/pu/tnfa/*.h src/pu/backtrackers/*.h src/pu_factory/*.h src/parser/*.h )
 
 # https://cmake.org/cmake/help/v3.0/command/include_directories.html
 # Enables us to #include "pu/backtrack_unit.h" from files that are in "pu"
@@ -100,7 +100,7 @@ add_executable(seqscan ${SOURCE_FILES} ${HEADER_FILES} ${CMAKE_CURRENT_SOURCE_DI
 # Build tests if CMAKE_BUILD_TYPE=Debug is set
 # ------------------------
 if (CMAKE_BUILD_TYPE MATCHES DEBUG OR CMAKE_BUILD_TYPE MATCHES "Debug")
-    FILE(GLOB TEST_FILES tests/*.cc tests/pu/*.cc tests/pu/tnfa/*.cc)
+    FILE(GLOB TEST_FILES tests/*.cc tests/pu/*.cc tests/pu/tnfa/*.cc tests/pu/backtrackers/*.cc)
     add_executable(seqscan_test ${TEST_FILES} ${TEST_SOURCE_FILES} ${HEADER_FILES})
 	#target_link_libraries(seqscan_test /usr/local/opt/flex/lib/libfl.a)
 endif()

@@ -25,6 +25,10 @@
 
 using namespace std;
 
+BacktrackIndelUnit::BacktrackIndelUnit( const Modifiers &modifiers, const std::string& pattern) :
+    BacktrackUnit(modifiers, pattern)
+{ }
+
 bool BacktrackIndelUnit::FindMatch() {
   if (sequence_iterator_ == sequence_iterator_end_) return false;
 

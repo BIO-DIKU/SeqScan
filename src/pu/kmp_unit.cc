@@ -78,3 +78,8 @@ void KMPUnit::BuildTransitions()
   }
 }
 
+
+std::unique_ptr<PatternUnit> KMPUnit::Clone() const {
+  std::unique_ptr<PatternUnit> ret( new KMPUnit(modifiers_, pattern_) );
+  return std::move(ret);
+}

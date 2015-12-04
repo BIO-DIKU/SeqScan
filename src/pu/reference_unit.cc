@@ -19,8 +19,12 @@
  */
 
 #include <assert.h>
+#include <pu/backtrackers/backtrack_indel_unit.h>
+#include <pu/backtrackers/backtrack_edits_unit.h>
+#include <pu/backtrackers/backtrack_mid_unit.h>
 #include "reference_unit.h"
-#include "backtrack_unit.h"
+#include "pu/backtrackers/backtrack_unit.h"
+#include "kmp_unit.h"
 
 ReferenceUnit::ReferenceUnit(PatternUnit* pu, const Modifiers &modifiers):
     PatternUnit(modifiers),
@@ -34,7 +38,16 @@ void ReferenceUnit::Initialize(
 ) {
   const Match& match = referenced_unit_->GetMatch();
   std::string pattern(match.pos, match.pos+match.len);
-  pattern_finder_ = std::unique_ptr<PatternUnit>(new BacktrackUnit(modifiers_, pattern));
+
+  if(modifiers_.indels_)
+    pattern_finder_ = std::unique_ptr<PatternUnit>(new BacktrackIndelUnit(modifiers_, pattern));
+  else if(modifiers_.max_edits_)
+    pattern_finder_ = std::unique_ptr<PatternUnit>(new BacktrackEditsUnit(modifiers_, pattern));
+  else if(modifiers_.insertions_+modifiers_.mismatches_+modifiers_.deletions_)
+    pattern_finder_ = std::unique_ptr<PatternUnit>(new BacktrackMIDUnit(modifiers_, pattern));
+  else
+    pattern_finder_ = std::unique_ptr<PatternUnit>(new KMPUnit(modifiers_, pattern));
+
   pattern_finder_->Initialize(pos, max_pos, stay_at_pos);
 }
 

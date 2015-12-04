@@ -53,4 +53,11 @@ const Match& BacktrackUnit::GetMatch() const {
   return *it;
 }
 
+std::ostream& BacktrackUnit::Print(std::ostream &os) const {
+  modifiers_.PrintPUPrefix(os);
 
+  os << pattern_;
+
+  modifiers_.PrintPUSuffix(os);
+  return os;
+}
