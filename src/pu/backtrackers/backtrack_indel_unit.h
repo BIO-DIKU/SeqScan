@@ -26,8 +26,9 @@
 #include <string>
 #include <iostream>
 
-#include "pattern_unit.h"
-#include "../match.h"
+#include "backtrack_unit.h"
+#include "pu/pattern_unit.h"
+#include "match.h"
 
 /**
  * A pattern unit that matches a specified string pattern using a backtracking algorithm. The
@@ -35,45 +36,14 @@
  * The algorithm is conceptually similar to the one found in scan_for_matches, but bugs have been
  * corrected.
  */
-class BacktrackIndelUnit: public PatternUnit{
+class BacktrackIndelUnit: public BacktrackUnit{
  public:
   /** Construct a BacktrackIndelUnit with the specified modifiers and pattern-string. */
   BacktrackIndelUnit(const Modifiers &modifiers, const std::string& pattern);
 
-  void Initialize(
-      std::string::const_iterator pos,
-      std::string::const_iterator max_pos,
-      bool stay_at_pos = false) override;
-
   virtual bool FindMatch() override;
 
-  const Match& GetMatch() const override;
-
-  std::ostream& Print(std::ostream &os) const override;
-
  protected:
-  /** The pattern-string to search for. */
-  const std::string           pattern_;
-
-  /** The start sequence iterator. */
-  std::string::const_iterator sequence_iterator_;
-
-  /** The end sequence iterator. */
-  std::string::const_iterator sequence_iterator_end_;
-
-  /** Indicates whether FindMatch should search for matches starting at other positions than the
-   * one indicated in Initialize */
-  bool stay_at_pos_;
-
-  /** The backtracking collects a set of matches for each starting-position in the sequence. Its
-   * essential that this is a set (no duplicates) as backtracking can reach the same match via
-   * different paths, but only one should be reported by FindMatch. Furthermore, its convenient
-   * that the ordering of matches is well-defined (first, sorted by start-position, second by
-   * end-position). */
-  std::set<Match> last_found_matches_;
-
-  /** The index of the match in last_found_matches_ that GetMatch should return. */
-  size_t last_found_index_;
 
   /** A recursive function that fills up last_found_matches_. This is the core of the
    * backtracking algorithm. */
@@ -82,7 +52,6 @@ class BacktrackIndelUnit: public PatternUnit{
                       const int M_left, const int ID_left,
                       const int M_used, const int I_used, const int D_used);
 
- protected:
   virtual std::unique_ptr<PatternUnit> Clone() const override;
 };
 
