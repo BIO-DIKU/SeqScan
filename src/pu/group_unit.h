@@ -63,7 +63,9 @@ class GroupUnit : public PatternUnit {
   /*
    * Found match.
    */
-   const Match *match_;
+  const Match *match_;
+
+  std::unique_ptr<PatternUnit> Clone() const override;
 
  private:
   bool FindNoMatchAtPos();

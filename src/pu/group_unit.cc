@@ -142,3 +142,7 @@ inline void GroupUnit::UpdateMatch() {
 }
 
 
+std::unique_ptr<PatternUnit> GroupUnit::Clone() const {
+  std::unique_ptr<PatternUnit> ret( new GroupUnit(modifiers_, char_group_, negator_) );
+  return std::move(ret);
+}
