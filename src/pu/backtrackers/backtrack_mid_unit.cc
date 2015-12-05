@@ -18,36 +18,13 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#include "backtrack_unit.h"
+#include "backtrack_mid_unit.h"
 
-#include <utility>
-#include <iostream>
-
-using namespace std;
-
-
-BacktrackUnit::BacktrackUnit(
-    const Modifiers &modifiers,
-    const std::string& pattern
-) :
-    PatternUnit(modifiers),
-    pattern_(pattern)
+BacktrackMIDUnit::BacktrackMIDUnit( const Modifiers &modifiers, const std::string& pattern) :
+    BacktrackUnit(modifiers, pattern)
 { }
 
-void BacktrackUnit::Initialize(
-    std::string::const_iterator pos,
-    std::string::const_iterator max_pos,
-    bool stay_at_pos
-) {
-  sequence_iterator_ = pos;
-  sequence_iterator_end_ = max_pos;
-  stay_at_pos_ = stay_at_pos;
-
-  last_found_matches_.clear();
-  last_found_index_ = 0;
-}
-
-bool BacktrackUnit::FindMatch() {
+bool BacktrackMIDUnit::FindMatch() {
   if (sequence_iterator_ == sequence_iterator_end_) return false;
 
   if (stay_at_pos_) {
@@ -101,29 +78,18 @@ bool BacktrackUnit::FindMatch() {
   }
 }
 
-const Match& BacktrackUnit::GetMatch() const {
-  std::set<Match >::iterator it = last_found_matches_.begin();
-  std::advance(it, last_found_index_);
-  return *it;
-}
-
-void BacktrackUnit::CollectMatches(
-  std::string::const_iterator seq_it,
-  std::string::const_iterator pat_it,
-  const int M_left, const int I_left, const int D_left,
-  const int M_used, const int I_used, const int D_used
+void BacktrackMIDUnit::CollectMatches(
+    std::string::const_iterator seq_it,
+    std::string::const_iterator pat_it,
+    const int M_left, const int I_left, const int D_left,
+    const int M_used, const int I_used, const int D_used
 ) {
-  // std::cout<<"CollectMatches("<<(seq_it-sequence_iterator_)<<", "<<
-  //    (pat_it-pattern_.cbegin())<<", Mleft:"<<M_left<<", Ileft:"<<I_left<<", "
-  //    "Dleft:"<<D_left<<", Mused:"<<M_used<<", Iused:"<<I_used<<", "
-  //    "Dused:"<<D_used<<" )"<<std::endl;
-
   if (I_left > 0) CollectMatches(seq_it + 1, pat_it, M_left, I_left - 1, D_left, M_used, I_used + 1, D_used);
 
 
   if (pat_it == pattern_.cend()) {
     last_found_matches_.insert(
-      Match(sequence_iterator_, pattern_.length() + I_used - D_used, M_used + I_used + D_used));
+        Match(sequence_iterator_, pattern_.length() + I_used - D_used, M_used + I_used + D_used));
     return;
   }
 
@@ -141,29 +107,11 @@ void BacktrackUnit::CollectMatches(
   if (M_left > 0) CollectMatches(seq_it + 1, pat_it + 1, M_left - 1, I_left, D_left, M_used + 1, I_used, D_used);
 }
 
-std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj) {
+std::ostream& operator<<(std::ostream& os, const BacktrackMIDUnit& obj) {
   return obj.Print(os);
 }
-std::ostream& BacktrackUnit::Print(std::ostream &os) const {
-  modifiers_.PrintPUPrefix(os);
-  // if(modifiers_.label_.size()>0)
-  //   os<<modifiers_.label_<<"=";
 
-  os << pattern_;
-
-  modifiers_.PrintPUSuffix(os);
-  // if (modifiers_.mismatches_ ||
-  //     modifiers_.insertions_ ||
-  //     modifiers_.deletions_) {
-  //  os << "/" << modifiers_.mismatches_ << "," <<
-  //               modifiers_.insertions_ << "," <<
-  //               modifiers_.deletions_;
-  //}
-
-  return os;
-}
-
-std::unique_ptr<PatternUnit> BacktrackUnit::Clone() const {
-  std::unique_ptr<PatternUnit> ret( new BacktrackUnit(modifiers_, pattern_) );
+std::unique_ptr<PatternUnit> BacktrackMIDUnit::Clone() const {
+  std::unique_ptr<PatternUnit> ret( new BacktrackMIDUnit(modifiers_, pattern_) );
   return std::move(ret);
 }

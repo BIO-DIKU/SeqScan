@@ -23,7 +23,7 @@
 
 #include <vector>
 
-#include "backtrack_unit.h"
+#include "pu/backtrackers/backtrack_unit.h"
 
 /**
  * Pattern unit that matches exact string patterns using the Knuth-Morris-Pratt algorithm.
@@ -34,6 +34,9 @@ class KMPUnit : public BacktrackUnit{
   KMPUnit(const Modifiers &modifiers, const std::string& pattern);
 
   bool FindMatch() override;
+
+ protected:
+  std::unique_ptr<PatternUnit> Clone() const override;
 
  private:
   void BuildTransitions();

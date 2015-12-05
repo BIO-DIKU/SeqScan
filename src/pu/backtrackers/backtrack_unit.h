@@ -18,38 +18,38 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_PU_BACKTRACK_EDITS_UNIT_H_
-#define SEQSCAN_PU_BACKTRACK_EDITS_UNIT_H_
+#ifndef SEQSCAN_PU_BACKTRACK_UNIT_H_
+#define SEQSCAN_PU_BACKTRACK_UNIT_H_
 
 #include <set>
 #include <vector>
 #include <string>
 #include <iostream>
 
-#include "pattern_unit.h"
-#include "../match.h"
+#include "pu/pattern_unit.h"
+#include "match.h"
 
 /**
  * A pattern unit that matches a specified string pattern using a backtracking algorithm. The
- * modifiers: edits and complement are considered in matches.
+ * modifiers: mismatches, insertions, deletions, reverse, and complement are considered in matches.
  * The algorithm is conceptually similar to the one found in scan_for_matches, but bugs have been
  * corrected.
  */
-class BacktrackEditsUnit: public PatternUnit{
+class BacktrackUnit: public PatternUnit{
  public:
-  /** Construct a BacktrackEditsUnit with the specified modifiers and pattern-string. */
-  BacktrackEditsUnit(const Modifiers &modifiers, const std::string& pattern);
+  /** Construct a BacktrackUnit with the specified modifiers and pattern-string. */
+  BacktrackUnit(const Modifiers &modifiers, const std::string& pattern);
 
   void Initialize(
       std::string::const_iterator pos,
       std::string::const_iterator max_pos,
       bool stay_at_pos = false) override;
 
-  virtual bool FindMatch() override;
+  virtual bool FindMatch() override = 0;
 
   const Match& GetMatch() const override;
 
-  std::ostream& Print(std::ostream &os) const override;
+  virtual std::ostream& Print(std::ostream &os) const override;
 
  protected:
   /** The pattern-string to search for. */
@@ -75,18 +75,10 @@ class BacktrackEditsUnit: public PatternUnit{
   /** The index of the match in last_found_matches_ that GetMatch should return. */
   size_t last_found_index_;
 
-  /** A recursive function that fills up last_found_matches_. This is the core of the
-   * backtracking algorithm. */
-  void CollectMatches(std::string::const_iterator seq_it,
-                      std::string::const_iterator pat_it,
-                      const int E_left,
-                      const int E_used, const int I_used, const int D_used);
-
- protected:
-  virtual std::unique_ptr<PatternUnit> Clone() const override;
+protected:
+  virtual std::unique_ptr<PatternUnit> Clone() const override = 0;
 };
 
-std::ostream& operator<<(std::ostream& os, const BacktrackEditsUnit& obj);
+std::ostream& operator<<(std::ostream& os, const BacktrackUnit& obj);
 
-#endif  // SEQSCAN_PU_BACKTRACK_EDITS_UNIT_H_
-
+#endif  // SEQSCAN_PU_BACKTRACK_UNIT_H_
