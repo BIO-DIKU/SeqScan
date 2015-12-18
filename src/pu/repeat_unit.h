@@ -60,7 +60,6 @@ private:
 
   /**
    * Assumes that child_units_[repeat-1] has returned true to a FindMatch call.
-   * p
    */
   bool FindMatch(int repeat);
 
@@ -84,6 +83,12 @@ private:
   /** The match that gets returned when calling GetMatch. This member gets reallocated each time
    * FindMatch returns true. */
   Match* repeat_match_;
+
+
+  bool CollectMatches(int repeat_lvl);
+  bool pos_checked_;
+  size_t cur_match_;
+  std::vector<Match> matches_;
 };
 
 std::ostream& operator<<(std::ostream& os, const RepeatUnit& obj);
