@@ -17,7 +17,7 @@
 # exact	248	3469	32	3423
 # snoRNA	671	36637	245	2255
 
-# Function to extract pattern name form dir name.
+# Function to extract pattern name from dir name.
 pattern_name() {
     local dir=$1
     local name=`echo "$dir" | sed -e 's/pat_//'`
@@ -25,7 +25,7 @@ pattern_name() {
     echo $name
 }
 
-# Function to Parse the run time from a file. The time is a time -p timestamp
+# Function to parse the run time from a file. The time is a time -p timestamp
 # at the end of the file.
 parse_time() {
     local file=$1
@@ -43,11 +43,9 @@ parse_hits_sfm() {
 }
 
 # Function to parse number of hits from a seqscan result file.
-# FIXME: the 4x sed is ugly as hell, but head -n -4 is not a universal option.
 # TODO: possibly we need a grep -v '^LOG' as well.
 parse_hits_seqscan() {
     local file=$1
-    #local hits=`cat "$file" | sed '$d' | sed '$d' | sed '$d' | sed '$d' | wc -l`
     local hits=`grep -e "^.*\t[+-]\t.*\t" $file | wc -l`
 
     echo $hits
