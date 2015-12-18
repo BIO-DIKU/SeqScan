@@ -95,6 +95,7 @@ set(TEST_SOURCE_FILES ${SOURCE_FILES})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_executable(seqscan ${SOURCE_FILES} ${HEADER_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc)
 
+add_dependencies(seqscan bioio)
 
 
 # Build tests if CMAKE_BUILD_TYPE=Debug is set
@@ -103,5 +104,6 @@ if (CMAKE_BUILD_TYPE MATCHES DEBUG OR CMAKE_BUILD_TYPE MATCHES "Debug")
     FILE(GLOB TEST_FILES tests/*.cc tests/pu/*.cc tests/pu/tnfa/*.cc tests/pu/backtrackers/*.cc)
     add_executable(seqscan_test ${TEST_FILES} ${TEST_SOURCE_FILES} ${HEADER_FILES})
 	#target_link_libraries(seqscan_test /usr/local/opt/flex/lib/libfl.a)
+	add_dependencies(seqscan_test bioio)
 endif()
 
