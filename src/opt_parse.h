@@ -25,6 +25,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <memory> //unique_ptr
+
 #include "pattern_io.h"
 #include "res_matcher.h"
 
