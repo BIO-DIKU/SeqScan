@@ -53,7 +53,7 @@
 #include <string>
 
 #include "scanner.h"
-#include "parser.hh"
+#include "parser.h"
 
 namespace SeqScan {
 
@@ -101,7 +101,7 @@ public:
      * Run parser on pattern. Returns a ParseTreeUnit pointer on success, 
      * NULL on failure.
      */
-    ParseTreeUnit* parse(const std::string& raw_pattern);
+    ParseTreeUnit* Parse(const std::string& raw_pattern);
     
     
     /**
@@ -113,13 +113,13 @@ public:
     
 private:
     // Used internally by Parser to set the main parse tree.
-    void set_parse_tree(ParseTreeUnit* ptree);
+    void SetParseTree(ParseTreeUnit* ptree);
     
     // Used internally by Scanner YY_USER_ACTION to update location indicator
-    void increaseLocation(unsigned int loc);
+    void IncreaseLocation(unsigned int loc);
     
     // Used to get last Scanner location. Used in error messages.
-    unsigned int location() const;
+    unsigned int Location() const;
 
     
     /**

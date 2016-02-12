@@ -52,8 +52,8 @@
 
 	#include "scanner.h"
 	#include "interpreter.h"
-	#include "parser.hh"
-	#include "location.hh"
+	#include "parser.h"
+	#include "location.h"
 
 	// Original yyterminate() macro returns int. Since we're using Bison 3 variants
 	// as tokens, we must redefine it to change type from `int` to `Parser::semantic_type`
@@ -61,7 +61,7 @@
 
 	// This will track current scanner location.
 	// Action is called when length of the token is known.
-	#define YY_USER_ACTION m_driver.increaseLocation(yyleng);
+	#define YY_USER_ACTION m_driver.IncreaseLocation(yyleng);
 	
 	// !!!WARNING!!!
 	// Location API is used, but the location is not initialized, 'cause I'm lazy. When making
@@ -70,7 +70,7 @@
 	// pass location value in every action code block below. I'm going to waste more time writing
 	// this excuse than putting this boilerplate below...
 	//
-	// Location class can be found in location.hh and position.hh files. It's just a bit too much
+	// Location class can be found in location.h and position.h files. It's just a bit too much
 	// boilerplate for this small example. Bummer.
 %}
 
@@ -93,8 +93,8 @@
 \/                             { return SeqScan::Parser::make_SLASH(SeqScan::location()); }
 [0-9]+                         { uint32_t number = strtoul(yytext, NULL, 10); 
                                  return SeqScan::Parser::make_INT(number, SeqScan::location()); }
-[actungACTUNG]+                { return SeqScan::Parser::make_STRING(yytext,SeqScan::location());  }
 [a-zA-Z]+_?[0-9]+              { return SeqScan::Parser::make_LABEL(yytext, SeqScan::location()); }
+[a-zA-Z]+                      { return SeqScan::Parser::make_STRING(yytext,SeqScan::location());  }
 \<                             { return SeqScan::Parser::make_LESS(SeqScan::location()); }
 \=                             { return SeqScan::Parser::make_EQUAL(SeqScan::location()); }
 \[                             { return SeqScan::Parser::make_LBRACK(SeqScan::location()); }
@@ -108,7 +108,7 @@
 
 [\n\r]                         { return SeqScan::Parser::make_END(SeqScan::location());    }
 <<EOF>>                        { return SeqScan::Parser::make_END(SeqScan::location());    }
-.                              { throw PatternParseException("Unrecognized expression",m_driver.location()); }
+.                              { throw PatternParseException("Unrecognized expression",m_driver.Location()); }
 
 
 %%

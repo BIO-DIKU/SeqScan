@@ -54,10 +54,10 @@ string MatrixIO::ToString() {
 void MatrixIO::Parse() {
   ifstream input(matrix_file_);
   string   line;
-  bool          comp = false;
+  bool     comp = false;
 
   if (!input.good()) {
-    string msg = "Error: File not found or readable: " + matrix_file_;
+    string msg = "Error: Matrix file not found or readable: " + matrix_file_;
     throw MatrixIOException(msg);
   }
 

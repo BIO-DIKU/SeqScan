@@ -63,7 +63,7 @@ Interpreter::Interpreter() :
 
 }
 
-ParseTreeUnit* Interpreter::parse(const std::string& raw_pattern) {
+ParseTreeUnit* Interpreter::Parse(const std::string& raw_pattern) {
   parse_tree_ = NULL;
   location_ = 0;
 
@@ -79,17 +79,17 @@ ParseTreeUnit* Interpreter::parse(const std::string& raw_pattern) {
 }
 
 
-void Interpreter::set_parse_tree(ParseTreeUnit* ptree)
+void Interpreter::SetParseTree(ParseTreeUnit* ptree)
 {
   parse_tree_ = ptree;
 }
 
-void Interpreter::increaseLocation(unsigned int loc) {
+void Interpreter::IncreaseLocation(unsigned int loc) {
   location_ += loc;
   //std::cout<<"increaseLocation("<<loc<<") .. now "<<location_<<std::endl;
 }
 
-unsigned int Interpreter::location() const {
+unsigned int Interpreter::Location() const {
   return location_;
 }
 

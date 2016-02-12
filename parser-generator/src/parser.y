@@ -20,9 +20,9 @@
 
 /*
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2014 Krzysztof Narkiewicz <krzysztof.narkiewicz@ezaquarii.com>
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -31,10 +31,10 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -43,18 +43,19 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- * 
+ *
  */
 
 %skeleton "lalr1.cc" /* -*- C++ -*- */
 %require "3.0"
-%defines
+%defines "parser.h"
 %define parser_class_name { Parser }
 
 %define api.token.constructor
 %define api.value.type variant
 %define parse.assert
 %define api.namespace { SeqScan }
+
 %code requires
 {
   #include <iostream>
@@ -82,19 +83,19 @@
   #include <tuple>
 
   #include "scanner.h"
-  #include "parser.hh"
+  #include "parser.h"
   #include "interpreter.h"
-  #include "location.hh"
- 
+  #include "location.h"
+
   // yylex() arguments are defined in parser.y
   static SeqScan::Parser::symbol_type yylex(SeqScan::Scanner &scanner, SeqScan::Interpreter &driver) {
       return scanner.get_next_token();
   }
-  
+
   // you can accomplish the same thing by inlining the code using preprocessor
   // x and y are same as in above static function
   // #define yylex(x, y) scanner.get_next_token()
-  
+
 }
 
 %lex-param { SeqScan::Scanner &scanner }
@@ -150,21 +151,21 @@
 
 
 pattern:
-  unit_list                              { driver.set_parse_tree($1); }
+  unit_list                              { driver.SetParseTree($1); }
 ;
 
 unit_list:
- 
+
   HAT composite DOLLAR                   { $2->pre_modifier_.start_anchor_ = true;
                                            $2->suf_modifier_.end_anchor_   = true;
-                                           $$ = $2; 
+                                           $$ = $2;
                                          }
 
 | HAT composite                          { $2->pre_modifier_.start_anchor_ = true;
-                                           $$ = $2; 
+                                           $$ = $2;
                                          }
 | composite DOLLAR                       { $1->suf_modifier_.end_anchor_ = true;
-                                           $$ = $1; 
+                                           $$ = $1;
                                          }
 | composite                              { $$ = $1;
                                          }
@@ -175,9 +176,11 @@ pattern_unit:
 /* Group units */
   LBRACK HAT STRING RBRACK               { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
                                            $$->pre_modifier_.hat_ = true;
+                                           $$->sequence_          = $3;
                                          }
 | LBRACK STRING RBRACK                   { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Group);
                                            $$->pre_modifier_.hat_ = false;
+                                           $$->sequence_          = $2;
                                          }
 
 
@@ -193,13 +196,13 @@ pattern_unit:
 /* Reference units */
 | front_modifiers LABEL back_modifiers   { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Reference);
                                            $$->referenced_label_ = $2;
-                                           $$->add_modifier($1);
-                                           $$->add_modifier($3);
+                                           $$->AddModifier($1);
+                                           $$->AddModifier($3);
                                          }
 
 | LABEL back_modifiers                   { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Reference);
                                            $$->referenced_label_ = $1;
-                                           $$->add_modifier($2);
+                                           $$->AddModifier($2);
                                          }
 
 /* Or units */
@@ -208,13 +211,13 @@ pattern_unit:
 /* Sequence units */
 | front_modifiers STRING back_modifiers  { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Sequence);
                                            $$->sequence_ = $2;
-                                           $$->add_modifier($1);
-                                           $$->add_modifier($3);
+                                           $$->AddModifier($1);
+                                           $$->AddModifier($3);
                                          }
 
 | STRING back_modifiers                  { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Sequence);
                                            $$->sequence_ = $1;
-                                           $$->add_modifier($2);
+                                           $$->AddModifier($2);
                                          }
 
 
@@ -240,7 +243,7 @@ pattern_unit:
                                            $$->min_repeats_ = std::get<0>($2);
                                            $$->min_repeats_ = std::get<1>($2);
                                            $$->open_repeats_ = std::get<2>($2);
-                                           $$->add_modifier($3);
+                                           $$->AddModifier($3);
                                          }
 ;
 
@@ -263,7 +266,7 @@ composite:
 | pattern_unit                           { $$ = new ParseTreeUnit(ParseTreeUnit::UnitType::Composite);
                                            $$->children_.push_back($1); }
 ;
-    
+
 
 /* Repeat units */
 repeats:
@@ -292,7 +295,7 @@ front_modifiers:
 
 | TILDE                                  { $$ = new PTPreModifier();
                                            $$->tilde_ = true;
-                                         } 
+                                         }
 ;
 
 /* Back modifiers */
@@ -302,13 +305,13 @@ back_modifiers:
                                            $$->insertions_ = $4;
                                            $$->deletions_ = $6;
                                          }
- 
+
 | SLASH INT COMMA INT                    { $$ = new PTSufModifier();
                                            $$->mismatches_ = $2;
                                            $$->indels_ = $4; }
 
 | SLASH INT                              { $$ = new PTSufModifier();
-                                           $$->errors_ = $2; }
+                                           $$->edits_ = $2; }
 
 |                                        { $$ = new PTSufModifier(); }
 ;
@@ -317,8 +320,6 @@ back_modifiers:
 
 // Bison expects us to provide implementation - otherwise linker complains
 void SeqScan::Parser::error(const location &loc , const std::string &message) {
-  //std::cout << "Error: " << message << std::endl << "Error location: " << driver.location() << std::endl;
-  throw PatternParseException(message,driver.location());
+  //std::cout << "Error: " << message << std::endl << "Error location: " << driver.Location() << std::endl;
+  throw PatternParseException(message,driver.Location());
 }
-
-

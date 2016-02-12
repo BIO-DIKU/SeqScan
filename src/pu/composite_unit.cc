@@ -18,6 +18,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+#include <assert.h>
 #include "composite_unit.h"   // TODO(Rasmus): include directory when naming .h files
 
 
@@ -35,6 +36,8 @@ void CompositeUnit::Initialize(
     std::string::const_iterator max_pos,
     bool stay_at_pos
 ) {
+  assert (pos!=max_pos);
+
   sequence_iterator_end_ = max_pos;
   stay_at_pos_ = stay_at_pos;
 
@@ -80,8 +83,12 @@ bool CompositeUnit::FindMatch() {
           return true;
         }
 
-        // Next loop iteration will FindMatch on next current_unit_. Initialize it
         const Match &cur_match = child_units_.at(current_unit_)->GetMatch();
+        // The end of the sequence has been reached. Stop searching.
+        if ((sequence_iterator_end_ - cur_match.pos) - cur_match.len <= 0)
+          return false;
+
+        // Next loop iteration will FindMatch on next current_unit_. Initialize it
         child_units_.at(current_unit_ + 1)->Initialize(
             cur_match.pos + cur_match.len,
             sequence_iterator_end_,
@@ -97,7 +104,6 @@ bool CompositeUnit::FindMatch() {
     }
   }
 
-  return false;
 }
 
 const Match& CompositeUnit::GetMatch() const {

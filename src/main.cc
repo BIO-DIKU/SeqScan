@@ -19,94 +19,89 @@
  */
 
 #include <stdio.h>
-
+#include <vector>
 #include <parser/parse_tree_unit.h>
 #include <parser/interpreter.h>
 #include <BioIO/seq_entry.h>
 #include <BioIO/fasta_reader.h>
 
-#include "optparse.h"
-#include "pattern_io.h"
+#include "opt_parse.h"
 #include "pu_factory/sanity_checker.h"
-#include "pu_factory/pattern_unit_creator.h"
+#include "pu_factory/pattern_unit_factory.h"
+#include "pu_factory/pure_tnfa_factory.h"
 
 int main(int argc, char *argv[]) {
-  //Parse cmd-line options
+  // Parse cmd-line options
   OptParse opt_parse(argc, (char**)argv);
 
-  //Extract string-patterns
-  std::vector<std::string> patterns;
-  if (!opt_parse.options_.pattern_file.empty()) {
-    PatternIO pat_parse(opt_parse.options_.pattern_file, patterns);
-  } else {
-    patterns.push_back(opt_parse.options_.pattern);
-  }
-
-  //Verbose output
-  if (opt_parse.options_.verbose) {
-    opt_parse.PrintVersion();
-    std::cerr << std::endl;
-    opt_parse.PrintCommandLine();
-    std::cerr << std::endl << std::endl;
-    opt_parse.PrintOptions();
-
-    std::cerr << std::endl << "Patterns:" << std::endl;
-
-    for (auto it : patterns) {
-      std::cerr << "  " << it << std::endl;
-    }
-  }
-
-  //Pattern parser classes
+  // Pattern parser classes
   SeqScan::Interpreter parse_tree_generator;
   SeqScan::SanityChecker parse_tree_checker;
-  SeqScan::PatternUnitCreator pattern_unit_factory;
 
-  for (auto& file_path : opt_parse.files_){
+  // Choose pattern unit factory based on magic keyword
+  std::unique_ptr<SeqScan::PatternUnitFactory> pattern_unit_factory;
+  if(opt_parse.options_.magic=="PureTNFAFactory") {
+    pattern_unit_factory = std::unique_ptr<SeqScan::PatternUnitFactory>(
+        new SeqScan::PureTNFAFactory(
+          *opt_parse.res_matcher_.get(),
+          *opt_parse.res_matcher_comp_.get() )
+        );
+  }
+  else {
+    pattern_unit_factory = std::unique_ptr<SeqScan::PatternUnitFactory>(
+        new SeqScan::PatternUnitFactory(
+          *opt_parse.res_matcher_.get(),
+          *opt_parse.res_matcher_comp_.get() )
+        );
+  }
 
-    //Set up fasta reader
+
+  // Parse, sanity-check and collect pattern units from optparser
+  std::vector<std::unique_ptr<PatternUnit>> patterns;
+  for (auto& raw_pat : opt_parse.patterns_) {
+    // Parse string-pattern
+    std::unique_ptr<SeqScan::ParseTreeUnit> parse_tree(parse_tree_generator.Parse(raw_pat));
+
+    if (parse_tree == NULL) {
+      std::cerr << "Error parsing pattern: " << raw_pat << std::endl;
+      continue;
+    }
+
+    // Sanity check parse-tree
+    if (!parse_tree_checker.IsSane(parse_tree.get())) {
+      std::cerr << "Insane pattern: " << raw_pat << std::endl;
+      std::cerr << parse_tree->Str(0) << std::endl;
+      continue;
+    }
+
+    // Convert parse-tree to pattern-unit
+    std::unique_ptr<PatternUnit> pattern = pattern_unit_factory->CreateFromParseTree(parse_tree.get());
+    patterns.push_back(std::move(pattern));
+  }
+
+  //Start matching sequences
+  for (auto& file_path : opt_parse.files_) {
+    // Set up fasta reader
     FastaReader fasta_reader(file_path);
 
-    for (auto& raw_pat : patterns){
+    // For each SeqEntry: attempt to match pattern
+    while (fasta_reader.HasNextEntry()) {
+      std::unique_ptr<SeqEntry> entry = fasta_reader.NextEntry();
+      const std::string& seq = entry->seq();
 
-      //Parse and check string-pattern
-      std::unique_ptr<SeqScan::ParseTreeUnit> parse_tree( parse_tree_generator.parse(raw_pat) );
-
-      if (parse_tree==NULL){
-        std::cerr<<"Error parsing pattern: "<<raw_pat<<std::endl;
-        continue;
-      }
-
-      if (!parse_tree_checker.is_sane( parse_tree.get() )){
-        std::cerr<<"Insane pattern: "<<raw_pat<<std::endl;
-        std::cerr<<parse_tree->str(0)<<std::endl;
-        continue;
-      }
-
-      std::unique_ptr<PatternUnit> pattern =
-          pattern_unit_factory.create_from_parse_tree(parse_tree.get());
-
-
-      //For each SeqEntry: attempt to match pattern
-      while (fasta_reader.hasNextEntry()){
-        std::unique_ptr<SeqEntry> entry = fasta_reader.nextEntry();
-        const std::string& seq = entry->seq();
-
-        //Perform matching of pattern against seq
+      for (auto &pattern : patterns) {
+        // Perform matching of pattern against seq
         pattern->Initialize(seq.cbegin(), seq.cend());
         while (pattern->FindMatch()) {
           const Match& match = pattern->GetMatch();
 
-          std::cout<<entry->name()<<"\t+\t";
+          std::cout << entry->name() << "\t+\t";
           match.Print(std::cout, seq.cbegin());
-          std::cout<<"\t"<<match.len<<std::endl;
+          std::cout << "\t" << match.len << std::endl;
         }
-
-      } // end while (fasta_reader.hasNextEntry())
-
-    } // end for (auto& raw_pat : patterns)
-
-  } // end for (auto& file_path : opt_parse.files_)
+      }
+    }
+  }
 
   return EXIT_SUCCESS;
 }
