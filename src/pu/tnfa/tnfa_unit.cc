@@ -21,12 +21,18 @@
 #include "tnfa_unit.h"
 #include "tnfa_model_512.h"
 #include "tnfa_model_64.h"
+#include "tnfa_model_indel.h"
+#include "tnfa_model_edits.h"
 
 TNFAUnit::TNFAUnit(const Modifiers &modifiers, const std::string pattern)
   : PatternUnit(modifiers), pattern_(pattern)
 {
   if(modifiers.insertions_ > 3 || modifiers.insertions_ > 3 || modifiers.deletions_ > 3)
     model_ = new TNFAModel512(modifiers, pattern);
+  else if(modifiers.indels_ > 0)
+    model_ = new TNFAModelIndel(modifiers, pattern);
+  else if(modifiers.max_edits_ > 0)
+    model_ = new TNFAModelEdits(modifiers, pattern);
   else
     model_ = new TNFAModel64(modifiers, pattern);
 }
