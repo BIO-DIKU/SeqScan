@@ -17,3 +17,167 @@
  *
  * http://www.gnu.org/copyleft/gpl.html
  */
+
+
+#include <memory>
+#include <iostream>
+#include <pu/backtrackers/backtrack_mid_unit.h>
+
+#include "../catch.h"
+
+#include "../../src/modifiers.h"
+#include "../../src/match.h"
+#include "../../src/pu/repeat_unit.h"
+
+using namespace std;
+
+/*
+ * AAC{2};
+ * TTAACAATTT       0 match
+ * TTAACAACTT       1 match
+ * TTAACAAC         1 match
+ * AACAACTT         1 match
+ *
+ *
+ * AAC{2,3}
+ * TTAACTT          No match
+ * TTAACAACTT       1 match
+ * TTAACAACAACTT    1 match
+ * TTAACAACAACAACTT 2 matches
+ *
+ * AAC/0,1,1{3}
+ * TTAACAATCACTT    1 match (0 edits, 1 ins, 1 del)
+ * TTAACACAATCTT    1 match (0 edits, 1 del, 1 ins)
+ *
+ * [AC]{4}
+ * TTCCACTT         Match
+ * TTCCATT          No match
+ */
+
+
+TEST_CASE("Fixed number of repeats", "[repeat]") {
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+  unique_ptr<PatternUnit> pu_i(new BacktrackMIDUnit(modifiers, "AAC"));
+  unique_ptr<PatternUnit> pu(new RepeatUnit(pu_i, modifiers, 2,2));
+
+  SECTION("First repeat match but second doesnt") {
+    string sequence = "TTAACAATTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+    REQUIRE(!pu->FindMatch());
+  }
+
+  SECTION("Two repeat match") {
+    string sequence = "TTAACAACTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+
+    REQUIRE(pu->FindMatch());
+    const Match& m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 6);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
+
+  // TTAACAAC         1 match
+  SECTION("A repeat match at the end of the sequence") {
+    string sequence = "TTAACAAC";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+
+    REQUIRE(pu->FindMatch());
+    const Match& m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 6);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
+
+  // AACAACTT         1 match
+  SECTION("A repeat match at the beginning of the sequence") {
+    string sequence = "AACAACTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+
+    REQUIRE(pu->FindMatch());
+    const Match& m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 0);
+    REQUIRE(m1.len == 6);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
+}
+
+
+TEST_CASE("Interval of repeats", "[repeat]") {
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+  unique_ptr<PatternUnit> pu_i(new BacktrackMIDUnit(modifiers, "AAC"));
+  unique_ptr<PatternUnit> pu(new RepeatUnit(pu_i, modifiers, 2, 3));
+
+  //TTAACTT          No match
+  SECTION("One seq-repeat for 2-3 rep pat: No match") {
+    string sequence = "TTAACTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+    REQUIRE(!pu->FindMatch());
+  }
+
+  //TTAACAACTT       1 match
+  SECTION("Two seq-repeat for 2-3 rep pat matches") {
+    string sequence = "TTAACAACTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+
+    REQUIRE(pu->FindMatch());
+    const Match &m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 6);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
+
+  //TTAACAACAACTT    2 matches
+  SECTION("Three seq-repeat for 2-3 rep pat matches twice") {
+    string sequence = "TTAACAACAACTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+
+    REQUIRE(pu->FindMatch());
+    const Match &m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 9);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(pu->FindMatch());
+    const Match &m2 = pu->GetMatch();
+    REQUIRE(m2.pos - sequence.cbegin() == 5);
+    REQUIRE(m2.len == 6);
+    REQUIRE(m2.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
+
+  //TTAACAACAACAACTT 3 matches
+  SECTION("Four seq-repeat for 2-3 rep pat matches thrice") {
+    string sequence = "TTAACAACAACAACTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+
+    REQUIRE(pu->FindMatch());
+    const Match &m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 9);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(pu->FindMatch());
+    const Match &m2 = pu->GetMatch();
+    REQUIRE(m2.pos - sequence.cbegin() == 5);
+    REQUIRE(m2.len == 9);
+    REQUIRE(m2.edits == 0);
+
+    REQUIRE(pu->FindMatch());
+    const Match &m3 = pu->GetMatch();
+    REQUIRE(m3.pos - sequence.cbegin() == 8);
+    REQUIRE(m3.len == 6);
+    REQUIRE(m3.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
+}

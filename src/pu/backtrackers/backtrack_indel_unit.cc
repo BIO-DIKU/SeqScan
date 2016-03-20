@@ -25,27 +25,9 @@
 
 using namespace std;
 
-
-BacktrackIndelUnit::BacktrackIndelUnit(
-    const Modifiers &modifiers,
-    const std::string& pattern
-) :
-    PatternUnit(modifiers),
-    pattern_(pattern)
+BacktrackIndelUnit::BacktrackIndelUnit( const Modifiers &modifiers, const std::string& pattern) :
+    BacktrackUnit(modifiers, pattern)
 { }
-
-void BacktrackIndelUnit::Initialize(
-    std::string::const_iterator pos,
-    std::string::const_iterator max_pos,
-    bool stay_at_pos
-) {
-  sequence_iterator_ = pos;
-  sequence_iterator_end_ = max_pos;
-  stay_at_pos_ = stay_at_pos;
-
-  last_found_matches_.clear();
-  last_found_index_ = 0;
-}
 
 bool BacktrackIndelUnit::FindMatch() {
   if (sequence_iterator_ == sequence_iterator_end_) return false;
@@ -99,12 +81,6 @@ bool BacktrackIndelUnit::FindMatch() {
   }
 }
 
-const Match& BacktrackIndelUnit::GetMatch() const {
-  std::set<Match >::iterator it = last_found_matches_.begin();
-  std::advance(it, last_found_index_);
-  return *it;
-}
-
 void BacktrackIndelUnit::CollectMatches(
     std::string::const_iterator seq_it,
     std::string::const_iterator pat_it,
@@ -137,13 +113,6 @@ void BacktrackIndelUnit::CollectMatches(
 
 std::ostream& operator<<(std::ostream& os, const BacktrackIndelUnit& obj) {
   return obj.Print(os);
-}
-std::ostream& BacktrackIndelUnit::Print(std::ostream &os) const {
-  modifiers_.PrintPUPrefix(os);
-  os << pattern_;
-  modifiers_.PrintPUSuffix(os);
-
-  return os;
 }
 
 std::unique_ptr<PatternUnit> BacktrackIndelUnit::Clone() const {

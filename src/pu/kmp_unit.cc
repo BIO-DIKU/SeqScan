@@ -30,14 +30,17 @@ KMPUnit::KMPUnit(const Modifiers &modifiers, const std::string& pattern):
 bool KMPUnit::FindMatch() {
   //Inspired by http://www.sanfoundry.com/cpp-program-implement-kruth-morris-patt-algorithm-kmp/
 
-
   last_found_matches_.clear();
   last_found_index_ = 0;
 
   const int m = pattern_.length();
   int k = 0; //Pattern position
 
-  while (sequence_iterator_!=sequence_iterator_end_) {
+  auto stop_pos = sequence_iterator_end_;
+  if(stay_at_pos_ && (sequence_iterator_end_-sequence_iterator_)>m)
+    stop_pos = sequence_iterator_+m;
+
+  while (sequence_iterator_!=stop_pos) {
     if (k == -1) {
       ++sequence_iterator_;
       k = 0;
@@ -56,7 +59,6 @@ bool KMPUnit::FindMatch() {
     }
   }
   return false;
-
 }
 
 void KMPUnit::BuildTransitions()
@@ -78,3 +80,8 @@ void KMPUnit::BuildTransitions()
   }
 }
 
+
+std::unique_ptr<PatternUnit> KMPUnit::Clone() const {
+  std::unique_ptr<PatternUnit> ret( new KMPUnit(modifiers_, pattern_) );
+  return std::move(ret);
+}

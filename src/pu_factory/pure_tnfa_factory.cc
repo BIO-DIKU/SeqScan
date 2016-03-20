@@ -18,21 +18,22 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_IO_H_
-#define SEQSCAN_IO_H_
+#include "pure_tnfa_factory.h"
 
-#include <string>
-#include <utility>
-#include <vector>
+#include "pu/tnfa/tnfa_unit.h"
 
-class IO {
-public:
-  /**
-   * Read a FASTA file. The result is returned as a vector of pairs where the first pair-member
-   * is the header entry and the second is the sequence, stripped of whitespaces and all
-   * upper-cased.
-   */
-  static std::vector< std::pair<std::string,std::string>> read_fasta(const std::string& fname);
-};
+namespace SeqScan {
 
-#endif  // SEQSCAN_IO_H_
+PureTNFAFactory::PureTNFAFactory(const ResMatcher &res_matcher, const ResMatcher &res_matcher_comp) :
+    PatternUnitFactory(res_matcher, res_matcher_comp)
+{ }
+
+std::unique_ptr<PatternUnit> PureTNFAFactory::CreateFromSequenceNode(
+    const ParseTreeUnit *node,
+    map<string, PatternUnit *> &ref_map)
+{
+  return std::unique_ptr<PatternUnit>(new TNFAUnit(CreateModifiers(node), node->sequence_));
+}
+
+
+}

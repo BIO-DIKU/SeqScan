@@ -30,22 +30,8 @@ BacktrackEditsUnit::BacktrackEditsUnit(
     const Modifiers &modifiers,
     const std::string& pattern
 ) :
-    PatternUnit(modifiers),
-    pattern_(pattern)
+    BacktrackUnit(modifiers, pattern)
 { }
-
-void BacktrackEditsUnit::Initialize(
-    std::string::const_iterator pos,
-    std::string::const_iterator max_pos,
-    bool stay_at_pos
-) {
-  sequence_iterator_ = pos;
-  sequence_iterator_end_ = max_pos;
-  stay_at_pos_ = stay_at_pos;
-
-  last_found_matches_.clear();
-  last_found_index_ = 0;
-}
 
 bool BacktrackEditsUnit::FindMatch() {
   if (sequence_iterator_ == sequence_iterator_end_) return false;
@@ -97,12 +83,6 @@ bool BacktrackEditsUnit::FindMatch() {
   }
 }
 
-const Match& BacktrackEditsUnit::GetMatch() const {
-  std::set<Match >::iterator it = last_found_matches_.begin();
-  std::advance(it, last_found_index_);
-  return *it;
-}
-
 void BacktrackEditsUnit::CollectMatches(
     std::string::const_iterator seq_it,
     std::string::const_iterator pat_it,
@@ -135,24 +115,6 @@ void BacktrackEditsUnit::CollectMatches(
 
 std::ostream& operator<<(std::ostream& os, const BacktrackEditsUnit& obj) {
   return obj.Print(os);
-}
-std::ostream& BacktrackEditsUnit::Print(std::ostream &os) const {
-  modifiers_.PrintPUPrefix(os);
-  // if(modifiers_.label_.size()>0)
-  //   os<<modifiers_.label_<<"=";
-
-  os << pattern_;
-
-  modifiers_.PrintPUSuffix(os);
-  // if (modifiers_.mismatches_ ||
-  //     modifiers_.insertions_ ||
-  //     modifiers_.deletions_) {
-  //  os << "/" << modifiers_.mismatches_ << "," <<
-  //               modifiers_.insertions_ << "," <<
-  //               modifiers_.deletions_;
-  //}
-
-  return os;
 }
 
 std::unique_ptr<PatternUnit> BacktrackEditsUnit::Clone() const {

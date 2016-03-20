@@ -54,6 +54,10 @@ class PatternUnitFactory {
    */
   virtual std::unique_ptr<PatternUnit> CreateFromNode(const ParseTreeUnit *node, map<string, PatternUnit *> &ref_map);
 
+  virtual std::unique_ptr<PatternUnit> CreateFromSequenceNode(
+      const ParseTreeUnit *node,
+      map<string, PatternUnit *> &ref_map);
+
   /**
    * Create a Modifier object from node->pre_modifiers and node->suf_modifiers.
    */

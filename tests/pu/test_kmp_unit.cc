@@ -130,3 +130,37 @@ TEST_CASE("Test kmp sequence unit matching without fuzziness", "[kmp]") {
 
 
 
+TEST_CASE("Test KMP unit matching with stay_at_pos", "[kmp]") {
+  // Set up test pattern "AAAA/0,0,0"
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+  unique_ptr<PatternUnit> pu(new KMPUnit(modifiers, "AAAA"));
+
+  SECTION("0 matches") {
+    string sequence = "TAAAATTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend(), true);
+    REQUIRE(!pu->FindMatch());
+    REQUIRE(!pu->FindMatch());
+
+    pu->Initialize(sequence.cbegin() + 2, sequence.cend(), true);
+    REQUIRE(!pu->FindMatch());
+  }
+
+  SECTION("1 match") {
+    string sequence = "TTTAAAATTT";
+    pu->Initialize(sequence.cbegin() + 3, sequence.cend(), true);
+    REQUIRE(pu->FindMatch());
+
+    const Match &m1 = pu->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 3);
+    REQUIRE(m1.len == 4);
+    REQUIRE(m1.edits == 0);
+
+    REQUIRE(!pu->FindMatch());
+  }
+
+  SECTION("Partial match extending over the end") {
+    string sequence = "TTTAAA";
+    pu->Initialize(sequence.cbegin() + 3, sequence.cend(), true);
+    REQUIRE(!pu->FindMatch());
+  }
+}

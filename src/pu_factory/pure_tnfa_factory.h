@@ -18,31 +18,34 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
-#ifndef SEQSCAN_KMP_UNIT_H
-#define SEQSCAN_KMP_UNIT_H
+#ifndef SEQSCAN_PURE_TNFA_FACTORY_H
+#define SEQSCAN_PURE_TNFA_FACTORY_H
 
-#include <vector>
 
-#include "pu/backtrackers/backtrack_unit.h"
+#include <map>
+#include <string>
 
-/**
- * Pattern unit that matches exact string patterns using the Knuth-Morris-Pratt algorithm.
- * Extends the BacktrackUnit and reuses most of its members, but overrides FindMatch.
- */
-class KMPUnit : public BacktrackUnit{
+#include <parser/parse_tree_unit.h>
+
+#include "pu_factory/pattern_unit_factory.h"
+#include "pu/pattern_unit.h"
+#include "modifiers.h"
+#include "res_matcher.h"
+
+namespace SeqScan {
+using ::std::string;
+using ::std::map;
+
+class PureTNFAFactory : public PatternUnitFactory {
  public:
-  KMPUnit(const Modifiers &modifiers, const std::string& pattern);
-
-  bool FindMatch() override;
+  PureTNFAFactory(const ResMatcher &res_matcher, const ResMatcher &res_matcher_comp);
 
  protected:
-  std::unique_ptr<PatternUnit> Clone() const override;
-
- private:
-  void BuildTransitions();
-  std::vector<int> transitions;
-
+  virtual std::unique_ptr<PatternUnit> CreateFromSequenceNode(
+      const ParseTreeUnit *node,
+      map<string, PatternUnit *> &ref_map);
 };
 
+}
 
-#endif //SEQSCAN_KMP_UNIT_H
+#endif //SEQSCAN_PURE_TNFA_FACTORY_H

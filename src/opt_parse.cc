@@ -19,6 +19,7 @@
  */
 
 #include "opt_parse.h"
+#include "matrix_io.h"
 
 #include <getopt.h>
 #include <string>
@@ -196,12 +197,31 @@ void OptParse::CompilePatterns() {
 }
 
 void OptParse::CompileResMatchers() {
+  string comp = ComplementToString(options_.complement);
+
   if (options_.match_file.empty()) {
+    if (comp != "forward" && options_.match_type >= 9) {
+      string msg = "Error: no complement match matrix";
+      throw OptParseException(msg);
+    }
+
     res_matcher_      = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_type));
     res_matcher_comp_ = std::unique_ptr<ResMatcher>(new ResMatcher(-1 * options_.match_type));
   } else {
     res_matcher_      = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_file, false));
-    res_matcher_comp_ = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_file, true));
+
+    if (comp != "forward") {
+      try {
+        res_matcher_comp_ = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_file, true));
+      }
+
+      catch (MatrixIOException) {
+        string msg = "Error: no complement match matrix";
+        throw OptParseException(msg);
+      }
+    } else {
+      res_matcher_comp_ = std::unique_ptr<ResMatcher>(new ResMatcher(options_.match_file, false));
+    }
   }
 }
 

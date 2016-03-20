@@ -19,7 +19,7 @@
  */
 
 #include "group_unit.h"
-#include <string>
+#include <assert.h>
 
 GroupUnit::GroupUnit(const Modifiers &modifiers, const std::string &char_group, const bool &negator):
   PatternUnit(modifiers),
@@ -32,8 +32,10 @@ GroupUnit::GroupUnit(const Modifiers &modifiers, const std::string &char_group, 
 void GroupUnit::Initialize(
   std::string::const_iterator pos,
   std::string::const_iterator max_pos,
-  bool stay_at_pos)
-{
+  bool stay_at_pos
+) {
+  assert (pos!=max_pos);
+
   sequence_iterator_     = pos;
   sequence_iterator_end_ = max_pos;
   stay_at_pos_           = stay_at_pos;
@@ -130,4 +132,9 @@ inline void GroupUnit::UpdateMatch() {
   if (match_ != NULL) delete match_;
   match_ = new Match(sequence_iterator_, 1, 0);
   ++sequence_iterator_;
+}
+
+std::unique_ptr<PatternUnit> GroupUnit::Clone() const {
+  std::unique_ptr<PatternUnit> ret( new GroupUnit(modifiers_, char_group_, negator_) );
+  return std::move(ret);
 }
