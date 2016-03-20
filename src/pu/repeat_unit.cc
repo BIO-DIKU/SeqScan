@@ -85,9 +85,11 @@ bool RepeatUnit::CollectMatches(int repeat_lvl){
 
   while ( child_units_[repeat_lvl]->FindMatch() ) {
 
-    bool collected_from_deeper = repeat_lvl+1<max_repeats_ && CollectMatches(repeat_lvl+1);
+    bool collected_from_deeper = (max_repeats_<0 || repeat_lvl+1<max_repeats_) && CollectMatches(repeat_lvl+1);
 
-    if (repeat_lvl+1>=min_repeats_ && (!collected_from_deeper || repeat_lvl+1==max_repeats_) ) {
+    if (
+        repeat_lvl+1>=min_repeats_ && (!collected_from_deeper || repeat_lvl+1==max_repeats_ )
+    ) {
       // Theres a maximal match. Record it
       std::vector<Match> sub_matches;
       for (int r = 0; r <= repeat_lvl; r++)
