@@ -66,8 +66,8 @@ int main(int argc, char *argv[]) {
     FastaReader fasta_reader(file_path);
 
     // For each SeqEntry: attempt to match pattern
-    while (fasta_reader.hasNextEntry()) {
-      std::unique_ptr<SeqEntry> entry = fasta_reader.nextEntry();
+    while (fasta_reader.HasNextEntry()) {
+      std::unique_ptr<SeqEntry> entry = fasta_reader.NextEntry();
       const std::string& seq = entry->seq();
 
       for (auto &pattern : patterns) {
