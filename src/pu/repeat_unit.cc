@@ -75,6 +75,18 @@ bool RepeatUnit::CollectMatches(int repeat_lvl){
 
   if(repeat_lvl>0){
     const Match prev_match = child_units_[repeat_lvl-1]->GetMatch();
+    if(prev_match.pos+prev_match.len==sequence_iterator_end_){
+      if(repeat_lvl+1>=min_repeats_){
+        // Theres a match; Record it
+        std::vector<Match> sub_matches;
+        for (int r = 0; r <= repeat_lvl; r++)
+          sub_matches.push_back(child_units_[r]->GetMatch());
+        matches_.push_back(Match(sub_matches));
+        return true;
+      }
+      return false;
+    }
+
     child_units_[repeat_lvl]->Initialize(
             prev_match.pos + prev_match.len,
             sequence_iterator_end_,
@@ -88,7 +100,7 @@ bool RepeatUnit::CollectMatches(int repeat_lvl){
     bool collected_from_deeper = repeat_lvl+1<max_repeats_ && CollectMatches(repeat_lvl+1);
 
     if (repeat_lvl+1>=min_repeats_ && (!collected_from_deeper || repeat_lvl+1==max_repeats_) ) {
-      // Theres a maximal match. Record it
+      // Theres a maximal match; Record it
       std::vector<Match> sub_matches;
       for (int r = 0; r <= repeat_lvl; r++)
         sub_matches.push_back(child_units_[r]->GetMatch());
