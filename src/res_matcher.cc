@@ -132,7 +132,7 @@ void ResMatcher::MatrixToMatcher() {
       ParseMatrix(kMatrix10);
       break;
     default:
-      string msg = "Error: Unknown matrix: " + to_string(matrix_num_);
+      string msg = "residue-matcher: Unknown matrix: " + to_string(matrix_num_);
       throw ResMatcherException(msg);
       break;
   }
