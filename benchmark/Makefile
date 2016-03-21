@@ -1,16 +1,17 @@
-
+# na = nucleic acid (DNA/RNA)
+# aa = amino acid (Protein)
 DATADIR      = data
-SEQFILE      = $(DATADIR)/chr22.fa
-PEPFILE      = $(DATADIR)/Aurpu2p4.faa
+NA_FILE      = $(DATADIR)/chr22.fa
+AA_FILE      = $(DATADIR)/Aurpu2p4.faa
 
 # Assumes that you put scan_for_matches and seqscan in your path
 SFM_BIN      = scan_for_matches
 SQS_BIN      = seqscan
 PYX_BIN      = python pyRegexMatch.py
 
-SFM_PATS     = $(wildcard pat_*/sfm.pat)
-SQS_PATS     = $(wildcard pat_*/seqscan.pat)
-PYX_PATS     = $(wildcard pat_*/pyRegex.pat)
+SFM_PATS     = $(wildcard pat_*/sfm_*.pat)
+SQS_PATS     = $(wildcard pat_*/seqscan_*.pat)
+PYX_PATS     = $(wildcard pat_*/pyRegex_*.pat)
 ALL_PATS     = $(SFM_PATS) $(SQS_PATS) $(PYX_PATS)
 
 OUTPUT_FILES = $(subst .pat,.txt,$(ALL_PATS))
@@ -32,20 +33,28 @@ all: $(OUTPUT_FILES) benchmark.png
 	gunzip -k $<
 	chmod a-w $<
 
-%/seqscan.txt: %/seqscan.pat $(SEQFILE)
-	(time -p $(SQS_BIN) -P $< -V $(SEQFILE)) &> $@
+%/seqscan_na.txt: %/seqscan_na.pat $(NA_FILE)
+	(time -p $(SQS_BIN) -P $< -V $(NA_FILE)) &> $@
 
-%/sfm.txt: %/sfm.pat $(SEQFILE)
-	(time -p $(SFM_BIN) -o 1 $< < $(SEQFILE)) &> $@
+%/sfm_na.txt: %/sfm_na.pat $(NA_FILE)
+	(time -p $(SFM_BIN) -o 1 $< < $(NA_FILE)) &> $@
 
-%/pyRegex.txt: %/pyRegex.pat $(SEQFILE)
-	(time -p $(PYX_BIN) `cat $<` $(SEQFILE)) &> $@
+%/pyRegex_na.txt: %/pyRegex_na.pat $(NA_FILE)
+	(time -p $(PYX_BIN) `cat $<` $(NA_FILE)) &> $@
+
+%/seqscan_aa.txt: %/seqscan_aa.pat $(AA_FILE)
+	(time -p $(SQS_BIN) -m 10 -P $< -V $(AA_FILE)) &> $@
+
+%/sfm_aa.txt: %/sfm_aa.pat $(AA_FILE)
+	(time -p $(SFM_BIN) -p -o 1 $< < $(AA_FILE)) &> $@
+
+%/pyRegex_aa.txt: %/pyRegex_aa.pat $(AA_FILE)
+	(time -p $(PYX_BIN) `cat $<` $(AA_FILE)) &> $@
 
 
 # Summary file
 benchmark.dat: $(OUTPUT_FILES)
 	bash collect_benchmark_data.sh $(OUTPUT_DIRS) > $@
-
 
 # Rules for generating plots
 benchmark.png: benchmark.dat
@@ -53,7 +62,6 @@ benchmark.png: benchmark.dat
 
 benchmark.svg: benchmark.dat
 	gnuplot -e "set term svg;set output '$@'" plot_benchmark.gp 
-
 
 # Cleaning rule. Remember to add new targets here
 clean:
