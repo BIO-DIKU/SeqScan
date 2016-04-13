@@ -22,6 +22,7 @@
 #include <memory>
 #include <iostream>
 #include <pu/backtrackers/backtrack_mid_unit.h>
+#include <pu/group_unit.h>
 
 #include "../catch.h"
 
@@ -179,5 +180,52 @@ TEST_CASE("Interval of repeats", "[repeat]") {
     REQUIRE(m3.edits == 0);
 
     REQUIRE(!pu->FindMatch());
+  }
+}
+
+TEST_CASE("Repeat of group unit", "[repeat]") {
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+  unique_ptr<PatternUnit> pu_i(new GroupUnit(modifiers, "A", false));
+  unique_ptr<PatternUnit> pu_23(new RepeatUnit(pu_i, modifiers, 2, 3));
+  unique_ptr<PatternUnit> pu_2u(new RepeatUnit(pu_i, modifiers, 2, -1));
+
+  SECTION("Repeated group match in the middle of the sequence") {
+    string sequence = "TTAACTT";
+    pu_23->Initialize(sequence.cbegin(), sequence.cend());
+    REQUIRE(pu_23->FindMatch());
+    const Match &m1 = pu_23->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 2);
+    REQUIRE(m1.edits == 0);
+  }
+
+  SECTION("Repeated group match at the end of the sequence") {
+    string sequence = "TTAAA";
+    pu_23->Initialize(sequence.cbegin(), sequence.cend());
+    REQUIRE(pu_23->FindMatch());
+    const Match &m1 = pu_23->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 3);
+    REQUIRE(m1.edits == 0);
+  }
+
+  SECTION("Unlimited repeat group match at the end of the sequence") {
+    string sequence = "TTAAA";
+    pu_2u->Initialize(sequence.cbegin(), sequence.cend());
+    REQUIRE(pu_2u->FindMatch());
+    const Match &m1 = pu_2u->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 3);
+    REQUIRE(m1.edits == 0);
+  }
+
+  SECTION("Unlimited repeat group match in middle of the sequence") {
+    string sequence = "TTAAAAACCC";
+    pu_2u->Initialize(sequence.cbegin(), sequence.cend());
+    REQUIRE(pu_2u->FindMatch());
+    const Match &m1 = pu_2u->GetMatch();
+    REQUIRE(m1.pos - sequence.cbegin() == 2);
+    REQUIRE(m1.len == 5);
+    REQUIRE(m1.edits == 0);
   }
 }
