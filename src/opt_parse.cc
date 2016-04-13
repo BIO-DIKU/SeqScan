@@ -134,7 +134,7 @@ void OptParse::Parse() {
         options_.magic = string(optarg);
         break;
       default:
-        string msg = "Error: Unexpected argument: ->" + string(1, (char) opt) + "<-";
+        string msg = "option-parser: Unexpected argument: '" + string(1, (char) opt) + "'";
         throw OptParseException(msg);
     }
   }
@@ -164,26 +164,26 @@ bool OptParse::OptCheck() {
 
 void OptParse::OptCheckPatternGiven() {
   if (options_.pattern.empty() && options_.pattern_file.empty()) {
-    string msg = "Error: missing pattern or pattern_file";
+    string msg = "option-parser: Missing --pattern or --pattern_file";
     throw OptParseException(msg);
   }
 
   if (!options_.pattern.empty() && !options_.pattern_file.empty()) {
-    string msg = "Error: both pattern and pattern_file given";
+    string msg = "option-parser: Both --pattern and --pattern_file given";
     throw OptParseException(msg);
   }
 }
 
 void OptParse::OptCheckFilesGiven() {
   if (files_.empty()) {
-    string msg = "Error: no sequence files given";
+    string msg = "option-parser: No sequence file(s) given";
     throw OptParseException(msg);
   }
 }
 
 void OptParse::OptCheckStartEnd() {
   if (options_.end > 0 && options_.start > options_.end) {
-    string msg = "Error: start > end: " + to_string(options_.start) + " > " + to_string(options_.end);
+    string msg = "option-parser: start > end (" + to_string(options_.start) + " > " + to_string(options_.end)+")";
     throw OptParseException(msg);
   }
 }
@@ -201,7 +201,7 @@ void OptParse::CompileResMatchers() {
 
   if (options_.match_file.empty()) {
     if (comp != "forward" && options_.match_type >= 9) {
-      string msg = "Error: no complement match matrix";
+      string msg = "option-parser: No complement match matrix";
       throw OptParseException(msg);
     }
 
@@ -216,7 +216,7 @@ void OptParse::CompileResMatchers() {
       }
 
       catch (MatrixIOException) {
-        string msg = "Error: no complement match matrix";
+        string msg = "option-parser: No complement match matrix";
         throw OptParseException(msg);
       }
     } else {
@@ -296,7 +296,7 @@ OptParse::OptComplement OptParse::ParseComplement(string optarg) const {
   } else if (optarg == "both") {
     return OptComplement::Both;
   } else {
-    string msg = "Error: Bad argument for complement option: " + optarg;
+    string msg = "option-parser: Bad argument for complement option: " + optarg;
     throw OptParseException(msg);
   }
 }
@@ -307,7 +307,7 @@ OptParse::OptDirection OptParse::ParseDirection(string optarg) const {
   } else if (optarg == "reverse") {
     return OptDirection::Reverse;
   } else {
-    string msg = "Error: Bad argument for direction option: " + optarg;
+    string msg = "option-parser: Bad argument for direction option: " + optarg;
     throw OptParseException(msg);
   }
 }
@@ -318,7 +318,7 @@ OptParse::OptScoreEncoding OptParse::ParseScoreEncoding(string optarg) const {
   } else if (optarg == "Phred64") {
     return OptScoreEncoding::Phred64;
   } else {
-    string msg = "Error: Bad argument for score_encoding option: " + optarg;
+    string msg = "option-parser: Bad argument for score_encoding option: " + optarg;
     throw OptParseException(msg);
   }
 }
