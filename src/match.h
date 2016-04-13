@@ -58,7 +58,7 @@ public:
    * Print the match to the specified stream and return the stream. If there are no sub-matches
    * the format of printing the match is:
    * seq-pos,match-len,match-edits,sub-string
-   * For example the pattern unit 'AAAA/1,0,0' could have a match that would print:
+   * Here, seq-pos is 1-index. For example the pattern unit 'AAAA/1,0,0' could have a match that would print:
    * 2001,4,1,ACAA
    * In order to find the absolute sequence-position the seq_start argument is provided. If the
    * match has N sub-matches the format of printing the match is:
