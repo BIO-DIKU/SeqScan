@@ -23,6 +23,7 @@
 #include <iostream>
 #include <pu/backtrackers/backtrack_mid_unit.h>
 #include <pu/group_unit.h>
+#include <pu/composite_unit.h>
 
 #include "../catch.h"
 
@@ -48,7 +49,13 @@ using namespace std;
  *
  * AAC/0,1,1{3}
  * TTAACAATCACTT    1 match (0 edits, 1 ins, 1 del)
- * TTAACACAATCTT    1 match (0 edits, 1 del, 1 ins)
+ *  TAACaatcAC
+ *  TAACaatCAC
+ *   AACAatcACT
+ *   AACAatcAC
+ *   AACaatCAC
+ *   AACaatcACT
+ *   AACaatcAC
  *
  * [AC]{4}
  * TTCCACTT         Match
@@ -57,17 +64,22 @@ using namespace std;
 
 
 TEST_CASE("Fixed number of repeats", "[repeat]") {
-  Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
-  unique_ptr<PatternUnit> pu_i(new BacktrackMIDUnit(modifiers, "AAC"));
-  unique_ptr<PatternUnit> pu(new RepeatUnit(pu_i, modifiers, 2,2));
 
   SECTION("First repeat match but second doesnt") {
+    Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+    unique_ptr<PatternUnit> pu_i(new BacktrackMIDUnit(modifiers, "AAC"));
+    unique_ptr<PatternUnit> pu(new RepeatUnit(pu_i, modifiers, 2,2));
+
     string sequence = "TTAACAATTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
     REQUIRE(!pu->FindMatch());
   }
 
   SECTION("Two repeat match") {
+    Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+    unique_ptr<PatternUnit> pu_i(new BacktrackMIDUnit(modifiers, "AAC"));
+    unique_ptr<RepeatUnit> pu(new RepeatUnit(pu_i, modifiers, 2,2));
+
     string sequence = "TTAACAACTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
 
@@ -82,6 +94,10 @@ TEST_CASE("Fixed number of repeats", "[repeat]") {
 
   // TTAACAAC         1 match
   SECTION("A repeat match at the end of the sequence") {
+    Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+    unique_ptr<PatternUnit> pu_i(new BacktrackMIDUnit(modifiers, "AAC"));
+    unique_ptr<RepeatUnit> pu(new RepeatUnit(pu_i, modifiers, 2,2));
+
     string sequence = "TTAACAAC";
     pu->Initialize(sequence.cbegin(), sequence.cend());
 
@@ -96,6 +112,10 @@ TEST_CASE("Fixed number of repeats", "[repeat]") {
 
   // AACAACTT         1 match
   SECTION("A repeat match at the beginning of the sequence") {
+    Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+    unique_ptr<PatternUnit> pu_i(new BacktrackMIDUnit(modifiers, "AAC"));
+    unique_ptr<RepeatUnit> pu(new RepeatUnit(pu_i, modifiers, 2,2));
+
     string sequence = "AACAACTT";
     pu->Initialize(sequence.cbegin(), sequence.cend());
 
@@ -183,11 +203,33 @@ TEST_CASE("Interval of repeats", "[repeat]") {
   }
 }
 
+TEST_CASE("Interval of repeats followed by 'manual' repeat", "[repeat]") {
+  Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
+  unique_ptr<PatternUnit> pu_i(new BacktrackMIDUnit(modifiers, "AAC"));
+  unique_ptr<PatternUnit> pu_rep(new RepeatUnit(pu_i, modifiers, 2, 3));
+  unique_ptr<PatternUnit> pu_suf(new BacktrackMIDUnit(modifiers, "AAC"));
+  unique_ptr<CompositeUnit> pu(new CompositeUnit(modifiers));
+  pu->AddUnit(pu_rep);
+  pu->AddUnit(pu_suf);
+
+  // Pattern: "AAC{2,3} AAC"
+
+  //0 matches as repeats are greedy
+  SECTION("Two seq-repeat for 2-3 rep pat matches and one manual ") {
+    string sequence = "TTAACAACAACTT";
+    pu->Initialize(sequence.cbegin(), sequence.cend());
+
+    REQUIRE(!pu->FindMatch());
+  }
+}
+
 TEST_CASE("Repeat of group unit", "[repeat]") {
   Modifiers modifiers = Modifiers::CreateMIDModifiers(0, 0, 0);
   unique_ptr<PatternUnit> pu_i(new GroupUnit(modifiers, "A", false));
   unique_ptr<PatternUnit> pu_23(new RepeatUnit(pu_i, modifiers, 2, 3));
-  unique_ptr<PatternUnit> pu_2u(new RepeatUnit(pu_i, modifiers, 2, -1));
+
+  unique_ptr<PatternUnit> pu_iu(new GroupUnit(modifiers, "A", false));
+  unique_ptr<PatternUnit> pu_2u(new RepeatUnit(pu_iu, modifiers, 2, -1));
 
   SECTION("Repeated group match in the middle of the sequence") {
     string sequence = "TTAACTT";
