@@ -37,16 +37,21 @@ void ReferenceUnit::Initialize(
     bool stay_at_pos
 ) {
   const Match& match = referenced_unit_->GetMatch();
-  std::string pattern(match.pos, match.pos+match.len);
+  if(modifiers_.reverse_) {
+    ref_match_ = std::string(match.pos, match.pos+match.len);
+    std::reverse(ref_match_.begin(), ref_match_.end());
+  } else {
+    ref_match_ = std::string(match.pos, match.pos+match.len);
+  }
 
   if(modifiers_.indels_)
-    pattern_finder_ = std::unique_ptr<PatternUnit>(new BacktrackIndelUnit(modifiers_, pattern));
+    pattern_finder_ = std::unique_ptr<PatternUnit>(new BacktrackIndelUnit(modifiers_, ref_match_));
   else if(modifiers_.max_edits_)
-    pattern_finder_ = std::unique_ptr<PatternUnit>(new BacktrackEditsUnit(modifiers_, pattern));
+    pattern_finder_ = std::unique_ptr<PatternUnit>(new BacktrackEditsUnit(modifiers_, ref_match_));
   else if(modifiers_.insertions_+modifiers_.mismatches_+modifiers_.deletions_)
-    pattern_finder_ = std::unique_ptr<PatternUnit>(new BacktrackMIDUnit(modifiers_, pattern));
+    pattern_finder_ = std::unique_ptr<PatternUnit>(new BacktrackMIDUnit(modifiers_, ref_match_));
   else
-    pattern_finder_ = std::unique_ptr<PatternUnit>(new KMPUnit(modifiers_, pattern));
+    pattern_finder_ = std::unique_ptr<PatternUnit>(new KMPUnit(modifiers_, ref_match_));
 
   pattern_finder_->Initialize(pos, max_pos, stay_at_pos);
 }

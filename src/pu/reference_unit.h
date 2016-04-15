@@ -46,6 +46,8 @@ public:
 
 private:
 
+  std::string ref_match_;
+
   std::string::const_iterator sequence_iterator_end_;
 
   PatternUnit* referenced_unit_;
