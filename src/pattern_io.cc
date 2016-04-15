@@ -43,7 +43,7 @@ void PatternIO::Parse() {
   string   line;
 
   if (!input.good()) {
-    string msg = "Error: Pattern file not found or readable: " + pat_file_;
+    string msg = "pattern-io: Pattern file not found or readable: " + pat_file_;
     throw PatternIOException(msg);
   }
 
@@ -63,6 +63,6 @@ void PatternIO::CheckPatterns() {
     return;
   }
 
-  string msg = "Error: No patterns in file: " + pat_file_;
+  string msg = "pattern-io: No patterns in file: " + pat_file_;
   throw PatternIOException(msg);
 }

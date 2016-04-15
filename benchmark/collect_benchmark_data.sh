@@ -71,9 +71,9 @@ DIRS=$@
 echo -e "Pattern\tSeqScan\tSeqScan\tSFM\tSFM\tPyRegex\tPyRegex"
 
 for dir in $DIRS; do
-    sqs_file="$dir/seqscan.txt"
-    sfm_file="$dir/sfm.txt"
-    pyx_file="$dir/pyRegex.txt"
+    sqs_file=`ls $dir/seqscan_*.txt`
+    sfm_file=`ls $dir/sfm_*.txt`
+    pyx_file=`ls $dir/pyRegex_*.txt`
 
     if [[ -f "$sqs_file" && -f "$sfm_file" && -f "$pyx_file" ]]; then
         name=$(pattern_name "$dir")

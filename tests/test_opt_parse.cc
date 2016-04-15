@@ -42,9 +42,8 @@ TEST_CASE("OptParse w. missing option argument raises", "[opt_parse]") {
     OptParse opt_parse(argc, (char**)argv, true);
     FAIL("opt_parse() did not throw expected exception");
   }
-
   catch (OptParseException& e) {
-    REQUIRE(e.exceptionMsg == "Error: Unexpected argument: ->?<-");
+    REQUIRE(e.exceptionMsg == "option-parser: Unexpected argument: '?'");
   }
 }
 
@@ -193,7 +192,7 @@ TEST_CASE("OptParse direction", "[opt_parse]") {
     }
 
     catch (OptParseException& e) {
-      REQUIRE(e.exceptionMsg == "Error: Bad argument for direction option: foo");
+      REQUIRE(e.exceptionMsg == "option-parser: Bad argument for direction option: foo");
     }
   }
 }
@@ -286,7 +285,7 @@ TEST_CASE("OptParse score_encoding", "[opt_parse]") {
     }
 
     catch (OptParseException& e) {
-      REQUIRE(e.exceptionMsg == "Error: Bad argument for score_encoding option: foo");
+      REQUIRE(e.exceptionMsg == "option-parser: Bad argument for score_encoding option: foo");
     }
   }
 }
@@ -515,7 +514,7 @@ TEST_CASE("OptParse w/o pattern or pattern_file raises", "[opt_parse]") {
   }
 
   catch (OptParseException& e) {
-    REQUIRE(e.exceptionMsg == "Error: missing pattern or pattern_file");
+    REQUIRE(e.exceptionMsg == "option-parser: Missing --pattern or --pattern_file");
   }
 }
 
@@ -529,7 +528,7 @@ TEST_CASE("OptParse w pattern and pattern_file raises", "[opt_parse]") {
   }
 
   catch (OptParseException& e) {
-    REQUIRE(e.exceptionMsg == "Error: both pattern and pattern_file given");
+    REQUIRE(e.exceptionMsg == "option-parser: Both --pattern and --pattern_file given");
   }
 }
 
@@ -571,7 +570,7 @@ TEST_CASE("OptParse w/o non-optional arguments", "[opt_parse]") {
     }
 
     catch (OptParseException& e) {
-      REQUIRE(e.exceptionMsg == "Error: no sequence files given");
+      REQUIRE(e.exceptionMsg == "option-parser: No sequence file(s) given");
     }
   }
 }
@@ -598,7 +597,7 @@ TEST_CASE("OptParse w. start and end", "[opt_parse]") {
     }
 
     catch (OptParseException& e) {
-      REQUIRE(e.exceptionMsg == "Error: start > end: 2 > 1");
+      REQUIRE(e.exceptionMsg == "option-parser: start > end (2 > 1)");
     }
   }
 }
@@ -620,7 +619,7 @@ TEST_CASE("OptParse w. complement and matrix w/o complement", "[opt_parse]") {
     }
 
     catch (OptParseException& e) {
-      REQUIRE(e.exceptionMsg == "Error: no complement match matrix");
+      REQUIRE(e.exceptionMsg == "option-parser: No complement match matrix");
     }
   }
 
@@ -633,7 +632,7 @@ TEST_CASE("OptParse w. complement and matrix w/o complement", "[opt_parse]") {
     }
 
     catch (OptParseException& e) {
-      REQUIRE(e.exceptionMsg == "Error: no complement match matrix");
+      REQUIRE(e.exceptionMsg == "option-parser: No complement match matrix");
     }
   }
 }
@@ -663,7 +662,7 @@ TEST_CASE("OptParse w. complement and matrix file w/o complement", "[opt_parse]"
     }
 
     catch (OptParseException& e) {
-      REQUIRE(e.exceptionMsg == "Error: no complement match matrix");
+      REQUIRE(e.exceptionMsg == "option-parser: No complement match matrix");
     }
   }
 
@@ -676,7 +675,7 @@ TEST_CASE("OptParse w. complement and matrix file w/o complement", "[opt_parse]"
     }
 
     catch (OptParseException& e) {
-      REQUIRE(e.exceptionMsg == "Error: no complement match matrix");
+      REQUIRE(e.exceptionMsg == "option-parser: No complement match matrix");
     }
 
     remove(file.c_str());

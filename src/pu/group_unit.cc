@@ -44,22 +44,14 @@ void GroupUnit::Initialize(
 
 bool GroupUnit::FindMatch() {
   if (stay_at_pos_) {
-    if (negator_) {
-      return FindNoMatchAtPos();
-    } else {
-      return FindMatchAtPos();
-    }
+    return negator_ ? FindNoMatchAtPos() : FindMatchAtPos();
   } else {
-    if (negator_) {
-      return FindNoMatchIter();
-    } else {
-      return FindMatchIter();
-    }
+    return negator_ ? FindNoMatchIter() : FindMatchIter();
   }
 }
 
 bool GroupUnit::FindNoMatchAtPos() {
-  if(pos_was_checked_) return false;
+  if (pos_was_checked_) return false;
 
   bool match = false;
 
@@ -81,7 +73,7 @@ bool GroupUnit::FindNoMatchAtPos() {
 }
 
 bool GroupUnit::FindMatchAtPos() {
-  if(pos_was_checked_) return false;
+  if (pos_was_checked_) return false;
 
   for (auto p : char_group_) {
     if (modifiers_.res_matcher_.Match(*sequence_iterator_, p)) {
@@ -136,13 +128,11 @@ const Match& GroupUnit::GetMatch() const {
   return *match_;
 }
 
-
 inline void GroupUnit::UpdateMatch() {
   if (match_ != NULL) delete match_;
   match_ = new Match(sequence_iterator_, 1, 0);
   ++sequence_iterator_;
 }
-
 
 std::unique_ptr<PatternUnit> GroupUnit::Clone() const {
   std::unique_ptr<PatternUnit> ret( new GroupUnit(modifiers_, char_group_, negator_) );

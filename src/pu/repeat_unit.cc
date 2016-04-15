@@ -59,14 +59,13 @@ bool RepeatUnit::FindMatch() {
     cur_match_++;
   }
 
-
   return cur_match_ < matches_.size();
 
 }
 
 /** Fill up matches_ */
 bool RepeatUnit::CollectMatches(int repeat_lvl){
-
+  //Ensure that child_units_ contains enough repeats
   if((size_t)repeat_lvl==child_units_.size()){
     child_units_.push_back(std::move(
         std::unique_ptr<PatternUnit>(child_units_[repeat_lvl-1]->Clone())
@@ -75,6 +74,19 @@ bool RepeatUnit::CollectMatches(int repeat_lvl){
 
   if(repeat_lvl>0){
     const Match prev_match = child_units_[repeat_lvl-1]->GetMatch();
+
+    if(prev_match.pos+prev_match.len==sequence_iterator_end_){
+      if(repeat_lvl>=min_repeats_){
+        // Theres a match; Record it
+        std::vector<Match> sub_matches;
+        for (int r = 0; r < repeat_lvl; r++)
+          sub_matches.push_back(child_units_[r]->GetMatch());
+        matches_.push_back(Match(sub_matches));
+        return true;
+      }
+      return false;
+    }
+
     child_units_[repeat_lvl]->Initialize(
             prev_match.pos + prev_match.len,
             sequence_iterator_end_,
@@ -84,17 +96,34 @@ bool RepeatUnit::CollectMatches(int repeat_lvl){
   bool collected_match = false;
 
   while ( child_units_[repeat_lvl]->FindMatch() ) {
+    bool dig_deeper = max_repeats_<0 || repeat_lvl+1<max_repeats_;
+    if(dig_deeper){
+      bool collected_from_deeper = CollectMatches(repeat_lvl+1);
+      if(!collected_from_deeper){
+        if(repeat_lvl+1>=min_repeats_){
+          if(max_repeats_<0 || repeat_lvl+1<=max_repeats_){
+            // Theres a maximal match; Record it
+            std::vector<Match> sub_matches;
+            for (int r = 0; r <= repeat_lvl; r++)
+              sub_matches.push_back(child_units_[r]->GetMatch());
+            matches_.push_back(Match(sub_matches));
 
-    bool collected_from_deeper = repeat_lvl+1<max_repeats_ && CollectMatches(repeat_lvl+1);
+            collected_match = true;
+          }
+        }
+      }
+    }else{
+      if(repeat_lvl+1>=min_repeats_) {
+        if (max_repeats_ < 0 || repeat_lvl + 1 <= max_repeats_) {
+          // Theres a maximal match; Record it
+          std::vector<Match> sub_matches;
+          for (int r = 0; r <= repeat_lvl; r++)
+            sub_matches.push_back(child_units_[r]->GetMatch());
+          matches_.push_back(Match(sub_matches));
 
-    if (repeat_lvl+1>=min_repeats_ && (!collected_from_deeper || repeat_lvl+1==max_repeats_) ) {
-      // Theres a maximal match. Record it
-      std::vector<Match> sub_matches;
-      for (int r = 0; r <= repeat_lvl; r++)
-        sub_matches.push_back(child_units_[r]->GetMatch());
-      matches_.push_back(Match(sub_matches));
-
-      collected_match = true;
+          collected_match = true;
+        }
+      }
     }
   }
 

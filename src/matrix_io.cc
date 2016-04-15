@@ -57,7 +57,7 @@ void MatrixIO::Parse() {
   bool     comp = false;
 
   if (!input.good()) {
-    string msg = "Error: Matrix file not found or readable: " + matrix_file_;
+    string msg = "matrix-io: Matrix file not found or readable: " + matrix_file_;
     throw MatrixIOException(msg);
   }
 
@@ -90,6 +90,6 @@ void MatrixIO::CheckMatrices() {
     return;
   }
 
-  string msg = "Error: No data in matrix: " + matrix_file_;
+  string msg = "matrix-io: No data in matrix: " + matrix_file_;
   throw MatrixIOException(msg);
 }

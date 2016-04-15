@@ -51,7 +51,7 @@ int Match::TotalEdits(const std::vector< Match >& sub_matches) {
 
 std::ostream& Match::Print(std::ostream& os, const std::string::const_iterator& seq_start) const {
   if (sub_matches_.empty()) {
-    os << (pos - seq_start) << "," << len << "," << edits << ",";
+    os << (pos - seq_start)+1 << "," << len << "," << edits << ",";
 
     // Write from pos and len characters forward.
     std::string::const_iterator it = pos;
