@@ -90,6 +90,10 @@ void BacktrackMIDUnit::CollectMatches(
   if (pat_it == pattern_.cend()) {
     last_found_matches_.insert(
         Match(sequence_iterator_, pattern_.length() + I_used - D_used, M_used + I_used + D_used));
+
+    if(!overlaps_){
+      sequence_iterator_ += pattern_.length()+I_used-D_used-1;
+    }
     return;
   }
 

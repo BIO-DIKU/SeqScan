@@ -24,6 +24,7 @@
 #include <parser/interpreter.h>
 #include <BioIO/seq_entry.h>
 #include <BioIO/fasta_reader.h>
+#include <seq_entry.h>
 
 #include "opt_parse.h"
 #include "pu_factory/sanity_checker.h"

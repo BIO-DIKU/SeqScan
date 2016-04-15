@@ -56,6 +56,8 @@ public:
 
   std::ostream& Print(std::ostream &os) const override;
 
+  void setDetectOverlaps(bool overlaps);
+
 private:
 
   /**
@@ -64,6 +66,8 @@ private:
   bool FindMatch(int repeat);
 
   std::string::const_iterator sequence_iterator_end_;
+
+  bool stay_at_pos_;
 
   /// The child pattern units to detect repeated matches of
   std::vector< std::unique_ptr<PatternUnit> > child_units_;

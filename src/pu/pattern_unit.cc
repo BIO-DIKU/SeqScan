@@ -22,7 +22,8 @@
 #include "pattern_unit.h"
 
 PatternUnit::PatternUnit(const Modifiers& modifiers):
-    modifiers_(modifiers)
+    modifiers_(modifiers),
+    overlaps_(true)
 {}
 
 std::unique_ptr<PatternUnit> PatternUnit::Clone() const {
@@ -35,4 +36,8 @@ std::unique_ptr<PatternUnit> PatternUnit::Clone() const {
 
 std::ostream& operator<<(std::ostream& os, const PatternUnit& obj) {
   return obj.Print(os);
+}
+
+void PatternUnit::setDetectOverlaps(bool overlaps){
+  overlaps_ = overlaps;
 }

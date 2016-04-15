@@ -41,7 +41,7 @@
  */
 class PatternUnit
 {
-public:
+ public:
   /*
    * Construct a pattern unit with the specified modifiers
    */
@@ -84,6 +84,14 @@ public:
 
   const Modifiers modifiers_;
 
+  /**
+   *
+   */
+  virtual void setDetectOverlaps(bool overlaps);
+
+ protected:
+
+  int overlaps_;
 };
 
 std::ostream& operator<<(std::ostream& os, const PatternUnit& obj);

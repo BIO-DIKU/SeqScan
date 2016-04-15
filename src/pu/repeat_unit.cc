@@ -45,6 +45,7 @@ void RepeatUnit::Initialize(
   child_units_.at(0)->Initialize(pos, max_pos, stay_at_pos);
 
   sequence_iterator_end_ = max_pos;
+  stay_at_pos_ = stay_at_pos;
   cur_repeat_ = 0;
   matches_.clear();
   pos_checked_ = false;
@@ -108,6 +109,14 @@ bool RepeatUnit::CollectMatches(int repeat_lvl){
               sub_matches.push_back(child_units_[r]->GetMatch());
             matches_.push_back(Match(sub_matches));
 
+            if(!overlaps_ && !stay_at_pos_){
+              child_units_[0]->Initialize(
+                  matches_.back().pos+matches_.back().len,
+                  sequence_iterator_end_,
+                  stay_at_pos_
+              );
+            }
+
             collected_match = true;
           }
         }
@@ -129,7 +138,6 @@ bool RepeatUnit::CollectMatches(int repeat_lvl){
 
   return collected_match;
 }
-
 
 const Match& RepeatUnit::GetMatch() const {
   return matches_.at(cur_match_);
