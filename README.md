@@ -518,6 +518,78 @@ by `+` in the row and column intersection.
     T+
     U+
 
+Below are the default (`--match_type 6`) match matrices used for the
+case-insensitive matching of nucleotides allowing for ambigius residues in the
+pattern but not in the scanned sequence:
+
+     ACGTUacgtu
+    A+    +
+    C +    +
+    G  +    +
+    T   ++   ++
+    U   ++   ++
+    R+ +  + +
+    Y + ++ + ++
+    W+  +++  ++
+    S ++   ++
+    M++   ++
+    K  +++  +++
+    H++ ++++ ++
+    D+ ++++ +++
+    V+++  +++
+    B ++++ ++++
+    N++++++++++
+    a+    +
+    c +    +
+    g  +    +
+    t   ++   ++
+    u   ++   ++
+    r+ +  + +
+    y + ++ + ++
+    w+  +++  ++
+    s ++   ++
+    m++   ++
+    k  +++  +++
+    h++ ++++ ++
+    d+ ++++ +++
+    v+++  +++
+    b ++++ ++++
+    n++++++++++
+
+    ~ACGTUacgtu
+    A   ++   ++
+    C  +    +
+    G +    +
+    T+    +
+    U+    +
+    R + ++ + ++
+    Y+ +  + +
+    W+  +++  ++
+    S ++   ++
+    M  +++  +++
+    K++   ++
+    H+ ++++ +++
+    D++ ++++ ++
+    V ++++ ++++
+    B+++  +++
+    N++++++++++
+    a   ++   ++
+    c  +    +
+    g +    +
+    t+    +
+    u+    +
+    r + ++ + ++
+    y+ +  + +
+    w+  +++  ++
+    s ++   ++
+    m  +++  +++
+    k++   ++
+    h+ ++++ +++
+    d++ ++++ ++
+    v ++++ ++++
+    b+++  +++
+    n++++++++++
+
 ## Filter
 
 Results can be filtered using arithmetic predicates on reference variables.
